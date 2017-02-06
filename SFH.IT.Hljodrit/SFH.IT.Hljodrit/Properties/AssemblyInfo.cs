@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SFH.IT.Basic")]
+[assembly: AssemblyTitle("SFH.IT.Hljodrit")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SFH.IT.Basic")]
+[assembly: AssemblyProduct("SFH.IT.Hljodrit")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6d84e86a-4c40-4fa7-ac4c-cc1a4e32de48")]
+[assembly: Guid("5d505017-8e0f-4845-a3c8-3641e619da1e")]
 
 // Version information for an assembly consists of the following four values:
 //

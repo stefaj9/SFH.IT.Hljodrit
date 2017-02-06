@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFH.IT.Basic", "SFH.IT.Basic\SFH.IT.Basic.csproj", "{E2D77D61-8B51-40AB-B41E-BF842C38D034}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFH.IT.Hljodrit", "SFH.IT.Hljodrit\SFH.IT.Hljodrit.csproj", "{DDCA9B65-F842-47CD-B201-7690A4D48D32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E2D77D61-8B51-40AB-B41E-BF842C38D034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2D77D61-8B51-40AB-B41E-BF842C38D034}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2D77D61-8B51-40AB-B41E-BF842C38D034}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2D77D61-8B51-40AB-B41E-BF842C38D034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDCA9B65-F842-47CD-B201-7690A4D48D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDCA9B65-F842-47CD-B201-7690A4D48D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDCA9B65-F842-47CD-B201-7690A4D48D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDCA9B65-F842-47CD-B201-7690A4D48D32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

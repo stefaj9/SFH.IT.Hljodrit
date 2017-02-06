@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace SFH.IT.Basic
+namespace SFH.IT.Hljodrit
 {
     public class BundleConfig
     {

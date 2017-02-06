@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace SFH.IT.Basic
+namespace SFH.IT.Hljodrit
 {
     public class FilterConfig
     {

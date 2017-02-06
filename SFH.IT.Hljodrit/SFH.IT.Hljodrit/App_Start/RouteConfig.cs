@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace SFH.IT.Basic
+namespace SFH.IT.Hljodrit
 {
     public class RouteConfig
     {

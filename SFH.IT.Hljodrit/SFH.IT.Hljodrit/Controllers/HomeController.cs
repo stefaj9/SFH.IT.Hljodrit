@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace SFH.IT.Basic.Controllers
+namespace SFH.IT.Hljodrit.Controllers
 {
     public class HomeController : Controller
     {
