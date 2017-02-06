@@ -1,5 +1,5 @@
-# rest-api
-Centralized authorization REST API
+# Hljodrit
+Hljodrit solution
 
 ## Members
  * Arnar Leifsson
