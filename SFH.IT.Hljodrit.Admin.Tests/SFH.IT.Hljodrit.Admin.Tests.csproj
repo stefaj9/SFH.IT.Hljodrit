@@ -91,6 +91,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SFH.IT.Hljodrit.Admin\SFH.IT.Hljodrit.Admin.csproj">
+      <Project>{4C9BDE70-B1A3-435F-A62B-B4E049639809}</Project>
+      <Name>SFH.IT.Hljodrit.Admin</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
