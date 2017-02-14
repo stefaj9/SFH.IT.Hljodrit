@@ -6,6 +6,7 @@ export default class App extends React.Component {
         return (
             <div>
                 <Header />
+                <h4>Zup</h4>
                 {this.props.children}
             </div>
         );
