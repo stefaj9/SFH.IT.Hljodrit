@@ -1,19 +1,23 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router';
-import App from './components/app';
-import About from './components/about';
-import NotFound from './components/notFound';
+import { Router, browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { Provider } from 'react-redux';
+import applyRouterMiddleware from 'react-router-apply-middleware';
+import { useRelativeLinks } from 'react-router-relative-links';
+import store from './store';
+import Routes from './routes/routes';
+
+const history = syncHistoryWithStore(browserHistory, store);
 
 class Main extends React.Component {
     render() {
         return (
-            <Router history={browserHistory}>
-                <Route path="/" component={App}>
-                    <Route path="about" component={About} />
-                    <Route path="*" component={NotFound} />
-                </Route>
-            </Router>
+            <Provider store={store}>
+                <div>
+                    <Router history={history} routes={routes} render={applyRouterMiddleware(useRelativeLinks())}></Router>
+                </div>
+            </Provider>
         );
     }
 }

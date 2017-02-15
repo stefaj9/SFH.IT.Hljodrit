@@ -24,9 +24,12 @@ export default class Header extends React.Component {
                         </Link>
                     </div>
                     <div className="collapse navbar-collapse" id="navbar-collapse">
-                        <ul className="nav navbar-nav pull-right">
+                        <ul className="nav navbar-nav">
                             <li className={this.state.selectedItem === 'about' ? 'active' : ''}>
-                                <Link to="settings" onClick={() => this.setState({ selectedItem: 'about' })}>About</Link>
+                                <Link to="settings" onClick={() => this.setState({ selectedItem: 'about' })}>
+                                    <i className="fa fa-cog hidden-xs"></i>
+                                    <div className="visible-xs">Stillingar</div>
+                                </Link>
                             </li>
                         </ul>
                     </div>
