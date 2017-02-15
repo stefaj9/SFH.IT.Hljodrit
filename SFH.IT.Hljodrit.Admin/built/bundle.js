@@ -17742,9 +17742,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _redux = __webpack_require__(242);
+
 var _reactRouterRedux = __webpack_require__(224);
 
-exports.default = combineReducers({
+exports.default = (0, _redux.combineReducers)({
     routing: _reactRouterRedux.routerReducer
 });
 
