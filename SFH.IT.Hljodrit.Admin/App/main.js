@@ -15,7 +15,7 @@ class Main extends React.Component {
         return (
             <Provider store={store}>
                 <div>
-                    <Router history={history} routes={routes} render={applyRouterMiddleware(useRelativeLinks())}></Router>
+                    <Router history={history} routes={Routes} render={applyRouterMiddleware(useRelativeLinks())}></Router>
                 </div>
             </Provider>
         );

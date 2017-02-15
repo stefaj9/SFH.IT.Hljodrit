@@ -1,8 +1,9 @@
-import { Route, IndexRoute } from 'react-router';
-import App from './components/app';
-import About from './components/about';
-import Settings from './components/settings';
-import NotFound from './components/notFound';
+import React from 'react';
+import { Route } from 'react-router';
+import App from '../components/app';
+import About from '../components/about';
+import Settings from '../components/settings';
+import NotFound from '../components/notFound';
 
 export default (
     <Route path="/" component={App}>

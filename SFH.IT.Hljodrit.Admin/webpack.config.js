@@ -4,24 +4,12 @@ var APP_DIR = path.join(__dirname, 'App');
 
 var config = {
     context: APP_DIR,
-    entry: './main.js',
+    entry: ['babel-polyfill', './main.js'],
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'built')
     },
     module: {
-        rules: [
-            {
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                enforce: 'pre',
-                use: [
-                    {
-                        loader: 'eslint-loader'
-                    }
-                ]
-            }
-        ],
         loaders: [
             {
                 test: /\.jsx?$/,
@@ -30,6 +18,11 @@ var config = {
                 query: {
                     presets: ['es2015', 'react']
                 }
+            },
+            {
+                test: /\.jsx?$/,
+                loaders: ['eslint-loader'],
+                exclude: /node_modules/
             }
         ]
     },
