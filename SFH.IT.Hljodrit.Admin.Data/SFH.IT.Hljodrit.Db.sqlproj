@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>SFH.IT.Hljodrit.Admin.Db</Name>
+    <Name>SFH.IT.Hljodrit.Db</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{81766d07-3103-488f-bc84-c0a363ee03e6}</ProjectGuid>

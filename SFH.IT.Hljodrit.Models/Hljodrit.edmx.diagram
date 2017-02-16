@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="efb325fcda8544e7bb34e0932a3bf1bd" Name="Diagram1">
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_airplay_attributes" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_cache_airplayreport" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_cache_mediarecording" Width="1.5" PointX="11.25" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_cache_mediarecording_detail" Width="1.5" PointX="13.5" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_cache_profile" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_cache_recordingparty" Width="1.5" PointX="3" PointY="41.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_cache_recordingparty_detail" Width="1.5" PointX="5.25" PointY="40.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_country" Width="1.5" PointX="3.75" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_language" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_trackcache" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_workbatch" Width="1.5" PointX="13.5" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_zipcodes" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.import_parties" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.import_tracks" Width="1.5" PointX="21.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_airplay" Width="1.5" PointX="21.75" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_alternatetitle" Width="1.5" PointX="21.75" PointY="34.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_formattype" Width="1.5" PointX="6" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_genre" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_product" Width="1.5" PointX="19.5" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_product_package" Width="1.5" PointX="8.25" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_producttype" Width="1.5" PointX="6" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_recording" Width="1.5" PointX="11.25" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_source" Width="1.5" PointX="19.5" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_status" Width="1.5" PointX="6" PointY="46" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.media_work" Width="1.5" PointX="9" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_cataloguerights" Width="1.5" PointX="8.25" PointY="59.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_isrc_series" Width="1.5" PointX="6" PointY="61.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_labels" Width="1.5" PointX="6" PointY="56.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_master" Width="1.5" PointX="3.75" PointY="55.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_type" Width="1.5" PointX="1.5" PointY="57.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_address" Width="1.5" PointX="4.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_artistdefaultroles" Width="1.5" PointX="8.25" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_artistgroupmember" Width="1.5" PointX="8.25" PointY="38.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_artisttype" Width="1.5" PointX="3.75" PointY="45.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_contactmedium" Width="1.5" PointX="3" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_groupmembership" Width="1.5" PointX="8.25" PointY="55" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_instrument" Width="1.5" PointX="3" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_instrumenttype" Width="1.5" PointX="0.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_mainartist" Width="1.5" PointX="6" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_partyroletype" Width="1.5" PointX="6" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_pseudonym" Width="1.5" PointX="3" PointY="50.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_real" Width="1.5" PointX="0.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.project_master" Width="1.5" PointX="14.25" PointY="31" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.project_status" Width="1.5" PointX="12" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.project_superuser" Width="1.5" PointX="3.75" PointY="62.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.project_superuser_organizations" Width="1.5" PointX="6" PointY="53.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.project_track" Width="1.5" PointX="16.5" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.project_track_artist" Width="1.5" PointX="18.75" PointY="40.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.project_user" Width="1.5" PointX="16.5" PointY="35" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.recording_party" Width="1.5" PointX="13.5" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.revenue_activerate" Width="1.5" PointX="19.5" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.revenue_plan" Width="1.5" PointX="17.25" PointY="25.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.revenue_releaseusage" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.Difference" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_cataloguerights_backup" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_isrc_series_oli" Width="1.5" PointX="8.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_label_backup" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_master_backup" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_master_oli" Width="1.5" PointX="10.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_common_cache_mediarecording_detail_common_cache_mediarecording" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_common_cache_mediarecording_detail_media_recording" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_common_cache_recordingparty_detail_common_cache_recordingparty" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_common_cache_mainartist" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_common_cache_recordingparty_detail_party_instrumenttype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_common_cache_recordingparty_detail_party_partyroletype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_common_cache_recordingparty_detail_party_pseudonym" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_common_cache_recordingparty_detail_party_real" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_media_product_common_country" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_media_product_package_countryproduction" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_media_product_package_countrypublication" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_media_recording_common_country" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_organization_countrycode" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_mainartist_common_country" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_common_workbatch_media_recording" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_media_airplay_media_product" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.alternatetitle_to_release" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.releasePackage_PhysicalType" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.source_type" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.release_revenuetype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.release_status" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.release_to_recording" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.release_to_releasetype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.track_to_package" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_media_product_package_label" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_media_product_package_party_mainartist" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.package_to_releasetype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.package_to_status" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_media_recording_mainartist" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_recording_party_media_recording" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.recording_status" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.Recording_Work" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.source_to_recording" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.work_to_status" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_organization_cataloguerights_organization_labels" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_organization_cataloguerights_organization_master" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_organization_isrc_series_organization_master" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_organization_labels_organization_master" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_organization_master_organization_type" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_master_organization_master" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_superuser_organizations_organization_master" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_artistdefaultroles_party_mainartist" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_artistdefaultroles_party_partyroletype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_artistgroupmember_party_instrumenttype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_artistgroupmember_party_mainartist" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_artistgroupmember_party_partyroletype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_mainartist_party_artisttype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_contactmedium_party_real" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.membership_group" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_instrument_instrumenttype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_instrument_party_real" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_instrumenttype_party_instrumenttype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_track_artist_party_instrumenttype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_recording_party_party_instrumenttype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_mainartist_maincontact" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_mainartist_party_real" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_master_mainartist" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_track_artist_party_partyroletype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_recording_party_party_partyroletype" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_pseudonym_party_real" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_track_artist_party_pseudonym" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_recording_party_party_pseudonym" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_real_party_real" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_master_partyReal" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_track_artist_party_real" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_recording_party_party_real" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_master_statur" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_track_project_master" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_user_project_master" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_superuser_organizations_project_superuser" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_track_artist_project_track" ManuallyRouted="false" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.activerate_revenyplan" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
