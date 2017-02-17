@@ -17752,10 +17752,17 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(164);
 
+var _projectManagementReducer = __webpack_require__(617);
+
+var _projectManagementReducer2 = _interopRequireDefault(_projectManagementReducer);
+
 var _reactRouterRedux = __webpack_require__(225);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = (0, _redux.combineReducers)({
-    routing: _reactRouterRedux.routerReducer
+    routing: _reactRouterRedux.routerReducer,
+    projectManagement: _projectManagementReducer2.default
 });
 
 /***/ }),
@@ -39509,9 +39516,30 @@ var ProjectFilter = function (_React$Component) {
     }
 
     _createClass(ProjectFilter, [{
-        key: 'render',
+        key: "render",
         value: function render() {
-            return _react2.default.createElement('div', null);
+            return _react2.default.createElement(
+                "div",
+                { className: "project-filter" },
+                _react2.default.createElement(
+                    "label",
+                    { htmlFor: "checkbox-pending", className: "checkbox-inline" },
+                    _react2.default.createElement("input", { type: "checkbox", id: "checkbox-pending", value: "0" }),
+                    "\xCD bi\xF0"
+                ),
+                _react2.default.createElement(
+                    "label",
+                    { htmlFor: "checkbox-resent", className: "checkbox-inline" },
+                    _react2.default.createElement("input", { type: "checkbox", id: "checkbox-resent", value: "1" }),
+                    "Endursendar"
+                ),
+                _react2.default.createElement(
+                    "label",
+                    { htmlFor: "checkbox-accepted", className: "checkbox-inline" },
+                    _react2.default.createElement("input", { type: "checkbox", id: "checkbox-accepted", value: "2" }),
+                    "Sam\xFEykktar"
+                )
+            );
         }
     }]);
 
@@ -39555,9 +39583,32 @@ var ProjectItem = function (_React$Component) {
     }
 
     _createClass(ProjectItem, [{
-        key: 'render',
+        key: "render",
         value: function render() {
-            return _react2.default.createElement('div', null);
+            return _react2.default.createElement(
+                "div",
+                { className: "project" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "project-info" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "project-name" },
+                        this.props.name
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "project-author" },
+                        this.props.author
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "project-submission-user" },
+                        this.props.submissionUser
+                    )
+                ),
+                _react2.default.createElement("div", { className: "project-actions" })
+            );
         }
     }]);
 
@@ -39605,12 +39656,19 @@ var ProjectListView = function (_React$Component) {
     }
 
     _createClass(ProjectListView, [{
+        key: 'renderProjectItems',
+        value: function renderProjectItems() {
+            return this.props.projects.map(function (item) {
+                return _react2.default.createElement(_projectItem2.default, { key: item.name, name: item.name, author: item.author, submissionUser: item.submissionUser });
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(_projectItem2.default, null)
+                this.renderProjectItems()
             );
         }
     }]);
@@ -39636,6 +39694,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(8);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(531);
 
 var _projectSearchBar = __webpack_require__(613);
 
@@ -39671,7 +39731,7 @@ var ProjectManagement = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: 'projects' },
                 _react2.default.createElement(
                     'h2',
                     null,
@@ -39679,7 +39739,7 @@ var ProjectManagement = function (_React$Component) {
                 ),
                 _react2.default.createElement(_projectSearchBar2.default, null),
                 _react2.default.createElement(_projectFilter2.default, null),
-                _react2.default.createElement(_projectListView2.default, null)
+                _react2.default.createElement(_projectListView2.default, { projects: this.props.projects })
             );
         }
     }]);
@@ -39687,7 +39747,13 @@ var ProjectManagement = function (_React$Component) {
     return ProjectManagement;
 }(_react2.default.Component);
 
-exports.default = ProjectManagement;
+function mapStateToProps(state) {
+    return {
+        projects: state.projectManagement.projects
+    };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(ProjectManagement);
 
 /***/ }),
 /* 613 */
@@ -39905,6 +39971,71 @@ var Users = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Users;
+
+/***/ }),
+/* 617 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+    var action = arguments[1];
+
+    switch (action.type) {
+        default:
+            return state;
+    }
+};
+
+var initialState = {
+    projects: [{
+        name: 'Plata 1',
+        author: 'Höfundur 1',
+        submissionUser: 'Notandi 1'
+    }, {
+        name: 'Plata 2',
+        author: 'Höfundur 2',
+        submissionUser: 'Notandi 2'
+    }, {
+        name: 'Plata 3',
+        author: 'Höfundur 3',
+        submissionUser: 'Notandi 3'
+    }, {
+        name: 'Plata 4',
+        author: 'Höfundur 4',
+        submissionUser: 'Notandi 4'
+    }, {
+        name: 'Plata 5',
+        author: 'Höfundur 5',
+        submissionUser: 'Notandi 5'
+    }, {
+        name: 'Plata 6',
+        author: 'Höfundur 6',
+        submissionUser: 'Notandi 6'
+    }, {
+        name: 'Plata 7',
+        author: 'Höfundur 7',
+        submissionUser: 'Notandi 7'
+    }, {
+        name: 'Plata 8',
+        author: 'Höfundur 8',
+        submissionUser: 'Notandi 8'
+    }, {
+        name: 'Plata 9',
+        author: 'Höfundur 9',
+        submissionUser: 'Notandi 9'
+    }, {
+        name: 'Plata 10',
+        author: 'Höfundur 10',
+        submissionUser: 'Notandi 10'
+    }]
+};
 
 /***/ })
 /******/ ]);
