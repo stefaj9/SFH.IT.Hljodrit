@@ -1,4 +1,6 @@
-﻿body {
+﻿@import "variables.less";
+
+body {
     font-family: "Open Sans", sans-serif !important;
 }
 
@@ -55,6 +57,21 @@ p {
     .project-filter {
         text-align: center;
         margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .project {
+        border-radius: 0;
+        margin-bottom: 5px;
+        .project-info {
+            .title {
+                display: inline-block;
+                font-weight: bold;
+                width: 100px;
+            }
+            .value {
+                display: inline-block;
+            }
+        }
     }
 }
 

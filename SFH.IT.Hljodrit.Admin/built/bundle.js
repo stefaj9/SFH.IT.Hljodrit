@@ -39587,24 +39587,51 @@ var ProjectItem = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "project" },
+                { className: "project well" },
                 _react2.default.createElement(
                     "div",
                     { className: "project-info" },
                     _react2.default.createElement(
                         "div",
                         { className: "project-name" },
-                        this.props.name
+                        _react2.default.createElement(
+                            "div",
+                            { className: "title" },
+                            "Pl\xF6tuheiti:"
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "value" },
+                            this.props.name
+                        )
                     ),
                     _react2.default.createElement(
                         "div",
                         { className: "project-author" },
-                        this.props.author
+                        _react2.default.createElement(
+                            "div",
+                            { className: "title" },
+                            "H\xF6fundur:"
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "value" },
+                            this.props.author
+                        )
                     ),
                     _react2.default.createElement(
                         "div",
                         { className: "project-submission-user" },
-                        this.props.submissionUser
+                        _react2.default.createElement(
+                            "div",
+                            { className: "title" },
+                            "Notandi:"
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "value" },
+                            this.props.submissionUser
+                        )
                     )
                 ),
                 _react2.default.createElement("div", { className: "project-actions" })
