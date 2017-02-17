@@ -52,28 +52,210 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="common_airplay_attributes.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_cache_airplayreport.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_cache_mediarecording.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_cache_mediarecording_detail.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_cache_profile.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_cache_recordingparty.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_cache_recordingparty_detail.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_country.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_language.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_trackcache.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_workbatch.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="common_zipcodes.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Difference.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
     <Compile Include="Hljodrit.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Hljodrit.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Hljodrit.Designer.cs">
+    <Compile Include="Hljodrit.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Hljodrit.edmx</DependentUpon>
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HljodritModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HljodritModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="import_parties.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="import_tracks.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_airplay.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_alternatetitle.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_formattype.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_genre.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_product.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_producttype.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_product_package.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_recording.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_source.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_status.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="media_work.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="organization_cataloguerights.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="organization_cataloguerights_backup.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="organization_isrc_series.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="organization_isrc_series_oli.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="organization_labels.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="organization_label_backup.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="organization_master.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="organization_master_backup.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="organization_master_oli.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="organization_type.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_address.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_artistdefaultroles.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_artistgroupmember.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_artisttype.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_contactmedium.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_groupmembership.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_instrument.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_instrumenttype.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_mainartist.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_partyroletype.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_pseudonym.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="party_real.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="project_master.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="project_status.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="project_superuser.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="project_superuser_organizations.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="project_track.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="project_track_artist.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="project_user.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="recording_party.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="revenue_activerate.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="revenue_plan.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="revenue_releaseusage.cs">
+      <DependentUpon>Hljodrit.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="Hljodrit.edmx">
+    <EntityDeploy Include="HljodritModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Hljodrit.Designer.cs</LastGenOutput>
+      <LastGenOutput>HljodritModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="Hljodrit.edmx.diagram">
-      <DependentUpon>Hljodrit.edmx</DependentUpon>
+    <None Include="HljodritModel.edmx.diagram">
+      <DependentUpon>HljodritModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -81,6 +263,12 @@
     <Content Include="Hljodrit.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Hljodrit.Context.cs</LastGenOutput>
+      <DependentUpon>HljodritModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Hljodrit.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HljodritModel.edmx</DependentUpon>
+      <LastGenOutput>Hljodrit.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

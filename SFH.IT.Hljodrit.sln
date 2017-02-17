@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFH.IT.Hljodrit.Admin", "SF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFH.IT.Hljodrit.Admin.Tests", "SFH.IT.Hljodrit.Admin.Tests\SFH.IT.Hljodrit.Admin.Tests.csproj", "{B83FFEA7-5569-4FA0-BDD7-D0AF77331422}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SFH.IT.Hljodrit.Db", "SFH.IT.Hljodrit.Admin.Data\SFH.IT.Hljodrit.Db.sqlproj", "{81766D07-3103-488F-BC84-C0A363EE03E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFH.IT.Hljodrit.Models", "SFH.IT.Hljodrit.Models\SFH.IT.Hljodrit.Models.csproj", "{61C88994-39A2-42DC-A764-19B38E6EAB5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFH.IT.Hljodrit.Services", "SFH.IT.Hljodrit.Services\SFH.IT.Hljodrit.Services.csproj", "{0D700503-A756-4CEE-AE29-B7FA796D42C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFH.IT.Hljodrit.Repositories", "SFH.IT.Hljodrit.Repositories\SFH.IT.Hljodrit.Repositories.csproj", "{3F97B8DE-5EA2-48CF-ADEA-3E8DF2FA48C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +29,24 @@ Global
 		{B83FFEA7-5569-4FA0-BDD7-D0AF77331422}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B83FFEA7-5569-4FA0-BDD7-D0AF77331422}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B83FFEA7-5569-4FA0-BDD7-D0AF77331422}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81766D07-3103-488F-BC84-C0A363EE03E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81766D07-3103-488F-BC84-C0A363EE03E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81766D07-3103-488F-BC84-C0A363EE03E6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{81766D07-3103-488F-BC84-C0A363EE03E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81766D07-3103-488F-BC84-C0A363EE03E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81766D07-3103-488F-BC84-C0A363EE03E6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{61C88994-39A2-42DC-A764-19B38E6EAB5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61C88994-39A2-42DC-A764-19B38E6EAB5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61C88994-39A2-42DC-A764-19B38E6EAB5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61C88994-39A2-42DC-A764-19B38E6EAB5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D700503-A756-4CEE-AE29-B7FA796D42C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D700503-A756-4CEE-AE29-B7FA796D42C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D700503-A756-4CEE-AE29-B7FA796D42C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D700503-A756-4CEE-AE29-B7FA796D42C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F97B8DE-5EA2-48CF-ADEA-3E8DF2FA48C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F97B8DE-5EA2-48CF-ADEA-3E8DF2FA48C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F97B8DE-5EA2-48CF-ADEA-3E8DF2FA48C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F97B8DE-5EA2-48CF-ADEA-3E8DF2FA48C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
