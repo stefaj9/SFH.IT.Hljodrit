@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SFH.IT.Hljodrit.Repositories.Base
 {
-    interface IRepository<T> where T : class 
+    public interface IRepository<T> where T : class 
     {
         // Marks an entity as new
         void Add(T entity);

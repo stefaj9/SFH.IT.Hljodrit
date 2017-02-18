@@ -57,7 +57,17 @@
     <Compile Include="Base\RepositoryBase.cs" />
     <Compile Include="Base\UnitOfWork.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Implementations\Project\ProjectTrackRepository.cs" />
+    <Compile Include="Implementations\Project\ProjectStatusRepository.cs" />
+    <Compile Include="Interfaces\Project\IProjectStatusRepository.cs" />
+    <Compile Include="Interfaces\Project\IProjectTrackArtistRepository.cs" />
+    <Compile Include="Implementations\Project\ProjectTrackArtistRepository.cs" />
+    <Compile Include="Interfaces\Project\IProjectTrackRepository.cs" />
+    <Compile Include="Interfaces\Project\IProjectUserRepository.cs" />
+    <Compile Include="Implementations\Project\ProjectUserRepository.cs" />
+    <Compile Include="Interfaces\Project\IProjectMasterRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Implementations\Project\ProjectMasterRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SFH.IT.Hljodrit.Models\SFH.IT.Hljodrit.Models.csproj">
@@ -69,9 +79,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
