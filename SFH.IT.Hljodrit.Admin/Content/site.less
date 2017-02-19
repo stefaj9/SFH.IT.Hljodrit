@@ -76,43 +76,44 @@ label {
     margin-bottom: 20px;
 }
 
-.projects {
-
-    .project {
-        border-radius: 0;
-        margin-bottom: 5px;
-        .project-info {
-            .title {
-                display: inline-block;
-                font-weight: bold;
-                width: 120px;
-            }
-            .value {
-                display: inline-block;
-            }
+.list {
+    border-radius: 0;
+    margin-bottom: 5px;
+    .list-info {
+        .title {
+            display: inline-block;
+            font-weight: bold;
+            width: 120px;
         }
-        .project-divider {
-            border: solid 0.5px @hoverGray;
+        .value {
+            display: inline-block;
         }
-        .project-actions {
-            text-align: right;
-            position: relative;
-            top: 10px;
-            float: right;
-            .project-action {
-                text-align: center;
-                display: inline-block;
-                margin-left: 40px;
-                .fa {
-                    margin-bottom: 10px;
-                }
-                &:hover {
-                    cursor: pointer;
-                    color: @hoverGray;
-                }
+    }
+    .list-divider {
+        border: solid 0.5px @hoverGray;
+    }
+    .list-actions {
+        text-align: right;
+        position: relative;
+        top: 10px;
+        float: right;
+        .list-action {
+            text-align: center;
+            display: inline-block;
+            margin-left: 40px;
+            .fa {
+                margin-bottom: 10px;
+            }
+            &:hover {
+                cursor: pointer;
+                color: @hoverGray;
             }
         }
     }
+}
+
+.projects {
+
 }
 
 @media screen and (max-width: 767px) {

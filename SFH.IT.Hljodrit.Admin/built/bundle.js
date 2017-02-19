@@ -32784,13 +32784,13 @@ var ProjectItem = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'project well row' },
+                { className: 'list well row' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'project-info col-md-6 col-xs-12' },
+                    { className: 'list-info col-md-6 col-xs-12' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'project-name' },
+                        { className: 'list-item' },
                         _react2.default.createElement(
                             'div',
                             { className: 'title' },
@@ -32804,7 +32804,7 @@ var ProjectItem = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'project-author' },
+                        { className: 'list-item' },
                         _react2.default.createElement(
                             'div',
                             { className: 'title' },
@@ -32818,7 +32818,7 @@ var ProjectItem = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'project-submission-user' },
+                        { className: 'list-item' },
                         _react2.default.createElement(
                             'div',
                             { className: 'title' },
@@ -32832,7 +32832,7 @@ var ProjectItem = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'project-last-modification' },
+                        { className: 'list-item' },
                         _react2.default.createElement(
                             'div',
                             { className: 'title' },
@@ -32845,14 +32845,14 @@ var ProjectItem = function (_React$Component) {
                         )
                     )
                 ),
-                _react2.default.createElement('hr', { className: 'visible-sm visible-xs project-divider' }),
+                _react2.default.createElement('hr', { className: 'visible-sm visible-xs list-divider' }),
                 _react2.default.createElement(
                     'div',
-                    { className: 'project-actions col-md-6 col-xs-12' },
+                    { className: 'list-actions col-md-6 col-xs-12' },
                     _react2.default.createElement(
                         'div',
                         {
-                            className: 'project-action',
+                            className: 'list-action',
                             onClick: function onClick() {
                                 return _this2.handleActionClick('approve', _this2.props.project.id);
                             } },
@@ -32866,7 +32866,7 @@ var ProjectItem = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         {
-                            className: 'project-action',
+                            className: 'list-action',
                             onClick: function onClick() {
                                 return _this2.handleActionClick('comment', _this2.props.project.id);
                             } },
@@ -32880,7 +32880,7 @@ var ProjectItem = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         {
-                            className: 'project-action',
+                            className: 'list-action',
                             onClick: function onClick() {
                                 return _this2.handleActionClick('modify', _this2.props.project.id);
                             } },
@@ -32894,7 +32894,7 @@ var ProjectItem = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         {
-                            className: 'project-action',
+                            className: 'list-action',
                             onClick: function onClick() {
                                 return _this2.handleActionClick('delete', _this2.props.project.id);
                             } },
@@ -55831,13 +55831,13 @@ var PersonListItem = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "project well row" },
+                { className: "list well row" },
                 _react2.default.createElement(
                     "div",
-                    { className: "project-info col-md-6 col-xs-12" },
+                    { className: "list-info col-md-6 col-xs-12" },
                     _react2.default.createElement(
                         "div",
-                        { className: "project-name" },
+                        { className: "list-name" },
                         _react2.default.createElement(
                             "div",
                             { className: "title" },
@@ -55851,7 +55851,7 @@ var PersonListItem = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         "div",
-                        { className: "project-name" },
+                        { className: "list-author" },
                         _react2.default.createElement(
                             "div",
                             { className: "title" },
@@ -55865,7 +55865,7 @@ var PersonListItem = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         "div",
-                        { className: "project-name" },
+                        { className: "list-author" },
                         _react2.default.createElement(
                             "div",
                             { className: "title" },
@@ -55879,7 +55879,7 @@ var PersonListItem = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         "div",
-                        { className: "project-name" },
+                        { className: "list-author" },
                         _react2.default.createElement(
                             "div",
                             { className: "title" },
@@ -55889,6 +55889,31 @@ var PersonListItem = function (_React$Component) {
                             "div",
                             { className: "value" },
                             "blabla"
+                        )
+                    )
+                ),
+                _react2.default.createElement("hr", { className: "visible-sm visible-xs list-divider" }),
+                _react2.default.createElement(
+                    "div",
+                    { className: "list-actions col-md-6 col-xs-12" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "list-action" },
+                        _react2.default.createElement("i", { className: "fa fa-2x fa-pencil" }),
+                        _react2.default.createElement(
+                            "div",
+                            null,
+                            "Breyta"
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "list-action" },
+                        _react2.default.createElement("i", { className: "fa fa-2x fa-times" }),
+                        _react2.default.createElement(
+                            "div",
+                            null,
+                            "Ey\xF0a"
                         )
                     )
                 )
