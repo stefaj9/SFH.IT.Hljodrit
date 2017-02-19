@@ -22,7 +22,21 @@ class ProjectManagement extends React.Component {
         this.state = {
             page: 1,
             pageSize: 25,
-            isFetching: true
+            isFetching: true,
+            filterProperties: [
+                {
+                    action: 'pending',
+                    display: 'Í bið'
+                }, 
+                {
+                    action: 'resent',
+                    display: 'Endursent'
+                },
+                {
+                    action: 'approved',
+                    display: 'Samþykkt'
+                }
+            ]
         };
     }
     changePagesize(newPagesize) {
@@ -46,7 +60,7 @@ class ProjectManagement extends React.Component {
             <div className="projects">
                 <h2>Verkefnastýring</h2>
                 <SearchBar />
-                <Filter />
+                <Filter filters={this.state.filterProperties} />
                 <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
                 <ProjectListView projects={this.props.projects} isFetching={this.state.isFetching} />
                 <Paging 
