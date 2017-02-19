@@ -1,4 +1,6 @@
-﻿body {
+﻿@import "variables.less";
+
+body {
     font-family: "Open Sans", sans-serif !important;
 }
 
@@ -15,6 +17,8 @@ h6,
 .h5,
 .h6 {
   font-family: "Open Sans", sans-serif !important;
+  text-align: center;
+  margin-top: 40px;
 }
 
 p {
@@ -30,6 +34,42 @@ p {
         .nav {
             a {
                 line-height: 42px !important;
+            }
+        }
+    }
+}
+
+.not-found {
+    text-align: center;
+    .title {
+        font-size: 16em;
+        font-weight: bold;
+    }
+    .sub-title {
+        font-size: 1.5em;
+    }
+}
+
+.projects {
+    .project-search-bar {
+        margin-top: 40px;
+    }
+    .project-filter {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .project {
+        border-radius: 0;
+        margin-bottom: 5px;
+        .project-info {
+            .title {
+                display: inline-block;
+                font-weight: bold;
+                width: 100px;
+            }
+            .value {
+                display: inline-block;
             }
         }
     }

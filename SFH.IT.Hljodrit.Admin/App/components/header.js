@@ -11,7 +11,7 @@ export default class Header extends React.Component {
     render() {
         return (
             <nav className="navbar navbar-default">
-                <div className="container">
+                <div className="container-fluid">
                     <div className="navbar-header">
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
                             <span className="sr-only">Toggle navigation</span>
@@ -25,8 +25,28 @@ export default class Header extends React.Component {
                     </div>
                     <div className="collapse navbar-collapse" id="navbar-collapse">
                         <ul className="nav navbar-nav">
-                            <li className={this.state.selectedItem === 'about' ? 'active' : ''}>
-                                <Link to="settings" onClick={() => this.setState({ selectedItem: 'about' })}>
+                            <li className={this.state.selectedItem === 'projects' ? 'active' : ''}>
+                                <Link to="projects" onClick={() => this.setState({ selectedItem: 'projects' })}>
+                                    Verkefnastýring
+                                </Link>
+                            </li>
+                            <li className={this.state.selectedItem === 'calculations' ? 'active' : ''}>
+                                <Link to="calculations" onClick={() => this.setState({ selectedItem: 'calculations' })}>
+                                    Útreikningar
+                                </Link>
+                            </li>
+                            <li className={this.state.selectedItem === 'instruments' ? 'active' : ''}>
+                                <Link to="instruments" onClick={() => this.setState({ selectedItem: 'instruments' })}>
+                                    Hljóðfæri
+                                </Link>
+                            </li>
+                            <li className={this.state.selectedItem === 'users' ? 'active' : ''}>
+                                <Link to="users" onClick={() => this.setState({ selectedItem: 'users' })}>
+                                    Aðilar
+                                </Link>
+                            </li>
+                            <li className={this.state.selectedItem === 'settings' ? 'active' : ''}>
+                                <Link to="settings" onClick={() => this.setState({ selectedItem: 'settings' })}>
                                     <i className="fa fa-cog hidden-xs"></i>
                                     <div className="visible-xs">Stillingar</div>
                                 </Link>
