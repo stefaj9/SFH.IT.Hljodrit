@@ -36,7 +36,12 @@ class ProjectManagement extends React.Component {
                     action: 'approved',
                     display: 'Samþykkt'
                 }
-            ]
+            ],
+            filters: {
+                pending: false,
+                resent: false,
+                approved: false
+            }
         };
     }
     changePagesize(newPagesize) {
@@ -55,12 +60,25 @@ class ProjectManagement extends React.Component {
 
         this.props.getAllProjects(this.state.pageSize, newPageNumber);
     }
+    filterBy(filteredData) {
+
+        switch (filteredData) {
+            case 0: this.setState({ pending: !this.state.pending });
+                break;
+            case 1: this.setState({ resent: !this.state.resent });
+                break;
+            case 2: this.setState({ approved: !this.state.approved });
+                break;
+        }
+
+        this.props.getAllProjects(this.state.pageSize, this.state.pageNumber, this.state.filters);
+    }
     render() {
         return (
             <div className="projects">
                 <h2>Verkefnastýring</h2>
                 <SearchBar />
-                <Filter filters={this.state.filterProperties} />
+                <Filter filters={this.state.filterProperties} filterBy={(filter) => this.filterBy(filter)} />
                 <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
                 <ProjectListView projects={this.props.projects} isFetching={this.state.isFetching} />
                 <Paging 

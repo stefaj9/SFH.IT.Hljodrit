@@ -32,7 +32,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public ProjectEnvelope GetAllProjects(int pageSize, int pageNumber)
+        public ProjectEnvelope GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved)
         {
             decimal maxPage = _projectMasterRepository.GetProjectMasterCount() / pageSize;
             var maximumPages = (int) Math.Ceiling(maxPage);

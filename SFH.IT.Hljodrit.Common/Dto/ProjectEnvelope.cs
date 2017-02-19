@@ -8,7 +8,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty(PropertyName = "currentPage")]
         public int CurrentPage { get; set; }
         [JsonProperty(PropertyName = "maximumPage")]
-        public decimal MaximumPage { get; set; }
+        public int MaximumPage { get; set; }
         [JsonProperty(PropertyName = "projects")]
         public IEnumerable<ProjectDto> Projects { get; set; }
     }
