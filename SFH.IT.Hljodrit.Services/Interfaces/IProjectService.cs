@@ -5,6 +5,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
 {
     public interface IProjectService
     {
-        IEnumerable<ProjectMasterDto> GetAllProjectMasters();
+        IEnumerable<ProjectDto> GetAllProjects();
     }
 }

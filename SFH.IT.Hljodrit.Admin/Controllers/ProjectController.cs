@@ -20,7 +20,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             // TODO: Create mock data
             // TODO: Use paging to get the data
             // TODO: Introduce a filter for the data as well as a search input
-            return Ok(_projectService.GetAllProjectMasters());
+            return Ok(_projectService.GetAllProjects());
         }
     }
 }

@@ -31,12 +31,16 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<ProjectMasterDto> GetAllProjectMasters()
+        public IEnumerable<ProjectDto> GetAllProjects()
         {
-            return _projectMasterRepository.GetAll().Select(p => new ProjectMasterDto
+            return _projectMasterRepository.GetAll().Select(p => new ProjectDto
             {
-                ProjectName = p.projectname
-            });
+                Id = p.id,
+                ProjectName = p.projectname,
+                MainArtist = p.mainartist,
+                SubmissionUser = p.createdby,
+                LastModificationDate = p.updatedon
+            }).OrderByDescending(p => p.Id);
         }
     }
 }
