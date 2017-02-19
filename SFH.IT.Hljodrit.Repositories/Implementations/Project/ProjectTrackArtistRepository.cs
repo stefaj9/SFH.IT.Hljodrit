@@ -4,7 +4,7 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Project
 {
-    class ProjectTrackArtistRepository : RepositoryBase<project_track_artist>, IProjectTrackArtistRepository
+    public class ProjectTrackArtistRepository : RepositoryBase<project_track_artist>, IProjectTrackArtistRepository
     {
         public ProjectTrackArtistRepository(IDbFactory dbFactory)
             : base(dbFactory) { }

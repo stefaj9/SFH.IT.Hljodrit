@@ -4,7 +4,7 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Project
 {
-    class ProjectStatusRepository : RepositoryBase<project_status>, IProjectStatusRepository
+    public class ProjectStatusRepository : RepositoryBase<project_status>, IProjectStatusRepository
     {
         public ProjectStatusRepository(IDbFactory dbFactory)
             : base(dbFactory) { }
