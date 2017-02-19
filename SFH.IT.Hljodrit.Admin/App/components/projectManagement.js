@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ProjectSearchBar from './projectSearchBar';
+import SearchBar from './SearchBar';
 import ProjectFilter from './projectFilter';
 import ProjectListView from './projectListView';
 
@@ -9,7 +9,7 @@ class ProjectManagement extends React.Component {
         return (
             <div className="projects">
                 <h2>Verkefnastýring</h2>
-                <ProjectSearchBar />
+                <SearchBar />
                 <ProjectFilter />
                 <ProjectListView projects={this.props.projects} />
             </div>
