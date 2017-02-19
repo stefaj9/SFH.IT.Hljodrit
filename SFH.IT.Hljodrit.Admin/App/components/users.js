@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchBar from './SearchBar';
-import ProjectFilter from './projectFilter';
+import Filter from './filter';
 
 export default class Users extends React.Component {
     render() {
@@ -8,11 +8,11 @@ export default class Users extends React.Component {
             <div>
                 <h2>Aðilar</h2>
                 <SearchBar />
-                <ProjectFilter filters={
-                    [{ action: 'performers', display: 'Flytjendur'},
-                     { action: 'producers', display: 'Framleiðendur'},
-                      { action: 'vip-users', display: 'VIP'},
-                    ]} />
+                <Filter filters={[
+                    {action: 'performers', display: 'Flytjendur'},
+                    {action: 'producers', display: 'Framleiðendur'},
+                    {action: 'vip-users', display: 'VIP'}
+                ]} />
             </div>
         );
     }

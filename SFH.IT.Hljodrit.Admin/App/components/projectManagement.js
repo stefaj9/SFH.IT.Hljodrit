@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
 import { getAllProjects } from '../actions/projectActions';
-import ProjectFilter from './projectFilter';
+import Filter from './filter';
 import ProjectListView from './projectListView';
 
 class ProjectManagement extends React.Component {
@@ -14,7 +14,7 @@ class ProjectManagement extends React.Component {
             <div className="projects">
                 <h2>Verkefnastýring</h2>
                 <SearchBar />
-                <ProjectFilter />
+                <Filter />
                 <ProjectListView projects={this.props.projects} />
             </div>
         );
