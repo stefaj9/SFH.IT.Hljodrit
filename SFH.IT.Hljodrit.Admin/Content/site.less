@@ -1,7 +1,7 @@
 ﻿@import "variables.less";
 
 body {
-    font-family: "Open Sans", sans-serif !important;
+    font-family: @baseFont, sans-serif !important;
 }
 
 h1,
@@ -16,13 +16,17 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Open Sans", sans-serif !important;
+  font-family: @baseFont, sans-serif !important;
   text-align: center;
   margin-top: 40px;
 }
 
 p {
-    font-family: "Open Sans", sans-serif !important;
+    font-family: @baseFont, sans-serif !important;
+}
+
+label {
+    font-family: @baseFont, sans-serif !important;
 }
 
 .navbar-brand img {
@@ -70,6 +74,27 @@ p {
             }
             .value {
                 display: inline-block;
+            }
+        }
+        .project-divider {
+            border: solid 0.5px @hoverGray;
+        }
+        .project-actions {
+            text-align: right;
+            position: relative;
+            top: 5px;
+            float: right;
+            .project-action {
+                text-align: center;
+                display: inline-block;
+                margin-left: 40px;
+                .fa {
+                    margin-bottom: 10px;
+                }
+                &:hover {
+                    cursor: pointer;
+                    color: @hoverGray;
+                }
             }
         }
     }
