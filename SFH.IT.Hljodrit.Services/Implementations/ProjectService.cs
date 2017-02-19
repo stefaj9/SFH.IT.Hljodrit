@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Repositories.Base;
@@ -31,16 +32,23 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<ProjectDto> GetAllProjects(int pageSize, int pageNumber)
+        public ProjectEnvelope GetAllProjects(int pageSize, int pageNumber)
         {
-            return _projectMasterRepository.GetAll().Select(p => new ProjectDto
+            decimal maxPage = _projectMasterRepository.GetProjectMasterCount() / pageSize;
+            var maximumPages = (int) Math.Ceiling(maxPage);
+            return new ProjectEnvelope
             {
-                Id = p.id,
-                ProjectName = p.projectname,
-                MainArtist = p.mainartist,
-                SubmissionUser = p.createdby,
-                LastModificationDate = p.updatedon
-            }).OrderByDescending(p => p.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+                CurrentPage = pageNumber,
+                MaximumPage = maximumPages,
+                Projects = _projectMasterRepository.GetAll().Select(p => new ProjectDto
+                {
+                    Id = p.id,
+                    ProjectName = p.projectname,
+                    MainArtist = p.mainartist,
+                    SubmissionUser = p.createdby,
+                    LastModificationDate = p.updatedon
+                }).OrderByDescending(p => p.Id).Skip((pageNumber - 1)*pageSize).Take(pageSize)
+            };
         }
     }
 }

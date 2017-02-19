@@ -5,6 +5,7 @@ import ProjectSearchBar from './projectSearchBar';
 import ProjectFilter from './projectFilter';
 import ProjectListView from './projectListView';
 import PageSelector from './pageSelector';
+import Paging from './paging';
 
 class ProjectManagement extends React.Component {
     componentWillReceiveProps() {
@@ -32,6 +33,14 @@ class ProjectManagement extends React.Component {
 
         this.props.getAllProjects(newPagesize, this.state.page);
     }
+    changePageNumber(newPageNumber) {
+        this.setState({
+            pageNumber: newPageNumber,
+            isFetching: true
+        });
+
+        this.props.getAllProjects(this.state.pageSize, newPageNumber);
+    }
     render() {
         return (
             <div className="projects">
@@ -40,6 +49,12 @@ class ProjectManagement extends React.Component {
                 <ProjectFilter />
                 <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
                 <ProjectListView projects={this.props.projects} isFetching={this.state.isFetching} />
+                <Paging 
+                    visible={!this.state.isFetching}
+                    currentPage={this.props.currentPage} 
+                    maximumPage={this.props.maximumPage} 
+                    changePage={(newPageNumber) => this.changePageNumber(newPageNumber)}
+                    />
             </div>
         );
     }
@@ -47,7 +62,9 @@ class ProjectManagement extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        projects: state.project.projects,
+        projects: state.project.projectEnvelope.projects,
+        currentPage: state.project.projectEnvelope.currentPage,
+        maximumPage: state.project.projectEnvelope.maximumPage,
         selectedProject: state.project.selectedProject
     };
 }
