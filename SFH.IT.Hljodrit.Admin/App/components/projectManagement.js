@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import SearchBar from './SearchBar';
 import { getAllProjects } from '../actions/projectActions';
-import ProjectSearchBar from './projectSearchBar';
-import ProjectFilter from './projectFilter';
+import Filter from './filter';
 import ProjectListView from './projectListView';
 import PageSelector from './pageSelector';
 import Paging from './paging';
@@ -45,8 +45,8 @@ class ProjectManagement extends React.Component {
         return (
             <div className="projects">
                 <h2>Verkefnastýring</h2>
-                <ProjectSearchBar />
-                <ProjectFilter />
+                <SearchBar />
+                <Filter />
                 <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
                 <ProjectListView projects={this.props.projects} isFetching={this.state.isFetching} />
                 <Paging 
@@ -68,5 +68,6 @@ function mapStateToProps(state) {
         selectedProject: state.project.selectedProject
     };
 }
+
 
 export default connect(mapStateToProps, { getAllProjects })(ProjectManagement);
