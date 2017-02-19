@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
+import { getAllProjects } from '../actions/projectActions';
 import ProjectFilter from './projectFilter';
 import ProjectListView from './projectListView';
 
 class ProjectManagement extends React.Component {
+    componentWillMount() {
+        this.props.getAllProjects();
+    }
     render() {
         return (
             <div className="projects">
@@ -19,8 +23,10 @@ class ProjectManagement extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        projects: state.projectManagement.projects
+        projects: state.project.projects,
+        selectedProject: state.project.selectedProject
     };
 }
 
-export default connect(mapStateToProps, null)(ProjectManagement);
+
+export default connect(mapStateToProps, { getAllProjects })(ProjectManagement);

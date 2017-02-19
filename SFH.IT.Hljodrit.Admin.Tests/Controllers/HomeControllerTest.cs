@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFH.IT.Hljodrit.Admin;
 using SFH.IT.Hljodrit.Admin.Controllers;
 
 namespace SFH.IT.Hljodrit.Admin.Tests.Controllers

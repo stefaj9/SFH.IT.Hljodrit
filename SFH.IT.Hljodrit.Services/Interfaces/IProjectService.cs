@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using SFH.IT.Hljodrit.Common.Dto;
 
 namespace SFH.IT.Hljodrit.Services.Interfaces
 {
-    interface IProjectService
+    public interface IProjectService
     {
+        IEnumerable<ProjectDto> GetAllProjects();
     }
 }

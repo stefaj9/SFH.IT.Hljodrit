@@ -8,7 +8,11 @@ export default class Users extends React.Component {
             <div>
                 <h2>Aðilar</h2>
                 <SearchBar />
-                <ProjectFilter />
+                <ProjectFilter filters={
+                    [{ action: 'performers', display: 'Flytjendur'},
+                     { action: 'producers', display: 'Framleiðendur'},
+                      { action: 'vip-users', display: 'VIP'},
+                    ]} />
             </div>
         );
     }
