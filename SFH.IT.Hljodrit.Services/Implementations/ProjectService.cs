@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Services.Interfaces;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 
 namespace SFH.IT.Hljodrit.Services.Implementations
 {
-    class ProjectService : IProjectService
+    public class ProjectService : IProjectService
     {
         private readonly IProjectUserRepository _projectUserRepository;
         private readonly IProjectTrackRepository _projectTrackRepository;
@@ -25,12 +23,20 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             IProjectMasterRepository projectMasterRepository,
             IUnitOfWork unitOfWork)
         {
-            this._projectUserRepository = userRepository;
-            this._projectTrackRepository = trackRepository;
-            this._projectTrackArtistRepository = trackArtistRepository;
-            this._projectStatus = projectStatusRepository;
-            this._projectMasterRepository = projectMasterRepository;
-            this._unitOfWork = unitOfWork;
+            _projectUserRepository = userRepository;
+            _projectTrackRepository = trackRepository;
+            _projectTrackArtistRepository = trackArtistRepository;
+            _projectStatus = projectStatusRepository;
+            _projectMasterRepository = projectMasterRepository;
+            _unitOfWork = unitOfWork;
+        }
+
+        public IEnumerable<ProjectMasterDto> GetAllProjectMasters()
+        {
+            return _projectMasterRepository.GetAll().Select(p => new ProjectMasterDto
+            {
+                ProjectName = p.projectname
+            });
         }
     }
 }
