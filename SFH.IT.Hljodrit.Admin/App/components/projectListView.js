@@ -4,16 +4,18 @@ import Spinner from 'react-spinner';
 
 export default class ProjectListView extends React.Component {
     renderProjectItems() {
-        return this.props.projects.map((item) => {
-            return (
-                <ProjectItem key={item.id} project={item} />
-            );
-        });
+        if (!this.props.isFetching) {
+            return this.props.projects.map((item) => {
+                return (
+                    <ProjectItem key={item.id} project={item} />
+                );
+            });
+        }
     }
     render() {
         return (
             <div>
-                <Spinner className={this.props.projects.length === 0 ? '' : 'hidden'} />
+                <Spinner className={this.props.isFetching ? '' : 'hidden'} />
                 {this.renderProjectItems()}
             </div>
         );

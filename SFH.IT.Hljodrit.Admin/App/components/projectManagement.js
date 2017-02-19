@@ -4,10 +4,33 @@ import { getAllProjects } from '../actions/projectActions';
 import ProjectSearchBar from './projectSearchBar';
 import ProjectFilter from './projectFilter';
 import ProjectListView from './projectListView';
+import PageSelector from './pageSelector';
 
 class ProjectManagement extends React.Component {
+    componentWillReceiveProps() {
+        this.setState({
+            isFetching: false
+        });
+    }
     componentWillMount() {
-        this.props.getAllProjects();
+        this.props.getAllProjects(this.state.pageSize, this.state.page);
+    }
+    constructor(props, context) {
+        super(props, context);
+
+        this.state = {
+            page: 1,
+            pageSize: 25,
+            isFetching: true
+        };
+    }
+    changePagesize(newPagesize) {
+        this.setState({
+            pageSize: newPagesize,
+            isFetching: true
+        });
+
+        this.props.getAllProjects(newPagesize, this.state.page);
     }
     render() {
         return (
@@ -15,7 +38,8 @@ class ProjectManagement extends React.Component {
                 <h2>Verkefnastýring</h2>
                 <ProjectSearchBar />
                 <ProjectFilter />
-                <ProjectListView projects={this.props.projects} />
+                <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
+                <ProjectListView projects={this.props.projects} isFetching={this.state.isFetching} />
             </div>
         );
     }

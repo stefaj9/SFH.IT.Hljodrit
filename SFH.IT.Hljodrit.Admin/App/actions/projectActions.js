@@ -1,8 +1,8 @@
 import fetch from 'isomorphic-fetch';
 
-export function getAllProjects() {
+export function getAllProjects(pageSize, pageNumber) {
     return (dispatch) => {
-        return fetch('/api/projects', {
+        return fetch(`/api/projects?pageSize=${pageSize}&pageNumber=${pageNumber}`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {

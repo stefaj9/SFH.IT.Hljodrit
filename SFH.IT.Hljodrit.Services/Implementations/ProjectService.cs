@@ -31,7 +31,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<ProjectDto> GetAllProjects()
+        public IEnumerable<ProjectDto> GetAllProjects(int pageSize, int pageNumber)
         {
             return _projectMasterRepository.GetAll().Select(p => new ProjectDto
             {
@@ -40,7 +40,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 MainArtist = p.mainartist,
                 SubmissionUser = p.createdby,
                 LastModificationDate = p.updatedon
-            }).OrderByDescending(p => p.Id);
+            }).OrderByDescending(p => p.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize);
         }
     }
 }
