@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0D700503-A756-4CEE-AE29-B7FA796D42C3}</ProjectGuid>
+    <ProjectGuid>{A1574B0B-6421-49C5-80DE-64EED3CF8EB5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SFH.IT.Hljodrit.Services</RootNamespace>
-    <AssemblyName>SFH.IT.Hljodrit.Services</AssemblyName>
+    <RootNamespace>SFH.IT.Hljodrit.Common</RootNamespace>
+    <AssemblyName>SFH.IT.Hljodrit.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SimpleInjector, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.3.3.2\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -44,24 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\ProjectService.cs" />
-    <Compile Include="Interfaces\IProjectService.cs" />
+    <Compile Include="Dto\ProjectMasterDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SFH.IT.Hljodrit.Common\SFH.IT.Hljodrit.Common.csproj">
-      <Project>{a1574b0b-6421-49c5-80de-64eed3cf8eb5}</Project>
-      <Name>SFH.IT.Hljodrit.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SFH.IT.Hljodrit.Models\SFH.IT.Hljodrit.Models.csproj">
-      <Project>{61c88994-39a2-42dc-a764-19b38e6eab5d}</Project>
-      <Name>SFH.IT.Hljodrit.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SFH.IT.Hljodrit.Repositories\SFH.IT.Hljodrit.Repositories.csproj">
-      <Project>{3F97B8DE-5EA2-48CF-ADEA-3E8DF2FA48C0}</Project>
-      <Name>SFH.IT.Hljodrit.Repositories</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
