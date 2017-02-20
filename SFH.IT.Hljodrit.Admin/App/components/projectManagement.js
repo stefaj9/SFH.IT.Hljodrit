@@ -14,7 +14,7 @@ class ProjectManagement extends React.Component {
         });
     }
     componentWillMount() {
-        this.props.getAllProjects(this.state.pageSize, this.state.page);
+        this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters);
     }
     constructor(props, context) {
         super(props, context);
@@ -50,7 +50,7 @@ class ProjectManagement extends React.Component {
             isFetching: true
         });
 
-        this.props.getAllProjects(newPagesize, this.state.page);
+        this.props.getAllProjects(newPagesize, this.state.page, this.state.filters);
     }
     changePageNumber(newPageNumber) {
         this.setState({
@@ -58,7 +58,7 @@ class ProjectManagement extends React.Component {
             isFetching: true
         });
 
-        this.props.getAllProjects(this.state.pageSize, newPageNumber);
+        this.props.getAllProjects(this.state.pageSize, newPageNumber, this.state.filters);
     }
     filterBy(filteredData) {
 
@@ -71,7 +71,7 @@ class ProjectManagement extends React.Component {
                 break;
         }
 
-        this.props.getAllProjects(this.state.pageSize, this.state.pageNumber, this.state.filters);
+        this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters);
     }
     render() {
         return (
