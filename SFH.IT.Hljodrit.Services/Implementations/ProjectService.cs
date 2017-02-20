@@ -32,15 +32,15 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public ProjectEnvelope GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved)
+        public ProjectEnvelope GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved, string query)
         {
-            decimal maxPage = _projectMasterRepository.GetProjectMasterCount() / pageSize;
+            decimal maxPage = _projectMasterRepository.GetProjectMasterCount(pm => !pm.removed.Value && (pm.mainartist.StartsWith(query) || pm.projectname.StartsWith(query) || pm.createdby.StartsWith(query))) / pageSize;
             var maximumPages = (int) Math.Ceiling(maxPage);
             return new ProjectEnvelope
             {
                 CurrentPage = pageNumber,
                 MaximumPage = maximumPages,
-                Projects = _projectMasterRepository.GetAll().Select(p => new ProjectDto
+                Projects = _projectMasterRepository.GetMany(pm => !pm.removed.Value && (pm.mainartist.StartsWith(query) || pm.projectname.StartsWith(query) || pm.createdby.StartsWith(query))).Select(p => new ProjectDto
                 {
                     Id = p.id,
                     ProjectName = p.projectname,

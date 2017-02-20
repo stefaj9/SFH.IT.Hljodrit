@@ -8,13 +8,8 @@ import PageSelector from './pageSelector';
 import Paging from './paging';
 
 class ProjectManagement extends React.Component {
-    componentWillReceiveProps() {
-        this.setState({
-            isFetching: false
-        });
-    }
     componentWillMount() {
-        this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters);
+        this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters, this.state.searchString);
     }
     constructor(props, context) {
         super(props, context);
@@ -22,7 +17,6 @@ class ProjectManagement extends React.Component {
         this.state = {
             page: 1,
             pageSize: 25,
-            isFetching: true,
             filterProperties: [
                 {
                     action: 'pending',
@@ -41,48 +35,53 @@ class ProjectManagement extends React.Component {
                 pending: false,
                 resent: false,
                 approved: false
-            }
+            },
+            searchString: ''
         };
     }
     changePagesize(newPagesize) {
         this.setState({
-            pageSize: newPagesize,
-            isFetching: true
+            pageSize: newPagesize
         });
 
-        this.props.getAllProjects(newPagesize, this.state.page, this.state.filters);
+        this.props.getAllProjects(newPagesize, this.state.page, this.state.filters, this.state.searchString);
     }
     changePageNumber(newPageNumber) {
         this.setState({
-            pageNumber: newPageNumber,
-            isFetching: true
+            pageNumber: newPageNumber
         });
 
-        this.props.getAllProjects(this.state.pageSize, newPageNumber, this.state.filters);
+        this.props.getAllProjects(this.state.pageSize, newPageNumber, this.state.filters, this.state.searchString);
     }
     filterBy(filteredData) {
-
+        let filters = this.state.filters;
         switch (filteredData) {
-            case 0: this.setState({ pending: !this.state.pending });
+            case 0: this.setState({ filters: { pending: !this.state.pending } }); filters.pending = !this.state.pending;
                 break;
-            case 1: this.setState({ resent: !this.state.resent });
+            case 1: this.setState({ filters: { resent: !this.state.resent } }); filters.resent = !this.state.resent;
                 break;
-            case 2: this.setState({ approved: !this.state.approved });
+            case 2: this.setState({ filters: { approved: !this.state.approved } }); filters.approved = !this.state.approved;
                 break;
         }
 
-        this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters);
+        this.props.getAllProjects(this.state.pageSize, this.state.page, filters, this.state.searchString);
+    }
+    searchBy(searchString) {
+        this.setState({
+            searchString: searchString
+        });
+        this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters, searchString);
     }
     render() {
         return (
             <div className="projects">
                 <h2>Verkefnastýring</h2>
-                <SearchBar />
+                <SearchBar searchBy={(search) => this.searchBy(search)} />
                 <Filter filters={this.state.filterProperties} filterBy={(filter) => this.filterBy(filter)} />
                 <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
-                <ProjectListView projects={this.props.projects} isFetching={this.state.isFetching} />
+                <ProjectListView projects={this.props.projects} isFetching={this.props.isFetchingProjects} />
                 <Paging 
-                    visible={!this.state.isFetching}
+                    visible={!this.props.isFetchingProjects}
                     currentPage={this.props.currentPage} 
                     maximumPage={this.props.maximumPage} 
                     changePage={(newPageNumber) => this.changePageNumber(newPageNumber)}
@@ -97,7 +96,8 @@ function mapStateToProps(state) {
         projects: state.project.projectEnvelope.projects,
         currentPage: state.project.projectEnvelope.currentPage,
         maximumPage: state.project.projectEnvelope.maximumPage,
-        selectedProject: state.project.selectedProject
+        selectedProject: state.project.selectedProject,
+        isFetchingProjects: state.project.isFetchingProjects
     };
 }
 

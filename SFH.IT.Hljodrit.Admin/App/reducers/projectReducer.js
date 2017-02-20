@@ -4,7 +4,8 @@ let initialState = {
         projects: [],
         currentPage: -1,
         maximumPage: -1
-    }
+    },
+    isFetchingProjects: true
 };
 
 export default function (state = initialState, action) {
@@ -14,6 +15,12 @@ export default function (state = initialState, action) {
         });
         case 'SELECT_PROJECT_WITH_ACTION': return Object.assign({}, state, {
             selectedProject: action.payload
+        });
+        case 'IS_FETCHING_PROJECTS': return Object.assign({}, state, {
+            isFetchingProjects: true
+        });
+        case 'HAS_STOPPED_FETCHING_PROJECTS': return Object.assign({}, state, {
+            isFetchingProjects: false
         });
         default: return state;
     }
