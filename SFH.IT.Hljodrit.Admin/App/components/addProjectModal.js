@@ -21,13 +21,19 @@ export default class AddProjectModal extends React.Component {
             currentStep: 1
         };
     }
+    closeModal() {
+        this.setState({
+            currentStep: 1
+        });
+        this.props.close();
+    }
     render() {
         const { currentStep } = this.state;
         return (
             <Modal isOpen={this.props.isOpen}>
                 <ModalHeader
                     showCloseButton={true}
-                    onClose={this.props.close}>
+                    onClose={() => this.closeModal()}>
                     <ModalSteps steps={this.state.steps} currentStep={this.state.currentStep} />
                 </ModalHeader>
                 <ModalBody>
