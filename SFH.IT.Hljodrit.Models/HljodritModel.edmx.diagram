@@ -136,6 +136,7 @@
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_superuser_organizations_project_superuser" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_track_artist_project_track" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.activerate_revenyplan" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.NLog" Width="1.5" PointX="3.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
