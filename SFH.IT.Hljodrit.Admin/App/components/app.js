@@ -7,7 +7,11 @@ export default class App extends React.Component {
             <div>
                 <Header />
                 <div className="container">
-                    {this.props.children}
+                    <div className="row">
+                        <div className="col-xs-10 col-xs-push-1">
+                            {this.props.children}
+                        </div>
+                    </div>
                 </div>
             </div>
         );

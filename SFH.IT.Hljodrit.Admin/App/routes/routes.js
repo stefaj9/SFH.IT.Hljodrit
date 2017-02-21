@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 import App from '../components/app';
 import Settings from '../components/settings';
 import Calculations from '../components/calculations';
@@ -7,9 +7,11 @@ import Instruments from '../components/instruments';
 import Users from '../components/users';
 import NotFound from '../components/notFound';
 import ProjectManagement from '../components/projectManagement';
+import Intro from '../components/intro';
 
 export default (
     <Route path="/" component={App}>
+        <IndexRoute component={Intro} />
         <Route path="projects" component={ProjectManagement} />
         <Route path="calculations" component={Calculations} />
         <Route path="instruments" component={Instruments} />

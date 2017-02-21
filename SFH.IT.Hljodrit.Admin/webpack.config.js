@@ -23,6 +23,14 @@ var config = {
                 test: /\.jsx?$/,
                 loaders: ['eslint-loader'],
                 exclude: /node_modules/
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    'style-loader',
+                    { loader: 'css-loader', options: { importLoaders: 1 } },
+                    'less-loader'
+                ]
             }
         ]
     },
