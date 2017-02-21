@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SFH.IT.Hljodrit.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SFH.IT.Hljodrit.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="common_airplay_attributes">
           <Key>
             <PropertyRef Name="year" />
@@ -476,6 +476,28 @@ warning 6002: The table/view 'hljodrit-db.dbo.Difference' does not have a primar
           <Property Name="updatedon" Type="datetime" Nullable="false" />
           <Property Name="createdby" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MachineName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Logged" Type="datetime" Nullable="false" />
+          <Property Name="Level" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Logger" Type="nvarchar" MaxLength="300" />
+          <Property Name="Properties" Type="nvarchar(max)" />
+          <Property Name="ServerName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Port" Type="nvarchar" MaxLength="100" />
+          <Property Name="Url" Type="nvarchar" MaxLength="2000" />
+          <Property Name="Https" Type="bit" />
+          <Property Name="ServerAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="RemoteAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="Callsite" Type="nvarchar" MaxLength="300" />
+          <Property Name="Exception" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="organization_cataloguerights">
           <Key>
@@ -1967,6 +1989,24 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="NLog_AddEntry_p" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="machineName" Type="nvarchar" Mode="In" />
+          <Parameter Name="siteName" Type="nvarchar" Mode="In" />
+          <Parameter Name="logged" Type="datetime" Mode="In" />
+          <Parameter Name="level" Type="varchar" Mode="In" />
+          <Parameter Name="userName" Type="nvarchar" Mode="In" />
+          <Parameter Name="message" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="logger" Type="nvarchar" Mode="In" />
+          <Parameter Name="properties" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="serverName" Type="nvarchar" Mode="In" />
+          <Parameter Name="port" Type="nvarchar" Mode="In" />
+          <Parameter Name="url" Type="nvarchar" Mode="In" />
+          <Parameter Name="https" Type="bit" Mode="In" />
+          <Parameter Name="serverAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="remoteAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="callSite" Type="nvarchar" Mode="In" />
+          <Parameter Name="exception" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <EntityContainer Name="SFHITHljodritModelStoreContainer">
           <EntitySet Name="common_airplay_attributes" EntityType="Self.common_airplay_attributes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="common_cache_airplayreport" EntityType="Self.common_cache_airplayreport" Schema="dbo" store:Type="Tables" />
@@ -1993,6 +2033,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <EntitySet Name="media_source" EntityType="Self.media_source" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="media_status" EntityType="Self.media_status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="media_work" EntityType="Self.media_work" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NLog" EntityType="Self.NLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="organization_cataloguerights" EntityType="Self.organization_cataloguerights" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="organization_isrc_series" EntityType="Self.organization_isrc_series" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="organization_labels" EntityType="Self.organization_labels" Schema="dbo" store:Type="Tables" />
@@ -2410,8 +2451,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             <End Role="media_work" EntitySet="media_work" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SFH.IT.Hljodrit.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -4857,7 +4897,48 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             <End Role="revenue_plan" EntitySet="revenue_plan" />
             <End Role="revenue_activerate" EntitySet="revenue_activerate" />
           </AssociationSet>
+          <EntitySet Name="NLog" EntityType="SFH.IT.Hljodrit.Model.NLog" />
+          <FunctionImport Name="NLog_AddEntry_p">
+            <Parameter Name="machineName" Mode="In" Type="String" />
+            <Parameter Name="siteName" Mode="In" Type="String" />
+            <Parameter Name="logged" Mode="In" Type="DateTime" />
+            <Parameter Name="level" Mode="In" Type="String" />
+            <Parameter Name="userName" Mode="In" Type="String" />
+            <Parameter Name="message" Mode="In" Type="String" />
+            <Parameter Name="logger" Mode="In" Type="String" />
+            <Parameter Name="properties" Mode="In" Type="String" />
+            <Parameter Name="serverName" Mode="In" Type="String" />
+            <Parameter Name="port" Mode="In" Type="String" />
+            <Parameter Name="url" Mode="In" Type="String" />
+            <Parameter Name="https" Mode="In" Type="Boolean" />
+            <Parameter Name="serverAddress" Mode="In" Type="String" />
+            <Parameter Name="remoteAddress" Mode="In" Type="String" />
+            <Parameter Name="callSite" Mode="In" Type="String" />
+            <Parameter Name="exception" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <EntityType Name="NLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MachineName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SiteName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Logged" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Level" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Logger" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Properties" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ServerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Port" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Https" Type="Boolean" />
+          <Property Name="ServerAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RemoteAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Callsite" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Exception" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5947,6 +6028,30 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="NLog">
+            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.NLog">
+              <MappingFragment StoreEntitySet="NLog">
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+                <ScalarProperty Name="Callsite" ColumnName="Callsite" />
+                <ScalarProperty Name="RemoteAddress" ColumnName="RemoteAddress" />
+                <ScalarProperty Name="ServerAddress" ColumnName="ServerAddress" />
+                <ScalarProperty Name="Https" ColumnName="Https" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="ServerName" ColumnName="ServerName" />
+                <ScalarProperty Name="Properties" ColumnName="Properties" />
+                <ScalarProperty Name="Logger" ColumnName="Logger" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Logged" ColumnName="Logged" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="MachineName" ColumnName="MachineName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="NLog_AddEntry_p" FunctionName="SFH.IT.Hljodrit.Model.Store.NLog_AddEntry_p" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
