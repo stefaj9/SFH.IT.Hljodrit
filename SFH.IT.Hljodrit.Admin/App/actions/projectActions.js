@@ -30,6 +30,41 @@ export function selectProjectWithActionById(id, action) {
     };
 };
 
+export function updateProjectBasicInfo(basicInfo) {
+    return {
+        type: 'UPDATE_PROJECT_BASIC_INFO',
+        payload: basicInfo
+    };
+};
+
+export function updateProjectSongs(songs) {
+    return {
+        type: 'UPDATE_PROJECT_SONGS',
+        payload: songs
+    };
+};
+
+export function updateProjectPerformers(performers) {
+    return {
+        type: 'UPDATE_PROJECT_PERFORMERS',
+        payload: performers
+    };
+};
+
+export function updateProjectProducers(producers) {
+    return {
+        type: 'UPDATE_PROJECT_PRODUCERS',
+        payload: producers
+    };
+};
+
+export function createProject(project) {
+    return {
+        type: 'CREATE_PROJECT',
+        payload: project
+    };
+};
+
 function getAllProjectsSuccess(data) {
     return {
         type: 'GET_ALL_PROJECTS',

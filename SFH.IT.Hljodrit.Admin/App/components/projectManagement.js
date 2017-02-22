@@ -93,7 +93,7 @@ class ProjectManagement extends React.Component {
                 <Paging 
                     visible={!this.props.isFetchingProjects}
                     currentPage={this.props.currentPage} 
-                    maximumPage={this.props.maximumPage} 
+                    maximumPage={this.props.maximumPage}
                     changePage={(newPageNumber) => this.changePageNumber(newPageNumber)}
                     />
                 <AddProjectModal isOpen={this.state.addProjectModalIsOpen} close={this.toggleAddProjectModal.bind(this)} />

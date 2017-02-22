@@ -14,7 +14,7 @@ export default class ModalSteps extends React.Component {
             return (
                 <div key={step.name} className={'text-center step ' + stepClass}>
                     <div className="icon"><i className={step.class + ' fa-2x'}></i></div>
-                    <div className="step-title">{step.name}</div>
+                    <div className="step-title hidden-xs hidden-sm">{step.name}</div>
                 </div>
             );
         });

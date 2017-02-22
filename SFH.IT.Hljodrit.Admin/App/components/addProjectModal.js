@@ -1,5 +1,7 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'elemental';
+import { connect } from 'react-redux';
+import { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject } from '../actions/projectActions';
 import ProjectBasicInfoModal from './projectBasicInfoModal';
 import AddSongModal from './addSongModal';
 import AddPerformersModal from './addPerformersModal';
@@ -7,11 +9,11 @@ import AddProducersModal from './addProducersModal';
 import OverviewProjectModal from './overviewProjectModal';
 import ModalSteps from './modalSteps';
 
-export default class AddProjectModal extends React.Component {
+class AddProjectModal extends React.Component {
     constructor() {
         super();
         this.state = {
-            steps :[
+            steps: [
                 { name: 'Skrá plötuheiti', class: 'fa fa-bath' },
                 { name: 'Skrá lög', class: 'fa fa-music' },
                 { name: 'Skrá flytjendur', class: 'fa fa-microphone' },
@@ -30,20 +32,20 @@ export default class AddProjectModal extends React.Component {
     render() {
         const { currentStep } = this.state;
         return (
-            <Modal isOpen={this.props.isOpen}>
+            <Modal isOpen={this.props.isOpen} width='large'>
                 <ModalHeader
                     showCloseButton={true}
                     onClose={() => this.closeModal()}>
                     <ModalSteps steps={this.state.steps} currentStep={this.state.currentStep} />
                 </ModalHeader>
-                <ModalBody>
-                    <ProjectBasicInfoModal isVisible={currentStep === 1} />
-                    <AddSongModal isVisible={currentStep === 2} />
-                    <AddPerformersModal isVisible={currentStep === 3} />
-                    <AddProducersModal isVisible={currentStep === 4} />
-                    <OverviewProjectModal isVisible={currentStep === 5} />
+                <ModalBody className='modal-body'>
+                    <ProjectBasicInfoModal isVisible={currentStep === 1} next={this.props.updateProjectBasicInfo} />
+                    <AddSongModal isVisible={currentStep === 2} next={this.props.updateProjectSongs} />
+                    <AddPerformersModal isVisible={currentStep === 3} next={this.props.updateProjectPerformers} />
+                    <AddProducersModal isVisible={currentStep === 4} next={this.props.updateProjectProducers} />
+                    <OverviewProjectModal isVisible={currentStep === 5} next={this.props.createProject} />
                 </ModalBody>
-                <ModalFooter>
+                <ModalFooter className='modal-footer'>
                     <div className="btn-group">
                         <button className="btn btn-default" disabled={currentStep === 1} onClick={() => this.setState({ currentStep: currentStep - 1 })}>Til baka</button>
                         <button className="btn btn-default btn-primary" disabled={currentStep === 5} onClick={() => this.setState({ currentStep: currentStep + 1 })}>Áfram</button>
@@ -53,3 +55,5 @@ export default class AddProjectModal extends React.Component {
         );
     }
 }
+
+export default connect(null, { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject })(AddProjectModal);

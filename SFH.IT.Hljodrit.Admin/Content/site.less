@@ -98,6 +98,20 @@ label {
     margin-bottom: 20px;
 }
 
+.Modal {
+    .Modal-dialog {
+        .Modal-content {
+            .modal-body {
+                padding: 20px 90px;
+            }
+            .modal-footer {
+                padding-left: 20px;
+                padding-right: 50px;
+            }
+        }
+    }
+}
+
 .steps-wrapper {
     display: flex;
     flex-direction: row;
@@ -105,7 +119,6 @@ label {
     padding-left: 20px;
     padding-right: 20px;
     .step {
-        width: 80px;
         position: relative;
         &.step-finished {
             .icon {
@@ -127,15 +140,6 @@ label {
             &:after {
                 border: solid 0px black;
             }
-        }
-        &:after {
-            content: "";
-            position: absolute;
-            border-bottom: solid 2px rgba(155, 155, 155, 0.3);
-            height: 5px;
-            top: 10px;
-            left: 62px;
-            width: 65px;
         }
         .icon {
             margin-bottom: 10px;
@@ -179,13 +183,42 @@ label {
     }
 }
 
+
 @media screen and (max-width: 767px) {
     .navbar-brand img {
         width: 50% !important;
     }
+    .steps-wrapper {
+        .step {
+            width: 60px;
+            &:after {
+                content: "";
+                position: absolute;
+                border-bottom: solid 2px rgba(155, 155, 155, 0.3);
+                height: 5px;
+                top: 10px;
+                left: 50px;
+                width: 75px;
+            }
+        }
+    }
 }
 
 @media screen and (min-width: 768px) {
+    .steps-wrapper {
+        .step {
+            width: 80px;
+            &:after {
+                content: "";
+                position: absolute;
+                border-bottom: solid 2px rgba(155, 155, 155, 0.3);
+                height: 5px;
+                top: 10px;
+                left: 62px;
+                width: 130px;
+            }
+        }
+    }
     .navbar-brand img {
         width: 70% !important;
     }

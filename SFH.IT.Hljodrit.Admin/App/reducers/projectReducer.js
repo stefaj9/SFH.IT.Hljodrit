@@ -1,5 +1,10 @@
 let initialState = {
-    selectedProject: null,
+    selectedProject: {
+        basicInfo: {},
+        songs: [],
+        performers: [],
+        producers: []
+    },
     projectEnvelope: {
         projects: [],
         currentPage: -1,
@@ -21,6 +26,29 @@ export default function (state = initialState, action) {
         });
         case 'HAS_STOPPED_FETCHING_PROJECTS': return Object.assign({}, state, {
             isFetchingProjects: false
+        });
+        case 'UPDATE_PROJECT_BASIC_INFO': return Object.assign({}, state, {
+            selectedProject: {
+                basicInfo: action.payload
+            }
+        });
+        case 'UPDATE_PROJECT_SONGS': return Object.assign({}, state, {
+            selectedProject: {
+                songs: action.payload
+            }
+        });
+        case 'UPDATE_PROJECT_PERFORMERS': return Object.assign({}, state, {
+            selectedProject: {
+                performers: action.payload
+            }
+        });
+        case 'UPDATE_PROJECT_PRODUCERS': return Object.assign({}, state, {
+            selectedProject: {
+                producers: action.payload
+            }
+        });
+        case 'CREATE_PROJECT': return Object.assign({}, state, {
+
         });
         default: return state;
     }
