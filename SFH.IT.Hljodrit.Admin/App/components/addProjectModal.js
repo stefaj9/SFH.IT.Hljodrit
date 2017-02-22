@@ -1,5 +1,4 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'elemental';
 import { connect } from 'react-redux';
 import { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject } from '../actions/projectActions';
 import ProjectBasicInfoModal from './projectBasicInfoModal';
@@ -7,7 +6,7 @@ import AddSongModal from './addSongModal';
 import AddPerformersModal from './addPerformersModal';
 import AddProducersModal from './addProducersModal';
 import OverviewProjectModal from './overviewProjectModal';
-import ModalSteps from './modalSteps';
+
 
 class AddProjectModal extends React.Component {
     constructor() {
@@ -23,6 +22,16 @@ class AddProjectModal extends React.Component {
             currentStep: 1
         };
     }
+    increaseStep() {
+        this.setState({
+            currentStep: this.state.currentStep + 1
+        });
+    }
+    decreaseStep() {
+        this.setState({
+            currentStep: this.state.currentStep - 1
+        });
+    }
     closeModal() {
         this.setState({
             currentStep: 1
@@ -30,28 +39,38 @@ class AddProjectModal extends React.Component {
         this.props.close();
     }
     render() {
-        const { currentStep } = this.state;
         return (
-            <Modal isOpen={this.props.isOpen} width='large'>
-                <ModalHeader
-                    showCloseButton={true}
-                    onClose={() => this.closeModal()}>
-                    <ModalSteps steps={this.state.steps} currentStep={this.state.currentStep} />
-                </ModalHeader>
-                <ModalBody className='modal-body'>
-                    <ProjectBasicInfoModal isVisible={currentStep === 1} next={this.props.updateProjectBasicInfo} />
-                    <AddSongModal isVisible={currentStep === 2} next={this.props.updateProjectSongs} />
-                    <AddPerformersModal isVisible={currentStep === 3} next={this.props.updateProjectPerformers} />
-                    <AddProducersModal isVisible={currentStep === 4} next={this.props.updateProjectProducers} />
-                    <OverviewProjectModal isVisible={currentStep === 5} next={this.props.createProject} />
-                </ModalBody>
-                <ModalFooter className='modal-footer'>
-                    <div className="btn-group">
-                        <button className="btn btn-default" disabled={currentStep === 1} onClick={() => this.setState({ currentStep: currentStep - 1 })}>Til baka</button>
-                        <button className="btn btn-default btn-primary" disabled={currentStep === 5} onClick={() => this.setState({ currentStep: currentStep + 1 })}>Áfram</button>
-                    </div>
-                </ModalFooter>
-            </Modal>
+            <div>
+                <ProjectBasicInfoModal 
+                    steps={this.state.steps} 
+                    close={() => this.closeModal()}
+                    isOpen={this.props.isGlobalOpen && this.state.currentStep === 1}
+                    next={(info) => { this.props.updateProjectBasicInfo(info); this.increaseStep(); } } />
+                <AddSongModal 
+                    steps={this.state.steps} 
+                    close={() => this.closeModal()}
+                    isOpen={this.props.isGlobalOpen && this.state.currentStep === 2}
+                    next={(songs) => { this.props.updateProjectSongs(songs); this.increaseStep(); } }
+                    back={() => this.decreaseStep()} />
+                <AddPerformersModal 
+                    steps={this.state.steps} 
+                    close={() => this.closeModal()}
+                    isOpen={this.props.isGlobalOpen && this.state.currentStep === 3}
+                    next={(performers) => { this.props.updateProjectPerformers(performers); this.increaseStep(); } }
+                    back={() => this.decreaseStep()} />
+                <AddProducersModal 
+                    steps={this.state.steps} 
+                    close={() => this.closeModal()}
+                    isOpen={this.props.isGlobalOpen && this.state.currentStep === 4}
+                    next={(producers) => { this.props.updateProjectProducers(producers); this.increaseStep(); } }
+                    back={() => this.decreaseStep()} />
+                <OverviewProjectModal 
+                    steps={this.state.steps} 
+                    close={() => this.closeModal()}
+                    isOpen={this.props.isGlobalOpen && this.state.currentStep === 5}
+                    next={(project) => { this.props.createProject(project); this.closeModal(); } }
+                    back={() => this.decreaseStep()} />
+            </div>
         );
     }
 }

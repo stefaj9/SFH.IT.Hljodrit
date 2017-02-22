@@ -96,7 +96,7 @@ class ProjectManagement extends React.Component {
                     maximumPage={this.props.maximumPage}
                     changePage={(newPageNumber) => this.changePageNumber(newPageNumber)}
                     />
-                <AddProjectModal isOpen={this.state.addProjectModalIsOpen} close={this.toggleAddProjectModal.bind(this)} />
+                <AddProjectModal isGlobalOpen={this.state.addProjectModalIsOpen} close={this.toggleAddProjectModal.bind(this)} />
             </div>
         );
     }

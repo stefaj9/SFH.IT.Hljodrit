@@ -7,7 +7,6 @@ import applyRouterMiddleware from 'react-router-apply-middleware';
 import { useRelativeLinks } from 'react-router-relative-links';
 import store from './store';
 import Routes from './routes/routes';
-import '../node_modules/elemental/less/elemental.less';
 
 const history = syncHistoryWithStore(browserHistory, store);
 
