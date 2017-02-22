@@ -106,6 +106,37 @@ label {
     padding-right: 20px;
     .step {
         width: 80px;
+        position: relative;
+        &.step-finished {
+            .icon {
+                color: #D5EBCD;
+            }
+            .step-title {
+                color: rgb(155, 155, 155);
+            }
+        }
+        &.step-current {
+            .icon {
+                font-size: 1.2em;
+            }
+        }
+        &.step-unfinished {
+            color: rgb(155, 155, 155);
+        }
+        &:last-child {
+            &:after {
+                border: solid 0px black;
+            }
+        }
+        &:after {
+            content: "";
+            position: absolute;
+            border-bottom: solid 2px rgba(155, 155, 155, 0.3);
+            height: 5px;
+            top: 10px;
+            left: 62px;
+            width: 65px;
+        }
         .icon {
             margin-bottom: 10px;
         }
