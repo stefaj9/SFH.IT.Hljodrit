@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\InstrumentService.cs" />
     <Compile Include="Implementations\ProjectService.cs" />
+    <Compile Include="Interfaces\IInstrumentService.cs" />
     <Compile Include="Interfaces\IProjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

@@ -11,6 +11,7 @@ namespace SFH.IT.Hljodrit.Services
             Repositories.Startup.RegisterComponents(container);
 
             container.Register<IProjectService, ProjectService>(Lifestyle.Transient);
+            container.Register<IInstrumentService, InstrumentService>(Lifestyle.Transient);
         }
     }
 }

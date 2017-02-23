@@ -1,5 +1,7 @@
 ﻿using SFH.IT.Hljodrit.Repositories.Base;
+using SFH.IT.Hljodrit.Repositories.Implementations.Instruments;
 using SFH.IT.Hljodrit.Repositories.Implementations.Project;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Instruments;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 using SimpleInjector;
 
@@ -16,6 +18,7 @@ namespace SFH.IT.Hljodrit.Repositories
             container.Register<IProjectTrackArtistRepository, ProjectTrackArtistRepository>(Lifestyle.Transient);
             container.Register<IProjectTrackRepository, ProjectTrackRepository>(Lifestyle.Transient);
             container.Register<IProjectUserRepository, ProjectUserRepository>(Lifestyle.Transient);
+            container.Register<IInstrumentRepository, InstrumentRepository>(Lifestyle.Transient);
             container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Transient);
         }
     }

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\InstrumentDto.cs" />
     <Compile Include="Dto\ProjectDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
