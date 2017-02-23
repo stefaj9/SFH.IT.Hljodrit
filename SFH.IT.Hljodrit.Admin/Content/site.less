@@ -35,6 +35,7 @@ body {
   bottom: 40px;
   outline: none;
 }
+
 @media screen and (max-height: 480px) {
   .modal-window {
     top: 1%;
@@ -240,6 +241,9 @@ label {
 
 
 @media screen and (max-width: 767px) {
+    .modal-dialog {
+        width: 600px !important;
+    }
     .navbar-brand img {
         width: 50% !important;
     }
@@ -253,13 +257,16 @@ label {
                 height: 5px;
                 top: 10px;
                 left: 50px;
-                width: 75px;
+                width: 65px;
             }
         }
     }
 }
 
 @media screen and (min-width: 768px) {
+    .modal-dialog {
+        width: 800px !important;
+    }
     .steps-wrapper {
         .step {
             width: 80px;
@@ -269,8 +276,8 @@ label {
                 border-bottom: solid 2px rgba(155, 155, 155, 0.3);
                 height: 5px;
                 top: 10px;
-                left: 62px;
-                width: 62px;
+                left: 65px;
+                width: 100px;
             }
         }
     }

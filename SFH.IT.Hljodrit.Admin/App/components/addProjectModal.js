@@ -13,7 +13,7 @@ class AddProjectModal extends React.Component {
         super();
         this.state = {
             steps: [
-                { name: 'Skrá plötuheiti', class: 'fa fa-bath' },
+                { name: 'Skrá plötuheiti', class: 'fa fa-pencil' },
                 { name: 'Skrá lög', class: 'fa fa-music' },
                 { name: 'Skrá flytjendur', class: 'fa fa-microphone' },
                 { name: 'Skrá framleiðendur', class: 'fa fa-user' },
