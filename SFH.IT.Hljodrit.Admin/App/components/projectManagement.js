@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import SearchBar from './SearchBar';
 import { getAllProjects } from '../actions/projectActions';
 import Filter from './filter';
 import ProjectListView from './projectListView';
 import PageSelector from './pageSelector';
 import Paging from './paging';
-import AddProjectModal from './addProjectModal';
 
 class ProjectManagement extends React.Component {
     componentWillMount() {
@@ -37,8 +37,7 @@ class ProjectManagement extends React.Component {
                 resent: false,
                 approved: false
             },
-            searchString: '',
-            addProjectModalIsOpen: false
+            searchString: ''
         };
     }
     changePagesize(newPagesize) {
@@ -74,17 +73,12 @@ class ProjectManagement extends React.Component {
         });
         this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters, searchString);
     }
-    toggleAddProjectModal() {
-        this.setState({
-            addProjectModalIsOpen: !this.state.addProjectModalIsOpen
-        });
-    }
     render() {
         return (
             <div className="projects">
                 <h2>Verkefnastýring</h2>
-                <div className="add-project text-right" onClick={() => this.toggleAddProjectModal()}>
-                    <a href="#"><i className="fa fa-2x fa-plus"></i></a>
+                <div className="add-project text-right">
+                    <Link to='projects/createproject'><i className="fa fa-2x fa-plus"></i></Link>
                 </div>
                 <SearchBar searchBy={(search) => this.searchBy(search)} />
                 <Filter filters={this.state.filterProperties} filterBy={(filter) => this.filterBy(filter)} />
@@ -96,7 +90,6 @@ class ProjectManagement extends React.Component {
                     maximumPage={this.props.maximumPage}
                     changePage={(newPageNumber) => this.changePageNumber(newPageNumber)}
                     />
-                <AddProjectModal isGlobalOpen={this.state.addProjectModalIsOpen} close={this.toggleAddProjectModal.bind(this)} />
             </div>
         );
     }

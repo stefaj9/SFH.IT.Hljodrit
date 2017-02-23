@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject } from '../actions/projectActions';
-import ProjectBasicInfoModal from './projectBasicInfoModal';
-import AddSongModal from './addSongModal';
-import AddPerformersModal from './addPerformersModal';
-import AddProducersModal from './addProducersModal';
-import OverviewProjectModal from './overviewProjectModal';
+import { browserHistory } from 'react-router';
+import ProjectBasicInfo from './projectBasicInfo';
+import AddSong from './addSong';
+import AddPerformers from './addPerformers';
+import AddProducers from './addProducers';
+import OverviewProject from './overviewProject';
 
-
-class AddProjectModal extends React.Component {
+class AddProject extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -32,47 +32,54 @@ class AddProjectModal extends React.Component {
             currentStep: this.state.currentStep - 1
         });
     }
-    closeModal() {
+    exitWizard() {
         this.setState({
             currentStep: 1
         });
-        this.props.close();
+        browserHistory.push('/projects');
     }
     render() {
         return (
             <div>
-                <ProjectBasicInfoModal 
+                <ProjectBasicInfo
+                    isVisible={this.state.currentStep === 1}
                     steps={this.state.steps} 
-                    close={() => this.closeModal()}
-                    isOpen={this.props.isGlobalOpen && this.state.currentStep === 1}
+                    close={() => this.exitWizard()}
                     next={(info) => { this.props.updateProjectBasicInfo(info); this.increaseStep(); } } />
-                <AddSongModal 
-                    steps={this.state.steps} 
-                    close={() => this.closeModal()}
-                    isOpen={this.props.isGlobalOpen && this.state.currentStep === 2}
+                <AddSong
+                    isVisible={this.state.currentStep === 2}
+                    steps={this.state.steps}
+                    close={() => this.exitWizard()}
                     next={(songs) => { this.props.updateProjectSongs(songs); this.increaseStep(); } }
                     back={() => this.decreaseStep()} />
-                <AddPerformersModal 
+                <AddPerformers
+                    isVisible={this.state.currentStep === 3}
                     steps={this.state.steps} 
-                    close={() => this.closeModal()}
-                    isOpen={this.props.isGlobalOpen && this.state.currentStep === 3}
+                    close={() => this.exitWizard()}
+                    songs={this.props.project.songs}
                     next={(performers) => { this.props.updateProjectPerformers(performers); this.increaseStep(); } }
                     back={() => this.decreaseStep()} />
-                <AddProducersModal 
+                <AddProducers
+                    isVisible={this.state.currentStep === 4}
                     steps={this.state.steps} 
-                    close={() => this.closeModal()}
-                    isOpen={this.props.isGlobalOpen && this.state.currentStep === 4}
+                    close={() => this.exitWizard()}
                     next={(producers) => { this.props.updateProjectProducers(producers); this.increaseStep(); } }
                     back={() => this.decreaseStep()} />
-                <OverviewProjectModal 
+                <OverviewProject
+                    isVisible={this.state.currentStep === 5}
                     steps={this.state.steps} 
-                    close={() => this.closeModal()}
-                    isOpen={this.props.isGlobalOpen && this.state.currentStep === 5}
-                    next={(project) => { this.props.createProject(project); this.closeModal(); } }
+                    close={() => this.exitWizard()}
+                    next={(project) => { this.props.createProject(project); this.exitWizard(); } }
                     back={() => this.decreaseStep()} />
             </div>
         );
     }
 }
 
-export default connect(null, { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject })(AddProjectModal);
+function mapStateToProps(state) {
+    return {
+        project: state.project.selectedProject
+    };
+};
+
+export default connect(mapStateToProps, { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject })(AddProject);

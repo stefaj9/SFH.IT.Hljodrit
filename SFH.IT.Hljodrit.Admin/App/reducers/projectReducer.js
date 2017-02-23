@@ -29,21 +29,33 @@ export default function (state = initialState, action) {
         });
         case 'UPDATE_PROJECT_BASIC_INFO': return Object.assign({}, state, {
             selectedProject: {
-                basicInfo: action.payload
+                basicInfo: action.payload,
+                songs: state.selectedProject.songs,
+                performers: state.selectedProject.performers,
+                producers: state.selectedProject.producers
             }
         });
         case 'UPDATE_PROJECT_SONGS': return Object.assign({}, state, {
             selectedProject: {
-                songs: action.payload
+                basicInfo: state.selectedProject.basicInfo,
+                songs: action.payload,
+                performers: state.selectedProject.performers,
+                producers: state.selectedProject.producers
             }
         });
         case 'UPDATE_PROJECT_PERFORMERS': return Object.assign({}, state, {
             selectedProject: {
-                performers: action.payload
+                basicInfo: state.selectedProject.basicInfo,
+                songs: state.selectedProject.songs,
+                performers: action.payload,
+                producers: state.selectedProject.producers
             }
         });
         case 'UPDATE_PROJECT_PRODUCERS': return Object.assign({}, state, {
             selectedProject: {
+                basicInfo: state.selectedProject.basicInfo,
+                songs: state.selectedProject.songs,
+                performers: state.selectedProject.performers,
                 producers: action.payload
             }
         });

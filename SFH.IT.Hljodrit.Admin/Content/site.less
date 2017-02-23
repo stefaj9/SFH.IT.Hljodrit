@@ -85,6 +85,7 @@ h6,
   font-family: @baseFont, sans-serif !important;
   text-align: center;
   margin-top: 40px;
+  margin-bottom: 30px !important;
 }
 
 p {
@@ -166,14 +167,18 @@ label {
 
 .modal-body {
     padding: 20px 90px !important;
+    overflow-y: auto !important;
+    max-height: 600px;
 }
 
 .steps-wrapper {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    padding-left: 20px;
-    padding-right: 20px;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    margin-top: 20px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     .step {
         position: relative;
         &.step-finished {
@@ -239,7 +244,6 @@ label {
     }
 }
 
-
 @media screen and (max-width: 767px) {
     .modal-dialog {
         width: 600px !important;
@@ -277,7 +281,7 @@ label {
                 height: 5px;
                 top: 10px;
                 left: 65px;
-                width: 100px;
+                width: 172px;
             }
         }
     }
