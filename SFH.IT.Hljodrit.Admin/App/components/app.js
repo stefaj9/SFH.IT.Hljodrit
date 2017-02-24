@@ -6,7 +6,7 @@ export default class App extends React.Component {
         return (
             <div>
                 <Header />
-                <div className="container">
+                <div className="container site">
                     <div className="row">
                         <div className="col-xs-10 col-xs-push-1">
                             {this.props.children}

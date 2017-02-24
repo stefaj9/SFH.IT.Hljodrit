@@ -1,13 +1,115 @@
 import React from 'react';
 import ModalSteps from './modalSteps';
+import { PanelGroup, Panel } from 'react-bootstrap';
+import _ from 'lodash';
 
 export default class AddPerformers extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            allPerformers: [
+                {
+                    songId: 1,
+                    performers: [
+                        {
+                            name: 'Arnar Leifsson',
+                            instrument: 'Básúna',
+                            role: 'Aðalflytjandi'
+                        },
+                        {
+                            name: 'Baldur Tryggvason',
+                            instrument: 'Gítar',
+                            role: 'Hljómsveitarmeðlimur'
+                        },
+                        {
+                            name: 'Björgvin Birkir Björgvinsson',
+                            instrument: 'Hljómborð',
+                            role: 'Hljómsveitarmeðlimur'
+                        },
+                    ]
+                },
+                {
+                    songId: 2,
+                    performers: [
+                        {
+                            name: 'Arnar Leifsson',
+                            instrument: 'Básúna',
+                            role: 'Aðalflytjandi'
+                        },
+                        {
+                            name: 'Baldur Tryggvason',
+                            instrument: 'Gítar',
+                            role: 'Hljómsveitarmeðlimur'
+                        },
+                        {
+                            name: 'Björgvin Birkir Björgvinsson',
+                            instrument: 'Hljómborð',
+                            role: 'Hljómsveitarmeðlimur'
+                        },
+                    ]
+                },
+                {
+                    songId: 3,
+                    performers: [
+                        {
+                            name: 'Arnar Leifsson',
+                            instrument: 'Básúna',
+                            role: 'Aðalflytjandi'
+                        },
+                        {
+                            name: 'Baldur Tryggvason',
+                            instrument: 'Gítar',
+                            role: 'Hljómsveitarmeðlimur'
+                        },
+                        {
+                            name: 'Björgvin Birkir Björgvinsson',
+                            instrument: 'Hljómborð',
+                            role: 'Hljómsveitarmeðlimur'
+                        },
+                    ]
+                }
+            ]
+        };
+    }
     renderSongs() {
-        return this.props.songs.map((song) => {
+        return this.props.songs.map((song, idx) => {
+            let currentSong = _.find(this.state.allPerformers, (item) => {
+                return item.songId === song.number;
+            });
+            let displayPerformers = currentSong.performers.map((performer) => {
+                return (
+                    <tr>
+                        <td>{performer.name}</td>
+                        <td>{performer.instrument}</td>
+                        <td>{performer.role}</td>
+                        <td>
+                            <a href="#">
+                                <i className="fa fa-times"></i>
+                            </a>
+                        </td>
+                    </tr>
+                );
+            });
             return (
-                <div key={song.number}>
-                    {song.name} - {song.number}
-                </div>
+                <Panel 
+                    key={`${song.name}-${song.number}`}
+                    header={`${song.number}. ${song.name} (${song.length})`}
+                    eventKey={idx + 1}>
+                    <table className="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Nafn</th>
+                                <th>Hljóðfæri</th>
+                                <th>Hlutverk</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {displayPerformers}
+                        </tbody>
+                    </table>
+                </Panel>
             );
         });
     }
@@ -17,7 +119,10 @@ export default class AddPerformers extends React.Component {
                 <ModalSteps steps={this.props.steps} currentStep={3} />
                 <h4>Skrá flytjendur</h4>
                 <div className="song-wrapper">
-                    {this.renderSongs()}
+                    <p>Gerð er krafa um að það sé að lágmarki einn flytjandi skráður á hvert lag. Lög hér að neðanverðu eru röðuð eftir númer lags á verkefninu.</p>
+                    <PanelGroup defaultActiveKey="1" accordion>
+                        {this.renderSongs()}
+                    </PanelGroup>
                 </div>
                 <div className="btn-group pull-right">
                     <button 
