@@ -26,7 +26,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 InstrumentNameEnglish = instrument.name_en,
                 InstrumentNameIcelandic = instrument.name_is,
                 DescriptionInIcelandic = instrument.description_is
-            }).OrderByDescending(instrument => instrument.IdCode);
+            }).OrderBy(instrument => instrument.InstrumentNameIcelandic);
         }
     }
 }
