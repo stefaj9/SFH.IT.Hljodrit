@@ -33,7 +33,8 @@ export default class AddSong extends React.Component {
             songs: newSongList
         });
     }
-    removeSongFromList(songNumber) {
+    removeSongFromList(e, songNumber) {
+        e.preventDefault();
         const { songs, lastSongNumber } = this.state;
         let newSongList = _.cloneDeep(songs);
         _.remove(newSongList, (item) => {
@@ -55,7 +56,7 @@ export default class AddSong extends React.Component {
                     <td>{song.name}</td>
                     <td>{song.length}</td>
                     <td>{song.isrc}</td>
-                    <td><a href="#"><i onClick={() => this.removeSongFromList(song.number)} className="fa fa-times"></i></a></td>
+                    <td><a href="#"><i onClick={(e) => this.removeSongFromList(e, song.number)} className="fa fa-times"></i></a></td>
                 </tr>
             );
         });
