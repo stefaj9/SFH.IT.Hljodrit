@@ -1,6 +1,7 @@
 import React from 'react';
 import ModalSteps from './modalSteps';
 import { PanelGroup, Panel } from 'react-bootstrap';
+import PeopleListModal from './peopleListModal';
 import _ from 'lodash';
 
 export default class AddPerformers extends React.Component {
@@ -8,6 +9,8 @@ export default class AddPerformers extends React.Component {
         super();
 
         this.state = {
+            addPerformerModalIsOpen: false,
+            selectedSong: -1,
             allPerformers: [
                 {
                     songId: 1,
@@ -99,7 +102,7 @@ export default class AddPerformers extends React.Component {
                     eventKey={idx + 1}
                     bsStyle={containsPerformers ? 'default' : 'danger'}>
                     <div className="add-performer pull-right">
-                        <button onClick={() => this.addPerformerToSong(song.number)} className="btn btn-default">Bæta við flytjanda <i className="fa fa-fw fa-plus"></i></button>
+                        <button onClick={() => this.openAddPerformerModal(song.number)} className="btn btn-default">Bæta við flytjanda <i className="fa fa-fw fa-plus"></i></button>
                     </div>
                     <table className={'table table-striped table-responsive' + (containsPerformers ? '' : ' hidden')}>
                         <thead>
@@ -119,9 +122,25 @@ export default class AddPerformers extends React.Component {
             );
         });
     }
-    addPerformerToSong(songId) {
-        // TODO: Open Modal and add performer to the song
-        console.log(songId);
+    openAddPerformerModal(songId) {
+        this.setState({
+            addPerformerModalIsOpen: true,
+            selectedSong: songId
+        });
+    }
+    addPerformer(performer, songId) {
+        const { allPerformers } = this.state;
+        let allPerformersCopy = _.cloneDeep(allPerformers);
+        let song = _.find(allPerformersCopy, (item) => {
+            return item.songId === songId;
+        });
+
+        song.performers = _.concat(song.performers, performer);
+
+        this.setState({
+            allPerformers: allPerformersCopy,
+            addPerformerModalIsOpen: false
+        });
     }
     removePerformerFromSong(e, songId, performerNumber) {
         e.preventDefault();
@@ -164,6 +183,12 @@ export default class AddPerformers extends React.Component {
                         onClick={() => this.props.next()}>Áfram
                     </button>
                 </div>
+                <PeopleListModal 
+                    isOpen={this.state.addPerformerModalIsOpen} 
+                    update={(performer) => this.addPerformer(performer, this.state.selectedSong)}
+                    fetch={}
+                    close={() => this.setState({ addPerformerModalIsOpen: false })}
+                    title="Bæta við flytjanda" />
             </div>
         );
     }
