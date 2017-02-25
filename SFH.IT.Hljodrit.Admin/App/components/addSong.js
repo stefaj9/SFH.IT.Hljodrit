@@ -61,6 +61,10 @@ export default class AddSong extends React.Component {
             );
         });
     }
+    isAddSongValid() {
+        const { currentSongName, currentSongLength } = this.state;
+        return currentSongName.length > 0 && currentSongLength.length > 0;
+    }
     render() {
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
@@ -84,7 +88,10 @@ export default class AddSong extends React.Component {
                             onChange={(e) => this.setState({ currentSongLength: e.target.value })} />
                     </div>
                     <div className="form-group text-right">
-                        <button className="btn btn-default" onClick={(e) => this.addSongToList(e)}>Bæta við</button>
+                        <button 
+                            className="btn btn-default" 
+                            onClick={(e) => this.addSongToList(e)}
+                            disabled={!this.isAddSongValid()}>Bæta við</button>
                     </div>
                 </form>
                 <table className={'table table-striped table-responsive' + (this.state.songs.length === 0 ? ' hidden' : '')}>
