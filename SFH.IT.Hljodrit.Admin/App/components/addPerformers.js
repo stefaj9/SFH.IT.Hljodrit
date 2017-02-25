@@ -91,15 +91,17 @@ export default class AddPerformers extends React.Component {
                     </tr>
                 );
             });
+            let containsPerformers = currentSong.performers.length > 0;
             return (
                 <Panel 
                     key={`${song.name}-${song.number}`}
                     header={`${song.number}. ${song.name} (${song.length})`}
-                    eventKey={idx + 1}>
+                    eventKey={idx + 1}
+                    bsStyle={containsPerformers ? 'default' : 'danger'}>
                     <div className="add-performer pull-right">
-                        <button className="btn btn-default">Bæta við flytjanda <i className="fa fa-fw fa-plus"></i></button>
+                        <button onClick={() => this.addPerformerToSong(song.number)} className="btn btn-default">Bæta við flytjanda <i className="fa fa-fw fa-plus"></i></button>
                     </div>
-                    <table className="table table-striped table-responsive">
+                    <table className={'table table-striped table-responsive' + (containsPerformers ? '' : ' hidden')}>
                         <thead>
                             <tr>
                                 <th>Nafn</th>
@@ -112,9 +114,14 @@ export default class AddPerformers extends React.Component {
                             {displayPerformers}
                         </tbody>
                     </table>
+                    <p className={containsPerformers ? 'hidden' : ''}><br /><br />Gerð er krafa um að a.m.k. einn flytjandi er skráður á lagið.</p>
                 </Panel>
             );
         });
+    }
+    addPerformerToSong(songId) {
+        // TODO: Open Modal and add performer to the song
+        console.log(songId);
     }
     removePerformerFromSong(e, songId, performerNumber) {
         e.preventDefault();
