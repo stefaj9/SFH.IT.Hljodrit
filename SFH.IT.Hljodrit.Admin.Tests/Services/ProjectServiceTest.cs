@@ -34,12 +34,10 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
         }
 
         [TestMethod]
-        public void TestGetAllProjectsWithPaging()
+        public void TestGetAllProjectsWithPagingReturnsResults()
         {
             // Arrange
-
             var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
-
             _projectMasterRepository.Setup(p => p.GetAll())
                 .Returns(masterProjects);
 
