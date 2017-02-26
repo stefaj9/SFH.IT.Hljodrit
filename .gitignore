@@ -213,6 +213,9 @@ UpgradeLog*.htm
 # SQL Server files
 *.mdf
 *.ldf
+SFH.IT.Hljodrit.Admin.Data/SFH.IT.Hljodrit.Db.jfm # Random binary file i think is a problem from Win10
+*.jfm
+**/*.jfm
 
 # Business Intelligence projects
 *.rdl.data
