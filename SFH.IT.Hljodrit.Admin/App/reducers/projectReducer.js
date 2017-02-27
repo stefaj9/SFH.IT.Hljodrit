@@ -1,8 +1,9 @@
+import _ from 'lodash';
+
 let initialState = {
     selectedProject: {
         basicInfo: {},
         songs: [],
-        performers: [],
         producers: []
     },
     projectEnvelope: {
@@ -31,7 +32,6 @@ export default function (state = initialState, action) {
             selectedProject: {
                 basicInfo: action.payload,
                 songs: state.selectedProject.songs,
-                performers: state.selectedProject.performers,
                 producers: state.selectedProject.producers
             }
         });
@@ -39,23 +39,28 @@ export default function (state = initialState, action) {
             selectedProject: {
                 basicInfo: state.selectedProject.basicInfo,
                 songs: action.payload,
-                performers: state.selectedProject.performers,
                 producers: state.selectedProject.producers
             }
         });
-        case 'UPDATE_PROJECT_PERFORMERS': return Object.assign({}, state, {
-            selectedProject: {
-                basicInfo: state.selectedProject.basicInfo,
-                songs: state.selectedProject.songs,
-                performers: action.payload,
-                producers: state.selectedProject.producers
-            }
-        });
+        case 'UPDATE_PROJECT_PERFORMERS': 
+            let newSongs = _.cloneDeep(state.selectedProject.songs);
+            _.forEach(action.payload, (performers) => {
+                let song = _.find(newSongs, (s) => {
+                    return s.number === performers.songId;
+                });
+                song.performers = performers.performers;
+            });
+            return Object.assign({}, state, {
+                selectedProject: {
+                    basicInfo: state.selectedProject.basicInfo,
+                    songs: newSongs,
+                    producers: state.selectedProject.producers
+                }
+            });
         case 'UPDATE_PROJECT_PRODUCERS': return Object.assign({}, state, {
             selectedProject: {
                 basicInfo: state.selectedProject.basicInfo,
                 songs: state.selectedProject.songs,
-                performers: state.selectedProject.performers,
                 producers: action.payload
             }
         });

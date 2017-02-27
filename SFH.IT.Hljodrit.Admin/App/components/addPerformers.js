@@ -36,7 +36,7 @@ export default class AddPerformers extends React.Component {
                     songId: 2,
                     performers: [
                         {
-                            name: 'Arnar Leifsson',
+                            name: 'Barki Skaftason',
                             instrument: 'Básúna',
                             role: 'Aðalflytjandi'
                         },
@@ -56,20 +56,10 @@ export default class AddPerformers extends React.Component {
                     songId: 3,
                     performers: [
                         {
-                            name: 'Arnar Leifsson',
+                            name: 'Barki Skaftason',
                             instrument: 'Básúna',
                             role: 'Aðalflytjandi'
-                        },
-                        {
-                            name: 'Baldur Tryggvason',
-                            instrument: 'Gítar',
-                            role: 'Hljómsveitarmeðlimur'
-                        },
-                        {
-                            name: 'Björgvin Birkir Björgvinsson',
-                            instrument: 'Hljómborð',
-                            role: 'Hljómsveitarmeðlimur'
-                        },
+                        }
                     ]
                 }
             ]
@@ -180,13 +170,13 @@ export default class AddPerformers extends React.Component {
                     <button 
                         disabled={!this.canBeSubmitted()}
                         className="btn btn-default btn-primary" 
-                        onClick={() => this.props.next()}>Áfram
+                        onClick={() => this.props.next(this.state.allPerformers)}>Áfram
                     </button>
                 </div>
                 <PeopleListModal 
                     isOpen={this.state.addPerformerModalIsOpen} 
                     update={(performer) => this.addPerformer(performer, this.state.selectedSong)}
-                    fetch={}
+                    fetch={() => console.log('fetch')}
                     close={() => this.setState({ addPerformerModalIsOpen: false })}
                     title="Bæta við flytjanda" />
             </div>

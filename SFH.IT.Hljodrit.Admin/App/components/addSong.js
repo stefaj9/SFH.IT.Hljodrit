@@ -8,9 +8,9 @@ export default class AddSong extends React.Component {
 
         this.state = {
             songs: [
-                { number: 1, name: 'Rylan', length: '5:43', isrc: '-' },
-                { number: 2, name: 'Magic', length: '5:43', isrc: '-' },
-                { number: 3, name: 'Majestic', length: '5:43', isrc: '-' }
+                { number: 1, name: 'Rylan', length: '5:43', isrc: '-', performers: [] },
+                { number: 2, name: 'Magic', length: '5:43', isrc: '-', performers: [] },
+                { number: 3, name: 'Majestic', length: '5:43', isrc: '-', performers: [] }
             ],
             lastSongNumber: 3,
             currentSongName: '',
@@ -24,7 +24,8 @@ export default class AddSong extends React.Component {
             number: lastSongNumber + 1, 
             name: currentSongName,
             length: currentSongLength,
-            isrc: '-'
+            isrc: '-',
+            performers: []
         });
         this.setState({
             currentSongName: '',

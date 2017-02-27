@@ -1,12 +1,14 @@
 import React from 'react';
 import ModalSteps from './modalSteps';
 import _ from 'lodash';
+import PeopleListModal from './peopleListModal';
 
 export default class AddProducers extends React.Component {
     constructor() {
         super();
 
         this.state = {
+            isAddProducerModelOpen: false,
             producers: [
                 {
                     id: 1,
@@ -14,6 +16,21 @@ export default class AddProducers extends React.Component {
                 }
             ]
         };
+    }
+    openAddProducerModal() {
+        this.setState({
+            isAddProducerModelOpen: true
+        });
+    }
+    addProducer(producer) {
+        const { producers } = this.state;
+        let producersUpdated = _.cloneDeep(producers);
+        producersUpdated = _.concat(producersUpdated, producer);
+
+        this.setState({
+            producers: producersUpdated,
+            isAddProducerModelOpen: false
+        });
     }
     removeProducer(e, producerId) {
         e.preventDefault();
@@ -42,13 +59,15 @@ export default class AddProducers extends React.Component {
         });
     }
     render() {
-        const { producers } = this.state;
+        const { producers, isAddProducerModelOpen } = this.state;
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
                 <ModalSteps steps={this.props.steps} currentStep={4} />
                 <h4>Skrá framleiðendur</h4>
                 <div className="form-group pull-right">
-                    <button className="btn btn-default">Bæta við framleiðanda <i className="fa fa-fw fa-plus"></i></button>
+                    <button 
+                        className="btn btn-default"
+                        onClick={() => this.openAddProducerModal()}>Bæta við framleiðanda <i className="fa fa-fw fa-plus"></i></button>
                 </div>
                 <table className={'table table-default table-striped table-responsive' + (producers.length === 0 ? ' hidden': '')}>
                     <thead>
@@ -70,9 +89,15 @@ export default class AddProducers extends React.Component {
                     <button 
                         disabled={producers.length === 0}
                         className="btn btn-default btn-primary" 
-                        onClick={() => this.props.next(this.state)}>Áfram
+                        onClick={() => this.props.next(this.state.producers)}>Áfram
                     </button>
                 </div>
+                <PeopleListModal
+                    isOpen={isAddProducerModelOpen}
+                    close={() => this.setState({ isAddProducerModelOpen: false })}
+                    fetch={() => console.log('fetch producers')}
+                    title="Bæta við framleiðanda"
+                 />
             </div>
         );
     }
