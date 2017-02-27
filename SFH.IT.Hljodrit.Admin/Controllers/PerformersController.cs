@@ -5,22 +5,28 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
-    [RoutePrefix("api/performers")]
-    public class PerformersController : ApiController
+    [RoutePrefix("api")]
+    public class PersonController : ApiController
     {
-        private readonly IPerformersService _performersService;
+        private readonly IPersonService _personService;
 
-
-        public PerformersController(IPerformersService performersService)
+        public PersonController(IPersonService personService)
         {
-            _performersService = performersService;
+            _personService = personService;
         }
 
         [HttpGet]
-        [Route("")]
+        [Route("performers")]
         public IHttpActionResult GetAllPerformers()
         {
-            return Ok(_performersService.GetAllPerformers());
+            return Ok(_personService.GetAllPerformers());
+        }
+
+        [HttpGet]
+        [Route("producers")]
+        public IHttpActionResult GetAllProducers()
+        {
+            return Ok(_personService.GetAllProducers());
         }
 
     }
