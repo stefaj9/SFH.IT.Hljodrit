@@ -56,6 +56,20 @@ label {
     display: none !important;
 }
 
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: gray;
+}
+
+.paging {
+    margin-bottom: 20px;
+    text-align: center;
+    .page-title {
+        font-size: 1.2em;
+    }
+}
+
 .not-found {
     text-align: center;
     .title {
@@ -67,9 +81,21 @@ label {
     }
 }
 
+.page-selector-wrapper {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.projects {
+    .project-search-bar {
+        margin-top: 40px;
+    }
+}
+
 .search-bar {
     margin-top: 40px;
 }
+
 .filter {
     text-align: center;
     margin-top: 20px;
@@ -110,10 +136,6 @@ label {
             }
         }
     }
-}
-
-.projects {
-
 }
 
 @media screen and (max-width: 767px) {

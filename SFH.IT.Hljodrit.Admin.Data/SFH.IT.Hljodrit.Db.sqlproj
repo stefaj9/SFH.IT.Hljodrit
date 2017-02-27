@@ -62,6 +62,7 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Views\" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\party_instrument.sql" />
@@ -124,5 +125,7 @@
     <Build Include="dbo\Tables\party_contactmedium.sql" />
     <Build Include="dbo\Tables\party_groupmembership.sql" />
     <Build Include="dbo\Views\Recording_List.sql" />
+    <Build Include="dbo\Tables\NLog.sql" />
+    <Build Include="dbo\Stored Procedures\NLog_AddEntry_p.sql" />
   </ItemGroup>
 </Project>
