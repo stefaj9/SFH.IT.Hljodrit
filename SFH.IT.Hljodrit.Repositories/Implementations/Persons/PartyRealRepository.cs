@@ -14,7 +14,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
         public PartyRealRepository(IDbFactory dbFactory)
             : base(dbFactory) { }
 
-        public IEnumerable<PersonDto> GetAllPerformers(Expression<Func<project_track_artist, bool>> expression)
+        public IEnumerable<PersonDto> GetAllPersons(Expression<Func<project_track_artist, bool>> expression)
         {
             var performers = DbContext.project_track_artist.Where(expression).Join(DbContext.party_real,
                 projectTrackArtist=> projectTrackArtist.partyrealid,

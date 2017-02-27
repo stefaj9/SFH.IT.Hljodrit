@@ -17,16 +17,16 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpGet]
         [Route("performers")]
-        public IHttpActionResult GetAllPerformers()
+        public IHttpActionResult GetAllPerformers([FromUri] int pageSize, [FromUri] int pageNumber)
         {
-            return Ok(_personService.GetAllPerformers());
+            return Ok(_personService.GetAllPerformers(pageSize, pageNumber));
         }
 
         [HttpGet]
         [Route("producers")]
-        public IHttpActionResult GetAllProducers()
+        public IHttpActionResult GetAllProducers([FromUri] int pageSize, [FromUri] int pageNumber)
         {
-            return Ok(_personService.GetAllProducers());
+            return Ok(_personService.GetAllProducers(pageSize, pageNumber));
         }
 
     }

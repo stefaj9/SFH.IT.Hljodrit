@@ -9,7 +9,7 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Performers
 {
     public interface IPartyRealRepository : IRepository<party_real>
     {
-        IEnumerable<PersonDto> GetAllPerformers(Expression<Func<project_track_artist, bool>> expression);
+        IEnumerable<PersonDto> GetAllPersons(Expression<Func<project_track_artist, bool>> expression);
     }
 }
 

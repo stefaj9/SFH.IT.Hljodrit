@@ -11,7 +11,7 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
 {
     public interface IPersonService
     {
-        IEnumerable<PersonDto> GetAllPerformers();
-        IEnumerable<PersonDto> GetAllProducers();
+        PersonEnvelope GetAllPerformers(int pageSize, int pageNumber);
+        PersonEnvelope GetAllProducers(int pageSize, int pageNumber);
     }
 }
