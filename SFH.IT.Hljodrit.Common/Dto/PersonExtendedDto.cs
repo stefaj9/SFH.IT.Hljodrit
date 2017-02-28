@@ -1,14 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SFH.IT.Hljodrit.Models;
 
 namespace SFH.IT.Hljodrit.Common.Dto
 {
     public class PersonExtendedDto: PersonDto
     {
+        public PersonExtendedDto(party_real person) : base(person)
+        {
+            Ssn = person.uniqueidentifier;
+            DateOfBirth = person.dateofbirth;
+            Website = person.website;
+        }
+
+
         [JsonProperty(PropertyName = "ssn")]
         public string Ssn { get; set; }
 

@@ -1,10 +1,22 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using SFH.IT.Hljodrit.Models;
 
 namespace SFH.IT.Hljodrit.Common.Dto
 {
     public class PersonDto
     {
+        public PersonDto()
+        { }
+
+        public PersonDto(party_real person)
+        {
+            Id = person.id;
+            Fullname = person.fullname;
+            PostalAddressLine1 = person.postaladdressline1;
+            ZipCode = person.zipcode;
+            Area = person.area;
+        }
+
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
 

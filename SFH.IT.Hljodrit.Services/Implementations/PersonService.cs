@@ -25,12 +25,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
             var personList = persons.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-            return new PersonEnvelope()
-            {
-                MaximumPage = maximumPages,
-                CurrentPage = pageNumber,
-                Persons = personList
-            };
+            return new PersonEnvelope(pageNumber, maximumPages, personList);
         }
 
         public PersonEnvelope GetPerformers(int pageSize, int pageNumber, string searchTerm = null)
@@ -57,9 +52,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return personEnvelope; 
         }
 
-        public PersonDto GetPersonById(int personId)
+        public PersonExtendedDto GetPersonById(int personId)
         {
-            return _partyRealRepository.GetPersonById(personId);    
+            var person = _partyRealRepository.GetById(personId);
+
+            return new PersonExtendedDto(person);
         }
     }
 }

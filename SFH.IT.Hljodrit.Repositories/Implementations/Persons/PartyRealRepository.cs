@@ -18,7 +18,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
         {
             var performers = DbContext.project_track_artist.Where(expression).Join(DbContext.party_real,
                 projectTrackArtist=> projectTrackArtist.partyrealid,
-                partyReal => partyReal.id, (projectTrackArtist, partyReal) => new PersonDto
+                partyReal => partyReal.id, (projectTrackArtist, partyReal) => new PersonDto()
                 {
                     Id = partyReal.id,
                     Fullname = partyReal.fullname,
@@ -44,24 +44,6 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
             }).OrderBy(person => person.Fullname);
 
             return persons;
-        }
-
-        public PersonExtendedDto GetPersonById(int personId)
-        {
-            var resultPerson = DbContext.party_real.Where(person => person.id == personId).Select(person => new PersonExtendedDto
-            {
-                Id = person.id,
-                Fullname = person.fullname,
-                PostalAddressLine1 = person.postaladdressline1,
-                ZipCode = person.zipcode,
-                Area = person.area,
-                Ssn = person.uniqueidentifier,
-                DateOfBirth = person.dateofbirth,
-                Website = person.website
-
-            }).SingleOrDefault();
-
-            return resultPerson;
         }
     }
 }
