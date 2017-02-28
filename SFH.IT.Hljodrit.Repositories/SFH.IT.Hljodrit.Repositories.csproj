@@ -60,6 +60,10 @@
     <Compile Include="Base\IUnitOfWork.cs" />
     <Compile Include="Base\RepositoryBase.cs" />
     <Compile Include="Base\UnitOfWork.cs" />
+    <Compile Include="Implementations\Instruments\InstrumentRepository.cs" />
+    <Compile Include="Implementations\Persons\PartyRealRepository.cs" />
+    <Compile Include="Interfaces\Instruments\IInstrumentRepository.cs" />
+    <Compile Include="Interfaces\Persons\IPartyRealRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Implementations\Project\ProjectTrackRepository.cs" />
     <Compile Include="Implementations\Project\ProjectStatusRepository.cs" />
@@ -74,6 +78,10 @@
     <Compile Include="Implementations\Project\ProjectMasterRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SFH.IT.Hljodrit.Common\SFH.IT.Hljodrit.Common.csproj">
+      <Project>{A1574B0B-6421-49C5-80DE-64EED3CF8EB5}</Project>
+      <Name>SFH.IT.Hljodrit.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SFH.IT.Hljodrit.Models\SFH.IT.Hljodrit.Models.csproj">
       <Project>{61C88994-39A2-42DC-A764-19B38E6EAB5D}</Project>
       <Name>SFH.IT.Hljodrit.Models</Name>
