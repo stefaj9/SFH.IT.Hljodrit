@@ -10,7 +10,7 @@ import Paging from './paging';
 class PeopleListModal extends React.Component {
     componentWillMount() {
         const { pageSize, pageNumber, searchQuery } = this.state;
-        //this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
+        this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
     }
     constructor() {
         super();
