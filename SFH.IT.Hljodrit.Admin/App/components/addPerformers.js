@@ -11,66 +11,12 @@ export default class AddPerformers extends React.Component {
         this.state = {
             addPerformerModalIsOpen: false,
             selectedSong: -1,
-            allPerformers: [
-                {
-                    songId: 1,
-                    performers: [
-                        {
-                            name: 'Arnar Leifsson',
-                            instrument: 'Básúna',
-                            role: 'Aðalflytjandi'
-                        },
-                        {
-                            name: 'Baldur Tryggvason',
-                            instrument: 'Gítar',
-                            role: 'Hljómsveitarmeðlimur'
-                        },
-                        {
-                            name: 'Björgvin Birkir Björgvinsson',
-                            instrument: 'Hljómborð',
-                            role: 'Hljómsveitarmeðlimur'
-                        },
-                    ]
-                },
-                {
-                    songId: 2,
-                    performers: [
-                        {
-                            name: 'Barki Skaftason',
-                            instrument: 'Básúna',
-                            role: 'Aðalflytjandi'
-                        },
-                        {
-                            name: 'Baldur Tryggvason',
-                            instrument: 'Gítar',
-                            role: 'Hljómsveitarmeðlimur'
-                        },
-                        {
-                            name: 'Björgvin Birkir Björgvinsson',
-                            instrument: 'Hljómborð',
-                            role: 'Hljómsveitarmeðlimur'
-                        },
-                    ]
-                },
-                {
-                    songId: 3,
-                    performers: [
-                        {
-                            name: 'Barki Skaftason',
-                            instrument: 'Básúna',
-                            role: 'Aðalflytjandi'
-                        }
-                    ]
-                }
-            ]
+            allPerformers: []
         };
     }
     renderSongs() {
         return this.props.songs.map((song, idx) => {
-            let currentSong = _.find(this.state.allPerformers, (item) => {
-                return item.songId === song.number;
-            });
-            let displayPerformers = currentSong.performers.map((performer, idx) => {
+            let displayPerformers = song.performers.map((performer, idx) => {
                 return (
                     <tr key={`${song.number}-${performer.name}-${performer.role}`}>
                         <td>{performer.name}</td>
@@ -84,7 +30,7 @@ export default class AddPerformers extends React.Component {
                     </tr>
                 );
             });
-            let containsPerformers = currentSong.performers.length > 0;
+            let containsPerformers = song.performers.length > 0;
             return (
                 <Panel 
                     key={`${song.name}-${song.number}`}

@@ -20,7 +20,7 @@ class Main extends React.Component {
                     <ReduxToastr 
                         timeOut={4000}
                         newestOnTop={true}
-                        preventDuplicates={true}
+                        preventDuplicates={false}
                         position="top-right"
                         transitionIn="fadeIn"
                         transitionOut="fadeOut"

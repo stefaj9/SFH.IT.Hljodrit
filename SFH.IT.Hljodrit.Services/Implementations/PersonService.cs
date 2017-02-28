@@ -19,8 +19,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         private PersonEnvelope CreateEnvelope(IEnumerable<PersonDto> persons, int pageSize, int pageNumber)
         {
-            decimal maxPage = persons.Count() / (decimal)pageSize;
-            var maximumPages = (int)Math.Ceiling(maxPage);
+            var maximumPages = (int)Math.Ceiling(persons.Count() / (decimal)pageSize);
 
             var personList = persons.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 

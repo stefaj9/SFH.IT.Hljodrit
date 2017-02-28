@@ -9,13 +9,13 @@ let initialState = {
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case 'GET_PERSONS_BY_CRITERIA': Object.assign({}, state, {
+        case 'GET_PERSONS_BY_CRITERIA': return Object.assign({}, state, {
             personEnvelope: action.payload
         });
-        case 'IS_FETCHING_PERSONS': Object.assign({}, state, {
+        case 'IS_FETCHING_PERSONS': return Object.assign({}, state, {
             isFetching: true
         });
-        case 'HAS_STOPPED_FETCHING_PERSONS': Object.assign({}, state, {
+        case 'HAS_STOPPED_FETCHING_PERSONS': return Object.assign({}, state, {
             isFetching: false
         });
     }

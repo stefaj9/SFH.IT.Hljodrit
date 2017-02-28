@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch';
 export function getPersonsByCriteria(pageSize, pageNumber, searchQuery) {
     return (dispatch) => {
         dispatch(isFetchingPersons());
-        return fetch(`api/persons?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchQuery}`, {
+        return fetch(`/api/persons?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchQuery}`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {
@@ -12,8 +12,8 @@ export function getPersonsByCriteria(pageSize, pageNumber, searchQuery) {
                 dispatch(hasStoppedFetchingPersons());
             }
         }).then((data) => {
-            dispatch(hasStoppedFetchingPersons());
             dispatch(getPersonsByCriteriaSuccess(data));
+            dispatch(hasStoppedFetchingPersons());
         });
     };
 }

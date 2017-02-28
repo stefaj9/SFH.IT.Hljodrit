@@ -8,12 +8,8 @@ export default class AddSong extends React.Component {
         super();
 
         this.state = {
-            songs: [
-                { number: 1, name: 'Rylan', length: '5:43', isrc: '-', performers: [] },
-                { number: 2, name: 'Magic', length: '5:43', isrc: '-', performers: [] },
-                { number: 3, name: 'Majestic', length: '5:43', isrc: '-', performers: [] }
-            ],
-            lastSongNumber: 3,
+            songs: [],
+            lastSongNumber: 0,
             currentSongName: '',
             currentSongLength: ''
         };
