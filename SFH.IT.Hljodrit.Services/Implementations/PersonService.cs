@@ -33,25 +33,25 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             };
         }
 
-        public PersonEnvelope GetAllPerformers(int pageSize, int pageNumber, string searchTerm)
+        public PersonEnvelope GetPerformers(int pageSize, int pageNumber, string searchTerm = null)
         {
-            var performers = _partyRealRepository.GetAllPersons(p => p.rolecode != ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
+            var performers = _partyRealRepository.GetPersons(p => p.rolecode != ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
             var performersEnvelope =  CreateEnvelope(performers, pageSize, pageNumber);
 
             return performersEnvelope;
         }
 
-        public PersonEnvelope GetAllProducers(int pageSize, int pageNumber, string searchTerm)
+        public PersonEnvelope GetProducers(int pageSize, int pageNumber, string searchTerm = null)
         {
-            var producers = _partyRealRepository.GetAllPersons(p => p.rolecode == ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
+            var producers = _partyRealRepository.GetPersons(p => p.rolecode == ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
             var producersEnvelope = CreateEnvelope(producers, pageSize, pageNumber);
 
             return producersEnvelope;
         }
 
-        public PersonEnvelope GetAllPersons(int pageSize, int pageNumber, string searchTerm)
+        public PersonEnvelope GetPersons(int pageSize, int pageNumber, string searchTerm = null)
         {
-            var persons = _partyRealRepository.GetAllPersons(searchTerm);
+            var persons = _partyRealRepository.GetPersons(searchTerm);
             var personEnvelope = CreateEnvelope(persons, pageSize, pageNumber);
             
             return personEnvelope; 

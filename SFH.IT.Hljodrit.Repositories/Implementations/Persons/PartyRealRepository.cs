@@ -14,7 +14,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
         public PartyRealRepository(IDbFactory dbFactory)
             : base(dbFactory) { }
 
-        public IEnumerable<PersonDto> GetAllPersons(Expression<Func<project_track_artist, bool>> expression, string searchTerm)
+        public IEnumerable<PersonDto> GetPersons(Expression<Func<project_track_artist, bool>> expression, string searchTerm)
         {
             var performers = DbContext.project_track_artist.Where(expression).Join(DbContext.party_real,
                 projectTrackArtist=> projectTrackArtist.partyrealid,
@@ -31,7 +31,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
             return performers;
         }
 
-        public IEnumerable<PersonDto> GetAllPersons(string searchTerm)
+        public IEnumerable<PersonDto> GetPersons(string searchTerm)
         {
             var persons = DbContext.party_real.Where(
                 partyReal => partyReal.fullname.Contains(searchTerm)).Select(person => new PersonDto()

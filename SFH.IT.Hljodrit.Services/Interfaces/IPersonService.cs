@@ -4,9 +4,9 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
 {
     public interface IPersonService
     {
-        PersonEnvelope GetAllPerformers(int pageSize, int pageNumber, string searchTerm);
-        PersonEnvelope GetAllProducers(int pageSize, int pageNumber, string searchTerm);
-        PersonEnvelope GetAllPersons(int pageSize, int pageNumber, string searchTerm);
+        PersonEnvelope GetPerformers(int pageSize, int pageNumber, string searchTerm);
+        PersonEnvelope GetProducers(int pageSize, int pageNumber, string searchTerm);
+        PersonEnvelope GetPersons(int pageSize, int pageNumber, string searchTerm);
         PersonDto GetPersonById(int personId);
     }
 }
