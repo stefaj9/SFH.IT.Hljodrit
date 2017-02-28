@@ -46,15 +46,19 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
             return persons;
         }
 
-        public PersonDto GetPersonById(int personId)
+        public PersonExtendedDto GetPersonById(int personId)
         {
-            var resultPerson = DbContext.party_real.Where(person => person.id == personId).Select(person => new PersonDto
+            var resultPerson = DbContext.party_real.Where(person => person.id == personId).Select(person => new PersonExtendedDto
             {
                 Id = person.id,
                 Fullname = person.fullname,
                 PostalAddressLine1 = person.postaladdressline1,
                 ZipCode = person.zipcode,
-                Area = person.area
+                Area = person.area,
+                Ssn = person.uniqueidentifier,
+                DateOfBirth = person.dateofbirth,
+                Website = person.website
+
             }).SingleOrDefault();
 
             return resultPerson;
