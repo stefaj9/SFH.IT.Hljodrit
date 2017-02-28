@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
-using SFH.IT.Hljodrit.Repositories.Interfaces.Performers;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
 {
@@ -26,9 +26,24 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
                     ZipCode = partyReal.zipcode,
                     Area = partyReal.area
                     
-                }).Distinct().OrderBy(person => person.Fullname).ToList();
+                }).Distinct();
 
             return performers;
+        }
+
+        public IEnumerable<PersonDto> GetAllPersons(string searchTerm)
+        {
+            var persons = DbContext.party_real.Where(
+                partyReal => partyReal.fullname.Contains(searchTerm)).Select(person => new PersonDto()
+            {
+                Id = person.id,
+                Fullname = person.fullname,
+                PostalAddressLine1 = person.postaladdressline1,
+                ZipCode = person.zipcode,
+                Area = person.area
+            });
+
+            return persons;
         }
     }
 }

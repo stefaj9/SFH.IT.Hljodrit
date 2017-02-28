@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SFH.IT.Hljodrit.Common.Dto;
+﻿using SFH.IT.Hljodrit.Common.Dto;
 
 namespace SFH.IT.Hljodrit.Services.Interfaces
 {

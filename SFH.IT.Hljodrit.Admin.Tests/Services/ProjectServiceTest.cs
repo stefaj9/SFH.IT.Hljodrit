@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FizzWare.NBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFH.IT.Hljodrit.Services.Interfaces;
 using Moq;
-using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 using SFH.IT.Hljodrit.Models;
@@ -41,8 +35,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _projectMasterRepository.Setup(p => p.GetAll())
                 .Returns(masterProjects);
 
-            var projectService = new ProjectService(_projectUserRepository, _projectTrackRepository, _projectTrackArtistRepository,
-                _projectStatusRepository, _projectMasterRepository.Object, _unitOfWork);
+            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork);
 
             // Act
             var projects = projectService.GetAllProjects(25, 1, true, true, true);
