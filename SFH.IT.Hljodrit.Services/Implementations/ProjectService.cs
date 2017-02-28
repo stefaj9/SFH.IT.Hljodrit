@@ -34,6 +34,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public ProjectEnvelope GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved)
         {
+			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
+
             decimal maxPage = _projectMasterRepository.GetProjectMasterCount() / pageSize;
             var maximumPages = (int) Math.Ceiling(maxPage);
             return new ProjectEnvelope

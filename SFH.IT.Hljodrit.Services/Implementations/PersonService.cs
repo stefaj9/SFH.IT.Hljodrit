@@ -19,7 +19,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public PersonEnvelope GetAllPerformers(int pageSize, int pageNumber)
         {
-            var performers = _partyRealRepository.GetAllPersons(p => p.rolecode != ProducerRoleCode);
+			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
+
+			var performers = _partyRealRepository.GetAllPersons(p => p.rolecode != ProducerRoleCode);
 
             decimal maxPage = performers.Count() / pageSize;
             var maximumPages = (int)Math.Ceiling(maxPage);
@@ -36,7 +38,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public PersonEnvelope GetAllProducers(int pageSize, int pageNumber)
         {
-            var producers = _partyRealRepository.GetAllPersons(p => p.rolecode == ProducerRoleCode);
+			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
+
+			var producers = _partyRealRepository.GetAllPersons(p => p.rolecode == ProducerRoleCode);
              
             decimal maxPage = producers.Count() / pageSize;
             var maximumPages = (int)Math.Ceiling(maxPage);
