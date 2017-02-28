@@ -36,14 +36,13 @@ export default function (state = initialState, action) {
             }
         });
         case 'UPDATE_PROJECT_SONGS': 
-            let performers = state.songs.performers;
             return Object.assign({}, state, {
-            selectedProject: {
-                basicInfo: state.selectedProject.basicInfo,
-                songs: action.payload,
-                producers: state.selectedProject.producers
-            }
-        });
+                selectedProject: {
+                    basicInfo: state.selectedProject.basicInfo,
+                    songs: action.payload,
+                    producers: state.selectedProject.producers
+                }
+            });
         case 'UPDATE_PROJECT_PERFORMERS': 
             let newSongs = _.cloneDeep(state.selectedProject.songs);
             _.forEach(action.payload, (performers) => {
