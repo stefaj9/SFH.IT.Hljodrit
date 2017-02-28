@@ -35,7 +35,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public PersonEnvelope GetAllPerformers(int pageSize, int pageNumber, string searchTerm)
         {
-            var performers = _partyRealRepository.GetAllPersons(p => p.rolecode != ProducerRoleCode).OrderBy(person => person.Fullname);
+            var performers = _partyRealRepository.GetAllPersons(p => p.rolecode != ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
             var performersEnvelope =  CreateEnvelope(performers, pageSize, pageNumber);
 
             return performersEnvelope;
@@ -43,7 +43,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public PersonEnvelope GetAllProducers(int pageSize, int pageNumber, string searchTerm)
         {
-            var producers = _partyRealRepository.GetAllPersons(p => p.rolecode == ProducerRoleCode).OrderBy(person => person.Fullname);
+            var producers = _partyRealRepository.GetAllPersons(p => p.rolecode == ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
             var producersEnvelope = CreateEnvelope(producers, pageSize, pageNumber);
 
             return producersEnvelope;

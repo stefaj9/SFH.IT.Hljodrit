@@ -14,7 +14,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
         public PartyRealRepository(IDbFactory dbFactory)
             : base(dbFactory) { }
 
-        public IEnumerable<PersonDto> GetAllPersons(Expression<Func<project_track_artist, bool>> expression)
+        public IEnumerable<PersonDto> GetAllPersons(Expression<Func<project_track_artist, bool>> expression, string searchTerm)
         {
             var performers = DbContext.project_track_artist.Where(expression).Join(DbContext.party_real,
                 projectTrackArtist=> projectTrackArtist.partyrealid,
@@ -26,7 +26,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
                     ZipCode = partyReal.zipcode,
                     Area = partyReal.area
                     
-                }).Distinct();
+                }).Distinct().Where(person => person.Fullname.Contains(searchTerm));
 
             return performers;
         }
