@@ -35,8 +35,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _projectMasterRepository.Setup(p => p.GetAll())
                 .Returns(masterProjects);
 
-            var projectService = new ProjectService(_projectUserRepository, _projectTrackRepository, _projectTrackArtistRepository,
-                _projectStatusRepository, _projectMasterRepository.Object, _unitOfWork);
+            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork);
 
             // Act
             var projects = projectService.GetAllProjects(25, 1, true, true, true, "");

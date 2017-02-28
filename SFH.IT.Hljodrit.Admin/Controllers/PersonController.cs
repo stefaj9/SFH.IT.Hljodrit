@@ -1,6 +1,4 @@
-﻿using System;
-using System.Web.Http;
-using SFH.IT.Hljodrit.Services.Implementations;
+﻿using System.Web.Http;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
@@ -17,17 +15,30 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpGet]
         [Route("performers")]
-        public IHttpActionResult GetAllPerformers([FromUri] int pageSize, [FromUri] int pageNumber)
+        public IHttpActionResult GetAllPerformers([FromUri] int pageSize, [FromUri] int pageNumber, string searchTerm = "")
         {
-            return Ok(_personService.GetAllPerformers(pageSize, pageNumber));
+            return Ok(_personService.GetAllPerformers(pageSize, pageNumber, searchTerm));
         }
 
         [HttpGet]
         [Route("producers")]
-        public IHttpActionResult GetAllProducers([FromUri] int pageSize, [FromUri] int pageNumber)
+        public IHttpActionResult GetAllProducers([FromUri] int pageSize, [FromUri] int pageNumber, string searchTerm = "")
         {
-            return Ok(_personService.GetAllProducers(pageSize, pageNumber));
+            return Ok(_personService.GetAllProducers(pageSize, pageNumber, searchTerm));
         }
 
+        [HttpGet]
+        [Route("persons")]
+        public IHttpActionResult GetAllPersons([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm = "")
+        {
+            return Ok(_personService.GetAllPersons(pageSize, pageNumber, searchTerm));
+        }
+
+        [HttpGet]
+        [Route("persons/{personId}")]
+        public IHttpActionResult GetPersonById(int personId)
+        {
+            return Ok(_personService.GetPersonById(personId));
+        }
     }
 }
