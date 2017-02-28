@@ -41,7 +41,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
                 PostalAddressLine1 = person.postaladdressline1,
                 ZipCode = person.zipcode,
                 Area = person.area
-            });
+            }).OrderBy(person => person.Fullname);
 
             return persons;
         }
