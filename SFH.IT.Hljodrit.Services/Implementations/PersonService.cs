@@ -19,6 +19,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         private PersonEnvelope CreateEnvelope(IEnumerable<PersonDto> persons, int pageSize, int pageNumber)
         {
+            persons = persons.ToList();
             decimal maxPage = persons.Count() / (decimal)pageSize;
             var maximumPages = (int)Math.Ceiling(maxPage);
 
@@ -34,7 +35,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public PersonEnvelope GetAllPerformers(int pageSize, int pageNumber, string searchTerm)
         {
-            var performers = _partyRealRepository.GetAllPersons(p => p.rolecode != ProducerRoleCode).OrderBy(person => person.Fullname).ToList();
+            var performers = _partyRealRepository.GetAllPersons(p => p.rolecode != ProducerRoleCode).OrderBy(person => person.Fullname);
             var performersEnvelope =  CreateEnvelope(performers, pageSize, pageNumber);
 
             return performersEnvelope;
@@ -42,7 +43,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public PersonEnvelope GetAllProducers(int pageSize, int pageNumber, string searchTerm)
         {
-            var producers = _partyRealRepository.GetAllPersons(p => p.rolecode == ProducerRoleCode).OrderBy(person => person.Fullname).ToList();
+            var producers = _partyRealRepository.GetAllPersons(p => p.rolecode == ProducerRoleCode).OrderBy(person => person.Fullname);
             var producersEnvelope = CreateEnvelope(producers, pageSize, pageNumber);
 
             return producersEnvelope;
@@ -50,24 +51,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public PersonEnvelope GetAllPersons(int pageSize, int pageNumber, string searchTerm)
         {
-            IEnumerable<PersonDto> persons;
-
-            if (searchTerm != "")
-            {
-                persons = _partyRealRepository.GetAllPersons(searchTerm).ToList();
-            }
-            else
-            {
-                persons = _partyRealRepository.GetAll().Select(person => new PersonDto()
-                {
-                    Id = person.id,
-                    Fullname = person.fullname,
-                    PostalAddressLine1 = person.postaladdressline1,
-                    ZipCode = person.zipcode,
-                    Area = person.area
-                }).ToList().OrderBy(person => person.Fullname);
-            }
-
+            var persons = _partyRealRepository.GetAllPersons(searchTerm);
             var personEnvelope = CreateEnvelope(persons, pageSize, pageNumber);
             
             return personEnvelope; 

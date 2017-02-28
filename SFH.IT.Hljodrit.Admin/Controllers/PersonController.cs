@@ -29,13 +29,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpGet]
         [Route("persons")]
-        public IHttpActionResult GetAllPersons([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm = "")
+        public IHttpActionResult GetAllPersons([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm)
         {
-            return Ok(_personService.GetAllPersons(pageSize, pageNumber, searchTerm));
+            return Ok(_personService.GetAllPersons(pageSize, pageNumber, searchTerm ?? ""));
         }
 
         [HttpGet]
-        [Route("persons/{personId}")]
+        [Route("persons/{personId:int}")]
         public IHttpActionResult GetPersonById(int personId)
         {
             return Ok(_personService.GetPersonById(personId));
