@@ -176,7 +176,6 @@ export default class AddPerformers extends React.Component {
                 <PeopleListModal 
                     isOpen={this.state.addPerformerModalIsOpen} 
                     update={(performer) => this.addPerformer(performer, this.state.selectedSong)}
-                    fetch={() => console.log('fetch')}
                     close={() => this.setState({ addPerformerModalIsOpen: false })}
                     title="Bæta við flytjanda" />
             </div>

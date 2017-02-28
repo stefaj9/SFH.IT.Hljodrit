@@ -1,5 +1,6 @@
 import React from 'react';
 import ModalSteps from './modalSteps';
+import { toastr } from 'react-redux-toastr';
 import _ from 'lodash';
 
 export default class AddSong extends React.Component {
@@ -33,6 +34,7 @@ export default class AddSong extends React.Component {
             lastSongNumber: lastSongNumber + 1,
             songs: newSongList
         });
+        toastr.success('Tókst!', 'Tókst að bæta við lagi');
     }
     removeSongFromList(e, songNumber) {
         e.preventDefault();
@@ -48,6 +50,7 @@ export default class AddSong extends React.Component {
             lastSongNumber: lastSongNumber - 1,
             songs: newSongList
         });
+        toastr.success('Tókst!', 'Tókst að fjarlægja lag');
     }
     renderSongs() {
         return this.state.songs.map((song) => {

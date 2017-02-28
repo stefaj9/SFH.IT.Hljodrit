@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchBar from './SearchBar';
+import SearchBar from './searchBar';
 import Filter from './filter';
 import PersonListView from './personListView';
 

@@ -1,29 +1,53 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Modal from 'react-modal';
+import PersonListView from './personListView';
+import SearchBar from './searchBar';
+import { getPersonsByCriteria } from '../actions/personActions';
+import PageSelector from './pageSelector';
+import Paging from './paging';
 
-export default class PeopleListModal extends React.Component {
-    componentWillReceiveProps(newProps) {
-        if (newProps.isOpen) {
-            // Fetches the data which is suppose to show in the modal
-            newProps.fetch();
-        }
+class PeopleListModal extends React.Component {
+    componentWillMount() {
+        const { pageSize, pageNumber, searchQuery } = this.state;
+        //this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
     }
     constructor() {
         super();
         this.state = {
             selectedPersons: [],
-            searchQuery: ''
+            searchQuery: '',
+            pageNumber: 1,
+            pageSize: 25
         };
     }
     closeModal(e) {
         e.preventDefault();
         this.props.close();
     }
-    searchInList(e) {
-        e.preventDefault();
+    search(term) {
+        const { pageNumber, pageSize } = this.state;
+        this.props.getPersonsByCriteria(pageSize, pageNumber, term);
+        this.setState({
+            searchQuery: term
+        });
+    }
+    changePagesize(newPagesize) {
+        const { searchQuery, pageNumber } = this.state;
+        this.props.getPersonsByCriteria(newPagesize, pageNumber, searchQuery);
 
-        // TODO: Issue a search request
-    } 
+        this.setState({
+            pageSize: newPagesize
+        });
+    }
+    changePageNumber(newPageNumber) {
+        const { searchQuery, pageSize } = this.state;
+        this.props.getPersonsByCriteria(pageSize, newPageNumber, searchQuery);
+
+        this.setState({
+            pageNumber: newPageNumber
+        });
+    }
     render() {
         return (
             <Modal 
@@ -42,20 +66,15 @@ export default class PeopleListModal extends React.Component {
                             </span>
                         </div>
                         <div className="modal-body">
-                            <form action="" onSubmit={(e) => this.searchInList(e)}>
-                                <div className="input-group">
-                                    <input 
-                                        type="text" 
-                                        placeholder="Leita.." 
-                                        className="form-control"
-                                        value={this.state.searchQuery}
-                                        onChange={(e) => this.setState({ searchQuery: e.target.value })} />
-                                    <span className="input-group-addon">
-                                        <i className="fa fa-search"></i>
-                                    </span>
-                                    <input type="submit" className="hidden" />
-                                </div>
-                            </form>
+                            <SearchBar searchBy={(term) => this.search(term)} />
+                            <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
+                            <PersonListView persons={this.props.persons} isFetching={this.props.isFetchingPersons} />
+                            <Paging 
+                                visible={!this.props.isFetchingPersons}
+                                currentPage={this.props.currentPage} 
+                                maximumPage={this.props.maximumPage}
+                                changePage={(newPageNumber) => this.changePageNumber(newPageNumber)}
+                                />
                         </div>
                     </div>
                 </div>
@@ -63,3 +82,14 @@ export default class PeopleListModal extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        persons: state.person.personEnvelope.persons,
+        isFetchingPersons: state.person.isFetching,
+        currentPage: state.person.personEnvelope.currentPage,
+        maximumPage: state.person.personEnvelope.maximumPage
+    };
+};
+
+export default connect(mapStateToProps, { getPersonsByCriteria })(PeopleListModal);

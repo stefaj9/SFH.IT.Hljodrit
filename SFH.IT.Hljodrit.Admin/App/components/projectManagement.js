@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import SearchBar from './SearchBar';
+import SearchBar from './searchBar';
 import { getAllProjects } from '../actions/projectActions';
 import Filter from './filter';
 import ProjectListView from './projectListView';
