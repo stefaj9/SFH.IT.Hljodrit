@@ -33,5 +33,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         {
             return Ok(_personService.GetAllPersons(pageSize, pageNumber, searchTerm));
         }
+
+        [HttpGet]
+        [Route("persons/{personId}")]
+        public IHttpActionResult GetPersonById(int personId)
+        {
+            return Ok(_personService.GetPersonById(personId));
+        }
     }
 }

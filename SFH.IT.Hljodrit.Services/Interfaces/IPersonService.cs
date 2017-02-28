@@ -7,5 +7,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         PersonEnvelope GetAllPerformers(int pageSize, int pageNumber, string searchTerm);
         PersonEnvelope GetAllProducers(int pageSize, int pageNumber, string searchTerm);
         PersonEnvelope GetAllPersons(int pageSize, int pageNumber, string searchTerm);
+        PersonDto GetPersonById(int personId);
     }
 }

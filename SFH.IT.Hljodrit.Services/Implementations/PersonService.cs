@@ -17,38 +17,35 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _partyRealRepository = partyRealRepository;
         }
 
-        public PersonEnvelope GetAllPerformers(int pageSize, int pageNumber, string searchTerm)
+        private PersonEnvelope CreateEnvelope(IEnumerable<PersonDto> persons, int pageSize, int pageNumber)
         {
-            var performers = _partyRealRepository.GetAllPersons(p => p.rolecode != ProducerRoleCode).OrderBy(person => person.Fullname).ToList();
-
-            decimal maxPage = performers.Count() / pageSize;
+            decimal maxPage = persons.Count() / (decimal)pageSize;
             var maximumPages = (int)Math.Ceiling(maxPage);
 
-            var performerList = performers.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            var personList = persons.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-            return new PersonEnvelope
+            return new PersonEnvelope()
             {
                 MaximumPage = maximumPages,
                 CurrentPage = pageNumber,
-                Persons = performerList
+                Persons = personList
             };
+        }
+
+        public PersonEnvelope GetAllPerformers(int pageSize, int pageNumber, string searchTerm)
+        {
+            var performers = _partyRealRepository.GetAllPersons(p => p.rolecode != ProducerRoleCode).OrderBy(person => person.Fullname).ToList();
+            var performersEnvelope =  CreateEnvelope(performers, pageSize, pageNumber);
+
+            return performersEnvelope;
         }
 
         public PersonEnvelope GetAllProducers(int pageSize, int pageNumber, string searchTerm)
         {
             var producers = _partyRealRepository.GetAllPersons(p => p.rolecode == ProducerRoleCode).OrderBy(person => person.Fullname).ToList();
-             
-            decimal maxPage = producers.Count() / pageSize;
-            var maximumPages = (int)Math.Ceiling(maxPage);
+            var producersEnvelope = CreateEnvelope(producers, pageSize, pageNumber);
 
-            var producerList = producers.Skip((pageNumber - 1) * pageSize).Take(pageSize);
-
-            return new PersonEnvelope
-            {
-                MaximumPage = maximumPages,
-                CurrentPage = pageNumber,
-                Persons = producerList
-            };
+            return producersEnvelope;
         }
 
         public PersonEnvelope GetAllPersons(int pageSize, int pageNumber, string searchTerm)
@@ -70,18 +67,15 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     Area = person.area
                 }).ToList().OrderBy(person => person.Fullname);
             }
+
+            var personEnvelope = CreateEnvelope(persons, pageSize, pageNumber);
             
-            decimal maxPage = persons.Count() / pageSize;
-            var maximumPages = (int)Math.Ceiling(maxPage);
+            return personEnvelope; 
+        }
 
-            var personList = persons.Skip((pageNumber - 1) * pageSize).Take(pageSize);
-
-            return new PersonEnvelope()
-            {
-                MaximumPage = maximumPages,
-                CurrentPage = pageNumber,
-                Persons = personList
-            };
+        public PersonDto GetPersonById(int personId)
+        {
+            return _partyRealRepository.GetPersonById(personId);    
         }
     }
 }
