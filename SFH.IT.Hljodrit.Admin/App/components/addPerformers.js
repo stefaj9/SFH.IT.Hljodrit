@@ -2,20 +2,27 @@ import React from 'react';
 import ModalSteps from './modalSteps';
 import { PanelGroup, Panel } from 'react-bootstrap';
 import PeopleListModal from './peopleListModal';
+import { toastr } from 'react-redux-toastr';
 import _ from 'lodash';
 
 export default class AddPerformers extends React.Component {
+    componentWillReceiveProps(newProps) {
+        console.log(newProps);
+        this.setState({
+            songs: newProps.songs
+        });
+    }
     constructor() {
         super();
 
         this.state = {
             addPerformerModalIsOpen: false,
             selectedSong: -1,
-            allPerformers: []
+            songs: []
         };
     }
     renderSongs() {
-        return this.props.songs.map((song, idx) => {
+        return this.state.songs.map((song, idx) => {
             let displayPerformers = song.performers.map((performer, idx) => {
                 return (
                     <tr key={`${song.number}-${performer.name}-${performer.role}`}>
@@ -64,25 +71,38 @@ export default class AddPerformers extends React.Component {
             selectedSong: songId
         });
     }
-    addPerformer(performer, songId) {
-        const { allPerformers } = this.state;
-        let allPerformersCopy = _.cloneDeep(allPerformers);
-        let song = _.find(allPerformersCopy, (item) => {
-            return item.songId === songId;
+    addPerformer(performer, number) {
+        const { songs } = this.state;
+        let songsCopy = _.cloneDeep(songs);
+        let song = _.find(songsCopy, (item) => {
+            return item.number === number;
         });
 
-        song.performers = _.concat(song.performers, performer);
+        if (song) {
+            // The song has already been added
+            song.performers = _.concat(song.performers, { name: performer.Fullname, instrument: '', role: '' });
+        } else {
+            songsCopy = _.concat(songsCopy, {
+                number: number,
+                name: song.name,
+                length: song.length,
+                isrc: song.isrc,
+                performers: [ { name: performer.Fullname, instrument: '', role: '' } ]
+            });
+        }
 
         this.setState({
-            allPerformers: allPerformersCopy,
+            songs: songsCopy,
             addPerformerModalIsOpen: false
         });
+
+        toastr.success('Tókst!', 'Það tókst að bæta við flytjanda á lagið');
     }
-    removePerformerFromSong(e, songId, performerNumber) {
+    removePerformerFromSong(e, number, performerNumber) {
         e.preventDefault();
-        let allSongs = _.cloneDeep(this.state.allPerformers);
+        let allSongs = _.cloneDeep(this.state.songs);
         let song = _.find(allSongs, (item) => {
-            return item.songId === songId;
+            return item.number === number;
         });
 
         _.remove(song.performers, (performer, idx) => {
@@ -90,11 +110,13 @@ export default class AddPerformers extends React.Component {
         });
 
         this.setState({
-            allPerformers: allSongs
+            songs: allSongs
         });
+
+        toastr.success('Tókst!', 'Það tókst að fjarlægja flytjanda af laginu');
     }
     canBeSubmitted() {
-        return this.state.allPerformers.length > 0 && _.every(this.state.allPerformers, (song) => {
+        return this.state.songs.length > 0 && _.every(this.state.songs, (song) => {
             return song.performers.length > 0;
         });
     }
@@ -116,7 +138,7 @@ export default class AddPerformers extends React.Component {
                     <button 
                         disabled={!this.canBeSubmitted()}
                         className="btn btn-default btn-primary" 
-                        onClick={() => this.props.next(this.state.allPerformers)}>Áfram
+                        onClick={() => this.props.next(this.state.songs)}>Áfram
                     </button>
                 </div>
                 <PeopleListModal 

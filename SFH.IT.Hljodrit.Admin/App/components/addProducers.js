@@ -9,12 +9,7 @@ export default class AddProducers extends React.Component {
 
         this.state = {
             isAddProducerModelOpen: false,
-            producers: [
-                {
-                    id: 1,
-                    name: 'Sena hf.'
-                }
-            ]
+            producers: []
         };
     }
     openAddProducerModal() {
@@ -25,7 +20,10 @@ export default class AddProducers extends React.Component {
     addProducer(producer) {
         const { producers } = this.state;
         let producersUpdated = _.cloneDeep(producers);
-        producersUpdated = _.concat(producersUpdated, producer);
+        producersUpdated = _.concat(producersUpdated, {
+            id: producer.Id,
+            name: producer.Fullname
+        });
 
         this.setState({
             producers: producersUpdated,
@@ -95,7 +93,7 @@ export default class AddProducers extends React.Component {
                 <PeopleListModal
                     isOpen={isAddProducerModelOpen}
                     close={() => this.setState({ isAddProducerModelOpen: false })}
-                    fetch={() => console.log('fetch producers')}
+                    update={(producer) => this.addProducer(producer)}
                     title="Bæta við framleiðanda"
                  />
             </div>

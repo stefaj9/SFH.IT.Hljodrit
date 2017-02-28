@@ -1,10 +1,9 @@
 import React from 'react';
 
 export default class PersonListItem extends React.Component {
-
     render() {
         return (
-            <div className="list well row">
+            <div className="list well row" onClick={() => this.props.add(this.props.person)}>
                 <div className="list-info col-md-6 col-xs-12">
                     <div className="list-name">
                         <div className="title">Nafn:</div>

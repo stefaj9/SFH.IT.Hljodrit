@@ -36,8 +36,8 @@ body {
 }
 .modal-dialog .modal-content {
   border-radius: 0;
-  min-height: 300px;
-  max-height: 700px;
+  min-height: 500px;
+  max-height: 600px;
   overflow-y: auto;
 }
 .modal-window {
@@ -190,6 +190,7 @@ label {
 .page-selector-wrapper {
     width: 100px;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .projects {
@@ -264,6 +265,9 @@ label {
 .list {
     border-radius: 0;
     margin-bottom: 5px;
+    &.selected {
+        background-color: rgba(0, 200, 0, 0.1);
+    }
     .list-info {
         .title {
             display: inline-block;

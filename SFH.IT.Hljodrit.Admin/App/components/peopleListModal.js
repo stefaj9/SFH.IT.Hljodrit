@@ -9,7 +9,6 @@ import Paging from './paging';
 
 class PeopleListModal extends React.Component {
     componentWillMount() {
-        console.log('mounting');
         const { pageSize, pageNumber, searchQuery } = this.state;
         this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
     }
@@ -25,6 +24,12 @@ class PeopleListModal extends React.Component {
     closeModal(e) {
         e.preventDefault();
         this.props.close();
+        this.setState({
+            selectedPersons: [],
+            searchQuery: '',
+            pageNumber: 1,
+            pageSize: 25
+        });
     }
     search(term) {
         const { pageNumber, pageSize } = this.state;
@@ -69,7 +74,11 @@ class PeopleListModal extends React.Component {
                         <div className="modal-body">
                             <SearchBar searchBy={(term) => this.search(term)} />
                             <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
-                            <PersonListView persons={this.props.persons} isFetching={this.props.isFetchingPersons} />
+                            <PersonListView 
+                                selected={this.state.selectedPersons}
+                                persons={this.props.persons} 
+                                isFetching={this.props.isFetchingPersons}
+                                add={(person) => this.props.update(person)} />
                             <Paging 
                                 visible={!this.props.isFetchingPersons}
                                 currentPage={this.props.currentPage} 
