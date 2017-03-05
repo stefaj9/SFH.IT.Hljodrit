@@ -7,7 +7,6 @@ import _ from 'lodash';
 
 export default class AddPerformers extends React.Component {
     componentWillReceiveProps(newProps) {
-        console.log(newProps);
         this.setState({
             songs: newProps.songs
         });
@@ -25,7 +24,7 @@ export default class AddPerformers extends React.Component {
         return this.state.songs.map((song, idx) => {
             let displayPerformers = song.performers.map((performer, idx) => {
                 return (
-                    <tr key={`${song.number}-${performer.name}-${performer.role}`}>
+                    <tr key={`${song.number}-${performer.id}-${performer.role}`}>
                         <td>{performer.name}</td>
                         <td>{performer.instrument}</td>
                         <td>{performer.role}</td>
@@ -78,16 +77,21 @@ export default class AddPerformers extends React.Component {
             return item.number === number;
         });
 
+        if (_.find(song.performers, (p) => { return p.id === performer.Id })) {
+            toastr.error('Villa!', 'Ekki er hægt að bæta við sama flytjanda oftar en einu sinni');
+            return;
+        }
+
         if (song) {
             // The song has already been added
-            song.performers = _.concat(song.performers, { name: performer.Fullname, instrument: '', role: '' });
+            song.performers = _.concat(song.performers, { id: performer.Id, name: performer.Fullname, instrument: '', role: '' });
         } else {
             songsCopy = _.concat(songsCopy, {
                 number: number,
                 name: song.name,
                 length: song.length,
                 isrc: song.isrc,
-                performers: [ { name: performer.Fullname, instrument: '', role: '' } ]
+                performers: [ { id: performer.Id, name: performer.Fullname, instrument: '', role: '' } ]
             });
         }
 

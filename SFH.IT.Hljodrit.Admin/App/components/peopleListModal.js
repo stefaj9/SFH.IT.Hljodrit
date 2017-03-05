@@ -1,105 +1,75 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import Modal from 'react-modal';
-import PersonListView from './personListView';
-import SearchBar from './searchBar';
-import { getPersonsByCriteria } from '../actions/personActions';
-import PageSelector from './pageSelector';
-import Paging from './paging';
+import SelectPersonModal from './selectPersonModal';
+import SelectInstrumentModal from './selectInstrumentModal';
+import SelectRoleModal from './selectRoleModal';
 
-class PeopleListModal extends React.Component {
-    componentWillMount() {
-        const { pageSize, pageNumber, searchQuery } = this.state;
-        this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
+export default class PeopleListModal extends React.Component {
+    componentWillReceiveProps(newProps) {
+        if (newProps.isOpen) {
+            this.openSelectPersonModal();
+        } else {
+            this.setState({
+                selectPersonModalOpen: false,
+                selectInstrumentModalOpen: false,
+                selectRoleModalOpen: false
+            });
+        }
     }
     constructor() {
         super();
         this.state = {
-            selectedPersons: [],
-            searchQuery: '',
-            pageNumber: 1,
-            pageSize: 25
+            selectPersonModalOpen: false,
+            selectInstrumentModalOpen: false,
+            selectRoleModalOpen: false
         };
     }
     closeModal(e) {
         e.preventDefault();
+        this.setState({
+            selectPersonModalOpen: false,
+            selectInstrumentModalOpen: false,
+            selectRoleModalOpen: false
+        });
         this.props.close();
+    }
+    openSelectPersonModal() {
         this.setState({
-            selectedPersons: [],
-            searchQuery: '',
-            pageNumber: 1,
-            pageSize: 25
+            selectPersonModalOpen: true,
+            selectInstrumentModalOpen: false,
+            selectRoleModalOpen: false
         });
     }
-    search(term) {
-        const { pageNumber, pageSize } = this.state;
-        this.props.getPersonsByCriteria(pageSize, pageNumber, term);
+    openSelectInstrumentModal() {
         this.setState({
-            searchQuery: term
+            selectPersonModalOpen: false,
+            selectInstrumentModalOpen: true,
+            selectRoleModalOpen: false
         });
     }
-    changePagesize(newPagesize) {
-        const { searchQuery, pageNumber } = this.state;
-        this.props.getPersonsByCriteria(newPagesize, pageNumber, searchQuery);
-
+    openSelectRoleModal() {
         this.setState({
-            pageSize: newPagesize
-        });
-    }
-    changePageNumber(newPageNumber) {
-        const { searchQuery, pageSize } = this.state;
-        this.props.getPersonsByCriteria(pageSize, newPageNumber, searchQuery);
-
-        this.setState({
-            pageNumber: newPageNumber
+            selectPersonModalOpen: false,
+            selectInstrumentModalOpen: false,
+            selectRoleModalOpen: true
         });
     }
     render() {
         return (
-            <Modal 
-                isOpen={this.props.isOpen}
-                contentLabel=""
-                className="modal-window"
-                overlayClass="modal-overlay">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h4>{this.props.title}</h4>
-                            <span className="top-corner">
-                                <a href="#" onClick={(e) => this.closeModal(e)}>
-                                    <i className="fa fa-times"></i>
-                                </a>
-                            </span>
-                        </div>
-                        <div className="modal-body">
-                            <SearchBar searchBy={(term) => this.search(term)} />
-                            <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
-                            <PersonListView 
-                                selected={this.state.selectedPersons}
-                                persons={this.props.persons} 
-                                isFetching={this.props.isFetchingPersons}
-                                add={(person) => this.props.update(person)} />
-                            <Paging 
-                                visible={!this.props.isFetchingPersons}
-                                currentPage={this.props.currentPage} 
-                                maximumPage={this.props.maximumPage}
-                                changePage={(newPageNumber) => this.changePageNumber(newPageNumber)}
-                                />
-                        </div>
-                    </div>
-                </div>
-            </Modal>
+            <div className={this.props.isOpen ? '' : 'hidden'}>
+                <SelectPersonModal
+                    isOpen={this.state.selectPersonModalOpen}
+                    close={(e) => this.closeModal(e)}
+                    next={() => this.openSelectInstrumentModal}
+                    update={ (person) => this.props.update(person) } />
+                <SelectInstrumentModal
+                    isOpen={this.state.selectInstrumentModalOpen}
+                    close={(e) => this.closeModal(e)}
+                    next={() => this.openSelectRoleModal()} />
+                <SelectRoleModal
+                    isOpen={this.state.selectRoleModalOpen}
+                    close={(e) => this.closeModal(e)}
+                    next={(e) => this.closeModal(e)} />
+            </div>
         );
     }
 }
-
-function mapStateToProps(state) {
-    return {
-        persons: state.person.personEnvelope.persons,
-        isFetchingPersons: state.person.isFetching,
-        currentPage: state.person.personEnvelope.currentPage,
-        maximumPage: state.person.personEnvelope.maximumPage
-    };
-};
-
-export default connect(mapStateToProps, { getPersonsByCriteria })(PeopleListModal);
