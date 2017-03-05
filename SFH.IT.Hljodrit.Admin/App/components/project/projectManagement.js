@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import SearchBar from './searchBar';
-import { getAllProjects } from '../actions/projectActions';
-import Filter from './filter';
+import SearchBar from '../common/searchBar';
+import { getAllProjects } from '../../actions/projectActions';
+import Filter from '../common/filter';
 import ProjectListView from './projectListView';
-import PageSelector from './pageSelector';
-import Paging from './paging';
+import PageSelector from '../common/pageSelector';
+import Paging from '../common/paging';
 
 class ProjectManagement extends React.Component {
     componentWillMount() {

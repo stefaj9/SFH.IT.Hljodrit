@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalSteps from './modalSteps';
+import ModalSteps from '../common/modalSteps';
 import { toastr } from 'react-redux-toastr';
 import _ from 'lodash';
 
@@ -73,6 +73,7 @@ export default class AddSong extends React.Component {
                 <form action="">
                     <div className="form-group">
                         <input 
+                            autoFocus={true}
                             type="text" 
                             placeholder="Skráðu inn nafn lags.." 
                             className="form-control" 

@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ModalSteps from './modalSteps';
+import ModalSteps from '../common/modalSteps';
+import _ from 'lodash';
 
 class OverviewProject extends React.Component {
     renderPerformers(performers) {
         return performers.map((performer) => {
-            const { name, instrument, role } = performer;
+            const { id, name, instruments, role } = performer;
+            let renderInstrument = _.join(instruments, ', ');
             return (
-                <tr key={`${name}-${instrument}-${role}`}>
+                <tr key={`${name}-${id}-${role}`}>
                     <td>{name}</td>
-                    <td>{instrument}</td>
+                    <td>{renderInstrument}</td>
                     <td>{role}</td>
                 </tr>
             );
@@ -91,7 +93,7 @@ class OverviewProject extends React.Component {
                     </button>
                     <button 
                         className="btn btn-default btn-primary" 
-                        onClick={() => this.props.next(this.state)}>
+                        onClick={() => this.props.next(this.props.project)}>
                         Staðfesta
                     </button>
                 </div>

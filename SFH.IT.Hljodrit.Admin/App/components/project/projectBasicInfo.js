@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalSteps from './modalSteps';
+import ModalSteps from '../common/modalSteps';
 
 export default class ProjectBasicInfo extends React.Component {
     constructor() {
@@ -37,6 +37,7 @@ export default class ProjectBasicInfo extends React.Component {
                     <div className="form-group">
                         <label htmlFor="project-name">Plötuheiti:</label>
                         <input 
+                            autoFocus={true}
                             type="text" 
                             value={this.state.projectName} 
                             onChange={(e) => this.setState({ projectName: e.target.value })} 

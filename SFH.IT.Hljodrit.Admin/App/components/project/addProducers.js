@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalSteps from './modalSteps';
+import ModalSteps from '../common/modalSteps';
 import _ from 'lodash';
 import SelectPersonModal from './selectPersonModal';
 
@@ -21,13 +21,12 @@ export default class AddProducers extends React.Component {
         const { producers } = this.state;
         let producersUpdated = _.cloneDeep(producers);
         producersUpdated = _.concat(producersUpdated, {
-            id: producer.Id,
-            name: producer.Fullname
+            id: producer.id,
+            name: producer.name
         });
 
         this.setState({
-            producers: producersUpdated,
-            isAddProducerModelOpen: false
+            producers: producersUpdated
         });
     }
     removeProducer(e, producerId) {
@@ -94,6 +93,7 @@ export default class AddProducers extends React.Component {
                     isOpen={isAddProducerModelOpen}
                     close={() => this.setState({ isAddProducerModelOpen: false })}
                     update={(producer) => this.addProducer(producer)}
+                    next={() => this.setState({ isAddProducerModelOpen: false })}
                     steps={() => { return ( <h4>Bæta við framleiðanda</h4> ) } }
                  />
             </div>

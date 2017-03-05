@@ -6,6 +6,7 @@ let initialState = {
         songs: [],
         producers: []
     },
+    instrumentSuggestions: [],
     projectEnvelope: {
         projects: [],
         currentPage: -1,
@@ -19,6 +20,11 @@ export default function (state = initialState, action) {
         case 'GET_ALL_PROJECTS': return Object.assign({}, state, {
             projectEnvelope: action.payload
         });
+        case 'GET_INSTRUMENT_SUGGESTIONS':
+            let instrumentSuggestions = _.map(action.payload, 'instrumentNameIcelandic');
+            return Object.assign({}, state, {
+                instrumentSuggestions: instrumentSuggestions
+            });
         case 'SELECT_PROJECT_WITH_ACTION': return Object.assign({}, state, {
             selectedProject: action.payload
         });

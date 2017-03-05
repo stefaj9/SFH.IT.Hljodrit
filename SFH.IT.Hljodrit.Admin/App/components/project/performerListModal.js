@@ -98,12 +98,12 @@ export default class PerformerListModal extends React.Component {
                     isOpen={this.state.selectPersonModalOpen}
                     close={(e) => this.closeModal(e)}
                     next={() => this.openSelectInstrumentModal()}
-                    currentPerformer={this.state.performer}
                     update={ (performer) => this.updatePerformer(performer) }
                     steps={ () => this.renderSteps(1) } />
                 <SelectInstrumentModal
                     isOpen={this.state.selectInstrumentModalOpen}
                     close={(e) => this.closeModal(e)}
+                    back={() => this.openSelectPersonModal()}
                     next={() => this.openSelectRoleModal()}
                     currentPerformer={this.state.performer}
                     update={(performer) => this.updatePerformer(performer)}
@@ -113,7 +113,8 @@ export default class PerformerListModal extends React.Component {
                     close={(e) => this.closeModal(e)}
                     currentPerformer={this.state.performer}
                     update={(performer) => this.updatePerformer(performer)}
-                    next={() => this.props.update(this.state.performer)}
+                    back={() => this.openSelectInstrumentModal()}
+                    next={(performer) => this.props.update(performer)}
                     steps={ () => this.renderSteps(3) } />
             </div>
         );

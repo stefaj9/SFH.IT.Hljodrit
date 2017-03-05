@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject } from '../actions/projectActions';
+import { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject } from '../../actions/projectActions';
 import { browserHistory } from 'react-router';
 import ProjectBasicInfo from './projectBasicInfo';
 import AddSong from './addSong';

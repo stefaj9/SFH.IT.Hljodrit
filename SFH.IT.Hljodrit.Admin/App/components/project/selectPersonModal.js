@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
-import { getPersonsByCriteria } from '../actions/personActions';
-import PersonListView from './personListView';
-import SearchBar from './searchBar';
-import PageSelector from './pageSelector';
-import Paging from './paging';
+import { getPersonsByCriteria } from '../../actions/personActions';
+import PersonListView from '../common/personListView';
+import SearchBar from '../common/searchBar';
+import PageSelector from '../common/pageSelector';
+import Paging from '../common/paging';
 
 class SelectPersonModal extends React.Component {
     componentWillReceiveProps(newProps) {
