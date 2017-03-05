@@ -67,7 +67,7 @@ class SelectPersonModal extends React.Component {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h4>Veldu flytjanda</h4>
+                            { this.props.steps() }
                             <span className="top-corner">
                                 <a href="#" onClick={(e) => this.props.close(e)}>
                                     <i className="fa fa-times"></i>
@@ -80,7 +80,7 @@ class SelectPersonModal extends React.Component {
                             <PersonListView
                                 persons={this.props.persons} 
                                 isFetching={this.props.isFetchingPersons}
-                                add={(person) => this.props.update(person)} />
+                                add={(person) => { this.props.update(person); this.props.next(); } } />
                             <Paging
                                 visible={!this.props.isFetchingPersons}
                                 currentPage={this.props.currentPage} 

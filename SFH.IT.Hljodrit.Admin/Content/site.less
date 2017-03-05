@@ -54,8 +54,8 @@ body {
         margin-bottom: 5px;
         padding-top: 10px;
         padding-bottom: 10px;
-        border-bottom: solid 1px rgba(155, 155, 155, 0.5);
-        border-top: solid 1px rgba(155, 155, 155, 0.5);
+        border-bottom: solid 1px @fadedGray;
+        border-top: solid 1px @fadedGray;
         background-color: rgba(155, 155, 155, .1);
         .confirmation-item-title {
             font-weight: bold;
@@ -221,6 +221,40 @@ label {
                 margin-bottom: 0 !important; 
             }
             
+        }
+    }
+}
+
+.modal-steps-wrapper {
+    text-align: center;
+    height: 80px;
+    .step {
+        position: relative;
+        top: 15px;
+        display: inline-block;
+        width: 150px;
+        &:after {
+            content: '';
+            border-bottom: solid 1px @fadedGray;
+            position: absolute;
+            width: 120px;
+            top: 10px;
+            left: 90px;
+        }
+        &:last-child:after {
+            content: '';
+            border-bottom: 0;
+        }
+        .fa {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.5em;
+        }
+        .fa-check-circle-o {
+            color: green;
+        }
+        .fa-circle-o {
+            color: @fadedGray;
         }
     }
 }

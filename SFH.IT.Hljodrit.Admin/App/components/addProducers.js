@@ -1,7 +1,7 @@
 import React from 'react';
 import ModalSteps from './modalSteps';
 import _ from 'lodash';
-import PeopleListModal from './peopleListModal';
+import SelectPersonModal from './selectPersonModal';
 
 export default class AddProducers extends React.Component {
     constructor() {
@@ -90,11 +90,11 @@ export default class AddProducers extends React.Component {
                         onClick={() => this.props.next(this.state.producers)}>Áfram
                     </button>
                 </div>
-                <PeopleListModal
+                <SelectPersonModal
                     isOpen={isAddProducerModelOpen}
                     close={() => this.setState({ isAddProducerModelOpen: false })}
                     update={(producer) => this.addProducer(producer)}
-                    title="Bæta við framleiðanda"
+                    steps={() => { return ( <h4>Bæta við framleiðanda</h4> ) } }
                  />
             </div>
         );

@@ -1,7 +1,7 @@
 import React from 'react';
 import ModalSteps from './modalSteps';
 import { PanelGroup, Panel } from 'react-bootstrap';
-import PeopleListModal from './peopleListModal';
+import PerformerListModal from './performerListModal';
 import { toastr } from 'react-redux-toastr';
 import _ from 'lodash';
 
@@ -22,14 +22,19 @@ export default class AddPerformers extends React.Component {
     }
     renderSongs() {
         return this.state.songs.map((song, idx) => {
-            let displayPerformers = song.performers.map((performer, idx) => {
+            let displayPerformers = song.performers.map((performer) => {
+                let instruments = performer.instruments.map((instrument) => {
+                    return (
+                        <div>{instrument.name}</div>
+                    );
+                });
                 return (
                     <tr key={`${song.number}-${performer.id}-${performer.role}`}>
                         <td>{performer.name}</td>
-                        <td>{performer.instrument}</td>
+                        <td>{instruments}</td>
                         <td>{performer.role}</td>
                         <td>
-                            <a href="#" onClick={(e) => this.removePerformerFromSong(e, song.number, idx)}>
+                            <a href="#" onClick={(e) => this.removePerformerFromSong(e, song.number, performer.id)}>
                                 <i className="fa fa-times"></i>
                             </a>
                         </td>
@@ -84,14 +89,14 @@ export default class AddPerformers extends React.Component {
 
         if (song) {
             // The song has already been added
-            song.performers = _.concat(song.performers, { id: performer.Id, name: performer.Fullname, instrument: '', role: '' });
+            song.performers = _.concat(song.performers, { id: performer.Id, name: performer.Fullname, instruments: [], role: '' });
         } else {
             songsCopy = _.concat(songsCopy, {
                 number: number,
                 name: song.name,
                 length: song.length,
                 isrc: song.isrc,
-                performers: [ { id: performer.Id, name: performer.Fullname, instrument: '', role: '' } ]
+                performers: [ { id: performer.Id, name: performer.Fullname, instruments: [], role: '' } ]
             });
         }
 
@@ -102,15 +107,15 @@ export default class AddPerformers extends React.Component {
 
         toastr.success('Tókst!', 'Það tókst að bæta við flytjanda á lagið');
     }
-    removePerformerFromSong(e, number, performerNumber) {
+    removePerformerFromSong(e, number, performerId) {
         e.preventDefault();
         let allSongs = _.cloneDeep(this.state.songs);
         let song = _.find(allSongs, (item) => {
             return item.number === number;
         });
 
-        _.remove(song.performers, (performer, idx) => {
-            return idx === performerNumber;
+        _.remove(song.performers, (performer) => {
+            return performer.id === performerId;
         });
 
         this.setState({
@@ -145,11 +150,10 @@ export default class AddPerformers extends React.Component {
                         onClick={() => this.props.next(this.state.songs)}>Áfram
                     </button>
                 </div>
-                <PeopleListModal 
+                <PerformerListModal 
                     isOpen={this.state.addPerformerModalIsOpen} 
                     update={(performer) => this.addPerformer(performer, this.state.selectedSong)}
-                    close={() => this.setState({ addPerformerModalIsOpen: false })}
-                    title="Bæta við flytjanda" />
+                    close={() => this.setState({ addPerformerModalIsOpen: false })} />
             </div>
         );
     }
