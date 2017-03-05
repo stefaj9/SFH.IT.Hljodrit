@@ -45,11 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\ExceptionDto.cs" />
     <Compile Include="Dto\InstrumentDto.cs" />
     <Compile Include="Dto\PersonEnvelope.cs" />
     <Compile Include="Dto\PersonDto.cs" />
     <Compile Include="Dto\ProjectDto.cs" />
     <Compile Include="Dto\ProjectEnvelope.cs" />
+    <Compile Include="Dto\Envelope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

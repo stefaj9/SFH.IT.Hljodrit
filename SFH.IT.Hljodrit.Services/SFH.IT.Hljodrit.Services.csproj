@@ -47,9 +47,11 @@
     <Compile Include="Implementations\InstrumentService.cs" />
     <Compile Include="Implementations\PersonService.cs" />
     <Compile Include="Implementations\ProjectService.cs" />
+    <Compile Include="Implementations\SettingsService.cs" />
     <Compile Include="Interfaces\IInstrumentService.cs" />
     <Compile Include="Interfaces\IPersonService.cs" />
     <Compile Include="Interfaces\IProjectService.cs" />
+    <Compile Include="Interfaces\ISettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
