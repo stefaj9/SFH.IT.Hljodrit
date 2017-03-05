@@ -20,7 +20,7 @@ export default class Header extends React.Component {
                             <span className="icon-bar"></span>
                         </button>
                         <Link className="navbar-brand" to="/" onClick={() => this.setState({ selectedItem: '' })}>
-                            <img alt="Brand" src="../App/resources/logo-hljodrit.png" />
+                            <img alt="Brand" src="/App/resources/logo-hljodrit.png" />
                         </Link>
                     </div>
                     <div className="collapse navbar-collapse" id="navbar-collapse">

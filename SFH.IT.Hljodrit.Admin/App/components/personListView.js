@@ -1,4 +1,5 @@
 import React from 'react';
+import Spinner from 'react-spinner';
 import PersonListItem from './personListItem';
 
 export default class PersonListView extends React.Component {
@@ -13,6 +14,7 @@ export default class PersonListView extends React.Component {
     render() {
         return (
             <div>
+                <Spinner className={this.props.isFetching ? '' : 'hidden'} />
                 {this.renderList()}
             </div>
         );

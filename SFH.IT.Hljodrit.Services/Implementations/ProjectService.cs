@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Repositories.Base;
@@ -10,39 +9,29 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 {
     public class ProjectService : IProjectService
     {
-        private readonly IProjectUserRepository _projectUserRepository;
-        private readonly IProjectTrackRepository _projectTrackRepository;
-        private readonly IProjectTrackArtistRepository _projectTrackArtistRepository;
-        private readonly IProjectStatusRepository _projectStatus;
         private readonly IProjectMasterRepository _projectMasterRepository;
 
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProjectService(IProjectUserRepository userRepository, IProjectTrackRepository trackRepository,
-            IProjectTrackArtistRepository trackArtistRepository,
-            IProjectStatusRepository projectStatusRepository, 
-            IProjectMasterRepository projectMasterRepository,
-            IUnitOfWork unitOfWork)
+        public ProjectService(IProjectMasterRepository projectMasterRepository, IUnitOfWork unitOfWork)
         {
-            _projectUserRepository = userRepository;
-            _projectTrackRepository = trackRepository;
-            _projectTrackArtistRepository = trackArtistRepository;
-            _projectStatus = projectStatusRepository;
             _projectMasterRepository = projectMasterRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public ProjectEnvelope GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved)
+        public ProjectEnvelope GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved, string query)
         {
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
 
-            decimal maxPage = _projectMasterRepository.GetProjectMasterCount() / pageSize;
+            decimal maxPage = _projectMasterRepository.GetProjectMasterCount(pm => !pm.removed.Value && (pm.mainartist.StartsWith(query) 
+				|| pm.projectname.StartsWith(query) || pm.createdby.StartsWith(query))) / pageSize;
+
             var maximumPages = (int) Math.Ceiling(maxPage);
             return new ProjectEnvelope
             {
                 CurrentPage = pageNumber,
                 MaximumPage = maximumPages,
-                Projects = _projectMasterRepository.GetAll().Select(p => new ProjectDto
+                Projects = _projectMasterRepository.GetMany(pm => !pm.removed.Value && (pm.mainartist.StartsWith(query) || pm.projectname.StartsWith(query) || pm.createdby.StartsWith(query))).Select(p => new ProjectDto
                 {
                     Id = p.id,
                     ProjectName = p.projectname,

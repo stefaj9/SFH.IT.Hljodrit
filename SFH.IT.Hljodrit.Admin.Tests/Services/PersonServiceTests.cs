@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using FizzWare.NBuilder;
 using Moq;
 using SFH.IT.Hljodrit.Common.Dto;
-using SFH.IT.Hljodrit.Repositories.Interfaces.Performers;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 
 namespace SFH.IT.Hljodrit.Admin.Tests.Services
 {
@@ -36,7 +36,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int pageNumber = 1;
 			var projectService = new PersonService(_partyRealRepository.Object);
 			// Act
-			projectService.GetAllPerformers(illegalPageSize, pageNumber);
+			projectService.GetAllPerformers(illegalPageSize, pageNumber, "");
 		}
 
 		[TestMethod]
@@ -54,7 +54,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var personService = new PersonService(_partyRealRepository.Object);
 
 			// Act
-			var personResults = personService.GetAllPerformers(pageSize, pageNumber);
+			var personResults = personService.GetAllPerformers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
@@ -71,9 +71,10 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			// Arrange
 			const int illegalPageSize = -1;
 			const int pageNumber = 1;
+
 			var projectService = new PersonService(_partyRealRepository.Object);
 			// Act
-			projectService.GetAllProducers(illegalPageSize, pageNumber);
+			projectService.GetAllProducers(illegalPageSize, pageNumber, "");
 		}
 
 		[TestMethod]
@@ -91,7 +92,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var personService = new PersonService(_partyRealRepository.Object);
 
 			// Act
-			var personResults = personService.GetAllProducers(pageSize, pageNumber);
+			var personResults = personService.GetAllProducers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());

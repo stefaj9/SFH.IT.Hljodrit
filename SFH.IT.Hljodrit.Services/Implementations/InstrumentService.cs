@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SFH.IT.Hljodrit.Common.Dto;
-using SFH.IT.Hljodrit.Models;
-using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Services.Interfaces;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Instruments;
 

@@ -2,8 +2,8 @@
 using SFH.IT.Hljodrit.Repositories.Implementations.Instruments;
 using SFH.IT.Hljodrit.Repositories.Implementations.Persons;
 using SFH.IT.Hljodrit.Repositories.Implementations.Project;
-using SFH.IT.Hljodrit.Repositories.Interfaces.Performers;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Instruments;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 using SimpleInjector;
 
