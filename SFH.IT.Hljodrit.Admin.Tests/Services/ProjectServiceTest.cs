@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using FizzWare.NBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -24,24 +26,28 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
         [TestInitialize]
         public void TestInitialize()
         {
-            _projectMasterRepository = new Mock<IProjectMasterRepository>(MockBehavior.Loose);
+            _projectMasterRepository = new Mock<IProjectMasterRepository>();
         }
 
         [TestMethod]
-        public void TestGetAllProjectsWithPagingReturnsResults()
+        public void TestGetAllProjectsWithPagingReturns25Results()
         {
             // Arrange
+	        var pageSize = 25;
+	        var pageNumber = 1;
+	        var expectedPageSize = 25;
+
             var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
-            _projectMasterRepository.Setup(p => p.GetAll())
+            _projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>()))
                 .Returns(masterProjects);
 
             var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork);
 
             // Act
-            var projects = projectService.GetAllProjects(25, 1, true, true, true, "");
+            var projects = projectService.GetAllProjects(pageSize, pageNumber, true, true, true, "");
 
             // Assert
-            Assert.AreEqual(25, projects.Projects.Count());
+            Assert.AreEqual(expectedPageSize, projects.Projects.Count());
         }
     }
 }
