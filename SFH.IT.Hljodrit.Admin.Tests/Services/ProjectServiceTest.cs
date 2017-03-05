@@ -37,24 +37,25 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 		    projectService.GetAllProjects(1000, 1, true, true, true, "");
 	    }
 
-		[TestMethod]
+        [TestMethod]
         public void TestGetAllProjectsWithPagingReturns25Results()
         {
             // Arrange
-	        var query = "";
-	        var masterProjects = Builder<project_master>.CreateListOfSize(100).All().With(p => p.removed = false).Build();
-            _projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>())).Returns(masterProjects);
+	        var pageSize = 25;
+	        var pageNumber = 1;
+	        var expectedPageSize = 25;
+
+            var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
+            _projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>()))
+                .Returns(masterProjects);
 
             var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork);
 
-			const int pageSize = 25;
-			const int expectedResultCount = 25;
-
-			// Act
-			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, "");
+            // Act
+            var projects = projectService.GetAllProjects(pageSize, pageNumber, true, true, true, "");
 
             // Assert
-            Assert.AreEqual(expectedResultCount, projects.Projects.Count());
+            Assert.AreEqual(expectedPageSize, projects.Projects.Count());
         }
 
 		[TestMethod]
