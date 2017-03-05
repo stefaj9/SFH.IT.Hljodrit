@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using FizzWare.NBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -36,13 +37,13 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 		    projectService.GetAllProjects(1000, 1, true, true, true, "");
 	    }
 
-		/*[TestMethod]
+		[TestMethod]
         public void TestGetAllProjectsWithPagingReturns25Results()
         {
             // Arrange
 	        var query = "";
 	        var masterProjects = Builder<project_master>.CreateListOfSize(100).All().With(p => p.removed = false).Build();
-            _projectMasterRepository.Setup(p => p.GetMany(pm => !pm.removed.Value && (pm.mainartist.StartsWith(query) || pm.projectname.StartsWith(query) || pm.createdby.StartsWith(query)))).Returns(masterProjects);
+            _projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>())).Returns(masterProjects);
 
             var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork);
 
@@ -61,7 +62,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 		{
 			// Arrange
 			var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
-			_projectMasterRepository.Setup(p => p.GetAll()).Returns(masterProjects);
+			_projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>())).Returns(masterProjects);
 
 			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork);
 
@@ -80,7 +81,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 		{
 			// Arrange
 			var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
-			_projectMasterRepository.Setup(p => p.GetAll()).Returns(masterProjects);
+			_projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>())).Returns(masterProjects);
 
 			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork);
 
@@ -92,7 +93,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 
 			// Assert
 			Assert.AreEqual(expectedResultCount, projects.Projects.Count());
-		}*/
+		}
 
 		#endregion
 	}
