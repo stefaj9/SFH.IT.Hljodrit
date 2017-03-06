@@ -3,7 +3,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
-	[System.Web.Mvc.RoutePrefix("api")]
+	[RoutePrefix("api")]
 	public class SettingsController : ApiController
 	{
 		private readonly ISettingsService _settingsService;
@@ -13,8 +13,8 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 			_settingsService = settingsService;
 		}
 
-		[System.Web.Mvc.HttpGet]
-		[System.Web.Mvc.Route("exceptions")]
+		[HttpGet]
+		[Route("exceptions")]
 		public IHttpActionResult GetAllExceptions([FromUri] int pageSize, [FromUri] int pageNumber)
 		{
 			return Ok(_settingsService.GetAllExceptions(pageSize, pageNumber));
