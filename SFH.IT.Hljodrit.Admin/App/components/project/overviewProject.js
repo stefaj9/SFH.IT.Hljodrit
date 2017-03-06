@@ -12,7 +12,7 @@ class OverviewProject extends React.Component {
                 <tr key={`${name}-${id}-${role}`}>
                     <td>{name}</td>
                     <td>{renderInstrument}</td>
-                    <td>{role}</td>
+                    <td>{role.name}</td>
                 </tr>
             );
         });

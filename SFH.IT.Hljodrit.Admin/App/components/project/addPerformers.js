@@ -7,11 +7,9 @@ import _ from 'lodash';
 
 export default class AddPerformers extends React.Component {
     componentWillReceiveProps(newProps) {
-        if (this.state.songs.length === 0) {
-            this.setState({
-                songs: newProps.songs
-            });
-        }
+        this.setState({
+            songs: newProps.songs
+        });
     }
     constructor() {
         super();
@@ -30,7 +28,7 @@ export default class AddPerformers extends React.Component {
                     <tr key={`${song.number}-${performer.id}-${performer.role}`}>
                         <td>{performer.name}</td>
                         <td>{instruments}</td>
-                        <td>{performer.role}</td>
+                        <td>{performer.role.name}</td>
                         <td>
                             <a href="#" onClick={(e) => this.removePerformerFromSong(e, song.number, performer.id)}>
                                 <i className="fa fa-times"></i>
@@ -87,14 +85,14 @@ export default class AddPerformers extends React.Component {
 
         if (song) {
             // The song has already been added
-            song.performers = _.concat(song.performers, { id: performer.id, name: performer.name, instruments: performer.instruments, role: performer.role });
+            song.performers = _.concat(song.performers, { id: performer.id, name: performer.name, instruments: performer.instruments, role: { code: performer.role.code, name: performer.role.name } });
         } else {
             songsCopy = _.concat(songsCopy, {
                 number: number,
                 name: song.name,
                 length: song.length,
                 isrc: song.isrc,
-                performers: [ { id: performer.id, name: performer.name, instruments: performer.instruments, role: performer.role } ]
+                performers: [ { id: performer.id, name: performer.name, instruments: performer.instruments, role: { code: performer.role.code, name: performer.role.name } } ]
             });
         }
 

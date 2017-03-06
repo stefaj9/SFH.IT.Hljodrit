@@ -10,11 +10,13 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     public class PersonService : IPersonService
     {
         private readonly IPartyRealRepository _partyRealRepository;
+        private readonly IPartyRoleRepository _partyRoleRepository;
         private const string ProducerRoleCode = "PRO";
 
-        public PersonService(IPartyRealRepository partyRealRepository)
+        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository)
         {
             _partyRealRepository = partyRealRepository;
+            _partyRoleRepository = partyRoleRepository;
         }
 
         private PersonEnvelope CreateEnvelope(IEnumerable<PersonDto> persons, int pageSize, int pageNumber)
@@ -60,6 +62,15 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         public PersonDto GetPersonById(int personId)
         {
             return _partyRealRepository.GetPersonById(personId);    
+        }
+
+        public IEnumerable<RoleDto> GetPersonRoles()
+        {
+            return _partyRoleRepository.GetMany(pr => pr.active == true).Select(pr => new RoleDto
+            {
+                RoleCode = pr.rolecode,
+                RoleName = pr.rolename_is
+            });
         }
     }
 }

@@ -22,6 +22,7 @@ namespace SFH.IT.Hljodrit.Repositories
             container.Register<IProjectUserRepository, ProjectUserRepository>(Lifestyle.Transient);
             container.Register<IInstrumentRepository, InstrumentRepository>(Lifestyle.Transient);
             container.Register<IPartyRealRepository, PartyRealRepository>(Lifestyle.Transient);
+            container.Register<IPartyRoleRepository, PartyRoleRepository>(Lifestyle.Transient);
             container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Transient);
         }
     }

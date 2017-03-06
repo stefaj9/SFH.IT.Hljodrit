@@ -40,5 +40,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         {
             return Ok(_personService.GetPersonById(personId));
         }
+
+        [HttpGet]
+        [Route("persons/roles")]
+        public IHttpActionResult GetRoles()
+        {
+            return Ok(_personService.GetPersonRoles());
+        }
     }
 }

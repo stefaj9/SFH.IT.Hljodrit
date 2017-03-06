@@ -50,7 +50,7 @@ class SelectInstrumentModal extends React.Component {
                         </div>
                         <div className="modal-body">
                             <h4>Hljóðfæri</h4>
-                            <p>Hægt er að velja meira en eitt hljóðfæri á valinn flytjanda.</p>
+                            <p>Hægt er að velja meira en eitt hljóðfæri á valinn flytjanda. Lágmark er eitt hljóðfæri á hvern flytjanda.</p>
                             <Chips
                                 value={this.state.chips}
                                 onChange={this.onChipsChange.bind(this)}
@@ -59,7 +59,10 @@ class SelectInstrumentModal extends React.Component {
                         <div className="modal-footer">
                             <div className="btn-group pull-right">
                                 <button className="btn btn-default" onClick={() => this.props.back()}>Til baka</button>
-                                <button className="btn btn-default btn-primary" onClick={() => this.updateInstruments()}>Áfram</button>
+                                <button 
+                                    disabled={this.state.chips.length === 0}
+                                    className="btn btn-default btn-primary" 
+                                    onClick={() => this.updateInstruments()}>Áfram</button>
                             </div>
                         </div>
                     </div>

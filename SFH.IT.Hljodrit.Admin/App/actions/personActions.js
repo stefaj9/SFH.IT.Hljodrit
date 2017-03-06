@@ -18,9 +18,30 @@ export function getPersonsByCriteria(pageSize, pageNumber, searchQuery) {
     };
 }
 
+export function getPersonRoles() {
+    return (dispatch) => {
+        return fetch('/api/persons/roles', {
+            method: 'GET'
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then((data) => {
+            dispatch(getPersonRolesSuccess(data));
+        });
+    }
+}
+
 function getPersonsByCriteriaSuccess(data) {
     return {
         type: 'GET_PERSONS_BY_CRITERIA',
+        payload: data
+    };
+};
+
+function getPersonRolesSuccess(data) {
+    return {
+        type: 'GET_PERSONS_ROLES',
         payload: data
     };
 };

@@ -1,17 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { getPersonRoles } from '../../actions/personActions';
 import Modal from 'react-modal';
 import _ from 'lodash';
 
-export default class SelectRoleModal extends React.Component {
+class SelectRoleModal extends React.Component {
     componentWillReceiveProps(newProps) {
         if (!newProps.isOpen) {
             this.setState({ role: '' });
         }
     }
+    componentWillMount() {
+        this.props.getPersonRoles();
+    }
     constructor() {
         super();
         this.state = {
-            role: 'Aðalflytjandi'
+            role: { code: 'ART', name: 'Aðalflytjandi' }
         };
     }
     updateRole() {
@@ -19,6 +24,19 @@ export default class SelectRoleModal extends React.Component {
         performer.role = this.state.role;
         this.props.update(performer);
         this.props.next(performer);
+    }
+    onSelect(e) {
+        let index = e.target.selectedIndex;
+        this.setState({
+            role: { code: e.target.value, name: e.target.options[index].text }
+        });
+    }
+    renderOptions() {
+        return this.props.roles.map((role) => {
+            return (
+                <option key={role.roleCode} value={role.roleCode}>{role.roleName}</option>
+            );
+        });
     }
     render() {
         return (
@@ -39,10 +57,8 @@ export default class SelectRoleModal extends React.Component {
                         </div>
                         <div className="modal-body">
                             <h4>Hlutverk flytjanda</h4>
-                            <select name="" id="select-role" className="form-control" onChange={(e) => this.setState({ role: e.target.value })}>
-                                <option value="Aðalflytjandi">Aðalflytjandi</option>
-                                <option value="Hljómsveitarmeðlimur">Hljómsveitarmeðlimur</option>
-                                <option value="Hljóðmaður">Hljóðmaður</option>
+                            <select name="select-role" id="select-role" className="form-control" onChange={this.onSelect.bind(this)}>
+                                {this.renderOptions()}
                             </select>
                         </div>
                         <div className="modal-footer">
@@ -57,3 +73,11 @@ export default class SelectRoleModal extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        roles: state.person.personRoles
+    };
+};
+
+export default connect(mapStateToProps, { getPersonRoles })(SelectRoleModal);

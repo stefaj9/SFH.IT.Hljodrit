@@ -1,4 +1,5 @@
-﻿using SFH.IT.Hljodrit.Common.Dto;
+﻿using System.Collections.Generic;
+using SFH.IT.Hljodrit.Common.Dto;
 
 namespace SFH.IT.Hljodrit.Services.Interfaces
 {
@@ -8,5 +9,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         PersonEnvelope GetAllProducers(int pageSize, int pageNumber, string searchTerm);
         PersonEnvelope GetAllPersons(int pageSize, int pageNumber, string searchTerm);
         PersonDto GetPersonById(int personId);
+        IEnumerable<RoleDto> GetPersonRoles();
     }
 }
