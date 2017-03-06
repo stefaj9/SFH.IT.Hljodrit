@@ -17,7 +17,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
         public IEnumerable<PersonDto> GetAllPersons(Expression<Func<project_track_artist, bool>> expression)
         {
             var performers = DbContext.project_track_artist.Where(expression).Join(DbContext.party_real,
-                projectTrackArtist=> projectTrackArtist.partyrealid,
+                projectTrackArtist => projectTrackArtist.partyrealid,
                 partyReal => partyReal.id, (projectTrackArtist, partyReal) => new PersonDto
                 {
                     Id = partyReal.id,

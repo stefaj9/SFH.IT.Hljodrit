@@ -21,7 +21,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public ProjectEnvelope GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved, string query)
         {
-            decimal maxPage = _projectMasterRepository.GetProjectMasterCount(pm => !pm.removed.Value && (pm.mainartist.StartsWith(query) || pm.projectname.StartsWith(query) || pm.createdby.StartsWith(query))) / pageSize;
+			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
+
+            decimal maxPage = _projectMasterRepository.GetProjectMasterCount(pm => !pm.removed.Value && (pm.mainartist.StartsWith(query) 
+				|| pm.projectname.StartsWith(query) || pm.createdby.StartsWith(query))) / pageSize;
+
             var maximumPages = (int) Math.Ceiling(maxPage);
             return new ProjectEnvelope
             {
