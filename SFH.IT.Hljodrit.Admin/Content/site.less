@@ -14,6 +14,16 @@ body {
     right: 10px;
 }
 
+.no-person-to-show {
+    margin-top: 20px;
+}
+
+.btn-group {
+    &.pull-right {
+        margin-bottom: 20px;
+    }
+}
+
 .modal-header .close {
   color: #4b4b4b;
 }
@@ -55,7 +65,7 @@ body {
         padding-bottom: 10px;
         border-bottom: solid 1px @fadedGray;
         border-top: solid 1px @fadedGray;
-        background-color: rgba(155, 155, 155, .1);
+        background-color: fade(@mediumGray, 10%);
         .confirmation-item-title {
             font-weight: bold;
             font-size: 1.1em;
@@ -270,10 +280,10 @@ label {
         position: relative;
         &.step-finished {
             .icon {
-                color: #D5EBCD;
+                color: @lightGreen;
             }
             .step-title {
-                color: rgb(155, 155, 155);
+                color: @mediumGray;
             }
         }
         &.step-current {
@@ -282,7 +292,7 @@ label {
             }
         }
         &.step-unfinished {
-            color: rgb(155, 155, 155);
+            color: @mediumGray;
         }
         &:last-child {
             &:after {
@@ -298,9 +308,6 @@ label {
 .list {
     border-radius: 0;
     margin-bottom: 5px;
-    &.selected {
-        background-color: rgba(0, 200, 0, 0.1);
-    }
     .list-info {
         .title {
             display: inline-block;
@@ -347,7 +354,7 @@ label {
             &:after {
                 content: "";
                 position: absolute;
-                border-bottom: solid 2px rgba(155, 155, 155, 0.3);
+                border-bottom: solid 2px fade(@mediumGray, 30%);
                 height: 5px;
                 top: 10px;
                 left: 50px;
@@ -367,7 +374,7 @@ label {
             &:after {
                 content: "";
                 position: absolute;
-                border-bottom: solid 2px rgba(155, 155, 155, 0.3);
+                border-bottom: solid 2px fade(@mediumGray, 30%);
                 height: 5px;
                 top: 10px;
                 left: 65px;

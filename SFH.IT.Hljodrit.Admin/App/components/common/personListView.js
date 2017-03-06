@@ -17,7 +17,7 @@ export default class PersonListView extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className={!this.props.isFetching && this.props.persons.length === 0 ? 'hidden' : ''}>
                 <Spinner className={this.props.isFetching ? '' : 'hidden'} />
                 {this.renderList()}
             </div>

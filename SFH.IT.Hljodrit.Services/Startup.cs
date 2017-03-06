@@ -13,6 +13,7 @@ namespace SFH.IT.Hljodrit.Services
             container.Register<IProjectService, ProjectService>(Lifestyle.Transient);
             container.Register<IInstrumentService, InstrumentService>(Lifestyle.Transient);
             container.Register<IPersonService, PersonService>(Lifestyle.Transient);
+            container.Register<ICommonService, CommonService>(Lifestyle.Transient);
         }
     }
 }
