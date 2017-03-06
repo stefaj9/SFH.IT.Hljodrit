@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectProjectWithActionById } from '../actions/projectActions';
+import { selectProjectWithActionById } from '../../actions/projectActions';
 import moment from 'moment';
 
 class ProjectItem extends React.Component {

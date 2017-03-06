@@ -1,7 +1,7 @@
 import React from 'react';
-import SearchBar from './SearchBar';
-import Filter from './filter';
-import PersonListView from './personListView';
+import SearchBar from '../common/searchBar';
+import Filter from '../common/filter';
+import PersonListView from '../common/personListView';
 
 export default class Users extends React.Component {
 
@@ -15,9 +15,9 @@ export default class Users extends React.Component {
                 {action: 'vip-users', display: 'VIP'}
             ],
             persons: [
-                {name: 'Arnar banani', ssn: '1234567'},
-                {name: 'bjoggi', ssn:'678974'},
-                {name: 'Classic Balli', ssn: '09876543'}
+                {Id: 1, name: 'Arnar banani', ssn: '1234567'},
+                {Id: 2, name: 'bjoggi', ssn:'678974'},
+                {Id: 3, name: 'Classic Balli', ssn: '09876543'}
             ]
         };
 

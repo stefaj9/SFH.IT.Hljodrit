@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux';
 import ProjectReducer from './projectReducer';
+import PersonReducer from './personReducer';
+import {reducer as ToastrReducer} from 'react-redux-toastr';
 import { routerReducer } from 'react-router-redux';
 
 export default combineReducers({
     routing: routerReducer,
-    project: ProjectReducer
+    toastr: ToastrReducer,
+    project: ProjectReducer,
+    person: PersonReducer
 });

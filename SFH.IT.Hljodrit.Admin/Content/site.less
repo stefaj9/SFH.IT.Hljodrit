@@ -4,6 +4,114 @@ body {
     font-family: @baseFont, sans-serif !important;
 }
 
+.site {
+    margin-bottom: 20px;
+}
+
+.top-corner {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.modal-header .close {
+  color: #4b4b4b;
+}
+.modal-header .close:hover,
+.modal-header .close:focus {
+  color: black !important;
+  outline: none;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: rgba(22, 22, 22, 0.3);
+}
+.modal-dialog {
+  position: static !important;
+}
+.modal-dialog .modal-content {
+  border-radius: 0;
+  max-height: 600px;
+  overflow-y: auto;
+}
+.modal-window {
+  position: absolute;
+  top: 5%;
+  left: 10px;
+  right: 10px;
+  bottom: 40px;
+  outline: none;
+}
+
+.confirmation-wrapper {
+    .confirmation-item {
+        margin-bottom: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom: solid 1px @fadedGray;
+        border-top: solid 1px @fadedGray;
+        background-color: rgba(155, 155, 155, .1);
+        .confirmation-item-title {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .confirmation-item-text {
+
+        }
+        .confirmation-item-table {
+            padding: 20px;
+            .table {
+                background-color: white;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .song-info {
+                font-size: 1.2em;
+                margin-top: 10px;
+            }
+        }
+    }
+}
+
+@media screen and (max-height: 480px) {
+  .modal-window {
+    top: 1%;
+  }
+}
+@media screen and (max-height: 400px) {
+  .modal-window {
+    bottom: 0;
+  }
+  .modal-window .steps {
+    padding-top: 4px;
+  }
+  .modal-footer {
+    margin-top: 0px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .modal-footer {
+    text-align: center !important;
+  }
+  .modal-footer .btn-default {
+    margin-right: 0px !important;
+  }
+  .modal-footer .btn-primary {
+    margin-left: 0px !important;
+  }
+}
+@media screen and (min-width: 330px) and (max-width: 375px) {
+  .modal-footer {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+}
+
 h1,
 h2,
 h3,
@@ -16,9 +124,10 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: @baseFont, sans-serif !important;
-  text-align: center;
-  margin-top: 40px;
+    font-family: @baseFont, sans-serif !important;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 30px !important;
 }
 
 p {
@@ -27,10 +136,6 @@ p {
 
 label {
     font-family: @baseFont, sans-serif !important;
-}
-
-.navbar-brand img {
-    width: 70% !important;
 }
 
 .navbar {
@@ -84,6 +189,7 @@ label {
 .page-selector-wrapper {
     width: 100px;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .projects {
@@ -102,9 +208,99 @@ label {
     margin-bottom: 20px;
 }
 
+.modal-body {
+    padding: 20px 90px !important;
+}
+
+.song-wrapper {
+    .panel-group {
+        .panel-heading {
+            h4 {
+                text-align: left !important;   
+                margin-bottom: 0 !important; 
+            }
+            
+        }
+    }
+}
+
+.modal-steps-wrapper {
+    text-align: center;
+    height: 80px;
+    .step {
+        position: relative;
+        top: 15px;
+        display: inline-block;
+        width: 150px;
+        &:after {
+            content: '';
+            border-bottom: solid 1px @fadedGray;
+            position: absolute;
+            width: 120px;
+            top: 10px;
+            left: 90px;
+        }
+        &:last-child:after {
+            content: '';
+            border-bottom: 0;
+        }
+        .fa {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.5em;
+        }
+        .fa-check-circle-o {
+            color: green;
+        }
+        .fa-circle-o {
+            color: @fadedGray;
+        }
+    }
+}
+
+.steps-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    margin-top: 20px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    .step {
+        position: relative;
+        &.step-finished {
+            .icon {
+                color: #D5EBCD;
+            }
+            .step-title {
+                color: rgb(155, 155, 155);
+            }
+        }
+        &.step-current {
+            .icon {
+                font-size: 1.2em;
+            }
+        }
+        &.step-unfinished {
+            color: rgb(155, 155, 155);
+        }
+        &:last-child {
+            &:after {
+                border: solid 0px black;
+            }
+        }
+        .icon {
+            margin-bottom: 10px;
+        }
+    }
+}
+
 .list {
     border-radius: 0;
     margin-bottom: 5px;
+    &.selected {
+        background-color: rgba(0, 200, 0, 0.1);
+    }
     .list-info {
         .title {
             display: inline-block;
@@ -139,9 +335,49 @@ label {
 }
 
 @media screen and (max-width: 767px) {
+    .modal-dialog {
+        width: 600px !important;
+    }
+    .navbar-brand img {
+        width: 50% !important;
+    }
+    .steps-wrapper {
+        .step {
+            width: 60px;
+            &:after {
+                content: "";
+                position: absolute;
+                border-bottom: solid 2px rgba(155, 155, 155, 0.3);
+                height: 5px;
+                top: 10px;
+                left: 50px;
+                width: 65px;
+            }
+        }
+    }
 }
 
 @media screen and (min-width: 768px) {
+    .modal-dialog {
+        width: 800px !important;
+    }
+    .steps-wrapper {
+        .step {
+            width: 80px;
+            &:after {
+                content: "";
+                position: absolute;
+                border-bottom: solid 2px rgba(155, 155, 155, 0.3);
+                height: 5px;
+                top: 10px;
+                left: 65px;
+                width: 172px;
+            }
+        }
+    }
+    .navbar-brand img {
+        width: 70% !important;
+    }
     .navbar {
         .navbar-collapse {
             .nav {

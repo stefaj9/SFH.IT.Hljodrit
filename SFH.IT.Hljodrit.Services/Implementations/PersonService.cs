@@ -10,10 +10,12 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     public class PersonService : IPersonService
     {
         private readonly IPartyRealRepository _partyRealRepository;
+        private readonly IPartyRoleRepository _partyRoleRepository;
         private const string ProducerRoleCode = "PRO";
 
-        public PersonService(IPartyRealRepository partyRealRepository)
+        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository)
         {
+            _partyRoleRepository = partyRoleRepository;
             _partyRealRepository = partyRealRepository;
         }
 
@@ -21,6 +23,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         {
             persons = persons.ToList();
             decimal maxPage = persons.Count() / (decimal)pageSize;
+
             var maximumPages = (int)Math.Ceiling(maxPage);
 
             var personList = persons.Skip((pageNumber - 1) * pageSize).Take(pageSize);
@@ -31,6 +34,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         public PersonEnvelope GetPerformers(int pageSize, int pageNumber, string searchTerm = null)
         {
             var performers = _partyRealRepository.GetPersons(p => p.rolecode != ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
+			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
+             
             var performersEnvelope =  CreateEnvelope(performers, pageSize, pageNumber);
 
             return performersEnvelope;
@@ -39,6 +44,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         public PersonEnvelope GetProducers(int pageSize, int pageNumber, string searchTerm = null)
         {
             var producers = _partyRealRepository.GetPersons(p => p.rolecode == ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
+
+			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
+
             var producersEnvelope = CreateEnvelope(producers, pageSize, pageNumber);
 
             return producersEnvelope;
@@ -47,6 +55,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         public PersonEnvelope GetPersons(int pageSize, int pageNumber, string searchTerm = null)
         {
             var persons = _partyRealRepository.GetPersons(searchTerm);
+			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
+
             var personEnvelope = CreateEnvelope(persons, pageSize, pageNumber);
             
             return personEnvelope; 
@@ -57,6 +67,15 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             var person = _partyRealRepository.GetById(personId);
 
             return new PersonExtendedDto(person);
+        }
+
+        public IEnumerable<RoleDto> GetPersonRoles()
+        {
+            return _partyRoleRepository.GetMany(pr => pr.active == true).Select(pr => new RoleDto
+            {
+                RoleCode = pr.rolecode,
+                RoleName = pr.rolename_is
+            });
         }
     }
 }

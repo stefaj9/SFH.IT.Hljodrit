@@ -51,6 +51,7 @@
     <Compile Include="Dto\PersonExtendedDto.cs" />
     <Compile Include="Dto\ProjectDto.cs" />
     <Compile Include="Dto\ProjectEnvelope.cs" />
+    <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

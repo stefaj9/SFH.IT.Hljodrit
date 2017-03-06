@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Mvc;
@@ -52,6 +53,24 @@ namespace SFH.IT.Hljodrit.Admin
             // Fatal error is relevant here.
             Logger.Fatal(Server.GetLastError());
             Server.ClearError();
+        }
+
+        protected void Application_EndRequest()
+        {
+            var context = new HttpContextWrapper(Context);
+            // If we're an ajax request, and doing a 302, then we actually need to do a 401
+            if (Context.Response.StatusCode == 302 && IsAjaxRequest(Context.Request))
+            {
+                Context.Response.Clear();
+                Context.Response.ClearContent();
+                Context.Response.StatusCode = 401;
+                context.Response.RedirectLocation = null;
+                Context.Response.End();
+            }
+        }
+        private static bool IsAjaxRequest(HttpRequest request)
+        {
+            return request.Path.Contains("/api");
         }
     }
 }

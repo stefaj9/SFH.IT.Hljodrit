@@ -1,16 +1,23 @@
 import React from 'react';
-import { Route } from 'react-router';
-import App from '../components/app';
-import Settings from '../components/settings';
-import Calculations from '../components/calculations';
-import Instruments from '../components/instruments';
-import Users from '../components/users';
-import NotFound from '../components/notFound';
-import ProjectManagement from '../components/projectManagement';
+import { Route, IndexRoute } from 'react-router';
+import App from '../components/common/app';
+import Settings from '../components/settings/settings';
+import Calculations from '../components/calculations/calculations';
+import Instruments from '../components/instruments/instruments';
+import Users from '../components/users/users';
+import NotFound from '../components/common/notFound';
+import Projects from '../components/project/projects';
+import ProjectManagement from '../components/project/projectManagement';
+import Intro from '../components/common/intro';
+import AddProject from '../components/project/addProject';
 
 export default (
     <Route path="/" component={App}>
-        <Route path="projects" component={ProjectManagement} />
+        <IndexRoute component={Intro} />
+        <Route path="projects" component={Projects}>
+            <IndexRoute component={ProjectManagement} />
+            <Route path="createproject" component={AddProject} />
+        </Route>
         <Route path="calculations" component={Calculations} />
         <Route path="instruments" component={Instruments} />
         <Route path="users" component={Users} />
