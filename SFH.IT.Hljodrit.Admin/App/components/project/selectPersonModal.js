@@ -59,7 +59,7 @@ class SelectPersonModal extends React.Component {
     }
     render() {
         return (
-            <Modal 
+            <Modal
                 isOpen={this.props.isOpen}
                 contentLabel=""
                 className="modal-window"
@@ -78,12 +78,12 @@ class SelectPersonModal extends React.Component {
                             <SearchBar searchBy={(term) => this.search(term)} />
                             <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
                             <PersonListView
-                                persons={this.props.persons} 
+                                persons={this.props.persons}
                                 isFetching={this.props.isFetchingPersons}
                                 add={(person) => { this.props.update(person); this.props.next(); } } />
                             <Paging
                                 visible={!this.props.isFetchingPersons}
-                                currentPage={this.props.currentPage} 
+                                currentPage={this.props.currentPage}
                                 maximumPage={this.props.maximumPage}
                                 changePage={(newPageNumber) => this.changePageNumber(newPageNumber)}
                                 />

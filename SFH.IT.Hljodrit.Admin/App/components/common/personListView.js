@@ -7,7 +7,7 @@ export default class PersonListView extends React.Component {
     renderList() {
         if (!this.props.isFetching) {
             return this.props.persons.map((person) => {
-                return <PersonListItem 
+                return <PersonListItem
                             key={person.Id}
                             person={person}
                             add={(person) => this.props.add(person)} />
