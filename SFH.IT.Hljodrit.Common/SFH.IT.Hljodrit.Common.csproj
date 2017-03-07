@@ -49,6 +49,7 @@
     <Compile Include="Dto\InstrumentDto.cs" />
     <Compile Include="Dto\PersonEnvelope.cs" />
     <Compile Include="Dto\PersonDto.cs" />
+    <Compile Include="Dto\PersonExtendedDto.cs" />
     <Compile Include="Dto\ProjectDto.cs" />
     <Compile Include="Dto\ProjectEnvelope.cs" />
     <Compile Include="Dto\RoleDto.cs" />
@@ -57,6 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SFH.IT.Hljodrit.Models\SFH.IT.Hljodrit.Models.csproj">
+      <Project>{61C88994-39A2-42DC-A764-19B38E6EAB5D}</Project>
+      <Name>SFH.IT.Hljodrit.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

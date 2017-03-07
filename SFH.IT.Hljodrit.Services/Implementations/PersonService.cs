@@ -15,8 +15,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository)
         {
-            _partyRealRepository = partyRealRepository;
             _partyRoleRepository = partyRoleRepository;
+            _partyRealRepository = partyRealRepository;
         }
 
         private PersonEnvelope CreateEnvelope(IEnumerable<PersonDto> persons, int pageSize, int pageNumber)
@@ -28,64 +28,45 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
             var personList = persons.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-            return new PersonEnvelope()
-            {
-                MaximumPage = maximumPages,
-                CurrentPage = pageNumber,
-                Persons = personList
-            };
+            return new PersonEnvelope(pageNumber, maximumPages, personList);
         }
 
-        public PersonEnvelope GetAllPerformers(int pageSize, int pageNumber, string searchTerm)
+        public PersonEnvelope GetPerformers(int pageSize, int pageNumber, string searchTerm = null)
         {
+            var performers = _partyRealRepository.GetPersons(p => p.rolecode != ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
              
-            var performers = _partyRealRepository.GetAllPersons(p => p.rolecode != ProducerRoleCode).OrderBy(person => person.Fullname).ToList();
             var performersEnvelope =  CreateEnvelope(performers, pageSize, pageNumber);
 
             return performersEnvelope;
         }
 
-        public PersonEnvelope GetAllProducers(int pageSize, int pageNumber, string searchTerm)
+        public PersonEnvelope GetProducers(int pageSize, int pageNumber, string searchTerm = null)
         {
+            var producers = _partyRealRepository.GetPersons(p => p.rolecode == ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
+
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
 
-			var producers = _partyRealRepository.GetAllPersons(p => p.rolecode == ProducerRoleCode).OrderBy(person => person.Fullname).ToList();
             var producersEnvelope = CreateEnvelope(producers, pageSize, pageNumber);
 
             return producersEnvelope;
         }
 
-        public PersonEnvelope GetAllPersons(int pageSize, int pageNumber, string searchTerm)
+        public PersonEnvelope GetPersons(int pageSize, int pageNumber, string searchTerm = null)
         {
+            var persons = _partyRealRepository.GetPersons(searchTerm);
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
-
-			IEnumerable<PersonDto> persons;
-
-            if (searchTerm != "")
-            {
-                persons = _partyRealRepository.GetAllPersons(searchTerm).ToList();
-            }
-            else
-            {
-                persons = _partyRealRepository.GetAll().Select(person => new PersonDto()
-                {
-                    Id = person.id,
-                    Fullname = person.fullname,
-                    PostalAddressLine1 = person.postaladdressline1,
-                    ZipCode = person.zipcode,
-                    Area = person.area
-                }).ToList().OrderBy(person => person.Fullname);
-            }
 
             var personEnvelope = CreateEnvelope(persons, pageSize, pageNumber);
             
             return personEnvelope; 
         }
 
-        public PersonDto GetPersonById(int personId)
+        public PersonExtendedDto GetPersonById(int personId)
         {
-            return _partyRealRepository.GetPersonById(personId);    
+            var person = _partyRealRepository.GetById(personId);
+
+            return new PersonExtendedDto(person);
         }
 
         public IEnumerable<RoleDto> GetPersonRoles()

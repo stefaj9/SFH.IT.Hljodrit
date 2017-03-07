@@ -14,11 +14,11 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
         public PartyRealRepository(IDbFactory dbFactory)
             : base(dbFactory) { }
 
-        public IEnumerable<PersonDto> GetAllPersons(Expression<Func<project_track_artist, bool>> expression)
+        public IEnumerable<PersonDto> GetPersons(Expression<Func<project_track_artist, bool>> expression, string searchTerm)
         {
             var performers = DbContext.project_track_artist.Where(expression).Join(DbContext.party_real,
-                projectTrackArtist => projectTrackArtist.partyrealid,
-                partyReal => partyReal.id, (projectTrackArtist, partyReal) => new PersonDto
+                projectTrackArtist=> projectTrackArtist.partyrealid,
+                partyReal => partyReal.id, (projectTrackArtist, partyReal) => new PersonDto()
                 {
                     Id = partyReal.id,
                     Fullname = partyReal.fullname,
@@ -26,12 +26,12 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
                     ZipCode = partyReal.zipcode,
                     Area = partyReal.area
                     
-                }).Distinct();
+                }).Distinct().Where(person => person.Fullname.Contains(searchTerm));
 
             return performers;
         }
 
-        public IEnumerable<PersonDto> GetAllPersons(string searchTerm)
+        public IEnumerable<PersonDto> GetPersons(string searchTerm)
         {
             var persons = DbContext.party_real.Where(
                 partyReal => partyReal.fullname.Contains(searchTerm)).Select(person => new PersonDto()
@@ -44,20 +44,6 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
             }).OrderBy(person => person.Fullname);
 
             return persons;
-        }
-
-        public PersonDto GetPersonById(int personId)
-        {
-            var resultPerson = DbContext.party_real.Where(person => person.id == personId).Select(person => new PersonDto
-            {
-                Id = person.id,
-                Fullname = person.fullname,
-                PostalAddressLine1 = person.postaladdressline1,
-                ZipCode = person.zipcode,
-                Area = person.area
-            }).SingleOrDefault();
-
-            return resultPerson;
         }
     }
 }

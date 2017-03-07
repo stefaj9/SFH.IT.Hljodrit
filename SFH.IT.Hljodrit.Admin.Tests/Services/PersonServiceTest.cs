@@ -39,7 +39,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var projectService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
 
 			// Act
-			projectService.GetAllPerformers(illegalPageSize, pageNumber, "");
+			projectService.GetPerformers(illegalPageSize, pageNumber, "");
 		}
 
 		[TestMethod]
@@ -51,13 +51,13 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int expectedPersonCount = 25;
 
 			var mockPerformersObject = Builder<PersonDto>.CreateListOfSize(100).Build();
-			_partyRealRepository.Setup(person => person.GetAllPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>()))
+			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
 			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
 
 			// Act
-			var personResults = personService.GetAllPerformers(pageSize, pageNumber, "");
+			var personResults = personService.GetPerformers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
@@ -72,13 +72,13 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int expectedPersonCount = 50;
 
 			var mockPerformersObject = Builder<PersonDto>.CreateListOfSize(100).Build();
-			_partyRealRepository.Setup(person => person.GetAllPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>()))
+			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
 			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
 
 			// Act
-			var personResults = personService.GetAllPerformers(pageSize, pageNumber, "");
+			var personResults = personService.GetPerformers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
@@ -93,13 +93,13 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int expectedPersonCount = 100;
 
 			var mockPerformersObject = Builder<PersonDto>.CreateListOfSize(100).Build();
-			_partyRealRepository.Setup(person => person.GetAllPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>()))
+			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
 			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
 
 			// Act
-			var personResults = personService.GetAllPerformers(pageSize, pageNumber, "");
+			var personResults = personService.GetPerformers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
@@ -119,7 +119,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 
 			var projectService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
 			// Act
-			projectService.GetAllProducers(illegalPageSize, pageNumber, "");
+			projectService.GetProducers(illegalPageSize, pageNumber, "");
 		}
 
 		[TestMethod]
@@ -131,13 +131,13 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int expectedPersonCount = 25;
 
 			var mockPerformersObject = Builder<PersonDto>.CreateListOfSize(100).Build();
-			_partyRealRepository.Setup(person => person.GetAllPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>()))
+			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
 			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
 
 			// Act
-			var personResults = personService.GetAllProducers(pageSize, pageNumber, "");
+			var personResults = personService.GetProducers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
@@ -152,13 +152,13 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int expectedPersonCount = 50;
 
 			var mockPerformersObject = Builder<PersonDto>.CreateListOfSize(100).Build();
-			_partyRealRepository.Setup(person => person.GetAllPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>()))
+			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
 			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
 
 			// Act
-			var personResults = personService.GetAllProducers(pageSize, pageNumber, "");
+			var personResults = personService.GetProducers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
@@ -173,13 +173,13 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int expectedPersonCount = 100;
 
 			var mockPerformersObject = Builder<PersonDto>.CreateListOfSize(100).Build();
-			_partyRealRepository.Setup(person => person.GetAllPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>()))
+			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
 			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
 
 			// Act
-			var personResults = personService.GetAllProducers(pageSize, pageNumber, "");
+			var personResults = personService.GetProducers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
