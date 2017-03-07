@@ -8,7 +8,7 @@ export default class PersonListView extends React.Component {
         if (!this.props.isFetching) {
             return this.props.persons.map((person) => {
                 return <PersonListItem
-                            key={person.Id}
+                            key={person.id}
                             person={person}
                             add={(person) => this.props.add(person)} />
             });

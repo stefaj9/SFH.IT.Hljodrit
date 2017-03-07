@@ -16,6 +16,7 @@ export class Users extends React.Component {
             searchQuery: '',
             pageNumber: 1,
             pageSize: 25,
+            hasFetched: false,
             filterProperties: [
                 {
                     action: 'performers',
@@ -36,6 +37,18 @@ export class Users extends React.Component {
                 vip: false
             }
         };
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (!newProps.isOpen) {
+            this.resetState();
+        } else {
+            if (!this.state.hasFetched) {
+                const { pageSize, pageNumber, searchQuery } = this.state;
+                this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
+                this.setState({ hasFetched: true });
+            }
+        }
     }
 
     search(term) {
@@ -93,12 +106,16 @@ export class Users extends React.Component {
     }
 
     render() {
+        let containsData = !this.props.isFetchingPersons && this.props.persons.length !== 0;
         return (
             <div>
                 <h2>Aðilar</h2>
-                <SearchBar searchBy={(term) => this.search(term)} />
+                <SearchBar
+                    searchTerm={this.state.searchQuery}
+                    visible={true}
+                    searchBy={(term) => this.search(term)} />
                 <Filter filters={this.state.filterProperties} filterBy={(filter) => this.filterBy(filter)} />
-                <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
+                <PageSelector visible={containsData} change={(newPagesize) => this.changePagesize(newPagesize)} />
                 <PersonListView
                     persons={this.props.persons}
                     isFetching={this.props.isFetchingPersons}
@@ -119,7 +136,7 @@ function mapStateToProps(state) {
         persons: state.person.personEnvelope.persons,
         isFetchingPersons: state.person.isFetching,
         currentPage: state.person.personEnvelope.currentPage,
-        maximumPage: state.person.personEnvelope.maximumPage
+        maximumPage: state.person.personEnvelope.maximumPage,
     };
 };
 
