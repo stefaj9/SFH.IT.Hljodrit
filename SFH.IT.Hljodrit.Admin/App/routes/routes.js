@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import App from '../components/app';
-import Settings from '../components/settings';
+import Settings from '../components/Settings/settings';
 import Calculations from '../components/calculations';
 import Instruments from '../components/instruments';
 import Users from '../components/users';
