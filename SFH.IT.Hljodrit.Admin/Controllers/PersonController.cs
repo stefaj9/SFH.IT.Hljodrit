@@ -28,6 +28,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         [HttpGet]
+        [Route("vipusers")]
+        public IHttpActionResult GetVipUsers([FromUri] int pageSize, [FromUri] int pageNumber)
+        {
+            return Ok(_personService.GetVipUsers(pageSize, pageNumber));
+        }
+
+        [HttpGet]
         [Route("persons")]
         public IHttpActionResult GetAllPersons([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm)
         {

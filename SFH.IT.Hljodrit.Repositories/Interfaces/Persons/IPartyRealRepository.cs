@@ -11,6 +11,8 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Persons
     {
         IEnumerable<PersonDto> GetPersons(Expression<Func<project_track_artist, bool>> expression, string searchTerm);
         IEnumerable<PersonDto> GetPersons(string searchTerm);
+
+        IEnumerable<PersonDto> GetVipUsers();
     }
 }
 

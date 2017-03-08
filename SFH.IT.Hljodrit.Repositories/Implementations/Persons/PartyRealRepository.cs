@@ -45,5 +45,25 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
 
             return persons;
         }
+
+        public IEnumerable<PersonDto> GetVipUsers()
+        {
+            var vipUsers = DbContext.project_superuser_organizations.Join(DbContext.organization_master,
+                superUserOrganization => superUserOrganization.organizationid,
+                organizationMaster => organizationMaster.id,
+                (superUserOrganization, organizationMaster) => new PersonDto()
+                {
+                    Id = organizationMaster.id,
+                    Fullname = organizationMaster.name,
+                    PostalAddressLine1 = organizationMaster.address1,
+                    ZipCode = organizationMaster.zipcode,
+                    Area = organizationMaster.address2
+                }).Distinct().OrderBy(organization => organization.Fullname);
+
+
+
+
+            return vipUsers;
+        }
     }
 }

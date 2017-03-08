@@ -62,6 +62,22 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return personEnvelope; 
         }
 
+        public PersonEnvelope GetFilteredPersons(int pageSize, int pageNumber, bool performers, bool producers, bool vip)
+        {
+
+            return null;
+        }
+
+        public PersonEnvelope GetVipUsers(int pageSize, int pageNumber)
+        {
+            var vipUsers = _partyRealRepository.GetVipUsers();
+            if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
+
+            var vipUsersEnvelope = CreateEnvelope(vipUsers, pageSize, pageNumber);
+
+            return vipUsersEnvelope;
+        }
+
         public PersonExtendedDto GetPersonById(int personId)
         {
             var person = _partyRealRepository.GetById(personId);
