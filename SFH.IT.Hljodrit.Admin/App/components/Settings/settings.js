@@ -1,5 +1,4 @@
 import React from 'react';
-import Exceptions from './exceptions';
 import Tabs from './Tabs';
 import TabItems from './tabData';
 import Content from './content';

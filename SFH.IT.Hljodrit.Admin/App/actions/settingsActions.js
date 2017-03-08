@@ -1,10 +1,10 @@
 import fetch from 'isomorphic-fetch';
 import * as types from './actionTypes';
 
-export function getExceptions(pageSize, pageNumber) {
+export function getAllExceptions(pageSize, pageNumber) {
     return (dispatch) => {
         dispatch(isFetchingExceptions());
-        return fetch(`api/exceptions?pageSize=${pageSize}&pageNumber=${pageNumber}`, {
+        return fetch(`/api/exceptions?pageSize=${pageSize}&pageNumber=${pageNumber}`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {
@@ -13,13 +13,13 @@ export function getExceptions(pageSize, pageNumber) {
                 dispatch(hasStoppedFetchingExceptions());
             }
         }).then((data) => {
+            dispatch(getAllExceptionsSuccess(data));
             dispatch(hasStoppedFetchingExceptions());
-            dispatch(getExceptionsSuccess(data));
         });
     };
 }
 
-function getExceptionsSuccess(data) {
+function getAllExceptionsSuccess(data) {
     return {
         type: types.GET_EXCEPTIONS,
         payload: data

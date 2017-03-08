@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 
 const Tab = ({data, isActive, handleClick}) => {
     return (
-        <li onClick={handleClick} className={isActive ? "active" : null}>
+        <li onClick={handleClick} className={isActive ? 'active' : null}>
             <a href="#">{data.name}</a>
         </li>
     );
