@@ -182,18 +182,6 @@ class SelectPersonModal extends React.Component {
                             </span>
                         </div>
                         <div className="modal-body">
-                            <SearchBar searchBy={(term) => this.search(term)} />
-                            <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
-                            <PersonListView
-                                persons={this.props.persons}
-                                isFetching={this.props.isFetchingPersons}
-                                add={(person) => { this.props.update(person); this.props.next(); } } />
-                            <Paging
-                                visible={!this.props.isFetchingPersons}
-                                currentPage={this.props.currentPage}
-                                maximumPage={this.props.maximumPage}
-                                changePage={(newPageNumber) => this.changePageNumber(newPageNumber)}
-                                />
                             {this.renderBody()}
                         </div>
                     </div>
