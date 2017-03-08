@@ -1,5 +1,5 @@
 import React from 'react';
-import Exceptions from './exceptions';
+import Exceptions from './Exceptions/exceptions';
 import * as types from './tabTypes';
 
 export default class Content extends React.Component {

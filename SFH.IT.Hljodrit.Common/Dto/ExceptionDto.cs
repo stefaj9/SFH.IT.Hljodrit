@@ -11,7 +11,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
 	/// </summary>
 	public class ExceptionDto
 	{
-		public string MachineName { get; set; }
+        public int Id { get; set; }
+        public string MachineName { get; set; }
 		public string SiteName { get; set; }
 		public System.DateTime Logged { get; set; }
 		public string Level { get; set; }

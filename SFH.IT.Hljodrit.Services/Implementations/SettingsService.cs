@@ -26,7 +26,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
 			var exceptions = _settingsRepository.GetAll().Select(e => new ExceptionDto
 			{
-				Callsite = e.Callsite,
+                Id = e.ID,
+                Callsite = e.Callsite,
 				Exception = e.Exception,
 				Https = e.Https,
 				Level = e.Level,
@@ -42,13 +43,14 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 				Url = e.Url,
 				ServerAddress = e.ServerAddress,
 				RemoteAddress = e.RemoteAddress
-			});
+			}).OrderByDescending(p => p.Id);
+
 			var envelope = new Envelope<ExceptionDto>
 			{
 				CurrentPage = pageNumber,
 				MaximumPage = (int)Math.Ceiling(exceptions.Count() / (decimal)pageSize),
 				Objects = exceptions.Skip((pageNumber - 1) * pageSize).Take(pageSize)
-			};
+            };
 
 			return envelope;
 		}

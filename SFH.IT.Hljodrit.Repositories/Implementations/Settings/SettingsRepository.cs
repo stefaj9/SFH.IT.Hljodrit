@@ -15,5 +15,5 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Settings
 		public SettingsRepository(IDbFactory dbFactory) 
 			: base(dbFactory) { }
 
-	}
+    }
 }
