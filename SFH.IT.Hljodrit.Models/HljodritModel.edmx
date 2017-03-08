@@ -921,6 +921,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="updatedon" Type="datetime" Nullable="false" />
           <Property Name="dateofbirth" Type="datetime" />
           <Property Name="dateofdeath" Type="datetime" />
+          <Property Name="email" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="website" Type="nvarchar" MaxLength="200" />
           <Property Name="deceased" Type="bit" />
           <Property Name="importid" Type="int" />
@@ -3316,6 +3317,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <NavigationProperty Name="project_master" Relationship="Self.FK_project_master_partyReal" FromRole="party_real" ToRole="project_master" />
           <NavigationProperty Name="project_track_artist" Relationship="Self.FK_project_track_artist_party_real" FromRole="party_real" ToRole="project_track_artist" />
           <NavigationProperty Name="recording_party" Relationship="Self.FK_recording_party_party_real" FromRole="party_real" ToRole="recording_party" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="project_master">
           <Key>
@@ -5710,6 +5712,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <EntitySetMapping Name="party_real">
             <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_real">
               <MappingFragment StoreEntitySet="party_real">
+                <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="uniqueidentifier" ColumnName="uniqueidentifier" />
                 <ScalarProperty Name="firstname" ColumnName="firstname" />

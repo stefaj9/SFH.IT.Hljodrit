@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System.Linq;
+using System.Web.Http;
+using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
@@ -32,6 +34,19 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult GetAllPersons([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm)
         {
             return Ok(_personService.GetPersons(pageSize, pageNumber, searchTerm ?? ""));
+        }
+
+        [HttpPost]
+        [Route("persons")]
+        public IHttpActionResult AddPerson([FromBody] PersonRegisterViewModel person)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = string.Join(", ", ModelState.Values.SelectMany(v => v.Errors));
+                return BadRequest(errors);
+            }
+
+            return Ok();
         }
 
         [HttpGet]

@@ -7,6 +7,7 @@ import PersonListView from '../common/personListView';
 import SearchBar from '../common/searchBar';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
+import _ from 'lodash';
 
 class SelectPersonModal extends React.Component {
     componentWillReceiveProps(newProps) {
@@ -31,7 +32,15 @@ class SelectPersonModal extends React.Component {
             pageNumber: 1,
             pageSize: 25,
             hasFetched: false,
-            registerFormShowing: false
+            registerFormShowing: false,
+            registerUser: {
+                name: '',
+                ssn: '',
+                address: '',
+                zipCode: '',
+                email: '',
+                numericCountryIsoCode: ''
+            }
         };
     }
     resetState() {
@@ -80,6 +89,50 @@ class SelectPersonModal extends React.Component {
         this.props.getPersonsByCriteria(25, 1, '');
         this.setState({ hasFetched: true });
     }
+    registerPerson(e) {
+        e.preventDefault();
+        console.log(this.state.registerUser);
+    }
+    onNameChange(e) {
+        let user = _.cloneDeep(this.state.registerUser);
+        user.name = e.target.value;
+        this.setState({ registerUser: user });
+    }
+    onSsnChange(e) {
+        if (e.target.value.length > 11) {
+            return;
+        }
+        let oldLength = this.state.registerUser.ssn.length;
+        let user = _.cloneDeep(this.state.registerUser);
+        if (oldLength < e.target.value.length && e.target.value.length === 6) {
+            user.ssn = `${e.target.value}-`;
+        } else if (oldLength > e.target.value.length && oldLength === 7) {
+            user.ssn = e.target.value.slice(0, -1);
+        } else {
+            user.ssn = e.target.value;
+        }
+        this.setState({ registerUser: user });
+    }
+    onAddressChange(e) {
+        let user = _.cloneDeep(this.state.registerUser);
+        user.address = e.target.value;
+        this.setState({ registerUser: user });
+    }
+    onEmailChange(e) {
+        let user = _.cloneDeep(this.state.registerUser);
+        user.email = e.target.value;
+        this.setState({ registerUser: user });
+    }
+    onPostalCodeChange(e) {
+        let user = _.cloneDeep(this.state.registerUser);
+        user.zipCode = e.target.value;
+        this.setState({ registerUser: user });
+    }
+    onCountryChange(e) {
+        let user = _.cloneDeep(this.state.registerUser);
+        user.numericCountryIsoCode = e.target.value;
+        this.setState({ registerUser: user });
+    }
     renderRegisterForm() {
         if (!this.props.isFetchingPersons && this.props.persons.length === 0) {
             if (!this.state.registerFormShowing) {
@@ -99,41 +152,50 @@ class SelectPersonModal extends React.Component {
                         <option key={c.numericIsoCode} value={c.numericIsoCode}>{c.name}</option>
                     );
                 });
+                const { registerUser } = this.state;
                 return (
                     <div>
                         <h4>Nýskrá notanda</h4>
                         <form action="">
                             <div className="form-group">
-                                <label htmlFor="">Kennitala</label>
-                                <input type="text" className="form-control"/>
+                                <label htmlFor="">Nafn</label>
+                                <input 
+                                    value={registerUser.name}
+                                    type="text" 
+                                    className="form-control"
+                                    onChange={(e) => this.onNameChange(e)} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Nafn</label>
-                                <input type="text" className="form-control"/>
+                                <label htmlFor="">Kennitala</label>
+                                <input 
+                                    value={registerUser.ssn}
+                                    type="text" 
+                                    className="form-control"
+                                    onChange={(e) => this.onSsnChange(e)} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Heimilisfang</label>
-                                <input type="text" className="form-control"/>
+                                <input value={registerUser.address} type="text" className="form-control" onChange={(e) => this.onAddressChange(e)} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Bæjarfélag</label>
-                                <input type="text" className="form-control"/>
+                                <label htmlFor="">Netfang</label>
+                                <input value={registerUser.email} type="email" className="form-control" onChange={(e) => this.onEmailChange(e)} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Póstnúmer</label>
-                                <select name="" id="" className="form-control">
+                                <select value={registerUser.zipCode} name="" id="" className="form-control" onChange={(e) => this.onPostalCodeChange(e)} >
                                     {zipCodes}
                                 </select>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Land</label>
-                                <select name="" id="" className="form-control">
+                                <select value={registerUser.numericCountryIsoCode} name="" id="" className="form-control" onChange={(e) => this.onCountryChange(e)} >
                                     {countries}
                                 </select>
                             </div>
                             <div className="btn-group pull-right">
                                 <button className="btn btn-default" onClick={(e) => this.backToList(e)}>Hætta við</button>
-                                <button className="btn btn-default btn-primary">Áfram</button>
+                                <button className="btn btn-default btn-primary" onClick={(e) => this.registerPerson(e)}>Áfram</button>
                             </div>
                         </form>
                     </div>
