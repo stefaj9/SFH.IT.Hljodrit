@@ -20,10 +20,6 @@ namespace SFH.IT.Hljodrit.Common.ViewModels
         [JsonProperty(PropertyName = "zipCode")]
         public string Zipcode { get; set; }
         [Required]
-        [EmailAddress(ErrorMessage = "Email address is in incorrect format")]
-        [JsonProperty(PropertyName = "email")]
-        public string Email { get; set; }
-        [Required]
         [JsonProperty(PropertyName = "numericCountryIsoCode")]
         public int NumericCountryIsoCode { get; set; }
     }
