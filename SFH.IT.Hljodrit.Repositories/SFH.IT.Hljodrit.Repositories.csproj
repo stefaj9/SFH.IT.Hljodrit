@@ -70,6 +70,8 @@
     <Compile Include="Interfaces\Instruments\IInstrumentRepository.cs" />
     <Compile Include="Interfaces\Persons\IPartyRealRepository.cs" />
     <Compile Include="Interfaces\Persons\IPartyRoleRepository.cs" />
+    <Compile Include="Implementations\Settings\SettingsRepository.cs" />
+    <Compile Include="Interfaces\Settings\ISettingsRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Implementations\Project\ProjectTrackRepository.cs" />
     <Compile Include="Implementations\Project\ProjectStatusRepository.cs" />

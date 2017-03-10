@@ -4,9 +4,11 @@ using SFH.IT.Hljodrit.Repositories.Implementations.Instruments;
 using SFH.IT.Hljodrit.Repositories.Implementations.Persons;
 using SFH.IT.Hljodrit.Repositories.Implementations.Project;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
+using SFH.IT.Hljodrit.Repositories.Implementations.Settings;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Instruments;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Settings;
 using SimpleInjector;
 
 namespace SFH.IT.Hljodrit.Repositories
@@ -27,6 +29,7 @@ namespace SFH.IT.Hljodrit.Repositories
             container.Register<IPartyRoleRepository, PartyRoleRepository>(Lifestyle.Transient);
             container.Register<IZipCodeRepository, ZipCodeRepository>(Lifestyle.Transient);
             container.Register<ICountryRepository, CountryRepository>(Lifestyle.Transient);
+            container.Register<ISettingsRepository, SettingsRepository>(Lifestyle.Transient);
             container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Transient);
         }
     }
