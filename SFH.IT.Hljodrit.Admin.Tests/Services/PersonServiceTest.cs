@@ -213,5 +213,33 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             Assert.AreEqual(20, returnedRoles.Count());
         }
         #endregion
+
+        #region AddPerson
+
+	    public void AddAPersonWithRightFormattedData()
+	    {
+	        
+	    }
+
+	    public void AddAPersonWithNameMissing()
+	    {
+	        
+	    }
+
+	    public void AddAPersonWithAddressMissing()
+	    {
+	        
+	    }
+
+	    public void AddAPersonWithIncorrectSsnFormat()
+	    {
+	        
+	    }
+
+	    public void AddAPersonWithTooShortName()
+	    {
+	        
+	    }
+        #endregion
     }
 }
