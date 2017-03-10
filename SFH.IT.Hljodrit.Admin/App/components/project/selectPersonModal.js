@@ -46,9 +46,9 @@ class SelectPersonModal extends React.Component {
                 name: '',
                 ssn: '',
                 address: '',
-                zipCode: '',
+                zipCode: '0',
                 email: '',
-                numericCountryIsoCode: '',
+                numericCountryIsoCode: '4',
                 isDeceased: false
             }
         };

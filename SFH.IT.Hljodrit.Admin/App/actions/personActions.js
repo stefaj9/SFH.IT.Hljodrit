@@ -41,7 +41,7 @@ export function registerPerson(person) {
                 return resp.json();
             } else {
                 resp.json().then((err) => {
-                    toastr.error('Villa', err.message);
+                    toastr.error('Villa', err.Message);
                 });
                 dispatch(hasStoppedRegisteringPerson());
             }
