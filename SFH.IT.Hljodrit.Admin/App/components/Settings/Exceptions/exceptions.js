@@ -2,8 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {getAllExceptions} from '../../../actions/settingsActions';
 import ExceptionList from './exceptionsListView';
-import PageSelector from '../../pageSelector';
-import Paging from '../../paging';
+import PageSelector from '../../common/pageSelector';
+import Paging from '../../common/paging';
 
 class Exceptions extends React.Component {
     componentWillMount() {
