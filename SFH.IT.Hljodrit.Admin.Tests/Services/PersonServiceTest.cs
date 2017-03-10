@@ -8,6 +8,8 @@ using FizzWare.NBuilder;
 using Moq;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Models;
+using SFH.IT.Hljodrit.Repositories.Base;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 
 namespace SFH.IT.Hljodrit.Admin.Tests.Services
@@ -17,6 +19,9 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 	{
 		private Mock<IPartyRealRepository> _partyRealRepository;
 	    private Mock<IPartyRoleRepository> _partyRoleRepository;
+	    private Mock<IZipCodeRepository> _zipCodeRepository;
+	    private Mock<ICountryRepository> _countryRepository;
+	    private Mock<IUnitOfWork> _unitOfWork;
 
 		private const string ProducerRoleCode = "PRO";
 
@@ -25,6 +30,9 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 		{
 			_partyRealRepository = new Mock<IPartyRealRepository>();
             _partyRoleRepository = new Mock<IPartyRoleRepository>();
+            _countryRepository = new Mock<ICountryRepository>();
+            _zipCodeRepository = new Mock<IZipCodeRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
 		}
 
 		#region GetAllPerformers
@@ -36,7 +44,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			// Arrange
 			const int illegalPageSize = -1;
 			const int pageNumber = 1;
-			var projectService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
+			var projectService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
 
 			// Act
 			projectService.GetPerformers(illegalPageSize, pageNumber, "");
@@ -54,7 +62,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
-			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
+			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
 
 			// Act
 			var personResults = personService.GetPerformers(pageSize, pageNumber, "");
@@ -75,7 +83,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
-			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
+			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
 
 			// Act
 			var personResults = personService.GetPerformers(pageSize, pageNumber, "");
@@ -96,7 +104,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
-			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
+			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
 
 			// Act
 			var personResults = personService.GetPerformers(pageSize, pageNumber, "");
@@ -117,7 +125,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int illegalPageSize = -1;
 			const int pageNumber = 1;
 
-			var projectService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
+			var projectService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
 			// Act
 			projectService.GetProducers(illegalPageSize, pageNumber, "");
 		}
@@ -134,7 +142,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
-			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
+			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
 
 			// Act
 			var personResults = personService.GetProducers(pageSize, pageNumber, "");
@@ -155,7 +163,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
-			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
+			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
 
 			// Act
 			var personResults = personService.GetProducers(pageSize, pageNumber, "");
@@ -176,7 +184,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			_partyRealRepository.Setup(person => person.GetPersons(It.IsAny<Expression<Func<project_track_artist, bool>>>(), ""))
 				.Returns(mockPerformersObject);
 
-			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
+			var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
 
 			// Act
 			var personResults = personService.GetProducers(pageSize, pageNumber, "");
@@ -194,7 +202,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             // Arrange
             var roles = Builder<party_partyroletype>.CreateListOfSize(20).Build();
             _partyRoleRepository.Setup(pr => pr.GetMany(p => p.active == true)).Returns(roles);
-            var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object);
+            var personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
 
             // Act
             var returnedRoles = personService.GetPersonRoles();

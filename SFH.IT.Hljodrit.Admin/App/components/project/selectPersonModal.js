@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
-import { getPersonsByCriteria } from '../../actions/personActions';
+import { getPersonsByCriteria, registerPerson, resetRegisterUser } from '../../actions/personActions';
 import { getZipCodes, getCountries } from '../../actions/commonActions';
 import PersonListView from '../common/personListView';
 import SearchBar from '../common/searchBar';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
+import Spinner from 'react-spinner';
 import _ from 'lodash';
 
 class SelectPersonModal extends React.Component {
@@ -19,6 +20,13 @@ class SelectPersonModal extends React.Component {
                 this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
                 this.setState({ hasFetched: true });
             }
+        }
+        if (newProps.registerUserId !== undefined && newProps.registerUserId !== -1) {
+            let user = _.cloneDeep(this.state.registerUser);
+            user.id = newProps.registerUserId;
+            this.props.update(user);
+            this.props.next();
+            this.props.resetRegisterUser();
         }
     }
     componentWillMount() {
@@ -34,12 +42,14 @@ class SelectPersonModal extends React.Component {
             hasFetched: false,
             registerFormShowing: false,
             registerUser: {
+                id: -1,
                 name: '',
                 ssn: '',
                 address: '',
                 zipCode: '',
                 email: '',
-                numericCountryIsoCode: ''
+                numericCountryIsoCode: '',
+                isDeceased: false
             }
         };
     }
@@ -49,7 +59,17 @@ class SelectPersonModal extends React.Component {
             pageNumber: 1,
             pageSize: 25,
             hasFetched: false,
-            registerFormShowing: false
+            registerFormShowing: false,
+            registerUser: {
+                id: -1,
+                name: '',
+                ssn: '',
+                address: '',
+                zipCode: '',
+                email: '',
+                numericCountryIsoCode: '',
+                isDeceased: false
+            }
         });
     }
     search(term) {
@@ -91,7 +111,7 @@ class SelectPersonModal extends React.Component {
     }
     registerPerson(e) {
         e.preventDefault();
-        console.log(this.state.registerUser);
+        this.props.registerPerson(this.state.registerUser);
     }
     onNameChange(e) {
         let user = _.cloneDeep(this.state.registerUser);
@@ -118,11 +138,6 @@ class SelectPersonModal extends React.Component {
         user.address = e.target.value;
         this.setState({ registerUser: user });
     }
-    onEmailChange(e) {
-        let user = _.cloneDeep(this.state.registerUser);
-        user.email = e.target.value;
-        this.setState({ registerUser: user });
-    }
     onPostalCodeChange(e) {
         let user = _.cloneDeep(this.state.registerUser);
         user.zipCode = e.target.value;
@@ -132,6 +147,15 @@ class SelectPersonModal extends React.Component {
         let user = _.cloneDeep(this.state.registerUser);
         user.numericCountryIsoCode = e.target.value;
         this.setState({ registerUser: user });
+    }
+    onDeceasedChange(e) {
+        let user = _.cloneDeep(this.state.registerUser);
+        user.isDeceased = e.target.value;
+        this.setState({ registerUser: user });
+    }
+    isValidRegisterForm() {
+        const user = this.state.registerUser;
+        return user.name && user.address;
     }
     renderRegisterForm() {
         if (!this.props.isFetchingPersons && this.props.persons.length === 0) {
@@ -178,10 +202,6 @@ class SelectPersonModal extends React.Component {
                                 <input value={registerUser.address} type="text" className="form-control" onChange={(e) => this.onAddressChange(e)} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Netfang</label>
-                                <input value={registerUser.email} type="email" className="form-control" onChange={(e) => this.onEmailChange(e)} />
-                            </div>
-                            <div className="form-group">
                                 <label htmlFor="">Póstnúmer</label>
                                 <select value={registerUser.zipCode} name="" id="" className="form-control" onChange={(e) => this.onPostalCodeChange(e)} >
                                     {zipCodes}
@@ -193,9 +213,22 @@ class SelectPersonModal extends React.Component {
                                     {countries}
                                 </select>
                             </div>
+                            <div className="form-group">
+                                <label htmlFor="isDeceased">Er látinn?</label>
+                                <input type="checkbox" id="isDeceased" />
+                            </div>
                             <div className="btn-group pull-right">
                                 <button className="btn btn-default" onClick={(e) => this.backToList(e)}>Hætta við</button>
-                                <button className="btn btn-default btn-primary" onClick={(e) => this.registerPerson(e)}>Áfram</button>
+                                <div className="spinner-btn-wrapper">
+                                    <button 
+                                        disabled={this.props.isRegistering || !this.isValidRegisterForm()}
+                                        className="btn btn-default btn-primary" 
+                                        onClick={(e) => this.registerPerson(e)}>
+                                            <Spinner 
+                                                className={this.props.isRegistering ? 'spinner-btn' : 'hidden'} />
+                                            <span className={this.props.isRegistering ? 'non-visible' : ''}>Áfram</span>
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -257,6 +290,8 @@ function mapStateToProps(state) {
     return {
         persons: state.person.personEnvelope.persons,
         isFetchingPersons: state.person.isFetching,
+        isRegistering: state.person.isRegistering,
+        registerUserId: state.person.registerUserId,
         currentPage: state.person.personEnvelope.currentPage,
         maximumPage: state.person.personEnvelope.maximumPage,
         zipCodes: state.common.zipCodes,
@@ -264,4 +299,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getPersonsByCriteria, getZipCodes, getCountries })(SelectPersonModal);
+export default connect(mapStateToProps, { getPersonsByCriteria, registerPerson, resetRegisterUser, getZipCodes, getCountries })(SelectPersonModal);

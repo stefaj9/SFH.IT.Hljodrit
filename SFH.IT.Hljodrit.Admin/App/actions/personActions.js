@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import { toastr } from 'react-redux-toastr';
 
 export function getPersonsByCriteria(pageSize, pageNumber, searchQuery) {
     return (dispatch) => {
@@ -17,6 +18,60 @@ export function getPersonsByCriteria(pageSize, pageNumber, searchQuery) {
         });
     };
 }
+
+export function resetRegisterUser() {
+    return {
+        type: 'RESET_REGISTER_PERSON',
+        payload: {}
+    };
+};
+
+export function registerPerson(person) {
+    return (dispatch) => {
+        dispatch(isRegisteringPerson());
+        return fetch('/api/persons', {
+            method: 'POST',
+            body: JSON.stringify(person),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                toastr.success('Tókst', 'Það tókst að nýskrá aðila.');
+                return resp.json();
+            } else {
+                resp.json().then((err) => {
+                    toastr.error('Villa', err.message);
+                });
+                dispatch(hasStoppedRegisteringPerson());
+            }
+        }).then((data) => {
+            dispatch(hasStoppedRegisteringPerson());
+            dispatch(registerPersonSuccess(data));
+        });
+    }
+}
+
+function registerPersonSuccess(data) {
+    return {
+        type: 'REGISTER_PERSON',
+        payload: data
+    };
+};
+
+function isRegisteringPerson() {
+    return {
+        type: 'IS_REGISTERING_PERSON',
+        payload: {}
+    };
+};
+
+function hasStoppedRegisteringPerson() {
+    return {
+        type: 'HAS_STOPPED_REGISTERING_PERSON',
+        payload: {}
+    };
+};
 
 export function getPersonRoles() {
     return (dispatch) => {

@@ -46,7 +46,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
                 return BadRequest(errors);
             }
 
-            return Ok();
+            return Ok(_personService.AddPerson(person));
         }
 
         [HttpGet]

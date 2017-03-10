@@ -1,11 +1,13 @@
 let initialState = {
     isFetching: true,
+    isRegistering: false,
     personEnvelope: {
         currentPage: -1,
         maximumPage: -1,
         persons: []
     },
-    personRoles: []
+    personRoles: [],
+    registerUserId: -1
 };
 
 export default function(state = initialState, action) {
@@ -21,6 +23,18 @@ export default function(state = initialState, action) {
         });
         case 'HAS_STOPPED_FETCHING_PERSONS': return Object.assign({}, state, {
             isFetching: false
+        });
+        case 'REGISTER_PERSON': return Object.assign({}, state, {
+            registerUserId: action.payload
+        });
+        case 'IS_REGISTERING_PERSON': return Object.assign({}, state, {
+            isRegistering: true
+        });
+        case 'HAS_STOPPED_REGISTERING_PERSON': return Object.assign({}, state, {
+            isRegistering: false
+        });
+        case 'RESET_REGISTER_PERSON': return Object.assign({}, state, {
+            registerUserId: -1
         });
     }
 
