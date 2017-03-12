@@ -44,10 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\AlbumService.cs" />
     <Compile Include="Implementations\CommonService.cs" />
     <Compile Include="Implementations\InstrumentService.cs" />
     <Compile Include="Implementations\PersonService.cs" />
     <Compile Include="Implementations\ProjectService.cs" />
+    <Compile Include="Interfaces\IAlbumService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
     <Compile Include="Interfaces\IInstrumentService.cs" />
     <Compile Include="Interfaces\IPersonService.cs" />

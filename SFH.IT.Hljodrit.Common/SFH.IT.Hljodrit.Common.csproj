@@ -53,6 +53,7 @@
     <Compile Include="Dto\ProjectDto.cs" />
     <Compile Include="Dto\ProjectEnvelope.cs" />
     <Compile Include="Dto\RoleDto.cs" />
+    <Compile Include="Dto\SongDto.cs" />
     <Compile Include="Dto\ZipCodeDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
