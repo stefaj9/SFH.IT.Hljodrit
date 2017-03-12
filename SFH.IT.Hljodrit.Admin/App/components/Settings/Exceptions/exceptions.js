@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {getAllExceptions} from '../../../actions/settingsActions';
+import {getAllExceptions, selectException, closeExceptionModal} from '../../../actions/settingsActions';
 import ExceptionList from './exceptionsListView';
 import PageSelector from '../../common/pageSelector';
 import Paging from '../../common/paging';
@@ -54,21 +54,21 @@ class Exceptions extends React.Component {
                 <h2>Exceptions</h2>
                 <PageSelector change={newPageSize => this.changePageSize(newPageSize)} />
                 <ExceptionList exceptions={this.props.exceptions}
-                               isFetching={this.props.isFetching} />
+                               isFetching={this.props.isFetching} 
+                               onSelect={this.props.selectException} />
                 <Paging visible={!this.props.isFetching}
                         currentPage={this.props.currentPage}
                         maximumPage={this.props.maximumPage}
                         changePage={newPageNumber => this.changePageNumber(newPageNumber)} />
-                <ExceptionModal isOpen={this.state.isModalOpen}
-                                exception={this.state.selectedException}
-                                onClose={() => this.closeModal()} />
+                <ExceptionModal isOpen={this.props.isModalOpen}
+                                exception={this.props.selectedException}
+                                onClose={this.props.closeExceptionModal} />
             </div>
         );
     }
 }
 
 function mapStateToProps(state) {
-    debugger;
     return {
         exceptions: state.settings.envelope.objects,
         currentPage: state.settings.envelope.currentPage,
@@ -79,4 +79,8 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { getAllExceptions })(Exceptions);
+export default connect(mapStateToProps, { 
+    getAllExceptions, 
+    selectException, 
+    closeExceptionModal 
+})(Exceptions);

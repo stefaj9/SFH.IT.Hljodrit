@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 
 const ExceptionDetailModal = ({isOpen, exception, onClose}) => {
@@ -13,13 +13,13 @@ const ExceptionDetailModal = ({isOpen, exception, onClose}) => {
                     <div className="modal-header">
                         Details
                         <span className="top-corner">
-                                <a href="#" onClick={onClose}>
+                                <a href="#" onClick={() => onClose()}>
                                     <i className="fa fa-times"></i>
                                 </a>
                             </span>
                     </div>
                     <div className="modal-body">
-                        Hallo
+                    {exception.MachineName}
                     </div>
                 </div>
             </div>
@@ -28,10 +28,10 @@ const ExceptionDetailModal = ({isOpen, exception, onClose}) => {
     );
 };
 
-ExceptionDetailModal.PropTypes = {
+/*ExceptionDetailModal.propTypes = {
     isOpen: React.PropTypes.bool.isRequired,
     exception: React.PropTypes.object.isRequired,
     onClose: React.PropTypes.func.isRequired
-};
+};*/
 
 export default ExceptionDetailModal;

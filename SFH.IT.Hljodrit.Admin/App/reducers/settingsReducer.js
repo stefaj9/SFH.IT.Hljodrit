@@ -6,7 +6,9 @@ let initialState = {
         currentPage: -1,
         maximumPage: -1,
         objects: []
-    }
+    },
+    isModalOpen: false,
+    selectedException: {}
 };
 
 export default function (state = initialState, action) {
@@ -24,10 +26,13 @@ export default function (state = initialState, action) {
                 isFetching: false
             });
         case types.SELECT_EXCEPTION:
-            debugger;
             return Object.assign({}, state, {
                 selectedException: action.payload,
                 isModalOpen: true
+            });
+        case types.CLOSE_EXCEPTION_MODAL:
+            return Object.assign({}, state, {
+                isModalOpen: false
             });
         default:
             return state;

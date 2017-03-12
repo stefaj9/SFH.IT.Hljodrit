@@ -2,13 +2,14 @@ import React from 'react';
 import Spinner from 'react-spinner';
 import ExceptionListItem from './exceptionsListItem';
 
-const ExceptionsListView = ({exceptions, isFetching}) => {
+const ExceptionsListView = ({exceptions, isFetching, onSelect}) => {
     const renderExceptionItems = () => {
         if (!isFetching) {
             return exceptions.map(exception => {
                 return (
                     <ExceptionListItem key={exception.Id}
-                                       exception={exception} />
+                                       exception={exception}
+                                       onSelect={onSelect} />
                 );
             });
         }

@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { selectException } from '../../../actions/settingsActions';
 
-const ExceptionListItem = ({exception}) => {
+const ExceptionListItem = ({exception, onSelect}) => {
     return (
         <div className="list well row">
             <div className="list-info col-md-6 col-xs-12">
@@ -27,7 +25,7 @@ const ExceptionListItem = ({exception}) => {
             <div className="list-actions col-md-6 col-xs-12">
                 <div
                     className="list-action"
-                    onClick={() => this.props.selectException(exception)}>
+                    onClick={() => onSelect(exception)}>
                     <i className="fa fa-2x fa-info" />
                     <div>Nánar</div>
                 </div>
@@ -36,4 +34,4 @@ const ExceptionListItem = ({exception}) => {
     );
 };
 
-export default connect(null, { selectException })(ExceptionListItem);
+export default ExceptionListItem;

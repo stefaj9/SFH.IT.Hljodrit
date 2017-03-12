@@ -20,15 +20,17 @@ export function getAllExceptions(pageSize, pageNumber) {
 }
 
 export function selectException(exception) {
-    debugger;
     return {
         type: types.SELECT_EXCEPTION,
         payload: exception
     };
+}
 
-    return (dispatch) => {
-        dispatch()
-    }
+export function closeExceptionModal() {
+    return {
+        type: types.CLOSE_EXCEPTION_MODAL,
+        payload: {}
+    };
 }
 
 function getAllExceptionsSuccess(data) {
