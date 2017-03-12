@@ -10,15 +10,12 @@ const ExceptionDetailModal = ({isOpen, exception, onClose}) => {
             overlayClass="modal-overlay">
             <div className="modal-dialog">
                 <div className="modal-content">
-                    <div className="modal-header">
-                        Details
+                    <div className="modal-body">
                         <span className="top-corner">
                             <a href="#" onClick={() => onClose()}>
                                 <i className="fa fa-times" />
                             </a>
                         </span>
-                    </div>
-                    <div className="modal-body">
                         <div className="list well row">
                             <div className="list-info col-md-12 col-xs-12">
                                 <div className="list-name">

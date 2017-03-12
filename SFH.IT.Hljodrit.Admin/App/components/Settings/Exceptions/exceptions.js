@@ -57,7 +57,6 @@ class Exceptions extends React.Component {
 }
 
 function mapStateToProps(state) {
-    debugger;
     return {
         exceptions: state.settings.envelope.objects,
         currentPage: state.settings.envelope.currentPage,
