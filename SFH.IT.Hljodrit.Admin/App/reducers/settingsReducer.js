@@ -23,6 +23,12 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 isFetching: false
             });
+        case types.SELECT_EXCEPTION:
+            debugger;
+            return Object.assign({}, state, {
+                selectedException: action.payload,
+                isModalOpen: true
+            });
         default:
             return state;
     }

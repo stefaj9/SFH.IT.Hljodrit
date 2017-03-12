@@ -19,6 +19,18 @@ export function getAllExceptions(pageSize, pageNumber) {
     };
 }
 
+export function selectException(exception) {
+    debugger;
+    return {
+        type: types.SELECT_EXCEPTION,
+        payload: exception
+    };
+
+    return (dispatch) => {
+        dispatch()
+    }
+}
+
 function getAllExceptionsSuccess(data) {
     return {
         type: types.GET_EXCEPTIONS,
@@ -39,3 +51,4 @@ function hasStoppedFetchingExceptions() {
         payload: {}
     };
 }
+

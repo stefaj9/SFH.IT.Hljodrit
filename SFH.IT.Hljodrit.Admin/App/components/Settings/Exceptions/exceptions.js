@@ -4,6 +4,7 @@ import {getAllExceptions} from '../../../actions/settingsActions';
 import ExceptionList from './exceptionsListView';
 import PageSelector from '../../common/pageSelector';
 import Paging from '../../common/paging';
+import ExceptionModal from './exceptionDetailModal';
 
 class Exceptions extends React.Component {
     componentWillMount() {
@@ -15,7 +16,9 @@ class Exceptions extends React.Component {
 
         this.state = {
             page: 1,
-            pageSize: 25
+            pageSize: 25,
+            isModalOpen: false,
+            selectedException: {}
         }
     }
 
@@ -35,6 +38,16 @@ class Exceptions extends React.Component {
         this.props.getAllExceptions(this.state.pageSize, newPageNumber);
     }
 
+    openModal(exception) {
+        this.setState({
+            isModalOpen: true,
+            selectedException: exception})
+    }
+
+    closeModal() {
+        this.setState({ isModalOpen: false })
+    }
+
     render() {
         return (
             <div>
@@ -46,6 +59,9 @@ class Exceptions extends React.Component {
                         currentPage={this.props.currentPage}
                         maximumPage={this.props.maximumPage}
                         changePage={newPageNumber => this.changePageNumber(newPageNumber)} />
+                <ExceptionModal isOpen={this.state.isModalOpen}
+                                exception={this.state.selectedException}
+                                onClose={() => this.closeModal()} />
             </div>
         );
     }
@@ -57,7 +73,9 @@ function mapStateToProps(state) {
         exceptions: state.settings.envelope.objects,
         currentPage: state.settings.envelope.currentPage,
         maximumPage: state.settings.envelope.maximumPage,
-        isFetching: state.settings.isFetching
+        isFetching: state.settings.isFetching,
+        selectedException: state.settings.selectedException,
+        isModalOpen: state.settings.isModalOpen
     }
 }
 
