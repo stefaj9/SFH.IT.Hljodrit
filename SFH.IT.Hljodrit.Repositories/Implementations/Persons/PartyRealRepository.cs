@@ -60,9 +60,6 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
                     Area = organizationMaster.address2
                 }).Distinct().OrderBy(organization => organization.Fullname);
 
-
-
-
             return vipUsers;
         }
     }

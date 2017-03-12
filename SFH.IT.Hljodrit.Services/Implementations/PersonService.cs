@@ -64,8 +64,28 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public PersonEnvelope GetFilteredPersons(int pageSize, int pageNumber, bool performers, bool producers, bool vip)
         {
+            IEnumerable<PersonDto> personList = new List<PersonDto>();
+            if (performers)
+            {
+                var performersList = _partyRealRepository.GetPersons(p => p.rolecode != ProducerRoleCode, "");
+                personList = personList.Concat(performersList);
+            }
 
-            return null;
+            if (producers)
+            {
+                var producersList = _partyRealRepository.GetPersons(p => p.rolecode == ProducerRoleCode, "");
+                personList = personList.Concat(producersList).Distinct();
+            }
+
+            if (vip)
+            {
+                var vipList = _partyRealRepository.GetVipUsers();
+                personList = personList.Concat(vipList).OrderBy(person => person.Fullname);
+            }
+
+            var personEnvelope = CreateEnvelope(personList, pageSize, pageNumber);
+
+            return personEnvelope;
         }
 
         public PersonEnvelope GetVipUsers(int pageSize, int pageNumber)
