@@ -54,26 +54,24 @@ export default class AddSong extends React.Component {
         return currentSongName.length > 0 && currentSongLength.length > 0;
     }
     sortTable(songs) {
-        let songsCopy = _.cloneDeep(this.state.songs);
+        let consistantCopy = _.cloneDeep(this.state.songs);
+        let newSongs = _.cloneDeep(this.state.songs);
 
         _.forEach(songs, (item, idx) => {
             let number = parseInt(item);
             // Order the songs in the order which is given in the new songs order
-            let songToSwap = _.cloneDeep(songsCopy[number - 1]);
-            let oldSongToSwap = _.cloneDeep(songsCopy[idx]);
-            // Swap values, if it is necessary
-            if (songToSwap.number - 1 !== idx) {
-                songsCopy[idx] = songToSwap;
-                songsCopy[number - 1] = oldSongToSwap;
-            }
+            let songToChange = _.find(consistantCopy, (song) => {
+                return song.number === number;
+            });
+            newSongs[idx] = songToChange;
         });
 
-        songsCopy = _.forEach(songsCopy, (song, idx) => {
+        newSongs = _.forEach(newSongs, (song, idx) => {
             song.number = idx + 1;
         });
 
         this.setState({
-            songs: songsCopy
+            songs: newSongs
         });
     }
     render() {
