@@ -17,8 +17,6 @@ class Exceptions extends React.Component {
         this.state = {
             page: 1,
             pageSize: 25,
-            isModalOpen: false,
-            selectedException: {}
         }
     }
 
@@ -36,16 +34,6 @@ class Exceptions extends React.Component {
         });
 
         this.props.getAllExceptions(this.state.pageSize, newPageNumber);
-    }
-
-    openModal(exception) {
-        this.setState({
-            isModalOpen: true,
-            selectedException: exception})
-    }
-
-    closeModal() {
-        this.setState({ isModalOpen: false })
     }
 
     render() {
@@ -69,6 +57,7 @@ class Exceptions extends React.Component {
 }
 
 function mapStateToProps(state) {
+    debugger;
     return {
         exceptions: state.settings.envelope.objects,
         currentPage: state.settings.envelope.currentPage,
@@ -79,7 +68,7 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { 
+export default connect(mapStateToProps, {
     getAllExceptions, 
     selectException, 
     closeExceptionModal 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 const ExceptionListItem = ({exception, onSelect}) => {
     return (
@@ -6,7 +6,7 @@ const ExceptionListItem = ({exception, onSelect}) => {
             <div className="list-info col-md-6 col-xs-12">
                 <div className="list-name">
                     <div className="title">Level:</div>
-                    <div className="value">{exception.Level}</div>
+                    <div className={'value ' + exception.Level}>{exception.Level}</div>
                 </div>
                 <div className="list-author">
                     <div className="title">Logged:</div>
@@ -32,6 +32,11 @@ const ExceptionListItem = ({exception, onSelect}) => {
             </div>
         </div>
     );
+};
+
+ExceptionListItem.propTypes = {
+    exception: PropTypes.object.isRequired,
+    onSelect: PropTypes.func.isRequired
 };
 
 export default ExceptionListItem;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Spinner from 'react-spinner';
 import ExceptionListItem from './exceptionsListItem';
 
@@ -21,6 +21,12 @@ const ExceptionsListView = ({exceptions, isFetching, onSelect}) => {
             {renderExceptionItems()}
         </div>
     );
+};
+
+ExceptionsListView.propTypes = {
+    exceptions: PropTypes.array.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func.isRequired
 };
 
 export default ExceptionsListView;
