@@ -1,5 +1,6 @@
 import React from 'react';
 import ModalSteps from '../common/modalSteps';
+import SortableTable from '../common/sortableTable';
 import { toastr } from 'react-redux-toastr';
 import _ from 'lodash';
 
@@ -48,22 +49,32 @@ export default class AddSong extends React.Component {
         });
         toastr.success('Tókst!', 'Tókst að fjarlægja lag');
     }
-    renderSongs() {
-        return this.state.songs.map((song) => {
-            return (
-                <tr key={`${song.number}-${song.name}`}>
-                    <td>{song.number}</td>
-                    <td>{song.name}</td>
-                    <td>{song.length}</td>
-                    <td>{song.isrc}</td>
-                    <td><a href="#"><i onClick={(e) => this.removeSongFromList(e, song.number)} className="fa fa-times"></i></a></td>
-                </tr>
-            );
-        });
-    }
     isAddSongValid() {
         const { currentSongName, currentSongLength } = this.state;
         return currentSongName.length > 0 && currentSongLength.length > 0;
+    }
+    sortTable(songs) {
+        let songsCopy = _.cloneDeep(this.state.songs);
+
+        _.forEach(songs, (item, idx) => {
+            let number = parseInt(item);
+            // Order the songs in the order which is given in the new songs order
+            let songToSwap = _.cloneDeep(songsCopy[number - 1]);
+            let oldSongToSwap = _.cloneDeep(songsCopy[idx]);
+            // Swap values, if it is necessary
+            if (songToSwap.number - 1 !== idx) {
+                songsCopy[idx] = songToSwap;
+                songsCopy[number - 1] = oldSongToSwap;
+            }
+        });
+
+        songsCopy = _.forEach(songsCopy, (song, idx) => {
+            song.number = idx + 1;
+        });
+
+        this.setState({
+            songs: songsCopy
+        });
     }
     render() {
         return (
@@ -95,19 +106,12 @@ export default class AddSong extends React.Component {
                             disabled={!this.isAddSongValid()}>Bæta við</button>
                     </div>
                 </form>
-                <table className={'table table-striped table-responsive' + (this.state.songs.length === 0 ? ' hidden' : '')}>
-                    <thead>
-                        <tr>
-                            <th>Nr.</th>
-                            <th>Nafn</th>
-                            <th>Lengd</th>
-                            <th>ISRC</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>{this.renderSongs()}</tbody>
-                    <tfoot></tfoot>
-                </table>
+                <SortableTable
+                    visible={this.state.songs.length !== 0}
+                    items={this.state.songs}
+                    remove={(e, item) => this.removeSongFromList(e, item)}
+                    onChange={(songs) => this.sortTable(songs)}
+                    headers={['', 'Númer', 'Nafn', 'Lengd', 'ISRC', '']} />
                 <p className={this.state.songs.length === 0 ? '' : 'hidden'}>Engin lög hafa verið skráð á þetta verkefni.</p>
                 <div className="btn-group pull-right">
                     <button 

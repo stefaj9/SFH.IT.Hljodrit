@@ -59,6 +59,21 @@ body {
   outline: none;
 }
 
+.fake-table {
+    margin-bottom: 20px;
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+    .list-group-item {
+        transition: background-color .2s ease-in;
+        &:hover {
+            cursor: move;
+            background-color: @fadedGray;
+        }
+    }
+}
+
 .confirmation-wrapper {
     .confirmation-item {
         margin-bottom: 5px;
