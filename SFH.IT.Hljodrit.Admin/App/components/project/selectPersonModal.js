@@ -12,26 +12,28 @@ import _ from 'lodash';
 
 class SelectPersonModal extends React.Component {
     componentWillReceiveProps(newProps) {
-        if (!newProps.isOpen) {
-            this.resetState();
-        } else {
+        if (newProps.isOpen) {
+            if (newProps.registerUserId !== undefined && newProps.registerUserId !== -1) {
+                let user = _.cloneDeep(this.state.registerUser);
+                user.id = newProps.registerUserId;
+                this.props.update(user);
+                this.props.next();
+                this.props.resetRegisterUser();
+            }
             if (!this.state.hasFetched) {
                 const { pageSize, pageNumber, searchQuery } = this.state;
                 this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
                 this.setState({ hasFetched: true });
             }
         }
-        if (newProps.registerUserId !== undefined && newProps.registerUserId !== -1) {
-            let user = _.cloneDeep(this.state.registerUser);
-            user.id = newProps.registerUserId;
-            this.props.update(user);
-            this.props.next();
-            this.props.resetRegisterUser();
-        }
     }
     componentWillMount() {
         this.props.getZipCodes();
         this.props.getCountries();
+    }
+    closeModal(e) {
+        this.resetState();
+        this.props.close(e);
     }
     constructor() {
         super();
@@ -271,7 +273,7 @@ class SelectPersonModal extends React.Component {
                         <div className="modal-header">
                             { this.props.steps() }
                             <span className="top-corner">
-                                <a href="#" onClick={(e) => this.props.close(e)}>
+                                <a href="#" onClick={(e) => this.closeModal(e)}>
                                     <i className="fa fa-times"></i>
                                 </a>
                             </span>
