@@ -36,8 +36,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpGet]
         [Route("persons")]
-        public IHttpActionResult GetAllPersons([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm)
+        public IHttpActionResult GetAllPersons([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm, [FromUri] bool performers, [FromUri] bool producers, [FromUri] bool vip)
         {
+            if (performers || producers || vip)
+            {
+                return Ok(_personService.GetFilteredPersons(pageSize, pageNumber, performers, producers, vip));
+            }
             return Ok(_personService.GetPersons(pageSize, pageNumber, searchTerm ?? ""));
         }
 
