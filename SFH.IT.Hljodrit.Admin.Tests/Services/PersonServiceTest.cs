@@ -197,7 +197,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             // Assert
             Assert.IsNotNull(returnedRoles);
             Assert.IsInstanceOfType(returnedRoles, typeof(IEnumerable<RoleDto>));
-            Assert.AreEqual(25, returnedRoles.Count());
+            Assert.AreEqual(20, returnedRoles.Count());
         }
         #endregion
 
