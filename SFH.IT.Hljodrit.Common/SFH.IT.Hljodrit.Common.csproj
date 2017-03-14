@@ -54,6 +54,7 @@
     <Compile Include="Dto\PersonExtendedDto.cs" />
     <Compile Include="Dto\ProjectDto.cs" />
     <Compile Include="Dto\ProjectEnvelope.cs" />
+    <Compile Include="Dto\PublisherLabelDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\ZipCodeDto.cs" />
     <Compile Include="Dto\Envelope.cs" />

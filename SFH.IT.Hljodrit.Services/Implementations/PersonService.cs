@@ -51,7 +51,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return performersEnvelope;
         }
 
-        public PersonEnvelope GetProducers(int pageSize, int pageNumber, string searchTerm = null)
+        public PersonEnvelope GetPublishers(int pageSize, int pageNumber, string searchTerm = null)
         {
             var producers = _partyRealRepository.GetPersons(p => p.rolecode == ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
 

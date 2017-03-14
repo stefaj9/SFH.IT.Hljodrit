@@ -39,17 +39,8 @@ class OverviewProject extends React.Component {
             );
         });
     }
-    renderProducers(producers) {
-        return producers.map((producer) => {
-            return (
-                <tr key={`${producer.id}-${producer.name}`}>
-                    <td>{producer.name}</td>
-                </tr>
-            );
-        });
-    }
     render() {
-        const { basicInfo, producers, songs } = this.props.project;
+        const { basicInfo, publisher, songs } = this.props.project;
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
                 <ModalSteps steps={this.props.steps} currentStep={5} />
@@ -72,17 +63,8 @@ class OverviewProject extends React.Component {
                         <div className="col-xs-12 confirmation-item-table">{this.renderSongs(songs)}</div>
                     </div>
                     <div className="confirmation-item row">
-                        <div className="col-xs-12 confirmation-item-title">Framleiðendur</div>
-                        <div className="col-xs-12 confirmation-item-table">
-                            <table className="table table-default table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>Nafn</th>
-                                    </tr>
-                                </thead>
-                                <tbody>{this.renderProducers(producers)}</tbody>
-                            </table>
-                        </div>
+                        <div className="col-xs-12 confirmation-item-title">Útgefandi</div>
+                        <div className="col-xs-12 confirmation-item-text">{publisher.name}</div>
                     </div>
                 </div>
                 <div className="btn-group pull-right">

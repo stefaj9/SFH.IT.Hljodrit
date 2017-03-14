@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router';
 import ProjectBasicInfo from './projectBasicInfo';
 import AddSong from './addSong';
 import AddPerformers from './addPerformers';
-import AddProducers from './addProducers';
+import AddPublisher from './addPublisher';
 import OverviewProject from './overviewProject';
 
 class AddProject extends React.Component {
@@ -16,7 +16,7 @@ class AddProject extends React.Component {
                 { name: 'Skrá plötuheiti', class: 'fa fa-pencil' },
                 { name: 'Skrá lög', class: 'fa fa-music' },
                 { name: 'Skrá flytjendur', class: 'fa fa-microphone' },
-                { name: 'Skrá framleiðendur', class: 'fa fa-user' },
+                { name: 'Skrá útgefanda', class: 'fa fa-user' },
                 { name: 'Staðfesting', class: 'fa fa-check' }
             ],
             currentStep: 1
@@ -59,7 +59,7 @@ class AddProject extends React.Component {
                     songs={this.props.project.songs}
                     next={(performers) => { this.props.updateProjectPerformers(performers); this.increaseStep(); } }
                     back={() => this.decreaseStep()} />
-                <AddProducers
+                <AddPublisher
                     isVisible={this.state.currentStep === 4}
                     steps={this.state.steps} 
                     close={() => this.exitWizard()}

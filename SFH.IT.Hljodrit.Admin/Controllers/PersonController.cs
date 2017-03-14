@@ -24,13 +24,6 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         [HttpGet]
-        [Route("producers")]
-        public IHttpActionResult GetAllProducers([FromUri] int pageSize, [FromUri] int pageNumber, string searchTerm)
-        {
-            return Ok(_personService.GetProducers(pageSize, pageNumber, searchTerm ?? ""));
-        }
-
-        [HttpGet]
         [Route("persons")]
         public IHttpActionResult GetAllPersons([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm)
         {

@@ -122,7 +122,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int pageNumber = 1;
 
 			// Act
-			_personService.GetProducers(illegalPageSize, pageNumber, "");
+			_personService.GetPublishers(illegalPageSize, pageNumber, "");
 		}
 
 		[TestMethod]
@@ -138,7 +138,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 				.Returns(mockPerformersObject);
 
 			// Act
-			var personResults = _personService.GetProducers(pageSize, pageNumber, "");
+			var personResults = _personService.GetPublishers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
@@ -157,7 +157,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 				.Returns(mockPerformersObject);
 
 			// Act
-			var personResults = _personService.GetProducers(pageSize, pageNumber, "");
+			var personResults = _personService.GetPublishers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
@@ -176,7 +176,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 				.Returns(mockPerformersObject);
 
 			// Act
-			var personResults = _personService.GetProducers(pageSize, pageNumber, "");
+			var personResults = _personService.GetPublishers(pageSize, pageNumber, "");
 
 			// Assert
 			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());

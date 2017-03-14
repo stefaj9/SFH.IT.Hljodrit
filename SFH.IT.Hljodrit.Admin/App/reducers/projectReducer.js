@@ -9,7 +9,7 @@ let initialState = {
             }
         },
         songs: [],
-        producers: []
+        publisher: {}
     },
     instrumentSuggestions: [],
     projectEnvelope: {
@@ -43,7 +43,7 @@ export default function (state = initialState, action) {
             selectedProject: {
                 basicInfo: action.payload,
                 songs: state.selectedProject.songs,
-                producers: state.selectedProject.producers
+                publisher: state.selectedProject.publisher
             }
         });
         case 'UPDATE_PROJECT_SONGS': 
@@ -51,7 +51,7 @@ export default function (state = initialState, action) {
                 selectedProject: {
                     basicInfo: state.selectedProject.basicInfo,
                     songs: action.payload,
-                    producers: state.selectedProject.producers
+                    publisher: state.selectedProject.publisher
                 }
             });
         case 'UPDATE_PROJECT_PERFORMERS': 
@@ -66,14 +66,14 @@ export default function (state = initialState, action) {
                 selectedProject: {
                     basicInfo: state.selectedProject.basicInfo,
                     songs: newSongs,
-                    producers: state.selectedProject.producers
+                    publisher: state.selectedProject.publisher
                 }
             });
         case 'UPDATE_PROJECT_PRODUCERS': return Object.assign({}, state, {
             selectedProject: {
                 basicInfo: state.selectedProject.basicInfo,
                 songs: state.selectedProject.songs,
-                producers: action.payload
+                publisher: action.payload
             }
         });
         case 'CREATE_PROJECT': return Object.assign({}, state, {
