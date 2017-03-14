@@ -72,11 +72,11 @@ const ExceptionDetailModal = ({isOpen, exception, onClose}) => {
                                 </div>
                                 <div className="list-name">
                                     <div className="title">Exception:</div>
-                                    <div className="value">{exception.Exception}</div>
+                                    <div>{exception.Exception}</div>
                                 </div>
                                 <div className="list-name">
                                     <div className="title">Message:</div>
-                                    <div className="value">{exception.Message}</div>
+                                    <div>{exception.Message}</div>
                                 </div>
                             </div>
                         </div>
