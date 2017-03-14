@@ -23,5 +23,17 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         {
             return Ok(_albumService.GetAllSongs());
         }
+
+        [Route("songs/{id:int}")]
+        public IHttpActionResult GetSongById(int id)
+        {
+            return Ok(_albumService.GetSongById(id));
+        }
+
+        [Route("albums")]
+        public IHttpActionResult GetAlbums()
+        {
+            return Ok(_albumService.GetAlbums());
+        }
     }
 }
