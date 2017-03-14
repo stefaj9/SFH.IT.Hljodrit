@@ -18,22 +18,32 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             _albumService = albumService;
         }
 
+        [HttpGet]
         [Route("songs")]
         public IHttpActionResult GetAllSongs()
         {
             return Ok(_albumService.GetAllSongs());
         }
 
+        [HttpGet]
         [Route("songs/{id:int}")]
         public IHttpActionResult GetSongById(int id)
         {
             return Ok(_albumService.GetSongById(id));
         }
 
+        [HttpGet]
         [Route("albums")]
         public IHttpActionResult GetAlbums()
         {
             return Ok(_albumService.GetAlbums());
+        }
+
+        [HttpGet]
+        [Route("albums/{id:int}")]
+        public IHttpActionResult GetAlbumById(int id)
+        {
+            return Ok(_albumService.GetAlbumById(id));
         }
     }
 }
