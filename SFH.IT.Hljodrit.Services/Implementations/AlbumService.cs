@@ -40,5 +40,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
             return new SongExtendedDto(song);
         }
+
+        public AlbumExtendedDto GetAlbumById(int id)
+        {
+            return _albumRepository.GetAlbumById(id);
+        }
     }
 }

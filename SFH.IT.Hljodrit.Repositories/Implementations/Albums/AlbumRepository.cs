@@ -29,5 +29,37 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                 });
             return albums;
         }
+
+        public AlbumExtendedDto GetAlbumById(int id)
+        {
+            var resultAlbum = (from album in DbContext.media_product_package
+                               where album.id == id
+                               join mainArtist in DbContext.party_mainartist on album.mainartistid equals mainArtist.id into albumsWithArtist
+
+                               from y in albumsWithArtist.DefaultIfEmpty()
+                               join label in DbContext.organization_labels on album.labelid equals label.id into albumsWithArtistAndLabel
+
+                               from x in albumsWithArtistAndLabel.DefaultIfEmpty()
+                               join countryOfProduction in DbContext.common_country on album.countryofproduction equals countryOfProduction.numericisocode into albumWithCountryCode
+
+                               from z in albumWithCountryCode.DefaultIfEmpty()
+                               join countryOfPublication in DbContext.common_country on album.countryofproduction equals countryOfPublication.numericisocode into completeAlbum
+
+                               from k in completeAlbum.DefaultIfEmpty()
+                               select new AlbumExtendedDto
+                               {
+                                   Id = album.id,
+                                   AlbumTitle = album.albumtitle,
+                                   ReleaseDate = album.releasedate,
+                                   MainArtistName = string.IsNullOrEmpty(y.artistname) ? "unknown" : y.artistname,
+                                   MainArtistId = y.id,
+                                   CatalogueNumber = string.IsNullOrEmpty(album.cataloguenumber) ? "unknown" : album.cataloguenumber,
+                                   CountryOfProduction = string.IsNullOrEmpty(z.name_is) ? "unknown" : z.name_is,
+                                   CountryOfPublication = string.IsNullOrEmpty(k.name_is) ? "unknown" : k.name_is,
+                                   Label = string.IsNullOrEmpty(x.labelname) ? "unknown" : x.labelname
+                               }).SingleOrDefault();
+
+            return resultAlbum;
+        }
     }
 }

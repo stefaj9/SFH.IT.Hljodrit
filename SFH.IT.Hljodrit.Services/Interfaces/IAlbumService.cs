@@ -6,6 +6,7 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
     public interface IAlbumService
     {
         IEnumerable<AlbumDto> GetAlbums();
+        AlbumExtendedDto GetAlbumById(int id);
         IEnumerable<SongDto> GetAllSongs();
         SongExtendedDto GetSongById(int id);
     }

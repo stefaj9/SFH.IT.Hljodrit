@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dto\AlbumDto.cs" />
+    <Compile Include="Dto\AlbumExtendedDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\InstrumentDto.cs" />
     <Compile Include="Dto\PersonEnvelope.cs" />
