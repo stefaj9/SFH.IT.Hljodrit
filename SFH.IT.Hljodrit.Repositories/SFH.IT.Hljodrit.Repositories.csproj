@@ -61,12 +61,14 @@
     <Compile Include="Base\RepositoryBase.cs" />
     <Compile Include="Base\UnitOfWork.cs" />
     <Compile Include="Implementations\Albums\AlbumRepository.cs" />
+    <Compile Include="Implementations\Albums\SongRepository.cs" />
     <Compile Include="Implementations\Common\CountryRepository.cs" />
     <Compile Include="Implementations\Common\ZipCodeRepository.cs" />
     <Compile Include="Implementations\Instruments\InstrumentRepository.cs" />
     <Compile Include="Implementations\Persons\PartyRealRepository.cs" />
     <Compile Include="Implementations\Persons\PartyRoleRepository.cs" />
     <Compile Include="Interfaces\Albums\IAlbumRepository.cs" />
+    <Compile Include="Interfaces\Albums\ISongRepository.cs" />
     <Compile Include="Interfaces\Common\ICountryRepository.cs" />
     <Compile Include="Interfaces\Common\IZipCodeRepository.cs" />
     <Compile Include="Interfaces\Instruments\IInstrumentRepository.cs" />

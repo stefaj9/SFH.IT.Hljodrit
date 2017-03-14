@@ -11,25 +11,34 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 {
     public class AlbumService : IAlbumService
     {
-
+        private readonly ISongRepository _songRepository;
         private readonly IAlbumRepository _albumRepository;
 
-        public AlbumService(IAlbumRepository albumRepository)
+        public AlbumService(ISongRepository songRepository, IAlbumRepository albumRepository)
         {
+            _songRepository = songRepository;
             _albumRepository = albumRepository;
         }
 
+        public IEnumerable<AlbumDto> GetAlbums()
+        {
+            return _albumRepository.GetAlbums();
+        }
 
         public IEnumerable<SongDto> GetAllSongs()
         {
-            return _albumRepository.GetAll().Select(song => new SongDto
+            return _songRepository.GetAll().Select(song => new SongDto
             {
                 Id = song.id,
-                Title = song.title,
-                RecordingId = song.recordingid,
-                IsrcCode = song.isrc,
-                TrackNumber = song.tracknumber
+                Title = song.title
             });
+        }
+
+        public SongExtendedDto GetSongById(int id)
+        {
+           var song = _songRepository.GetById(id);
+
+            return new SongExtendedDto(song);
         }
     }
 }

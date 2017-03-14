@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\AlbumDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\InstrumentDto.cs" />
     <Compile Include="Dto\PersonEnvelope.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Dto\ProjectEnvelope.cs" />
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\SongDto.cs" />
+    <Compile Include="Dto\SongExtendedDto.cs" />
     <Compile Include="Dto\ZipCodeDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
