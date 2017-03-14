@@ -65,7 +65,7 @@ class OverviewProject extends React.Component {
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 col-sm-6 confirmation-item-title">Aðalflytjandi</div>
-                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectMainArtist}</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectMainArtist.name}</div>
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 confirmation-item-title">Lög</div>

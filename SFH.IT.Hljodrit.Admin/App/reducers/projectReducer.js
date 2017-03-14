@@ -2,7 +2,12 @@ import _ from 'lodash';
 
 let initialState = {
     selectedProject: {
-        basicInfo: {},
+        basicInfo: {
+            projectMainArtist: {
+                id: -1,
+                name: ''
+            }
+        },
         songs: [],
         producers: []
     },

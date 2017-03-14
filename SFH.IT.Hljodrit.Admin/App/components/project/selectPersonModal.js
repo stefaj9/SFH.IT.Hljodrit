@@ -25,6 +25,8 @@ class SelectPersonModal extends React.Component {
                 this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
                 this.setState({ hasFetched: true });
             }
+        } else {
+            this.resetState();
         }
     }
     componentWillMount() {
