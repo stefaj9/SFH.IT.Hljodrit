@@ -35,7 +35,10 @@ class Exceptions extends React.Component {
 
         this.props.getAllExceptions(this.state.pageSize, newPageNumber);
     }
-
+    closeModal(e) {
+        e.preventDefault();
+        this.props.closeExceptionModal();
+    }
     render() {
         return (
             <div>
@@ -50,7 +53,7 @@ class Exceptions extends React.Component {
                         changePage={newPageNumber => this.changePageNumber(newPageNumber)} />
                 <ExceptionModal isOpen={this.props.isModalOpen}
                                 exception={this.props.selectedException}
-                                onClose={this.props.closeExceptionModal} />
+                                onClose={(e) => this.closeModal(e)} />
             </div>
         );
     }

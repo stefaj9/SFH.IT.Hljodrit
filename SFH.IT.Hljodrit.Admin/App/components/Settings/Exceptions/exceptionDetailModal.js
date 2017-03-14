@@ -10,9 +10,9 @@ const ExceptionDetailModal = ({isOpen, exception, onClose}) => {
             overlayClass="modal-overlay">
             <div className="modal-dialog">
                 <div className="modal-content">
-                    <div className="modal-body">
+                    <div className="modal-body exception-modal">
                         <span className="top-corner">
-                            <a href="#" onClick={() => onClose()}>
+                            <a href="#" onClick={(e) => onClose(e)}>
                                 <i className="fa fa-times" />
                             </a>
                         </span>
