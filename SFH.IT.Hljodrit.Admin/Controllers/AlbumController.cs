@@ -8,7 +8,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
-    [RoutePrefix("api")]
+    [RoutePrefix("api/albums")]
     public class AlbumController : ApiController
     {
         private readonly IAlbumService _albumService;
@@ -19,31 +19,31 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         [HttpGet]
-        [Route("songs")]
-        public IHttpActionResult GetAllSongs()
-        {
-            return Ok(_albumService.GetAllSongs());
-        }
-
-        [HttpGet]
-        [Route("songs/{id:int}")]
-        public IHttpActionResult GetSongById(int id)
-        {
-            return Ok(_albumService.GetSongById(id));
-        }
-
-        [HttpGet]
-        [Route("albums")]
+        [Route("")]
         public IHttpActionResult GetAlbums()
         {
             return Ok(_albumService.GetAlbums());
         }
 
         [HttpGet]
-        [Route("albums/{id:int}")]
-        public IHttpActionResult GetAlbumById(int id)
+        [Route("{albumId:int}")]
+        public IHttpActionResult GetAlbumById(int albumId)
         {
-            return Ok(_albumService.GetAlbumById(id));
+            return Ok(_albumService.GetAlbumById(albumId));
+        }
+
+        [HttpGet]
+        [Route("{albumId:int}/songs")]
+        public IHttpActionResult GetSongsByAlbumId(int albumId)
+        {
+            return Ok(_albumService.GetSongsByAlbumId(albumId));
+        }
+
+        [HttpGet]
+        [Route("{albumId:int}/songs/{songId:int}")]
+        public IHttpActionResult GetSongOnAlbum(int albumId, int songId)
+        {
+            return Ok(_albumService.GetSongOnAlbum(albumId, songId));
         }
     }
 }

@@ -5,7 +5,6 @@ namespace SFH.IT.Hljodrit.Common.Dto
 {
     public class SongExtendedDto : SongDto
     {
-
         public SongExtendedDto()
         { }
 
@@ -14,17 +13,15 @@ namespace SFH.IT.Hljodrit.Common.Dto
             Id = song.id;
             Title = song.title;
             IsrcCode = song.isrc;
-            RecordingId = song.recordingid;
-            TrackNumber = song.tracknumber;
+            AlbumId = song.packageid ?? -1;
+            TrackNumber = song.tracknumber ?? -1;
         }
 
         [JsonProperty(PropertyName = "isrcCode")]
         public string IsrcCode { get; set; }
 
-        [JsonProperty(PropertyName = "recordingId")]
-        public int RecordingId { get; set; }
+        [JsonProperty(PropertyName = "albumId")]
+        public int? AlbumId { get; set; }
 
-        [JsonProperty(PropertyName = "trackNumber")]
-        public int? TrackNumber { get; set; }
     }
 }

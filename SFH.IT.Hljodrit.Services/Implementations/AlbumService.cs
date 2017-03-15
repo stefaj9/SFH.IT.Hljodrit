@@ -25,25 +25,21 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return _albumRepository.GetAlbums();
         }
 
-        public IEnumerable<SongDto> GetAllSongs()
-        {
-            return _songRepository.GetAll().Select(song => new SongDto
-            {
-                Id = song.id,
-                Title = song.title
-            });
-        }
-
-        public SongExtendedDto GetSongById(int id)
-        {
-           var song = _songRepository.GetById(id);
-
-            return new SongExtendedDto(song);
-        }
-
         public AlbumExtendedDto GetAlbumById(int id)
         {
             return _albumRepository.GetAlbumById(id);
+        }
+
+        public IEnumerable<SongDto> GetSongsByAlbumId(int albumId)
+        {
+            var songs = _songRepository.GetSongsByAlbumId(albumId);
+            return songs;
+        }
+
+        public SongExtendedDto GetSongOnAlbum(int albumId, int songId)
+        {
+            var song = _songRepository.GetSongOnAlbum(albumId, songId);
+            return song;
         }
     }
 }

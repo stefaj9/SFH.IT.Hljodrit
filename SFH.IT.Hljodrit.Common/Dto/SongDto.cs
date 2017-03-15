@@ -9,5 +9,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
 
         [JsonProperty(PropertyName = "title")]
         public string Title { get; set; }
+
+        [JsonProperty(PropertyName = "trackNumber")]
+        public int? TrackNumber { get; set; }
     }
 }
