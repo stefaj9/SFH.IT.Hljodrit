@@ -49,6 +49,7 @@
     <Compile Include="Dto\AlbumExtendedDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\InstrumentDto.cs" />
+    <Compile Include="Dto\MusicianDto.cs" />
     <Compile Include="Dto\PersonEnvelope.cs" />
     <Compile Include="Dto\PersonDto.cs" />
     <Compile Include="Dto\PersonExtendedDto.cs" />

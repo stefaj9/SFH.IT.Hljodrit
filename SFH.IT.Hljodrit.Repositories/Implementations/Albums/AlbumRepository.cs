@@ -33,34 +33,54 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
 
         public AlbumExtendedDto GetAlbumById(int id)
         {
-            var resultAlbum = (from album in DbContext.media_product_package
-                where album.id == id
-                join mainArtist in DbContext.party_mainartist on album.mainartistid equals mainArtist.id into albumsWithArtist
+            var resultAlbum = from album in DbContext.media_product_package
+                              where album.id == id
+                              join mainArtist in DbContext.party_mainartist on album.mainartistid equals mainArtist.id into albumsWithArtist
 
-                from y in albumsWithArtist.DefaultIfEmpty()
-                join label in DbContext.organization_labels on album.labelid equals label.id into albumsWithArtistAndLabel
+                              from y in albumsWithArtist.DefaultIfEmpty()
+                              join label in DbContext.organization_labels on album.labelid equals label.id into albumsWithArtistAndLabel
 
-                from x in albumsWithArtistAndLabel.DefaultIfEmpty()
-                join countryOfProduction in DbContext.common_country on album.countryofproduction equals countryOfProduction.numericisocode into albumWithCountryCode
+                              from x in albumsWithArtistAndLabel.DefaultIfEmpty()
+                              join countryOfProduction in DbContext.common_country on album.countryofproduction equals countryOfProduction.numericisocode into albumWithCountryCode
 
-                from z in albumWithCountryCode.DefaultIfEmpty()
-                join countryOfPublication in DbContext.common_country on album.countryofproduction equals countryOfPublication.numericisocode into completeAlbum
+                              from z in albumWithCountryCode.DefaultIfEmpty()
+                              join countryOfPublication in DbContext.common_country on album.countryofproduction equals countryOfPublication.numericisocode into completeAlbum
 
-                from k in completeAlbum.DefaultIfEmpty()
-                select new AlbumExtendedDto
+                              from k in completeAlbum.DefaultIfEmpty()
+                              select new AlbumExtendedDto
+                              {
+                                  Id = album.id,
+                                  AlbumTitle = album.albumtitle,
+                                  ReleaseDate = album.releasedate,
+                                  MainArtistName = string.IsNullOrEmpty(y.artistname) ? "unknown" : y.artistname,
+                                  MainArtistId = y.id,
+                                  CatalogueNumber = string.IsNullOrEmpty(album.cataloguenumber) ? "unknown" : album.cataloguenumber,
+                                  CountryOfProduction = string.IsNullOrEmpty(z.name_is) ? "unknown" : z.name_is,
+                                  CountryOfPublication = string.IsNullOrEmpty(k.name_is) ? "unknown" : k.name_is,
+                                  Label = string.IsNullOrEmpty(x.labelname) ? "unknown" : x.labelname
+                              };
+
+            return resultAlbum.SingleOrDefault();
+        }
+
+        public IEnumerable<MusicianDto> GetMusiciansByAlbumId(int albumId)
+        {
+            var query = from song in DbContext.media_product
+                join album in DbContext.media_product_package on song.packageid equals album.id
+                join musician in DbContext.recording_party on song.recordingid equals musician.recordingid
+                join person in DbContext.party_real on musician.partyrealid equals person.id
+                where album.id == albumId
+                select new MusicianDto
                 {
-                    Id = album.id,
-                    AlbumTitle = album.albumtitle,
-                    ReleaseDate = album.releasedate,
-                    MainArtistName = string.IsNullOrEmpty(y.artistname) ? "unknown" : y.artistname, 
-                    MainArtistId = y.id,
-                    CatalogueNumber = string.IsNullOrEmpty(album.cataloguenumber) ? "unknown" : album.cataloguenumber,
-                    CountryOfProduction = string.IsNullOrEmpty(z.name_is) ? "unknown" : z.name_is,
-                    CountryOfPublication = string.IsNullOrEmpty(k.name_is) ? "unknown" : k.name_is,
-                    Label = string.IsNullOrEmpty(x.labelname) ? "unknown" : x.labelname
-                }).SingleOrDefault();
+                    Id = person.id,
+                    Fullname = person.fullname,
+                    PostalAddressLine1 = person.postaladdressline1,
+                    ZipCode = person.zipcode,
+                    Area = person.area,
+                    SongCount = 0
+                };
 
-            return resultAlbum;
+            return query.Distinct().ToList();
         }
     }
 }

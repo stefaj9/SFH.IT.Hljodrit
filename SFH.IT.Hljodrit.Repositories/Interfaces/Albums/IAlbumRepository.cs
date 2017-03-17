@@ -9,5 +9,6 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Albums
     {
         IEnumerable<AlbumDto> GetAlbums();
         AlbumExtendedDto GetAlbumById(int id);
+        IEnumerable<MusicianDto> GetMusiciansByAlbumId(int albumId);
     }
 }

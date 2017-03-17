@@ -30,6 +30,12 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return _albumRepository.GetAlbumById(id);
         }
 
+        public IEnumerable<MusicianDto> GetMusiciansByAlbumId(int albumId)
+        {
+            var musicians = _albumRepository.GetMusiciansByAlbumId(albumId);
+            return musicians;
+        }
+
         public IEnumerable<SongDto> GetSongsByAlbumId(int albumId)
         {
             var songs = _songRepository.GetSongsByAlbumId(albumId);

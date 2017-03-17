@@ -30,7 +30,6 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
         
         public SongExtendedDto GetSongOnAlbum(int albumId, int songId)
         {
-            //mogulega left join
             var result = from song in DbContext.media_product
                 where song.packageid.Value == albumId && song.id == songId
                 select song;
