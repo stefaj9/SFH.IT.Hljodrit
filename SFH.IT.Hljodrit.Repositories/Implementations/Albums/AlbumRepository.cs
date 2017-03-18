@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Common.CommandTrees;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
@@ -65,22 +71,32 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
 
         public IEnumerable<MusicianDto> GetMusiciansByAlbumId(int albumId)
         {
-            var query = from song in DbContext.media_product
-                join album in DbContext.media_product_package on song.packageid equals album.id
-                join musician in DbContext.recording_party on song.recordingid equals musician.recordingid
-                join person in DbContext.party_real on musician.partyrealid equals person.id
-                where album.id == albumId
-                select new MusicianDto
-                {
-                    Id = person.id,
-                    Fullname = person.fullname,
-                    PostalAddressLine1 = person.postaladdressline1,
-                    ZipCode = person.zipcode,
-                    Area = person.area,
-                    SongCount = 0
-                };
 
-            return query.Distinct().ToList();
+            var query = from song in DbContext.media_product
+                        join album in DbContext.media_product_package on song.packageid equals album.id
+                        join musician in DbContext.recording_party on song.recordingid equals musician.recordingid
+                        join person in DbContext.party_real on musician.partyrealid equals person.id
+                        where album.id == albumId
+                        group new { song, person} by new
+                        {
+                            person.id,
+                            person.fullname
+                        };
+
+            var result = from a in query
+                         select new MusicianDto()
+                         {
+                             Id = a.Key.id,
+                             Fullname = a.Key.fullname,
+                             SongCount = a.Distinct().Count()
+                         };
+            
+            return result.ToList();
+        }
+
+        public MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

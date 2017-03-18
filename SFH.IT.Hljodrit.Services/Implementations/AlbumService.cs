@@ -47,5 +47,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             var song = _songRepository.GetSongOnAlbum(albumId, songId);
             return song;
         }
+
+        public MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
