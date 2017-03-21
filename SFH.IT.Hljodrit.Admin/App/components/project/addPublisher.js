@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import ModalSteps from '../common/modalSteps';
 import SelectPersonModal from './selectPersonModal';
+import { getAllPublishers, getPublisherLabelsById } from '../../actions/organizationActions';
 import { toastr } from 'react-redux-toastr';
 
-export default class AddPublisher extends React.Component {
+class AddPublisher extends React.Component {
     constructor() {
         super();
 
@@ -91,6 +93,9 @@ export default class AddPublisher extends React.Component {
                 </div>
                 <SelectPersonModal
                     isOpen={isAddPublisherModelOpen}
+                    registerPath="/api/organizations"
+                    fetch={this.props.getAllPublishers}
+                    envelope={this.props.organizationEnvelope}
                     close={() => this.setState({ isAddPublisherModelOpen: false })}
                     update={(publisher) => this.addPublisher(publisher)}
                     next={() => this.setState({ isAddPublisherModelOpen: false })}
@@ -100,3 +105,12 @@ export default class AddPublisher extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        labels: state.organization.selectedOrganizationLabels,
+        organizationEnvelope: state.organization.organizationEnvelope
+    };
+};
+
+export default connect(mapStateToProps, { getAllPublishers, getPublisherLabelsById })(AddPublisher);

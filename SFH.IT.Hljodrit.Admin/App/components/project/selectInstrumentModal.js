@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import Chips from 'react-chips';
 import _ from 'lodash';
-import { getInstrumentSuggestions } from '../../actions/projectActions';
+import { getInstrumentSuggestions } from '../../actions/instrumentActions';
 
 class SelectInstrumentModal extends React.Component {
     componentWillMount() {
@@ -74,7 +74,7 @@ class SelectInstrumentModal extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        instrumentSuggestions: state.project.instrumentSuggestions
+        instrumentSuggestions: state.instrument.instrumentSuggestions
     };
 };
 

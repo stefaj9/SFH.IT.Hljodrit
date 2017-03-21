@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace SFH.IT.Hljodrit.Common
+namespace SFH.IT.Hljodrit.Common.Dto
 {
 	/// <summary>
 	/// A generic envelope object that wraps paging results of various objects.

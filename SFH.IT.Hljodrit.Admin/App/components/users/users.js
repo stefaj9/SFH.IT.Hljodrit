@@ -1,6 +1,6 @@
 import React from 'react';
 //import Filter from '../common/filter';
-import PersonListView from '../common/personListView';
+import ListView from '../common/listView';
 import { getPersonsByCriteria } from '../../actions/personActions';
 import SearchBar from '../common/searchBar';
 import PageSelector from '../common/pageSelector';
@@ -116,8 +116,8 @@ export class Users extends React.Component {
                     searchBy={(term) => this.search(term)} />
                 <Filter filters={this.state.filterProperties} filterBy={(filter) => this.filterBy(filter)} />
                 <PageSelector visible={containsData} change={(newPagesize) => this.changePagesize(newPagesize)} />
-                <PersonListView
-                    persons={this.props.persons}
+                <ListView
+                    items={this.props.persons}
                     isFetching={this.props.isFetchingPersons}
                     />
                 <Paging

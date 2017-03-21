@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import SelectPersonModal from './selectPersonModal';
 import SelectInstrumentModal from './selectInstrumentModal';
 import SelectRoleModal from './selectRoleModal';
+import { getPersonsByCriteria } from '../../actions/personActions';
 
-export default class PerformerListModal extends React.Component {
+class PerformerListModal extends React.Component {
     componentWillReceiveProps(newProps) {
         if (newProps.isOpen) {
             this.openSelectPersonModal();
@@ -98,6 +100,9 @@ export default class PerformerListModal extends React.Component {
                     isOpen={this.state.selectPersonModalOpen}
                     close={(e) => this.closeModal(e)}
                     next={() => this.openSelectInstrumentModal()}
+                    registerPath="/api/persons"
+                    envelope={this.props.performersEnvelope}
+                    fetch={this.props.getPersonsByCriteria}
                     update={ (performer) => this.updatePerformer(performer) }
                     steps={ () => this.renderSteps(1) } />
                 <SelectInstrumentModal
@@ -120,3 +125,11 @@ export default class PerformerListModal extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        performersEnvelope: state.person.personEnvelope
+    };
+};
+
+export default connect(mapStateToProps, { getPersonsByCriteria })(PerformerListModal);

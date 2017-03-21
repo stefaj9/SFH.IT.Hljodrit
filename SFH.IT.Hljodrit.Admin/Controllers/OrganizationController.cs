@@ -20,5 +20,11 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok(_organizationService.GetPublisherLabelsById(publisherId));
         }
 
+        [HttpGet]
+        [Route("")]
+        public IHttpActionResult GetAllPublishers([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm)
+        {
+            return Ok(_organizationService.GetAllPublishers(pageSize, pageNumber, searchTerm ?? ""));
+        }
     }
 }

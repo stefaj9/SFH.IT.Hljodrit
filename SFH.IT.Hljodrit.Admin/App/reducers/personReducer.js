@@ -1,13 +1,10 @@
 let initialState = {
-    isFetching: true,
-    isRegistering: false,
     personEnvelope: {
         currentPage: -1,
         maximumPage: -1,
         persons: []
     },
-    personRoles: [],
-    registerUserId: -1
+    personRoles: []
 };
 
 export default function(state = initialState, action) {

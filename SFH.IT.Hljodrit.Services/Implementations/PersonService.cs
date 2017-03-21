@@ -29,7 +29,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _partyRealRepository = partyRealRepository;
         }
 
-        private PersonEnvelope CreateEnvelope(IEnumerable<PersonDto> persons, int pageSize, int pageNumber)
+        private Envelope<PersonDto> CreateEnvelope(IEnumerable<PersonDto> persons, int pageSize, int pageNumber)
         {
             persons = persons.ToList();
             decimal maxPage = persons.Count() / (decimal)pageSize;
@@ -38,10 +38,15 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
             var personList = persons.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-            return new PersonEnvelope(pageNumber, maximumPages, personList);
+            return new Envelope<PersonDto>
+            {
+                CurrentPage = pageNumber,
+                MaximumPage = maximumPages,
+                Objects = personList
+            };
         }
 
-        public PersonEnvelope GetPerformers(int pageSize, int pageNumber, string searchTerm = null)
+        public Envelope<PersonDto> GetPerformers(int pageSize, int pageNumber, string searchTerm = null)
         {
             var performers = _partyRealRepository.GetPersons(p => p.rolecode != ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
@@ -51,7 +56,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return performersEnvelope;
         }
 
-        public PersonEnvelope GetPublishers(int pageSize, int pageNumber, string searchTerm = null)
+        public Envelope<PersonDto> GetPublishers(int pageSize, int pageNumber, string searchTerm = null)
         {
             var producers = _partyRealRepository.GetPersons(p => p.rolecode == ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
 
@@ -62,7 +67,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return producersEnvelope;
         }
 
-        public PersonEnvelope GetPersons(int pageSize, int pageNumber, string searchTerm = null)
+        public Envelope<PersonDto> GetPersons(int pageSize, int pageNumber, string searchTerm = null)
         {
             var persons = _partyRealRepository.GetPersons(searchTerm);
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");

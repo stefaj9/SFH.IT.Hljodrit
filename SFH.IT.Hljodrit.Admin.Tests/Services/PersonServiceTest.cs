@@ -68,7 +68,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var personResults = _personService.GetPerformers(pageSize, pageNumber, "");
 
 			// Assert
-			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
+			Assert.AreEqual(expectedPersonCount, personResults.Objects.Count());
 		}
 
 		[TestMethod]
@@ -87,7 +87,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var personResults = _personService.GetPerformers(pageSize, pageNumber, "");
 
 			// Assert
-			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
+			Assert.AreEqual(expectedPersonCount, personResults.Objects.Count());
 		}
 
 		[TestMethod]
@@ -106,7 +106,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var personResults = _personService.GetPerformers(pageSize, pageNumber, "");
 
 			// Assert
-			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
+			Assert.AreEqual(expectedPersonCount, personResults.Objects.Count());
 		}
 
 		#endregion
@@ -141,7 +141,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var personResults = _personService.GetPublishers(pageSize, pageNumber, "");
 
 			// Assert
-			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
+			Assert.AreEqual(expectedPersonCount, personResults.Objects.Count());
 		}
 
 		[TestMethod]
@@ -160,7 +160,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var personResults = _personService.GetPublishers(pageSize, pageNumber, "");
 
 			// Assert
-			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
+			Assert.AreEqual(expectedPersonCount, personResults.Objects.Count());
 		}
 
 		[TestMethod]
@@ -179,7 +179,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var personResults = _personService.GetPublishers(pageSize, pageNumber, "");
 
 			// Assert
-			Assert.AreEqual(expectedPersonCount, personResults.Persons.Count());
+			Assert.AreEqual(expectedPersonCount, personResults.Objects.Count());
 		}
 
         #endregion

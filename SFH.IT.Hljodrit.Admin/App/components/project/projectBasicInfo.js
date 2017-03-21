@@ -116,6 +116,8 @@ export default class ProjectBasicInfo extends React.Component {
                 <SelectPersonModal
                     isOpen={mainArtistModalIsOpen}
                     close={() => this.setState({ mainArtistModalIsOpen: false })}
+                    registerPath="/api/mainArtists"
+                    envelope={{ currentPage: -1, maximumPage: -1, objects: [] }}
                     next={() => this.setState({ mainArtistModalIsOpen: false })}
                     update={(artist) => this.addMainArtist(artist)}
                     steps={() => { return ( <h4>Bæta við aðalflytjanda</h4> ) } } />
