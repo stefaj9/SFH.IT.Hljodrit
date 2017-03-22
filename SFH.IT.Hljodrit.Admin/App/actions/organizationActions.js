@@ -34,6 +34,7 @@ export function getPublisherLabelsById(publisherId) {
                 return resp.json();
             }
         }).then((data) => {
+            console.log(data);
             dispatch(getPublisherLabelsByIdSuccess(data));
         });
     }

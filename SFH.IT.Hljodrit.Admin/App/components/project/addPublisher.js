@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ModalSteps from '../common/modalSteps';
 import SelectPersonModal from './selectPersonModal';
+import _ from 'lodash';
 import { getPublishersByCriteria, getPublisherLabelsById } from '../../actions/organizationActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { toastr } from 'react-redux-toastr';
@@ -24,6 +25,18 @@ class AddPublisher extends React.Component {
             isAddPublisherModelOpen: true
         });
     }
+    renderLabels() {
+        if (this.props.labels.length === 1) {
+            let publisher = _.cloneDeep(this.state.publisher);
+            publisher.label = this.props.labels[0].labelId;
+            this.setState({ publisher: publisher });
+        }
+        return this.props.labels.map((label) => {
+            return (
+                <option key={label.labelId} value={label.labelId}>{label.labelName}</option>
+            );
+        });
+    }
     addPublisher(publisher) {
         this.setState({
             publisher: publisher
@@ -31,7 +44,7 @@ class AddPublisher extends React.Component {
         toastr.success('Tókst!', 'Það tókst að bæta við útgefanda');
 
         // Fetch labels for this publisher
-
+        this.props.getPublisherLabelsById(publisher.id);
     }
     removePublisher(e) {
         e.preventDefault();
@@ -57,6 +70,11 @@ class AddPublisher extends React.Component {
             </tr>
         );
     }
+    updateLabel(e) {
+        let publisher = _.cloneDeep(this.state.publisher);
+        publisher.label = e.target.value;
+        this.setState({ publisher: publisher });
+    }
     render() {
         const { publisher, isAddPublisherModelOpen } = this.state;
         return (
@@ -80,6 +98,12 @@ class AddPublisher extends React.Component {
                         {this.renderPublisher()}
                     </tbody>
                 </table>
+                <div className={'form-group' + (this.state.publisher.id === -1 ? ' hidden' : '')}>
+                    <label htmlFor="organization-label">Label</label>
+                    <select name="organization-label" id="organization-label" className="form-control" onChange={(e) => this.updateLabel(e)}>
+                        {this.renderLabels()}
+                    </select>
+                </div>
                 <p className={publisher.id === -1 ? '' : 'hidden'}> <br/>
                 <br/> Gerð er krafa um að skrá einn útgefanda á plötuna.</p>
                 <div className="btn-group pull-right">
