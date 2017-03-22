@@ -1,5 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import ModalSteps from '../common/modalSteps';
+import { getMainArtistsByCriteria } from '../../actions/mainArtistActions';
+import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { toastr } from 'react-redux-toastr';
 import SelectPersonModal from './selectPersonModal';
 
@@ -116,8 +119,11 @@ class ProjectBasicInfo extends React.Component {
                 <SelectPersonModal
                     isOpen={mainArtistModalIsOpen}
                     close={() => this.setState({ mainArtistModalIsOpen: false })}
-                    registerPath="/api/mainArtists"
-                    envelope={{ currentPage: -1, maximumPage: -1, objects: [] }}
+                    registerPath="/api/mainartists"
+                    envelope={this.props.mainArtistEnvelope}
+                    fetch={this.props.getMainArtistsByCriteria}
+                    beginFetch={this.props.isFetchingList}
+                    stoppedFetch={this.props.hasStoppedFetchingList}
                     next={() => this.setState({ mainArtistModalIsOpen: false })}
                     update={(artist) => this.addMainArtist(artist)}
                     steps={() => { return ( <h4>Bæta við aðalflytjanda</h4> ) } } />
@@ -126,4 +132,10 @@ class ProjectBasicInfo extends React.Component {
     }
 }
 
-export default connect(null, { getAllMainArtists })(ProjectBasicInfo);
+function mapStateToProps(state) {
+    return {
+        mainArtistEnvelope: state.mainArtist.mainArtistEnvelope
+    };
+};
+
+export default connect(mapStateToProps, { getMainArtistsByCriteria, isFetchingList, hasStoppedFetchingList })(ProjectBasicInfo);

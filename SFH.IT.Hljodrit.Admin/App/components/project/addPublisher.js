@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ModalSteps from '../common/modalSteps';
 import SelectPersonModal from './selectPersonModal';
-import { getAllPublishers, getPublisherLabelsById } from '../../actions/organizationActions';
+import { getPublishersByCriteria, getPublisherLabelsById } from '../../actions/organizationActions';
+import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { toastr } from 'react-redux-toastr';
 
 class AddPublisher extends React.Component {
@@ -94,7 +95,9 @@ class AddPublisher extends React.Component {
                 <SelectPersonModal
                     isOpen={isAddPublisherModelOpen}
                     registerPath="/api/organizations"
-                    fetch={this.props.getAllPublishers}
+                    fetch={this.props.getPublishersByCriteria}
+                    beginFetch={this.props.isFetchingList}
+                    stoppedFetch={this.props.hasStoppedFetchingList}
                     envelope={this.props.organizationEnvelope}
                     close={() => this.setState({ isAddPublisherModelOpen: false })}
                     update={(publisher) => this.addPublisher(publisher)}
@@ -113,4 +116,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getAllPublishers, getPublisherLabelsById })(AddPublisher);
+export default connect(mapStateToProps, { getPublishersByCriteria, getPublisherLabelsById, isFetchingList, hasStoppedFetchingList })(AddPublisher);

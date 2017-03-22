@@ -16,10 +16,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public Envelope<MainArtistDto> GetMainArtistByCriteria(int pageSize, int pageNumber, string searchTerm)
         {
-            var mainArtists = _partyMainArtistRepository.GetAll().ToList();
+            var mainArtists = _partyMainArtistRepository.GetMany(ma => ma.artistname.Contains(searchTerm)).ToList();
             var maxPages = mainArtists.Count / pageSize;
             var mainArtistsFiltered =
-                mainArtists.Skip((pageNumber - 1) * pageSize).Take(pageNumber).Select(ma => new MainArtistDto
+                mainArtists.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(ma => new MainArtistDto
                 {
                     Id = ma.id,
                     Name = ma.artistname,

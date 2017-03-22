@@ -6,6 +6,7 @@ import InstrumentReducer from './instrumentReducer';
 import CommonReducer from './commonReducer';
 import SettingsReducer from './settingsReducer';
 import FlowReducer from './flowReducer';
+import MainArtistReducer from './mainArtistReducer';
 import {reducer as ToastrReducer} from 'react-redux-toastr';
 import { routerReducer } from 'react-router-redux';
 
@@ -17,6 +18,7 @@ export default combineReducers({
     common: CommonReducer,
     organization: OrganizationReducer,
     flow: FlowReducer,
+    mainArtist: MainArtistReducer,
     instrument: InstrumentReducer,
     settings: SettingsReducer
 });

@@ -3,6 +3,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
+    [RoutePrefix("api/mainartists")]
     public class MainArtistController : ApiController
     {
         private readonly IMainArtistService _mainArtistService;
@@ -12,6 +13,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             _mainArtistService = mainArtistService;
         }
 
+        [Route("")]
         public IHttpActionResult GetMainArtistsByCriteria([FromUri] int pageSize, [FromUri] int pageNumber,
             [FromUri] string searchTerm)
         {

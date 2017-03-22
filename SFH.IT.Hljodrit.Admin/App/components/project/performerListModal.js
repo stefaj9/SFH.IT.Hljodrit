@@ -4,6 +4,7 @@ import SelectPersonModal from './selectPersonModal';
 import SelectInstrumentModal from './selectInstrumentModal';
 import SelectRoleModal from './selectRoleModal';
 import { getPersonsByCriteria } from '../../actions/personActions';
+import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 
 class PerformerListModal extends React.Component {
     componentWillReceiveProps(newProps) {
@@ -103,6 +104,8 @@ class PerformerListModal extends React.Component {
                     registerPath="/api/persons"
                     envelope={this.props.performersEnvelope}
                     fetch={this.props.getPersonsByCriteria}
+                    beginFetch={this.props.isFetchingList}
+                    stoppedFetch={this.props.hasStoppedFetchingList}
                     update={ (performer) => this.updatePerformer(performer) }
                     steps={ () => this.renderSteps(1) } />
                 <SelectInstrumentModal
@@ -132,4 +135,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getPersonsByCriteria })(PerformerListModal);
+export default connect(mapStateToProps, { getPersonsByCriteria, isFetchingList, hasStoppedFetchingList })(PerformerListModal);

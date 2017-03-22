@@ -22,7 +22,7 @@ class SelectPersonModal extends React.Component {
             }
             if (!this.state.hasFetched) {
                 const { pageSize, pageNumber, searchQuery } = this.state;
-                this.props.fetch(pageSize, pageNumber, searchQuery);
+                this.props.fetch(pageSize, pageNumber, searchQuery, this.props.beginFetch, this.props.stoppedFetch);
                 this.setState({ hasFetched: true });
             }
         } else {
@@ -78,7 +78,7 @@ class SelectPersonModal extends React.Component {
     }
     search(term) {
         const { pageSize } = this.state;
-        this.props.fetch(pageSize, 1, term);
+        this.props.fetch(pageSize, 1, term, this.props.beginFetch, this.props.stoppedFetch);
         this.setState({
             searchQuery: term,
             pageNumber: 1
@@ -86,7 +86,7 @@ class SelectPersonModal extends React.Component {
     }
     changePagesize(newPagesize) {
         const { searchQuery } = this.state;
-        this.props.fetch(newPagesize, 1, searchQuery);
+        this.props.fetch(newPagesize, 1, searchQuery, this.props.beginFetch, this.props.stoppedFetch);
 
         this.setState({
             pageSize: newPagesize,
@@ -95,7 +95,7 @@ class SelectPersonModal extends React.Component {
     }
     changePageNumber(newPageNumber) {
         const { searchQuery, pageSize } = this.state;
-        this.props.fetch(pageSize, newPageNumber, searchQuery);
+        this.props.fetch(pageSize, newPageNumber, searchQuery, this.props.beginFetch, this.props.stoppedFetch);
 
         this.setState({
             pageNumber: newPageNumber
@@ -110,7 +110,7 @@ class SelectPersonModal extends React.Component {
     backToList(e) {
         e.preventDefault();
         this.resetState();
-        this.props.fetch(25, 1, '');
+        this.props.fetch(25, 1, '', this.props.beginFetch, this.props.stoppedFetch);
         this.setState({ hasFetched: true });
     }
     register(e) {
@@ -227,7 +227,7 @@ class SelectPersonModal extends React.Component {
                                     <button 
                                         disabled={this.props.isRegistering || !this.isValidRegisterForm()}
                                         className="btn btn-default btn-primary" 
-                                        onClick={(e) => this.registerIndividual(e)}>
+                                        onClick={(e) => this.register(e)}>
                                             <Spinner 
                                                 className={this.props.isRegistering ? 'spinner-btn' : 'hidden'} />
                                             <span className={this.props.isRegistering ? 'non-visible' : ''}>Áfram</span>
@@ -250,7 +250,7 @@ class SelectPersonModal extends React.Component {
                     searchBy={(term) => this.search(term)} />
                 <PageSelector visible={containsData} change={(newPagesize) => this.changePagesize(newPagesize)} />
                 <ListView
-                    data={this.props.envelope.objects}
+                    items={this.props.envelope.objects}
                     isFetching={this.props.isFetching}
                     add={(o) => { this.props.update(o); this.props.next(); } } />
                 {this.renderRegisterForm()}

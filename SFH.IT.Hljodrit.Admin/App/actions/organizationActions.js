@@ -1,15 +1,19 @@
 import fetch from 'isomorphic-fetch';
 
-export function getPublishersByCriteria(pageSize, pageNumber, searchQuery) {
+export function getPublishersByCriteria(pageSize, pageNumber, searchQuery, isFetchingList, hasStoppedFetchingList) {
     return (dispatch) => {
+        dispatch(isFetchingList());
         return fetch(`/api/organizations?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchQuery}`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
+            } else {
+                dispatch(hasStoppedFetchingList());
             }
         }).then((data) => {
             dispatch(getAllPublishersSuccess(data));
+            dispatch(hasStoppedFetchingList());
         });
     }
 }

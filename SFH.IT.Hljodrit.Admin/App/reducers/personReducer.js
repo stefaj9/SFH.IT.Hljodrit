@@ -2,7 +2,7 @@ let initialState = {
     personEnvelope: {
         currentPage: -1,
         maximumPage: -1,
-        persons: []
+        objects: []
     },
     personRoles: []
 };

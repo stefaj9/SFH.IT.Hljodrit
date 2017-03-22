@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-fetch';
-import { isFetchingList, hasStoppedFetchingList } from './flowActions';
 
-export function getPersonsByCriteria(pageSize, pageNumber, searchQuery) {
+export function getPersonsByCriteria(pageSize, pageNumber, searchQuery, isFetchingList, hasStoppedFetchingList) {
     return (dispatch) => {
         dispatch(isFetchingList());
         return fetch(`/api/persons?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchQuery}`, {

@@ -24,7 +24,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public Envelope<PublisherDto> GetAllPublishers(int pageSize, int pageNumber, string searchTerm)
         {
-            var organizationsAll = _organizationRepository.GetAll().ToList();
+            var organizationsAll = _organizationRepository.GetMany(o => o.name.Contains(searchTerm)).ToList();
             var organizations = organizationsAll.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(o => new PublisherDto
             {
                 Id = o.id,
