@@ -49,6 +49,7 @@
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\ExceptionDto.cs" />
     <Compile Include="Dto\InstrumentDto.cs" />
+    <Compile Include="Dto\MainArtistDto.cs" />
     <Compile Include="Dto\PersonDto.cs" />
     <Compile Include="Dto\PersonExtendedDto.cs" />
     <Compile Include="Dto\ProjectDto.cs" />

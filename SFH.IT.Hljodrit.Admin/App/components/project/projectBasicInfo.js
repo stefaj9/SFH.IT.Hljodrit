@@ -3,7 +3,7 @@ import ModalSteps from '../common/modalSteps';
 import { toastr } from 'react-redux-toastr';
 import SelectPersonModal from './selectPersonModal';
 
-export default class ProjectBasicInfo extends React.Component {
+class ProjectBasicInfo extends React.Component {
     constructor() {
         super();
 
@@ -125,3 +125,5 @@ export default class ProjectBasicInfo extends React.Component {
         );
     }
 }
+
+export default connect(null, { getAllMainArtists })(ProjectBasicInfo);

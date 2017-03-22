@@ -4,5 +4,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
 {
     public interface IMainArtistService
     {
+        Envelope<MainArtistDto> GetMainArtistByCriteria(int pageSize, int pageNumber, string searchTerm);
     }
 }
