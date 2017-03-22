@@ -1,4 +1,5 @@
-﻿using System.Reflection.Emit;
+﻿using System;
+using System.Reflection.Emit;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -17,5 +18,14 @@ namespace SFH.IT.Hljodrit.Common.Dto
 
         [JsonProperty(PropertyName = "countryOfProduction")]
         public string CountryOfProduction { get; set; }
+
+        [JsonProperty(PropertyName = "publisherId")]
+        public int? PublisherId { get; set; }
+
+        [JsonProperty(PropertyName = "publisher")]
+        public string Publisher { get; set; }
+
+        [JsonProperty(PropertyName = "registrationData")]
+        public RegistrationDto Registration { get; set; }
     }
 }

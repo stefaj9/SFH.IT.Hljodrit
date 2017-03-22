@@ -40,7 +40,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         [HttpGet]
-        [Route("{albumId:int}/musicians/id")]
+        [Route("{albumId:int}/musicians/{musicianId:int}")]
         public IHttpActionResult GetMusicianOnAlbum(int albumId, int musicianId)
         {
             return Ok(_albumService.GetMusicianOnAlbum(albumId, musicianId));
@@ -58,6 +58,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult GetSongOnAlbum(int albumId, int songId)
         {
             return Ok(_albumService.GetSongOnAlbum(albumId, songId));
+        }
+
+        [HttpGet]
+        [Route("{albumId:int}/songs/{songId:int}/musicians")]
+        public IHttpActionResult GetMusiciansOnSong(int albumId, int songId)
+        {
+            return Ok(_albumService.GetMusiciansOnSong(albumId, songId));
         }
     }
 }

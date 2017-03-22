@@ -25,12 +25,12 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return _albumRepository.GetAlbums();
         }
 
-        public AlbumExtendedDto GetAlbumById(int id)
+        public AlbumExtendedDto GetAlbumById(int albumId)
         {
-            return _albumRepository.GetAlbumById(id);
+            return _albumRepository.GetAlbumById(albumId);
         }
 
-        public IEnumerable<MusicianDto> GetMusiciansByAlbumId(int albumId)
+        public IEnumerable<MusiciansOnSongDto> GetMusiciansByAlbumId(int albumId)
         {
             var musicians = _albumRepository.GetMusiciansByAlbumId(albumId);
             return musicians;
@@ -48,9 +48,15 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return song;
         }
 
+        public MusiciansOnSongDto GetMusiciansOnSong(int albumId, int songId)
+        {
+            var musicians = _albumRepository.GetMusiciansOnSong(albumId, songId);
+            return musicians;
+        }
+
         public MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId)
         {
-            throw new NotImplementedException();
+            return _albumRepository.GetMusicianOnAlbum(albumId, musicianId);
         }
     }
 }

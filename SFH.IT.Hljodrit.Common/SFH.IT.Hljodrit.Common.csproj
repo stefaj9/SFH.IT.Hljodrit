@@ -47,9 +47,12 @@
   <ItemGroup>
     <Compile Include="Dto\AlbumDto.cs" />
     <Compile Include="Dto\AlbumExtendedDto.cs" />
+    <Compile Include="Dto\CreditsDto.cs" />
+    <Compile Include="Dto\MusicianDto.cs" />
+    <Compile Include="Dto\RegistrationDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\InstrumentDto.cs" />
-    <Compile Include="Dto\MusicianDto.cs" />
+    <Compile Include="Dto\MusiciansOnSongDto.cs" />
     <Compile Include="Dto\MusicianExtendedDto.cs" />
     <Compile Include="Dto\PersonEnvelope.cs" />
     <Compile Include="Dto\PersonDto.cs" />
