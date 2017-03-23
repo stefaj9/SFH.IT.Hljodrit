@@ -30,7 +30,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public int RecordingId { get; set; }
 
         [JsonProperty(PropertyName = "duration")]
-        public TimeSpan Duration { get; set; }
+        public TimeSpan? Duration { get; set; }
 
         [JsonProperty(PropertyName = "isrc")]
         public string Isrc { get; set; }

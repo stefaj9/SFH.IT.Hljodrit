@@ -7,6 +7,16 @@ namespace SFH.IT.Hljodrit.Common.Dto
     {
         public RegistrationDto() { }
 
+
+        public RegistrationDto(string comment, string createdBy, DateTime createdOn, string updatedBy, DateTime updatedOn)
+        {
+            Comment = comment;
+            CreatedBy = createdBy;
+            CreatedOn = createdOn;
+            UpdatedBy = updatedBy;
+            UpdatedOn = updatedOn;
+        }
+
         [JsonProperty(PropertyName = "comment")]
         public string Comment { get; set; }
 

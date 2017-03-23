@@ -32,19 +32,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok(_albumService.GetAlbumById(albumId));
         }
 
-        [HttpGet]
-        [Route("{albumId:int}/musicians")]
-        public IHttpActionResult GetMusiciansByAlbumId(int albumId)
-        {
-            return Ok(_albumService.GetMusiciansByAlbumId(albumId));
-        }
-
-        [HttpGet]
-        [Route("{albumId:int}/musicians/{musicianId:int}")]
-        public IHttpActionResult GetMusicianOnAlbum(int albumId, int musicianId)
-        {
-            return Ok(_albumService.GetMusicianOnAlbum(albumId, musicianId));
-        }
+        //[HttpGet]
+        //[Route("{albumId:int}/musicians/{musicianId:int}")]
+        //public IHttpActionResult GetMusicianOnAlbum(int albumId, int musicianId)
+        //{
+        //    return Ok(_albumService.GetMusicianOnAlbum(albumId, musicianId));
+        //}
 
         [HttpGet]
         [Route("{albumId:int}/songs")]

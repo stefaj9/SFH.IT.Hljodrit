@@ -5,17 +5,14 @@ namespace SFH.IT.Hljodrit.Common.Dto
 {
     public class MusicianDto
     {
-        public MusicianDto()
-        {
-            Credits = new List<CreditsDto>();
-        }
+        public MusicianDto() { }
 
-        public MusicianDto(int musicianId, string fullName, string highestRoleCode)
+        public MusicianDto(int musicianId, string fullName, string highestRoleCode, string highestRoleName)
         {
             Id = musicianId;
             Fullname = fullName;
             HighestRoleCode = highestRoleCode;
-            Credits = new List<CreditsDto>();
+            HighestRoleName = highestRoleName;
         }
 
         [JsonProperty(PropertyName = "musicianId")]
@@ -27,7 +24,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty(PropertyName = "highestRoleCode")]
         public string HighestRoleCode { get; set; }
 
-        [JsonProperty(PropertyName = "credits")]
-        public ICollection<CreditsDto> Credits { get; set; }
+        public string  HighestRoleName { get; set; }
+
     }
 }

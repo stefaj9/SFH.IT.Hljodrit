@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -78,84 +79,76 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                          }).SingleOrDefault();
         }
 
-        public IEnumerable<MusiciansOnSongDto> GetMusiciansByAlbumId(int albumId)
-        {
-            //var query = from song in DbContext.media_product
-            //            join album in DbContext.media_product_package on song.packageid equals album.id
-            //            join musician in DbContext.recording_party on song.recordingid equals musician.recordingid
-            //            join person in DbContext.party_real on musician.partyrealid equals person.id
-            //            where album.id == albumId
-            //            group new { song, person } by new { Id = person.id, Fullname = person.fullname };
+        //public MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId)
+        //{
+        //    var result = from song in DbContext.media_product
+        //        join recording in DbContext.recording_party on song.recordingid equals recording.recordingid
+        //        join person in DbContext.party_real on recording.partyrealid equals person.id
+        //        join instrument in DbContext.party_instrumenttype on recording.instrumentcode equals instrument.code
+        //        where song.packageid == albumId && person.id == musicianId
+        //        group new { instrument.description_is } by new { song.title, song.id, person.fullname };
 
-            //var result = from musician in query.ToList()
-            //             select new MusiciansOnSongDto
-            //             {
-            //                 Id = musician.Key.Id,
-            //                 Fullname = musician.Key.Fullname,
-            //                 SongCount = musician.Distinct().Count()
-            //             };
+        //    var musician = new MusicianExtendedDto();
 
-            return null;// result.ToList();
-        }
+        //    foreach (var group in result)
+        //    {
+        //        var instrumentList = (from instrument in @group
+        //                              where instrument.description_is != null
+        //                              select instrument.description_is).Distinct().ToList();
 
-        public MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId)
+        //        musician.Fullname = group.Key.fullname;
+        //        musician.Songs.Add(group.Key.title, instrumentList);
+        //    }
+        //    return musician;
+        //}
+
+        public ICollection<MusiciansOnSongDto> GetMusiciansOnSong(int albumId, int songId)
         {
             var result = from song in DbContext.media_product
                 join recording in DbContext.recording_party on song.recordingid equals recording.recordingid
                 join person in DbContext.party_real on recording.partyrealid equals person.id
                 join instrument in DbContext.party_instrumenttype on recording.instrumentcode equals instrument.code
-                where song.packageid == albumId && person.id == musicianId
-                group new { instrument.description_is } by new { song.title, song.id, person.fullname };
+                join role in DbContext.party_partyroletype on recording.rolecode equals role.rolecode
+                where song.packageid == albumId && song.id == songId
+                group new { song, recording, person, instrument, role } by new { person.id, person.fullname };
 
-            var musician = new MusicianExtendedDto();
-
+            var allSongs = new List<MusiciansOnSongDto>();
             foreach (var group in result)
             {
-                var instrumentList = (from instrument in @group
-                                      where instrument.description_is != null
-                                      select instrument.description_is).Distinct().ToList();
-
-                musician.Fullname = group.Key.fullname;
-                musician.Songs.Add(group.Key.title, instrumentList);
-            }
-            return musician;
-        }
-
-        public MusiciansOnSongDto GetMusiciansOnSong(int albumId, int songId)
-        {
-            var result = from song in DbContext.media_product
-                join recording in DbContext.recording_party on song.recordingid equals recording.recordingid
-                join person in DbContext.party_real on recording.partyrealid equals person.id
-                join instrument in DbContext.party_instrumenttype on recording.instrumentcode equals instrument.code
-                where song.packageid == albumId && song.id == songId
-                group new {song, recording, person, instrument} by new { person.id, person.fullname };
-
-            var musiciansOnSong = new MusiciansOnSongDto();
-
-            foreach (var person in result)
-            {
-                musiciansOnSong.SongId = songId;
-                var instruments = new List<InstrumentDto>();
-                var registration = new RegistrationDto();
-                var credits = new CreditsDto();
-                var musician = new MusicianDto(person.Key.id, person.Key.fullname, ""); 
-
-                foreach (var element in person)
+                var credits = new List<MusicianCreditsDto>();
+                foreach (var e in group)
                 {
-                    instruments.Add(new InstrumentDto(element.instrument.code, element.instrument.name_en, element.instrument.name_is, element.instrument.description_is));
-                    SetAllRegistrationFields(registration, "", element.person.updatedon,"", new DateTime(), "");
-                    credits.RecordingId = element.recording.recordingid;
+                    var musicianCredits = new MusicianCreditsDto();
+                    var registration = new RegistrationDto();
+                    SetAllRegistrationFields(registration, e.recording.comment, e.recording.updatedon, e.recording.updatedby, e.recording.createdon, e.recording.createdby);
+                    SetAllMusicianFields(musicianCredits, registration, e.recording.id, albumId, null, e.person.fullname, e.person.id, e.instrument.description_is, e.instrument.code, e.role.rolename_is, e.recording.rolecode);
+                    credits.Add(musicianCredits);
                 }
+                var musician = new MusiciansOnSongDto(group.Key.id, group.Key.fullname, null, null, credits);
 
-                credits.Registration = registration;
-                credits.Instruments = instruments;
-                musician.Credits.Add(credits);
-                musiciansOnSong.Musicians.Add(musician);
+                allSongs.Add(musician);
             }
-            return musiciansOnSong;
+            
+            return allSongs;
         }
 
-        private void SetAllRegistrationFields(RegistrationDto registration, string comment, DateTime updatedOn, string upDatedBy, DateTime createdOn, string createdBy)
+
+        private static void SetAllMusicianFields(MusicianCreditsDto musicianCredits, RegistrationDto registration, int creditId, int albumId, string nickName, 
+                                          string fullName, int personId, string instrument, string instrumentCode, string roleName, string roleCode)
+        {
+            musicianCredits.Registration = registration;
+            musicianCredits.CreditId = creditId;
+            musicianCredits.AlbumId = albumId;
+            musicianCredits.ArtistNickName = nickName;
+            musicianCredits.FullName = fullName;
+            musicianCredits.PersonId = personId;
+            musicianCredits.InstrumentName = instrument;
+            musicianCredits.RoleNameIs = roleName;
+            musicianCredits.RoleCode = roleCode;
+            musicianCredits.InstrumentCode = instrumentCode;
+        }
+
+        private static void SetAllRegistrationFields(RegistrationDto registration, string comment, DateTime updatedOn, string upDatedBy, DateTime createdOn, string createdBy)
         {
             registration.Comment = comment;
             registration.UpdatedOn = updatedOn;
