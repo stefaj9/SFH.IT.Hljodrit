@@ -19,14 +19,12 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         public Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm)
         {
             var songs = _songRepository.GetSongs(pageSize, pageNumber, searchTerm);
-            return new Envelope<SongDto>();
-
+            return songs;
         }
 
         public SongExtendedDto GetSongById(int id)
         {
             var song = _songRepository.GetById(id);
-
             return new SongExtendedDto(song);
         }
     }
