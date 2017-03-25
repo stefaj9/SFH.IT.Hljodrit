@@ -102,7 +102,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 postaladdressline1 = person.Address,
                 countrycode = _countryRepository.GetById(person.NumericCountryIsoCode).twoletterisocode,
                 zipcode = person.Zipcode,
-                uniqueidentifier = person.Ssn,
+                uniqueidentifier = person.Ssn.Replace("-", ""),
                 area = area,
                 city = area,
                 deceased = person.IsDeceased,
