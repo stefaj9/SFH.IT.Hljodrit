@@ -15,15 +15,15 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Organization
 
         public IEnumerable<PublisherLabelDto> GetPublisherLabelsById(int publisherId)
         {
-            return DbContext.organization_master.Join(DbContext.organization_labels, master => master.id,
-                    labels => labels.organizationid, (master, labels) => labels)
-                .Where(l => l.organizationid == publisherId)
-                .Select(l => new PublisherLabelDto
-                {
-                    LabelId = l.id,
-                    LabelName = l.labelname,
-                    OrganizationId = l.organizationid
-                });
+            return DbContext.organization_master.Where(o => o.id == publisherId)
+                .Join(DbContext.organization_isrc_series, master => master.id, series => series.organizationid,
+                    (master, series) => new PublisherLabelDto
+                    {
+                        IsrcSeriesId = series.id,
+                        IsrcOrganizationPart = series.isrc_organizationpart,
+                        OrganizationId = master.id,
+                        PurposeLabel = series.purposelabel
+                    });
         }
     }
 }

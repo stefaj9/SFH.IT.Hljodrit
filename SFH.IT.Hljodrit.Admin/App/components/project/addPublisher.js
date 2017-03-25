@@ -16,7 +16,8 @@ class AddPublisher extends React.Component {
             publisher: {
                 id: -1,
                 name: '',
-                label: ''
+                label: '',
+                labelName: ''
             }
         };
     }
@@ -33,7 +34,7 @@ class AddPublisher extends React.Component {
         }
         return this.props.labels.map((label) => {
             return (
-                <option key={label.labelId} value={label.labelId}>{label.labelName}</option>
+                <option key={label.isrcSeriesId} value={label.isrcSeriesId}>{`${label.purposeLabel} (${label.isrcOrganizationPart})`}</option>
             );
         });
     }
@@ -52,7 +53,8 @@ class AddPublisher extends React.Component {
             publisher: {
                 id: -1,
                 name: '',
-                label: ''
+                label: '',
+                labelName: ''
             }
         });
         toastr.success('Tókst!', 'Það tókst að fjarlægja útgefanda');
@@ -73,6 +75,7 @@ class AddPublisher extends React.Component {
     updateLabel(e) {
         let publisher = _.cloneDeep(this.state.publisher);
         publisher.label = e.target.value;
+        publisher.labelName = e.target.options[e.target.selectedIndex].text;
         this.setState({ publisher: publisher });
     }
     render() {
