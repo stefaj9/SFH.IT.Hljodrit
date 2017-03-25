@@ -1,9 +1,11 @@
 ﻿using SFH.IT.Hljodrit.Repositories.Base;
+using SFH.IT.Hljodrit.Repositories.Implementations.Albums;
 using SFH.IT.Hljodrit.Repositories.Implementations.Common;
 using SFH.IT.Hljodrit.Repositories.Implementations.Instruments;
 using SFH.IT.Hljodrit.Repositories.Implementations.Organization;
 using SFH.IT.Hljodrit.Repositories.Implementations.Persons;
 using SFH.IT.Hljodrit.Repositories.Implementations.Project;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
 using SFH.IT.Hljodrit.Repositories.Implementations.Settings;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Instruments;
@@ -32,6 +34,8 @@ namespace SFH.IT.Hljodrit.Repositories
             container.Register<IPartyMainArtistRepository, PartyMainArtistRepository>(Lifestyle.Transient);
             container.Register<IZipCodeRepository, ZipCodeRepository>(Lifestyle.Transient);
             container.Register<ICountryRepository, CountryRepository>(Lifestyle.Transient);
+            container.Register<ISongRepository, SongRepository>(Lifestyle.Transient);
+            container.Register<IAlbumRepository, AlbumRepository>(Lifestyle.Transient);
             container.Register<ISettingsRepository, SettingsRepository>(Lifestyle.Transient);
             container.Register<IOrganizationRepository, OrganizationRepository>(Lifestyle.Transient);
             container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Transient);

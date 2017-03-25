@@ -52,9 +52,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\AlbumDto.cs" />
+    <Compile Include="Dto\AlbumExtendedDto.cs" />
+    <Compile Include="Dto\MusicianCreditsDto.cs" />
+    <Compile Include="Dto\MusicianDto.cs" />
+    <Compile Include="Dto\RegistrationDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\ExceptionDto.cs" />
     <Compile Include="Dto\InstrumentDto.cs" />
+    <Compile Include="Dto\MusiciansOnSongDto.cs" />
+    <Compile Include="Dto\MusicianExtendedDto.cs" />
     <Compile Include="Dto\MainArtistDto.cs" />
     <Compile Include="Dto\PersonDto.cs" />
     <Compile Include="Dto\PersonExtendedDto.cs" />
@@ -63,6 +70,8 @@
     <Compile Include="Dto\PublisherDto.cs" />
     <Compile Include="Dto\PublisherLabelDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />
+    <Compile Include="Dto\SongDto.cs" />
+    <Compile Include="Dto\SongExtendedDto.cs" />
     <Compile Include="Dto\ZipCodeDto.cs" />
     <Compile Include="Dto\Envelope.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
