@@ -102,6 +102,7 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Services\ProjectServiceTest.cs" />
     <Compile Include="Services\CommonServiceTest.cs" />
+    <Compile Include="Services\AlbumServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

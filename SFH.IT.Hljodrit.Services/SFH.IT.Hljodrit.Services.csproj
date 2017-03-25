@@ -47,15 +47,21 @@
     <Compile Include="Implementations\AlbumService.cs" />
     <Compile Include="Implementations\CommonService.cs" />
     <Compile Include="Implementations\InstrumentService.cs" />
+    <Compile Include="Implementations\MainArtistService.cs" />
+    <Compile Include="Implementations\OrganizationService.cs" />
     <Compile Include="Implementations\PersonService.cs" />
     <Compile Include="Implementations\ProjectService.cs" />
     <Compile Include="Implementations\SongService.cs" />
     <Compile Include="Interfaces\IAlbumService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
+    <Compile Include="Implementations\SettingsService.cs" />
     <Compile Include="Interfaces\IInstrumentService.cs" />
+    <Compile Include="Interfaces\IMainArtistService.cs" />
+    <Compile Include="Interfaces\IOrganizationService.cs" />
     <Compile Include="Interfaces\IPersonService.cs" />
     <Compile Include="Interfaces\IProjectService.cs" />
     <Compile Include="Interfaces\ISongService.cs" />
+    <Compile Include="Interfaces\ISettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

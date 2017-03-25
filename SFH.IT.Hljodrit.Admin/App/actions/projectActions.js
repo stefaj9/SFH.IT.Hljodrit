@@ -18,26 +18,11 @@ export function getAllProjects(pageSize, pageNumber, filters, searchString) {
     }
 }
 
-export function getInstrumentSuggestions() {
-    return (dispatch) => {
-        return fetch('/api/instruments', {
-            method: 'GET'
-        }).then((resp) => {
-            if (resp.ok) {
-                return resp.json();
-            }
-        }).then((data) => {
-            dispatch(getInstrumentSuggestionsSuccess(data));
-        });
-    }
-}
-
 export function selectProjectWithActionById(id, action) {
     let selectedProject = {
         id: id,
         action: action
     };
-
     return {
         type: 'SELECT_PROJECT_WITH_ACTION',
         payload: selectedProject
@@ -82,13 +67,6 @@ export function createProject(project) {
 function getAllProjectsSuccess(data) {
     return {
         type: 'GET_ALL_PROJECTS',
-        payload: data
-    };
-};
-
-function getInstrumentSuggestionsSuccess(data) {
-    return {
-        type: 'GET_INSTRUMENT_SUGGESTIONS',
         payload: data
     };
 };

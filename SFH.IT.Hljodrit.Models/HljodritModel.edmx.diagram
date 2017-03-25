@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="efb325fcda8544e7bb34e0932a3bf1bd" Name="Diagram1" ZoomLevel="34">
+      <Diagram DiagramId="efb325fcda8544e7bb34e0932a3bf1bd" Name="Diagram1" ZoomLevel="50">
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_airplay_attributes" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_cache_airplayreport" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.common_cache_mediarecording" Width="1.5" PointX="11.25" PointY="26.75" IsExpanded="true" />

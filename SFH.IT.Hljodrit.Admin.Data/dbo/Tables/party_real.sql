@@ -22,6 +22,10 @@
 );
 
 
+
+
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_FullName]
     ON [dbo].[party_real]([fullname] ASC);

@@ -1,14 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import ModalSteps from '../common/modalSteps';
+import { getMainArtistsByCriteria } from '../../actions/mainArtistActions';
+import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
+import { toastr } from 'react-redux-toastr';
+import SelectPersonModal from './selectPersonModal';
 
-export default class ProjectBasicInfo extends React.Component {
+class ProjectBasicInfo extends React.Component {
     constructor() {
         super();
 
         this.state = {
             projectName: '',
             projectType: 1,
-            projectMainArtist: ''
+            projectMainArtist: {
+                id: -1,
+                name: ''
+            },
+            mainArtistModalIsOpen: false
         };
     }
     populateOptions() {
@@ -22,13 +31,30 @@ export default class ProjectBasicInfo extends React.Component {
     }
     isValid() {
         const { projectType, projectName, projectMainArtist } = this.state;
-        return projectType === 1 ? projectName.length > 0 && projectMainArtist.length > 0 : projectName.length > 0;
+        return projectType === 1 ? projectName.length > 0 && projectMainArtist.id !== -1 : projectName.length > 0;
     }
     submitBasicInfo(e) {
         e.preventDefault();
         this.props.next(this.state);
     }
+    addMainArtist(artist) {
+        this.setState({
+            projectMainArtist: artist
+        });
+        toastr.success('Tókst!', 'Það tókst að bæta við aðalflytjanda');
+    }
+    removeMainArtist(e) {
+        e.preventDefault();
+        this.setState({
+            projectMainArtist: {
+                id: -1,
+                name: ''
+            }
+        });
+        toastr.success('Tókst!', 'Það tókst að fjarlægja aðalflytjanda');
+    }
     render() {
+        const { projectType, projectName, projectMainArtist, mainArtistModalIsOpen } = this.state;
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
                 <ModalSteps steps={this.props.steps} currentStep={1} />
@@ -39,7 +65,7 @@ export default class ProjectBasicInfo extends React.Component {
                         <input 
                             autoFocus={true}
                             type="text" 
-                            value={this.state.projectName} 
+                            value={projectName} 
                             onChange={(e) => this.setState({ projectName: e.target.value })} 
                             id="project-name" 
                             name="project-name" 
@@ -51,20 +77,35 @@ export default class ProjectBasicInfo extends React.Component {
                             className="form-control" 
                             name="project-type" 
                             id="project-type" 
-                            value={this.state.projectType} 
+                            value={projectType} 
                             onChange={(e) => this.setState({ projectType: parseInt(e.target.value) })}>
                                 {this.populateOptions()}
                         </select>
                     </div>
-                    <div className={this.state.projectType === 1 ? 'form-group' : 'hidden'}>
-                        <label htmlFor="project-mainartist">Aðalflytjandi:</label>
-                        <input 
-                            type="text" 
-                            id="project-mainartist" 
-                            name="project-mainartist" 
-                            className="form-control"
-                            value={this.state.projectMainArtist}
-                            onChange={(e) => this.setState({ projectMainArtist: e.target.value })} />
+                    <div className={projectType === 1 ? 'form-group' : 'hidden'}>
+                        <div className={projectMainArtist.id === -1 ? 'hidden' : ''}>
+                            <table className="table table-default table-striped table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Nafn</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{projectMainArtist.name}</td>
+                                        <td><a href="#" onClick={(e) => this.removeMainArtist(e) }><i className="fa fa-times"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p className={projectMainArtist.id !== -1 ? 'hidden' : ''}>Gerð er krafa um að það sé skráður aðalflytjandi á plötuna.</p>
+                        <div className="form-group">
+                            <button 
+                                className="btn btn-default"
+                                disabled={projectMainArtist.id !== -1}
+                                onClick={(e) => { e.preventDefault(); this.setState({ mainArtistModalIsOpen: true }) } }> <i className="fa fa-fw fa-plus"></i> Bæta við aðalflytjanda</button>
+                        </div>
                     </div>
                     <div className="form-group pull-right">
                         <button 
@@ -75,7 +116,26 @@ export default class ProjectBasicInfo extends React.Component {
                         </button>
                     </div>
                 </form>
+                <SelectPersonModal
+                    isOpen={mainArtistModalIsOpen}
+                    close={() => this.setState({ mainArtistModalIsOpen: false })}
+                    registerPath="/api/mainartists"
+                    envelope={this.props.mainArtistEnvelope}
+                    fetch={this.props.getMainArtistsByCriteria}
+                    beginFetch={this.props.isFetchingList}
+                    stoppedFetch={this.props.hasStoppedFetchingList}
+                    next={() => this.setState({ mainArtistModalIsOpen: false })}
+                    update={(artist) => this.addMainArtist(artist)}
+                    steps={() => { return ( <h4>Bæta við aðalflytjanda</h4> ) } } />
             </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        mainArtistEnvelope: state.mainArtist.mainArtistEnvelope
+    };
+};
+
+export default connect(mapStateToProps, { getMainArtistsByCriteria, isFetchingList, hasStoppedFetchingList })(ProjectBasicInfo);

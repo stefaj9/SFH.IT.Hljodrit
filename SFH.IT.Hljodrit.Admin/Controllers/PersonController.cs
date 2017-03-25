@@ -1,4 +1,7 @@
-﻿using System.Web.Http;
+﻿using System.Linq;
+using System.Web.Http;
+using System.Web.Http.ModelBinding;
+using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
@@ -21,17 +24,30 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         [HttpGet]
-        [Route("producers")]
-        public IHttpActionResult GetAllProducers([FromUri] int pageSize, [FromUri] int pageNumber, string searchTerm)
-        {
-            return Ok(_personService.GetProducers(pageSize, pageNumber, searchTerm ?? ""));
-        }
-
-        [HttpGet]
         [Route("persons")]
         public IHttpActionResult GetAllPersons([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm)
         {
             return Ok(_personService.GetPersons(pageSize, pageNumber, searchTerm ?? ""));
+        }
+
+        [HttpPost]
+        [Route("persons")]
+        public IHttpActionResult AddPerson([FromBody] PersonRegisterViewModel person)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = "";
+                foreach (var values in ModelState.Values)
+                {
+                    foreach (var error in values.Errors)
+                    {
+                        errors += error.ErrorMessage;
+                    }
+                }
+                return BadRequest(errors);
+            }
+
+            return Ok(_personService.AddPerson(person));
         }
 
         [HttpGet]

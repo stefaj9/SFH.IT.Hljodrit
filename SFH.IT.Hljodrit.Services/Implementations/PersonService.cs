@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.ViewModels;
+using SFH.IT.Hljodrit.Models;
+using SFH.IT.Hljodrit.Repositories.Base;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
@@ -11,15 +15,21 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     {
         private readonly IPartyRealRepository _partyRealRepository;
         private readonly IPartyRoleRepository _partyRoleRepository;
+        private readonly IZipCodeRepository _zipCodeRepository;
+        private readonly ICountryRepository _countryRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private const string ProducerRoleCode = "PRO";
 
-        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository)
+        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository, IUnitOfWork unitOfWork, ICountryRepository countryRepository, IZipCodeRepository zipCodeRepository)
         {
             _partyRoleRepository = partyRoleRepository;
+            _unitOfWork = unitOfWork;
+            _countryRepository = countryRepository;
+            _zipCodeRepository = zipCodeRepository;
             _partyRealRepository = partyRealRepository;
         }
 
-        private PersonEnvelope CreateEnvelope(IEnumerable<PersonDto> persons, int pageSize, int pageNumber)
+        private Envelope<PersonDto> CreateEnvelope(IEnumerable<PersonDto> persons, int pageSize, int pageNumber)
         {
             persons = persons.ToList();
             decimal maxPage = persons.Count() / (decimal)pageSize;
@@ -28,10 +38,15 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
             var personList = persons.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-            return new PersonEnvelope(pageNumber, maximumPages, personList);
+            return new Envelope<PersonDto>
+            {
+                CurrentPage = pageNumber,
+                MaximumPage = maximumPages,
+                Objects = personList
+            };
         }
 
-        public PersonEnvelope GetPerformers(int pageSize, int pageNumber, string searchTerm = null)
+        public Envelope<PersonDto> GetPerformers(int pageSize, int pageNumber, string searchTerm = null)
         {
             var performers = _partyRealRepository.GetPersons(p => p.rolecode != ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
@@ -41,7 +56,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return performersEnvelope;
         }
 
-        public PersonEnvelope GetProducers(int pageSize, int pageNumber, string searchTerm = null)
+        public Envelope<PersonDto> GetPublishers(int pageSize, int pageNumber, string searchTerm = null)
         {
             var producers = _partyRealRepository.GetPersons(p => p.rolecode == ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
 
@@ -52,7 +67,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return producersEnvelope;
         }
 
-        public PersonEnvelope GetPersons(int pageSize, int pageNumber, string searchTerm = null)
+        public Envelope<PersonDto> GetPersons(int pageSize, int pageNumber, string searchTerm = null)
         {
             var persons = _partyRealRepository.GetPersons(searchTerm);
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
@@ -76,6 +91,27 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 RoleCode = pr.rolecode,
                 RoleName = pr.rolename_is
             });
+        }
+
+        public int AddPerson(PersonRegisterViewModel person)
+        {
+            var area = _zipCodeRepository.Get(zc => zc.zipcode == person.Zipcode).areaname;
+            var entity = new party_real
+            {
+                fullname = person.Name,
+                postaladdressline1 = person.Address,
+                countrycode = _countryRepository.GetById(person.NumericCountryIsoCode).twoletterisocode,
+                zipcode = person.Zipcode,
+                uniqueidentifier = person.Ssn,
+                area = area,
+                city = area,
+                deceased = person.IsDeceased,
+                updatedon = DateTime.Now
+            };
+            _partyRealRepository.Add(entity);
+            _unitOfWork.Commit();
+
+            return entity.id;
         }
     }
 }

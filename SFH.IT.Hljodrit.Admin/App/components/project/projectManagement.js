@@ -80,7 +80,7 @@ class ProjectManagement extends React.Component {
                 <div className="add-project text-right">
                     <Link to='projects/createproject'><i className="fa fa-2x fa-plus"></i></Link>
                 </div>
-                <SearchBar searchBy={(search) => this.searchBy(search)} />
+                <SearchBar visible={true} searchBy={(search) => this.searchBy(search)} searchTerm={this.state.searchString} />
                 <Filter filters={this.state.filterProperties} filterBy={(filter) => this.filterBy(filter)} />
                 <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
                 <ProjectListView projects={this.props.projects} isFetching={this.props.isFetchingProjects} />

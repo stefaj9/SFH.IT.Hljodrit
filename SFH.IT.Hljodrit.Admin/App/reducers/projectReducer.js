@@ -2,11 +2,15 @@ import _ from 'lodash';
 
 let initialState = {
     selectedProject: {
-        basicInfo: {},
+        basicInfo: {
+            projectMainArtist: {
+                id: -1,
+                name: ''
+            }
+        },
         songs: [],
-        producers: []
+        publisher: {}
     },
-    instrumentSuggestions: [],
     projectEnvelope: {
         projects: [],
         currentPage: -1,
@@ -20,11 +24,6 @@ export default function (state = initialState, action) {
         case 'GET_ALL_PROJECTS': return Object.assign({}, state, {
             projectEnvelope: action.payload
         });
-        case 'GET_INSTRUMENT_SUGGESTIONS':
-            let instrumentSuggestions = _.map(action.payload, 'instrumentNameIcelandic');
-            return Object.assign({}, state, {
-                instrumentSuggestions: instrumentSuggestions
-            });
         case 'SELECT_PROJECT_WITH_ACTION': return Object.assign({}, state, {
             selectedProject: action.payload
         });
@@ -38,7 +37,7 @@ export default function (state = initialState, action) {
             selectedProject: {
                 basicInfo: action.payload,
                 songs: state.selectedProject.songs,
-                producers: state.selectedProject.producers
+                publisher: state.selectedProject.publisher
             }
         });
         case 'UPDATE_PROJECT_SONGS': 
@@ -46,7 +45,7 @@ export default function (state = initialState, action) {
                 selectedProject: {
                     basicInfo: state.selectedProject.basicInfo,
                     songs: action.payload,
-                    producers: state.selectedProject.producers
+                    publisher: state.selectedProject.publisher
                 }
             });
         case 'UPDATE_PROJECT_PERFORMERS': 
@@ -61,14 +60,14 @@ export default function (state = initialState, action) {
                 selectedProject: {
                     basicInfo: state.selectedProject.basicInfo,
                     songs: newSongs,
-                    producers: state.selectedProject.producers
+                    publisher: state.selectedProject.publisher
                 }
             });
         case 'UPDATE_PROJECT_PRODUCERS': return Object.assign({}, state, {
             selectedProject: {
                 basicInfo: state.selectedProject.basicInfo,
                 songs: state.selectedProject.songs,
-                producers: action.payload
+                publisher: action.payload
             }
         });
         case 'CREATE_PROJECT': return Object.assign({}, state, {

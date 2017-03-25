@@ -16,6 +16,9 @@ namespace SFH.IT.Hljodrit.Services
             container.Register<ICommonService, CommonService>(Lifestyle.Transient);
             container.Register<ISongService, SongService>(Lifestyle.Transient);
             container.Register<IAlbumService, AlbumService>(Lifestyle.Transient);
+            container.Register<ISettingsService, SettingsService>(Lifestyle.Transient);
+            container.Register<IOrganizationService, OrganizationService>(Lifestyle.Transient);
+            container.Register<IMainArtistService, MainArtistService>(Lifestyle.Transient);
         }
     }
 }
