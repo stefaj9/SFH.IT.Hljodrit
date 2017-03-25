@@ -86,5 +86,18 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                          };
             return result.SingleOrDefault();
         }
+
+        public IEnumerable<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm)
+        {
+            var songs = DbContext.media_product.Where(
+                song => song.title.StartsWith(searchTerm)).Select(song => new SongDto()
+            {
+                Id = song.id,
+                Title = song.title,
+                TrackNumber = song.tracknumber ?? -1
+            });
+
+            return songs.ToList();
+        }
     }
 }

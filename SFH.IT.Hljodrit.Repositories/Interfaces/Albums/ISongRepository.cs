@@ -11,6 +11,7 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Albums
 {
     public interface ISongRepository: IRepository<media_product>
     {
+        IEnumerable<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm);
         IEnumerable<SongDto> GetSongsByAlbumId(int albumId);
         SongExtendedDto GetSongOnAlbum(int albumId, int songId);
     }
