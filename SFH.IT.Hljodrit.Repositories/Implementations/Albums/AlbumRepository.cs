@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.StaticHelperClasses;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
@@ -15,20 +16,25 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
         public AlbumRepository(IDbFactory dbFactory)
                 : base(dbFactory) { }
 
-        public IEnumerable<AlbumDto> GetAlbums()
+        public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm)
         {
-            var albums = DbContext.media_product_package.Join(DbContext.party_mainartist,
-                mediaProductPackage => mediaProductPackage.mainartistid,
-                partyMainArtist => partyMainArtist.id, (mediaProductPackage, partyMainArtist) => new AlbumDto()
-                {
-                    AlbumId = mediaProductPackage.id,
-                    AlbumTitle = mediaProductPackage.albumtitle,
-                    ReleaseDate = mediaProductPackage.releasedate,
-                    MainArtistName = partyMainArtist.artistname,
-                    MainArtistId = partyMainArtist.id
+            var totalAlbums = (from album in DbContext.media_product_package
+                               join mainArtist in DbContext.party_mainartist on album.mainartistid equals mainArtist.id
+                               where album.albumtitle.StartsWith(searchTerm)
+                               select new AlbumDto()
+                               {
+                                   AlbumId = album.id,
+                                   AlbumTitle = album.albumtitle,
+                                   ReleaseDate = album.releasedate,
+                                   MainArtistName = mainArtist.artistname,
+                                   MainArtistId = mainArtist.id
 
-                });
-            return albums;
+                               }).OrderBy(album => album.AlbumTitle).Skip((pageNumber - 1) * pageSize).Take(pageSize); ;
+
+            var albumsCount = DbContext.media_product_package.Count(album => album.albumtitle.StartsWith(searchTerm));
+            var result = EnvelopeCreator.CreateEnvelope(totalAlbums, pageSize, pageNumber, albumsCount);
+
+            return result;
         }
 
         public AlbumExtendedDto GetAlbumById(int id)

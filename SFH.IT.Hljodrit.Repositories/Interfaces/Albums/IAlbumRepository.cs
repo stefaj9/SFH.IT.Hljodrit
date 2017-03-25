@@ -7,7 +7,7 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Albums
 {
     public interface IAlbumRepository : IRepository<media_product_package>
     {
-        IEnumerable<AlbumDto> GetAlbums();
+        Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm);
         AlbumExtendedDto GetAlbumById(int id);
        // MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId);
         ICollection<MusiciansOnSongDto> GetMusiciansOnSong(int albumId, int songId);

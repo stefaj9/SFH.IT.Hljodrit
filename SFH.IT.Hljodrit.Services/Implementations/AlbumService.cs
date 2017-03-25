@@ -20,9 +20,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _albumRepository = albumRepository;
         }
 
-        public IEnumerable<AlbumDto> GetAlbums()
+        public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm)
         {
-            return _albumRepository.GetAlbums();
+            return _albumRepository.GetAlbums(pageSize, pageNumber, searchTerm);
         }
 
         public AlbumExtendedDto GetAlbumById(int albumId)
