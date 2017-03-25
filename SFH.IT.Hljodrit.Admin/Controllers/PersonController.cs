@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
+using SFH.IT.Hljodrit.Common.Helpers;
 using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
@@ -36,15 +37,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var errors = "";
-                foreach (var values in ModelState.Values)
-                {
-                    foreach (var error in values.Errors)
-                    {
-                        errors += error.ErrorMessage;
-                    }
-                }
-                return BadRequest(errors);
+                return BadRequest(ValidationHelper.GenerateErrorMessage(ModelState.Values));
             }
 
             return Ok(_personService.AddPerson(person));
