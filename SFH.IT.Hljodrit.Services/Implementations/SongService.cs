@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
@@ -15,20 +16,15 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _songRepository = songRepository;
         }
 
-        public IEnumerable<SongDto> GetSongs()
+        public Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm)
         {
-            return _songRepository.GetAll().Select(song => new SongDto
-            {
-                Id = song.id,
-                Title = song.title,
-                TrackNumber = song.tracknumber ?? -1
-            });
+            var songs = _songRepository.GetSongs(pageSize, pageNumber, searchTerm);
+            return songs;
         }
 
         public SongExtendedDto GetSongById(int id)
         {
             var song = _songRepository.GetById(id);
-
             return new SongExtendedDto(song);
         }
     }

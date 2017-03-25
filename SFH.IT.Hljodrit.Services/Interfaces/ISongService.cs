@@ -5,8 +5,7 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
 {
     public interface ISongService
     {
-        IEnumerable<SongDto> GetSongs();
-
+        Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm);
         SongExtendedDto GetSongById(int songId);
     }
 }

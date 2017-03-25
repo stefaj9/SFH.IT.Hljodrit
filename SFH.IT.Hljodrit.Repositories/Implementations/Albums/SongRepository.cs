@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net.Sockets;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.StaticHelperClasses;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
@@ -85,6 +86,22 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                              }
                          };
             return result.SingleOrDefault();
+        }
+
+        public Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm)
+        {
+            var songs = DbContext.media_product.Where(
+                song => song.title.StartsWith(searchTerm)).Select(song => new SongDto()
+            {
+                Id = song.id,
+                Title = song.title,
+                TrackNumber = song.tracknumber ?? -1
+            }).OrderBy(song => song.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+            var totalSongs = DbContext.media_product.Count(song => song.title.StartsWith(searchTerm));
+            var result = EnvelopeCreator.CreateEnvelope(songs, pageSize, pageNumber, totalSongs);
+
+            return result;
         }
     }
 }
