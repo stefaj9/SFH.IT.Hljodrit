@@ -189,15 +189,21 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
         public void PersonService_GetAllRoles()
         {
             // Arrange
-            var roles = Builder<party_partyroletype>.CreateListOfSize(20).Build();
+            var roles = Builder<party_partyroletype>.CreateListOfSize(20).Build().Where(r => r.active == true).ToList();
             _partyRoleRepository.Setup(pr => pr.GetMany(p => p.active == true)).Returns(roles);
             // Act
-            var returnedRoles = _personService.GetPersonRoles();
+            var returnedRoles = _personService.GetPersonRoles().ToList();
+
+            var checkRoles = roles.Where(r => r.active == true).Select(r => new RoleDto
+            {
+                RoleCode = r.rolecode,
+                RoleName = r.rolename_is
+            }).OrderBy(r => r.RoleName).ToList();
 
             // Assert
             Assert.IsNotNull(returnedRoles);
             Assert.IsInstanceOfType(returnedRoles, typeof(IEnumerable<RoleDto>));
-            Assert.AreEqual(20, returnedRoles.Count());
+            Assert.AreEqual(10, returnedRoles.Count);
         }
         #endregion
 
