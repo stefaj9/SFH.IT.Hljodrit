@@ -3,7 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 import App from '../components/common/app';
 import Settings from '../components/settings/settings';
 import Calculations from '../components/calculations/calculations';
-import Instruments from '../components/instruments/instruments';
+import Albums from '../components/albums/albums';
 import Users from '../components/users/users';
 import NotFound from '../components/common/notFound';
 import Projects from '../components/project/projects';
@@ -19,7 +19,7 @@ export default (
             <Route path="createproject" component={AddProject} />
         </Route>
         <Route path="calculations" component={Calculations} />
-        <Route path="instruments" component={Instruments} />
+        <Route path="albums" component={Albums} />
         <Route path="users" component={Users} />
         <Route path="settings" component={Settings} />
         <Route path="*" component={NotFound} />
