@@ -4,6 +4,7 @@ import {getAllAlbums} from '../../actions/AlbumsActions';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
 import AlbumList from './albumListView';
+import SearchBar from '../common/searchBar';
 
 class Albums extends React.Component {
 
@@ -16,6 +17,7 @@ class Albums extends React.Component {
         this.state = {
             page: 1,
             pageSize: 25,
+            searchString: ''
         }
     }
 
@@ -25,6 +27,14 @@ class Albums extends React.Component {
         });
 
         this.props.getAllAlbums(newPageSize, this.state.page);
+    }
+
+    changePageNumber(newPageNumber) {
+        this.setState({
+            page: newPageNumber
+        });
+
+        this.props.getAllAlbums(this.state.pageSize, newPageNumber);
     }
 
     render() {
