@@ -5,19 +5,19 @@ const AlbumListItem = ({album, onSelect}) => {
         <div className={'list well row ' + album.albumTitle}>
             <div className="list-info col-md-6 col-xs-12">
                 <div className="list-name">
-                    <div className="title">Level:</div>
+                    <div className="title">Plötuheiti:</div>
                     <div className="value">{album.albumTitle}</div>
                 </div>
                 <div className="list-author">
-                    <div className="title">Logged:</div>
-                    <div className="value">{album.albumTitle}</div>
+                    <div className="title">Aðalflytjandi:</div>
+                    <div className="value">{album.mainArtistName}</div>
                 </div>
                 <div className="list-author">
-                    <div className="title">Machine name:</div>
-                    <div className="value">{album.albumTitle}</div>
+                    <div className="title">Útgáfuár:</div>
+                    <div className="value">{album.releaseDate}</div>
                 </div>
                 <div className="list-author">
-                    <div className="title">Url:</div>
+                    <div className="title">Fjöldi laga:</div>
                     <div className="value">{album.albumTitle}</div>
                 </div>
             </div>
