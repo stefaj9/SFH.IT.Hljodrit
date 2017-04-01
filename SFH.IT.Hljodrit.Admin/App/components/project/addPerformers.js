@@ -128,7 +128,7 @@ export default class AddPerformers extends React.Component {
     render() {
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
-                <ModalSteps steps={this.props.steps} currentStep={3} />
+                <ModalSteps steps={this.props.steps} currentStep={4} />
                 <h4>Skrá flytjendur</h4>
                 <div className="song-wrapper">
                     <p>Gerð er krafa um að það sé að lágmarki einn flytjandi skráður á hvert lag. Lög hér að neðanverðu eru röðuð eftir númer lags á verkefninu.</p>

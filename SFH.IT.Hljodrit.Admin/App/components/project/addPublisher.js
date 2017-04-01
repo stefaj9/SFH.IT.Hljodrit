@@ -88,7 +88,7 @@ class AddPublisher extends React.Component {
         const { publisher, isAddPublisherModelOpen } = this.state;
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
-                <ModalSteps steps={this.props.steps} currentStep={4} />
+                <ModalSteps steps={this.props.steps} currentStep={2} />
                 <h4>Skrá útgefanda</h4>
                 <div className="form-group pull-right">
                     <button 

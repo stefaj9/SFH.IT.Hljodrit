@@ -89,7 +89,7 @@ export default class AddSong extends React.Component {
     render() {
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
-                <ModalSteps steps={this.props.steps} currentStep={2} />
+                <ModalSteps steps={this.props.steps} currentStep={3} />
                 <h4>Skrá lög</h4>
                 <form action="">
                     <div className="form-group">
