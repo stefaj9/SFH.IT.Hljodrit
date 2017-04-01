@@ -25,9 +25,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm, string searchFilter)
         {
-            //The default search is to search by the albums title
-            Expression<Func<media_product_package, bool>> filter = album => album.albumtitle.StartsWith(searchTerm);
+            searchTerm = string.IsNullOrEmpty(searchTerm) ? "": searchTerm.Trim();
             var mainArtistSearchName = "";
+
+            //The default search is to search by the albums title
+            Expression <Func<media_product_package, bool>> filter = album => album.albumtitle.Trim().StartsWith(searchTerm);
 
             switch (searchFilter)
             {
@@ -36,11 +38,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     filter = album => album.albumtitle.StartsWith("");
                     break;
                 case AlbumReleaseYearSearchFilter:
-                    var releaseYear = Convert.ToInt32(searchTerm);
+                    var releaseYear = Convert.ToInt32(searchTerm.Trim());
                     filter = album => album.releasedate.Year == releaseYear;
                     break;
             }
-            
+
             return _albumRepository.GetAlbums(pageSize, pageNumber, searchTerm, filter, mainArtistSearchName);
         }
 

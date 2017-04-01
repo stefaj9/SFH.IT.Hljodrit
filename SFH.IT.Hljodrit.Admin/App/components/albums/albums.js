@@ -53,7 +53,7 @@ class Albums extends React.Component {
         if (!search) {
             this.setState({currentSearchType: 0});
         }
-        this.setState({searchString: search}, () => {
+        this.setState({searchString: search.trim()}, () => {
             this.props.getAllAlbums(this.state.pageSize, this.state.page, this.state.searchString,  this.state.searchTypes[this.state.currentSearchType]);
         });
     }

@@ -2,6 +2,11 @@ import fetch from 'isomorphic-fetch';
 import * as types from './actionTypes';
 
 export function getAllAlbums(pageSize, pageNumber, searchString, searchType) {
+    if(isNaN(searchString) && searchType === 'releaseYear') {
+        console.log("penis");
+    }
+    console.log(searchString);
+
     return (dispatch) => {
         dispatch(isFetchingAlbums());
         return fetch(`/api/albums?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchString}&searchFilter=${searchType}`, {
