@@ -8,6 +8,7 @@ import { useRelativeLinks } from 'react-router-relative-links';
 import store from './store';
 import Routes from './routes/routes';
 import ReduxToastr from 'react-redux-toastr';
+import 'rc-time-picker/assets/index.css';
 
 const history = syncHistoryWithStore(browserHistory, store);
 

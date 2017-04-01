@@ -8,6 +8,17 @@ import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowAction
 import { toastr } from 'react-redux-toastr';
 
 class AddPublisher extends React.Component {
+    componentWillReceiveProps(newProps) {
+        if (newProps.labels.length > 0) {
+            let publisher = _.cloneDeep(this.state.publisher);
+            let firstLabel = newProps.labels[0];
+            publisher.label = firstLabel.isrcSeriesId;
+            publisher.labelName = `${firstLabel.purposeLabel} (${firstLabel.isrcOrganizationPart})`;
+            this.setState({
+                publisher: publisher
+            });
+        }
+    }
     constructor() {
         super();
 
@@ -27,11 +38,6 @@ class AddPublisher extends React.Component {
         });
     }
     renderLabels() {
-        if (this.props.labels.length === 1) {
-            let publisher = _.cloneDeep(this.state.publisher);
-            publisher.label = this.props.labels[0].labelId;
-            this.setState({ publisher: publisher });
-        }
         return this.props.labels.map((label) => {
             return (
                 <option key={label.isrcSeriesId} value={label.isrcSeriesId}>{`${label.purposeLabel} (${label.isrcOrganizationPart})`}</option>
@@ -82,7 +88,7 @@ class AddPublisher extends React.Component {
         const { publisher, isAddPublisherModelOpen } = this.state;
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
-                <ModalSteps steps={this.props.steps} currentStep={4} />
+                <ModalSteps steps={this.props.steps} currentStep={2} />
                 <h4>Skrá útgefanda</h4>
                 <div className="form-group pull-right">
                     <button 
@@ -103,7 +109,7 @@ class AddPublisher extends React.Component {
                 </table>
                 <div className={'form-group' + (this.state.publisher.id === -1 ? ' hidden' : '')}>
                     <label htmlFor="organization-label">Label</label>
-                    <select name="organization-label" id="organization-label" className="form-control" onChange={(e) => this.updateLabel(e)}>
+                    <select value={this.state.label} name="organization-label" id="organization-label" className="form-control" onChange={(e) => this.updateLabel(e)}>
                         {this.renderLabels()}
                     </select>
                 </div>

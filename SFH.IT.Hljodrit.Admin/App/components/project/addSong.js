@@ -1,6 +1,8 @@
 import React from 'react';
 import ModalSteps from '../common/modalSteps';
 import SortableTable from '../common/sortableTable';
+import moment from 'moment';
+import TimePicker from 'rc-time-picker';
 import { toastr } from 'react-redux-toastr';
 import _ from 'lodash';
 
@@ -12,7 +14,8 @@ export default class AddSong extends React.Component {
             songs: [],
             lastSongNumber: 0,
             currentSongName: '',
-            currentSongLength: ''
+            currentSongLength: '',
+            currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0))
         };
     }
     addSongToList(e) {
@@ -28,6 +31,7 @@ export default class AddSong extends React.Component {
         this.setState({
             currentSongName: '',
             currentSongLength: '',
+            currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
             lastSongNumber: lastSongNumber + 1,
             songs: newSongList
         });
@@ -74,10 +78,18 @@ export default class AddSong extends React.Component {
             songs: newSongs
         });
     }
+    addSongLength(value) {
+        if (moment(value).isValid()) {
+            this.setState({
+                currentSongLength: moment(value).format('H:mm:ss'),
+                currentFullSongLength: moment(value)
+            });
+        }
+    }
     render() {
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
-                <ModalSteps steps={this.props.steps} currentStep={2} />
+                <ModalSteps steps={this.props.steps} currentStep={3} />
                 <h4>Skrá lög</h4>
                 <form action="">
                     <div className="form-group">
@@ -89,13 +101,14 @@ export default class AddSong extends React.Component {
                             value={this.state.currentSongName}
                             onChange={(e) => this.setState({ currentSongName: e.target.value })} />
                     </div>
-                    <div className="form-group">
-                        <input 
-                            type="text"
-                            placeholder="Lengd lags.."
-                            className="form-control"
-                            value={this.state.currentSongLength}
-                            onChange={(e) => this.setState({ currentSongLength: e.target.value })} />
+                    <div className="form-group row">
+                        <div className="col-xs-12">
+                            <TimePicker
+                                showSecond={true}
+                                value={this.state.currentFullSongLength}
+                                defaultValue={moment(new Date(2017, 1, 1, 0, 0, 0, 0))}
+                                onChange={this.addSongLength.bind(this)} />
+                        </div>
                     </div>
                     <div className="form-group text-right">
                         <button 
