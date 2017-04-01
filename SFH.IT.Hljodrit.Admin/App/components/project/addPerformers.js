@@ -25,7 +25,7 @@ export default class AddPerformers extends React.Component {
             let displayPerformers = song.performers.map((performer) => {
                 let instruments = _.join(performer.instruments, ', ');
                 return (
-                    <tr key={`${song.number}-${performer.id}-${performer.role}`}>
+                    <tr key={`${song.number}-${performer.id}-${performer.role.code}`}>
                         <td>{performer.name}</td>
                         <td>{instruments}</td>
                         <td>{performer.role.name}</td>
