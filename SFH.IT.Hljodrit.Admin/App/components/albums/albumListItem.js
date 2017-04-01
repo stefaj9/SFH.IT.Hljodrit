@@ -14,11 +14,11 @@ const AlbumListItem = ({album, onSelect}) => {
                 </div>
                 <div className="list-author">
                     <div className="title">Útgáfuár:</div>
-                    <div className="value">{album.releaseDate}</div>
+                    <div className="value">{album.releaseYear}</div>
                 </div>
                 <div className="list-author">
                     <div className="title">Fjöldi laga:</div>
-                    <div className="value">{album.albumTitle}</div>
+                    <div className="value">{album.numberOfTracks}</div>
                 </div>
             </div>
 
