@@ -11,8 +11,11 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty(PropertyName = "albumTitle")]
         public string AlbumTitle { get; set; }
 
-        [JsonProperty(PropertyName = "releaseDate")]
-        public DateTime ReleaseDate { get; set; }
+        [JsonProperty(PropertyName = "releaseYear")]
+        public int ReleaseYear { get; set; }
+
+        [JsonProperty(PropertyName = "numberOfTracks")]
+        public int NumberOfTracks { get; set; }
 
         [JsonProperty(PropertyName = "mainArtistId")]
         public int? MainArtistId { get; set; }
