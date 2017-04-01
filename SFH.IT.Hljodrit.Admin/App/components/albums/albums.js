@@ -9,7 +9,7 @@ import SearchBar from '../common/searchBar';
 class Albums extends React.Component {
 
     componentWillMount() {
-        this.props.getAllAlbums(this.state.pageSize, this.state.page);
+        this.props.getAllAlbums(this.state.pageSize, this.state.page, this.state.searchString);
     }
     constructor(props, context) {
         super(props, context);
@@ -26,7 +26,7 @@ class Albums extends React.Component {
             pageSize: newPageSize
         });
 
-        this.props.getAllAlbums(newPageSize, this.state.page);
+        this.props.getAllAlbums(newPageSize, this.state.page, this.state.searchString);
     }
 
     changePageNumber(newPageNumber) {
@@ -34,13 +34,20 @@ class Albums extends React.Component {
             page: newPageNumber
         });
 
-        this.props.getAllAlbums(this.state.pageSize, newPageNumber);
+        this.props.getAllAlbums(this.state.pageSize, newPageNumber, this.state.searchString);
+    }
+
+    searchBy(search) {
+        this.setState({searchString: search}, () => {
+            this.props.getAllAlbums(this.state.pageSize, this.state.page, this.state.searchString);
+        });
     }
 
     render() {
         return (
             <div>
                 <h2>Plötur</h2>
+                <SearchBar visible={true} searchBy={(search) => this.searchBy(search)} searchTerm={this.state.searchString} />
                 <PageSelector change={newPageSize => this.changePageSize(newPageSize)} />
                 <AlbumList albums={this.props.albums}
                                isFetching={this.props.isFetching}
