@@ -90,7 +90,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             {
                 RoleCode = pr.rolecode,
                 RoleName = pr.rolename_is
-            });
+            }).OrderBy(r => r.RoleName);
         }
 
         public int AddPerson(PersonRegisterViewModel person)
