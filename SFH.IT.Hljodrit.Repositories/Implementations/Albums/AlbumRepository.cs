@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.StaticHelperClasses;
 using SFH.IT.Hljodrit.Models;
@@ -16,11 +17,11 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
         public AlbumRepository(IDbFactory dbFactory)
                 : base(dbFactory) { }
 
-        public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm)
+        public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm, Expression<Func<media_product_package, bool>> expression, string mainArtistSearchName)
         {
-            var totalAlbums = (from album in DbContext.media_product_package
+            var totalAlbums = (from album in DbContext.media_product_package.Where(expression)
                                join mainArtist in DbContext.party_mainartist on album.mainartistid equals mainArtist.id
-                               where album.albumtitle.StartsWith(searchTerm)
+                               where mainArtist.artistname.StartsWith(mainArtistSearchName)
                                select new AlbumDto()
                                {
                                    AlbumId = album.id,
@@ -34,7 +35,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
 
                                }).OrderBy(album => album.AlbumTitle).Skip((pageNumber - 1) * pageSize).Take(pageSize); ;
 
-            var albumsCount = DbContext.media_product_package.Count(album => album.albumtitle.StartsWith(searchTerm));
+            var albumsCount = DbContext.media_product_package.Count(expression);
             var result = EnvelopeCreator.CreateEnvelope(totalAlbums, pageSize, pageNumber, albumsCount);
 
             return result;

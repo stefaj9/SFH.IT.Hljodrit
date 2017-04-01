@@ -20,9 +20,9 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpGet]
         [Route("")]
-        public IHttpActionResult GetAlbums([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm)
+        public IHttpActionResult GetAlbums([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] string searchTerm, [FromUri] string searchFilter)
         {
-            return Ok(_albumService.GetAlbums(pageSize, pageNumber, searchTerm ?? ""));
+            return Ok(_albumService.GetAlbums(pageSize, pageNumber, searchTerm ?? "", searchFilter));
         }
 
         [HttpGet]

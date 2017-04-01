@@ -1,10 +1,10 @@
 import fetch from 'isomorphic-fetch';
 import * as types from './actionTypes';
 
-export function getAllAlbums(pageSize, pageNumber, searchString) {
+export function getAllAlbums(pageSize, pageNumber, searchString, searchType) {
     return (dispatch) => {
         dispatch(isFetchingAlbums());
-        return fetch(`/api/albums?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchString}`, {
+        return fetch(`/api/albums?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchString}&searchFilter=${searchType}`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {

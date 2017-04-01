@@ -5,20 +5,32 @@ import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
 import AlbumList from './albumListView';
 import SearchBar from '../common/searchBar';
+import SearchTypeSelector from './searchTypeSelector';
 
 class Albums extends React.Component {
 
     componentWillMount() {
-        this.props.getAllAlbums(this.state.pageSize, this.state.page, this.state.searchString);
+        this.props.getAllAlbums(this.state.pageSize, this.state.page, this.state.searchString, this.state.searchTypes[this.state.currentSearchType]);
     }
     constructor(props, context) {
         super(props, context);
-
         this.state = {
             page: 1,
             pageSize: 25,
-            searchString: ''
+            searchString: '',
+            currentSearchType: 0,
+            searchTypes: [
+                'albumTitle',
+                'mainArtistName',
+                'releaseYear'
+            ]
         }
+    }
+
+    changeSearchType(idx) {
+        this.setState({
+            currentSearchType: parseInt(idx)
+        });
     }
 
     changePageSize(newPageSize) {
@@ -26,7 +38,7 @@ class Albums extends React.Component {
             pageSize: newPageSize
         });
 
-        this.props.getAllAlbums(newPageSize, this.state.page, this.state.searchString);
+        this.props.getAllAlbums(newPageSize, this.state.page, this.state.searchString,  this.state.searchTypes[this.state.currentSearchType]);
     }
 
     changePageNumber(newPageNumber) {
@@ -34,12 +46,15 @@ class Albums extends React.Component {
             page: newPageNumber
         });
 
-        this.props.getAllAlbums(this.state.pageSize, newPageNumber, this.state.searchString);
+        this.props.getAllAlbums(this.state.pageSize, newPageNumber, this.state.searchString,  this.state.searchTypes[this.state.currentSearchType]);
     }
 
     searchBy(search) {
+        if (!search) {
+            this.setState({currentSearchType: 0});
+        }
         this.setState({searchString: search}, () => {
-            this.props.getAllAlbums(this.state.pageSize, this.state.page, this.state.searchString);
+            this.props.getAllAlbums(this.state.pageSize, this.state.page, this.state.searchString,  this.state.searchTypes[this.state.currentSearchType]);
         });
     }
 
@@ -47,6 +62,7 @@ class Albums extends React.Component {
         return (
             <div>
                 <h2>Plötur</h2>
+                <SearchTypeSelector onSelect = {idx => this.changeSearchType(idx)} />
                 <SearchBar visible={true} searchBy={(search) => this.searchBy(search)} searchTerm={this.state.searchString} />
                 <PageSelector change={newPageSize => this.changePageSize(newPageSize)} />
                 <AlbumList albums={this.props.albums}
@@ -61,7 +77,6 @@ class Albums extends React.Component {
         );
     }
 }
-
 
 function mapStateToProps(state) {
     return {
