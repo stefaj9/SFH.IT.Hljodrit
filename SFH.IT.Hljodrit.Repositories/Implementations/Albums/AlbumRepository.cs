@@ -25,7 +25,10 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                                {
                                    AlbumId = album.id,
                                    AlbumTitle = album.albumtitle,
-                                   ReleaseDate = album.releasedate,
+                                   ReleaseYear = album.releasedate.Year,
+                                   NumberOfTracks = (from song in DbContext.media_product
+                                                     where song.packageid == album.id
+                                                     select song).Count(),
                                    MainArtistName = mainArtist.artistname,
                                    MainArtistId = mainArtist.id
 

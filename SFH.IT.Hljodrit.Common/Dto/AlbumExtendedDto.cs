@@ -16,6 +16,9 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty(PropertyName = "countryOfPublication")]
         public string CountryOfPublication { get; set; }
 
+        [JsonProperty(PropertyName = "releaseDate")]
+        public DateTime ReleaseDate { get; set; }
+
         [JsonProperty(PropertyName = "countryOfProduction")]
         public string CountryOfProduction { get; set; }
 
