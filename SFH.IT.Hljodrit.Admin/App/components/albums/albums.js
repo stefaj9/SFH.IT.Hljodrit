@@ -51,7 +51,8 @@ class Albums extends React.Component {
                 <PageSelector change={newPageSize => this.changePageSize(newPageSize)} />
                 <AlbumList albums={this.props.albums}
                                isFetching={this.props.isFetching}
-                               onSelect={this.props.selectAlbum} />
+                               //onSelect={this.props.selectAlbum}
+                                />
                 <Paging visible={!this.props.isFetching}
                         currentPage={this.props.currentPage}
                         maximumPage={this.props.maximumPage}
