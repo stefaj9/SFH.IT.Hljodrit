@@ -21,7 +21,6 @@ class ProjectBasicInfo extends React.Component {
         };
     }
     populateOptions() {
-        // TODO: Populate with real data
         let options = ['Venjuleg plata', 'Safnplata', 'Single'];
         return options.map((option, idx) => {
             return (

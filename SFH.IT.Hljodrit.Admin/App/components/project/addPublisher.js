@@ -13,7 +13,8 @@ class AddPublisher extends React.Component {
             let publisher = _.cloneDeep(this.state.publisher);
             let firstLabel = newProps.labels[0];
             publisher.label = firstLabel.isrcSeriesId;
-            publisher.labelName = `${firstLabel.purposeLabel} (${firstLabel.isrcOrganizationPart})`;
+            publisher.labelName = firstLabel.isrcOrganizationPart;
+            publisher.labelPrettyName = `${firstLabel.purposeLabel} (${firstLabel.isrcOrganizationPart})`;
             this.setState({
                 publisher: publisher
             });
@@ -28,7 +29,8 @@ class AddPublisher extends React.Component {
                 id: -1,
                 name: '',
                 label: '',
-                labelName: ''
+                labelName: '',
+                labelPrettyName: ''
             }
         };
     }
@@ -40,7 +42,7 @@ class AddPublisher extends React.Component {
     renderLabels() {
         return this.props.labels.map((label) => {
             return (
-                <option key={label.isrcSeriesId} value={label.isrcSeriesId}>{`${label.purposeLabel} (${label.isrcOrganizationPart})`}</option>
+                <option key={label.isrcSeriesId} data-organization-part={label.isrcOrganizationPart} value={label.isrcSeriesId}>{`${label.purposeLabel} (${label.isrcOrganizationPart})`}</option>
             );
         });
     }
@@ -60,7 +62,8 @@ class AddPublisher extends React.Component {
                 id: -1,
                 name: '',
                 label: '',
-                labelName: ''
+                labelName: '',
+                labelPrettyName: ''
             }
         });
         toastr.success('Tókst!', 'Það tókst að fjarlægja útgefanda');
@@ -81,7 +84,8 @@ class AddPublisher extends React.Component {
     updateLabel(e) {
         let publisher = _.cloneDeep(this.state.publisher);
         publisher.label = e.target.value;
-        publisher.labelName = e.target.options[e.target.selectedIndex].text;
+        publisher.labelPrettyName = e.target.options[e.target.selectedIndex].text;
+        publisher.labelName = e.target.getAttribute('data-organization-part');
         this.setState({ publisher: publisher });
     }
     render() {

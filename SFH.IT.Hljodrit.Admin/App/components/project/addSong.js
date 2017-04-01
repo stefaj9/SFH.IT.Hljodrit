@@ -15,23 +15,25 @@ export default class AddSong extends React.Component {
             lastSongNumber: 0,
             currentSongName: '',
             currentSongLength: '',
-            currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0))
+            currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
+            currentSongIsrc: ''
         };
     }
     addSongToList(e) {
         e.preventDefault();
-        const { songs, lastSongNumber, currentSongName, currentSongLength } = this.state;
+        const { songs, lastSongNumber, currentSongName, currentSongLength, currentSongIsrc } = this.state;
         let newSongList = _.concat(songs, { 
             number: lastSongNumber + 1, 
             name: currentSongName,
             length: currentSongLength,
-            isrc: '-',
+            isrc: `${this.props.isrcPrefix}${currentSongIsrc}`,
             performers: []
         });
         this.setState({
             currentSongName: '',
             currentSongLength: '',
             currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
+            currentSongIsrc: '',
             lastSongNumber: lastSongNumber + 1,
             songs: newSongList
         });
@@ -108,6 +110,18 @@ export default class AddSong extends React.Component {
                                 value={this.state.currentFullSongLength}
                                 defaultValue={moment(new Date(2017, 1, 1, 0, 0, 0, 0))}
                                 onChange={this.addSongLength.bind(this)} />
+                        </div>
+                    </div>
+                    <div className="form-group isrc-wrapper">
+                        <div className="col-xs-4 isrc-series">
+                            <div className="isrc-prefix">{this.props.isrcPrefix}</div>
+                        </div>
+                        <div className="col-xs-8 isrc-series">
+                            <input 
+                                value={this.state.currentSongIsrc}
+                                type="text"
+                                className="form-control no-border-radius"
+                                onChange={(e) => this.setState({ currentSongIsrc: e.target.value })} />
                         </div>
                     </div>
                     <div className="form-group text-right">
