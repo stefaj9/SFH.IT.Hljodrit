@@ -8,7 +8,8 @@ let initialState = {
         objects: []
     },
     isModalOpen: false,
-    selectedAlbum: {}
+    selectedAlbum: {},
+    songsOnSelectedAlbum: []
 };
 
 export default function (state = initialState, action) {
@@ -24,6 +25,22 @@ export default function (state = initialState, action) {
         case types.HAS_STOPPED_FETCHING_ALBUMS:
             return Object.assign({}, state, {
                 isFetching: false
+            });
+        case types.GET_ALBUM_BY_ID:
+            return Object.assign({}, state, {
+                selectedAlbum: action.payload
+            });
+        case types.IS_FETCHING_ALBUM_BY_ID:
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        case types.IS_FETCHING_SONGS_BY_ID_ALBUM:
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        case types.GET_SONGS_BY_ALBUM_ID:
+            return Object.assign({}, state, {
+                songsOnSelectedAlbum: action.payload
             });
         default:
             return state;
