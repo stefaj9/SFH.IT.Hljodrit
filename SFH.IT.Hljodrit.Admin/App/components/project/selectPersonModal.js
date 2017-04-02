@@ -157,7 +157,7 @@ class SelectPersonModal extends React.Component {
         return user.name && user.address;
     }
     renderRegisterForm() {
-        if (!this.props.isFetching && this.props.envelope.objects.length === 0) {
+        if (!this.props.isFetching && this.props.envelope.objects.length === 0 && this.props.registerPath !== undefined) {
             if (!this.state.registerFormShowing) {
                 return (
                     <div className="text-center no-person-to-show">
@@ -231,6 +231,12 @@ class SelectPersonModal extends React.Component {
                             </div>
                         </form>
                     </div>
+                );
+            }
+        } else {
+            if (!this.props.isFetching && this.props.envelope.objects.length === 0) {
+                return (
+                    <div className="text-center no-person-to-show">Einstaklingur sem leitað er að fannst ekki. Prófaðu að leita með öðrum skilyrðum.</div>
                 );
             }
         }

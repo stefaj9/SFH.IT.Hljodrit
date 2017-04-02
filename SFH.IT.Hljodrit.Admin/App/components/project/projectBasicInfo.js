@@ -53,7 +53,7 @@ class ProjectBasicInfo extends React.Component {
     }
     isValid() {
         const { projectType, projectName, projectMainArtist, projectYearOfPublish } = this.state;
-        return projectType === 1 ? projectName.length > 0 && projectMainArtist.id !== -1 && projectYearOfPublish !== '' : projectName.length > 0;
+        return projectType === 1 ? projectName.length > 0 && projectMainArtist.id !== -1 && projectYearOfPublish !== '' : projectName.length > 0 && projectYearOfPublish !== '';
     }
     submitBasicInfo(e) {
         e.preventDefault();

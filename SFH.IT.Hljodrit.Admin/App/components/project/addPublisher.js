@@ -131,7 +131,6 @@ class AddPublisher extends React.Component {
                 </div>
                 <SelectPersonModal
                     isOpen={isAddPublisherModelOpen}
-                    registerPath="/api/organizations"
                     fetch={this.props.getPublishersByCriteria}
                     beginFetch={this.props.isFetchingList}
                     stoppedFetch={this.props.hasStoppedFetchingList}
