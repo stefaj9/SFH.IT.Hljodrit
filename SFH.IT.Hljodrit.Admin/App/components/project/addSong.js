@@ -4,9 +4,20 @@ import SortableTable from '../common/sortableTable';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import { toastr } from 'react-redux-toastr';
+import { padIsrcNumber } from '../../helpers/isrcHelper';
 import _ from 'lodash';
 
 export default class AddSong extends React.Component {
+    componentWillReceiveProps(newProps) {
+        if (!newProps.isVisible) {
+            this.setState({
+                currentSongName: '',
+                currentSongLength: '',
+                currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
+                currentSongIsrc: ''
+            });
+        }
+    }
     constructor() {
         super();
 
@@ -88,14 +99,25 @@ export default class AddSong extends React.Component {
             });
         }
     }
+    getNextIsrcNumber(e) {
+        e.preventDefault();
+        let nextIsrc = this.props.lastUsedIsrc;
+
+        this.setState({
+            currentSongIsrc: padIsrcNumber(parseInt(nextIsrc) + (this.state.songs.length + 1))
+        });
+    }
     render() {
         return (
-            <div className={this.props.isVisible ? '' : 'hidden'}>
+            <div className={this.props.isVisible ? 'songs' : 'hidden'}>
                 <ModalSteps steps={this.props.steps} currentStep={3} />
                 <h4>Skrá lög</h4>
                 <form action="">
                     <div className="form-group">
+                        <label htmlFor="song-name">Nafn lags:</label>
                         <input 
+                            name="song-name"
+                            id="song-name"
                             autoFocus={true}
                             type="text" 
                             placeholder="Skráðu inn nafn lags.." 
@@ -105,6 +127,7 @@ export default class AddSong extends React.Component {
                     </div>
                     <div className="form-group row">
                         <div className="col-xs-12">
+                            <label htmlFor="">Lengd lags:</label>
                             <TimePicker
                                 showSecond={true}
                                 value={this.state.currentFullSongLength}
@@ -113,15 +136,31 @@ export default class AddSong extends React.Component {
                         </div>
                     </div>
                     <div className="form-group isrc-wrapper">
+                        <div className="row">
+                            <div className="col-xs-12">
+                                <label htmlFor="song-isrc">ISRC-númer:</label>
+                            </div>
+                        </div>
                         <div className="col-xs-2 isrc-series">
                             <div className="isrc-prefix">{this.props.isrcPrefix}</div>
                         </div>
-                        <div className="col-xs-10 isrc-series">
+                        <div className="col-xs-9 isrc-series">
                             <input 
+                                id="song-isrc"
+                                name="song-isrc"
                                 value={this.state.currentSongIsrc}
                                 type="text"
                                 className="form-control no-border-radius"
                                 onChange={(e) => this.setState({ currentSongIsrc: e.target.value })} />
+                        </div>
+                        <div className="col-xs-1 isrc-series">
+                            <button 
+                                onClick={(e) => this.getNextIsrcNumber(e)} 
+                                className="btn btn-default no-border-radius" 
+                                style={{width: '100%'}}
+                                tabIndex="4">
+                                <i className="fa fa-refresh"></i>
+                            </button>
                         </div>
                     </div>
                     <div className="form-group text-right">
