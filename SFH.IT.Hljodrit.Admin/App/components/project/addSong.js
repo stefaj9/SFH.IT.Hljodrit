@@ -113,10 +113,10 @@ export default class AddSong extends React.Component {
                         </div>
                     </div>
                     <div className="form-group isrc-wrapper">
-                        <div className="col-xs-4 isrc-series">
+                        <div className="col-xs-2 isrc-series">
                             <div className="isrc-prefix">{this.props.isrcPrefix}</div>
                         </div>
-                        <div className="col-xs-8 isrc-series">
+                        <div className="col-xs-10 isrc-series">
                             <input 
                                 value={this.state.currentSongIsrc}
                                 type="text"

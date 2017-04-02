@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import { resetRegisterId, register } from '../../actions/flowActions';
-import { getZipCodes, getCountries } from '../../actions/commonActions';
 import ListView from '../common/listView';
 import SearchBar from '../common/searchBar';
 import PageSelector from '../common/pageSelector';
@@ -28,10 +27,6 @@ class SelectPersonModal extends React.Component {
         } else {
             this.resetState();
         }
-    }
-    componentWillMount() {
-        this.props.getZipCodes();
-        this.props.getCountries();
     }
     closeModal(e) {
         this.resetState();
@@ -300,4 +295,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { register, resetRegisterId, getZipCodes, getCountries })(SelectPersonModal);
+export default connect(mapStateToProps, { register, resetRegisterId })(SelectPersonModal);

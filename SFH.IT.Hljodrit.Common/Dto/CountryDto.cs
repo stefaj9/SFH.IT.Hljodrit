@@ -6,6 +6,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
     {
         [JsonProperty(PropertyName = "numericIsoCode")]
         public int NumericIsoCode { get; set; }
+        [JsonProperty(PropertyName = "twoLetterCode")]
+        public string TwoLetterCode { get; set; }
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
     }

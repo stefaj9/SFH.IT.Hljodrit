@@ -32,6 +32,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return _countryRepository.GetAll().Select(c => new CountryDto
             {
                 NumericIsoCode = c.numericisocode,
+                TwoLetterCode = c.twoletterisocode,
                 Name = c.name_is
             });
         }

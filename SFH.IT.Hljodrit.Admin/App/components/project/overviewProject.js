@@ -59,6 +59,14 @@ class OverviewProject extends React.Component {
                         <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectMainArtist.name}</div>
                     </div>
                     <div className="confirmation-item row">
+                        <div className="col-xs-12 col-sm-6 confirmation-item-title">Útgáfuland</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectCountryOfPublish.name}</div>
+                    </div>
+                    <div className="confirmation-item row">
+                        <div className="col-xs-12 col-sm-6 confirmation-item-title">Útgáfuár</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectYearOfPublish}</div>
+                    </div>
+                    <div className="confirmation-item row">
                         <div className="col-xs-12 confirmation-item-title">Lög</div>
                         <div className="col-xs-12 confirmation-item-table">{this.renderSongs(songs)}</div>
                     </div>

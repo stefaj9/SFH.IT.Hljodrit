@@ -3,7 +3,7 @@ import * as types from './actionTypes';
 
 export function getAllAlbums(pageSize, pageNumber, searchString, searchType) {
     if(isNaN(searchString) && searchType === 'releaseYear') {
-        console.log("penis");
+        console.log('penis');
     }
     console.log(searchString);
 
