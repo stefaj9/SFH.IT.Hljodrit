@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
-
-const AlbumListItem = ({album, onSelect}) => {
+//add onSelect 
+const AlbumListItem = ({album}) => {
     return (
         <div className={'list well row ' + album.albumTitle}>
             <div className="list-info col-md-6 col-xs-12">

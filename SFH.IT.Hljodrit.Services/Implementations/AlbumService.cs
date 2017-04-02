@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
@@ -13,6 +14,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     {
         private readonly ISongRepository _songRepository;
         private readonly IAlbumRepository _albumRepository;
+        private const string AlbumReleaseYearSearchFilter = "releaseYear";
+        private const string AlbumMainArtistSearchFilter = "mainArtistName";
 
         public AlbumService(ISongRepository songRepository, IAlbumRepository albumRepository)
         {
@@ -20,9 +23,27 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _albumRepository = albumRepository;
         }
 
-        public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm)
+        public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm, string searchFilter)
         {
-            return _albumRepository.GetAlbums(pageSize, pageNumber, searchTerm);
+            searchTerm = string.IsNullOrEmpty(searchTerm) ? "": searchTerm.Trim();
+            var mainArtistSearchName = "";
+
+            //The default search is to search by the albums title
+            Expression <Func<media_product_package, bool>> filter = album => album.albumtitle.Trim().StartsWith(searchTerm);
+
+            switch (searchFilter)
+            {
+                case AlbumMainArtistSearchFilter:
+                    mainArtistSearchName = searchTerm;
+                    filter = album => album.albumtitle.StartsWith("");
+                    break;
+                case AlbumReleaseYearSearchFilter:
+                    var releaseYear = Convert.ToInt32(searchTerm.Trim());
+                    filter = album => album.releasedate.Year == releaseYear;
+                    break;
+            }
+
+            return _albumRepository.GetAlbums(pageSize, pageNumber, searchTerm, filter, mainArtistSearchName);
         }
 
         public AlbumExtendedDto GetAlbumById(int albumId)
