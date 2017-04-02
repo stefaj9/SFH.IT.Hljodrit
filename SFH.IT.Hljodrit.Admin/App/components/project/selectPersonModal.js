@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import { resetRegisterId, register } from '../../actions/flowActions';
-import { getZipCodes, getCountries } from '../../actions/commonActions';
 import ListView from '../common/listView';
 import SearchBar from '../common/searchBar';
 import PageSelector from '../common/pageSelector';
@@ -28,10 +27,6 @@ class SelectPersonModal extends React.Component {
         } else {
             this.resetState();
         }
-    }
-    componentWillMount() {
-        this.props.getZipCodes();
-        this.props.getCountries();
     }
     closeModal(e) {
         this.resetState();
@@ -162,7 +157,7 @@ class SelectPersonModal extends React.Component {
         return user.name && user.address;
     }
     renderRegisterForm() {
-        if (!this.props.isFetching && this.props.envelope.objects.length === 0) {
+        if (!this.props.isFetching && this.props.envelope.objects.length === 0 && this.props.registerPath !== undefined) {
             if (!this.state.registerFormShowing) {
                 return (
                     <div className="text-center no-person-to-show">
@@ -238,6 +233,12 @@ class SelectPersonModal extends React.Component {
                     </div>
                 );
             }
+        } else {
+            if (!this.props.isFetching && this.props.envelope.objects.length === 0) {
+                return (
+                    <div className="text-center no-person-to-show">Einstaklingur sem leitað er að fannst ekki. Prófaðu að leita með öðrum skilyrðum.</div>
+                );
+            }
         }
     }
     renderBody() {
@@ -300,4 +301,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { register, resetRegisterId, getZipCodes, getCountries })(SelectPersonModal);
+export default connect(mapStateToProps, { register, resetRegisterId })(SelectPersonModal);

@@ -56,6 +56,8 @@ class AddProject extends React.Component {
                     isVisible={this.state.currentStep === 3}
                     steps={this.state.steps}
                     close={() => this.exitWizard()}
+                    isrcPrefix={`${this.props.project.basicInfo.projectCountryOfPublish.code}-${this.props.project.publisher.labelName}-${this.props.project.basicInfo.projectYearOfPublish.toString().substring(2)}-`}
+                    lastUsedIsrc={this.props.project.publisher.lastUsedIsrc}
                     next={(songs) => { this.props.updateProjectSongs(songs); this.increaseStep(); } }
                     back={() => this.decreaseStep()} />
                 <AddPerformers

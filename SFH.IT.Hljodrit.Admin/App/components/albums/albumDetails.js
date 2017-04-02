@@ -15,13 +15,22 @@ class AlbumDetails extends React.Component {
         super(props, context);
     }
 
+    populateCountryOptions() {
+        return this.props.countries.map((country) => {
+            return (
+                <option key={country.numericIsoCode} value={country.twoLetterCode}>{country.name}</option>
+            );
+        });
+    }
+
     render() {
         return (
             <div>
                 <h2>{this.props.selectedAlbum.albumTitle}</h2>
                 <AlbumDetailsForm
                     album={this.props.selectedAlbum}
-                    songs={this.props.songsOnSelectedAlbum}/>
+                    songs={this.props.songsOnSelectedAlbum}
+                    countryOptions={this.populateCountryOptions}/>
             </div>
         );
     }
@@ -31,6 +40,7 @@ function mapStateToProps(state) {
     return {
         selectedAlbum: state.albums.selectedAlbum,
         songsOnSelectedAlbum: state.albums.songsOnSelectedAlbum,
+        countries: state.common.countries,
         isFetching: state.albums.isFetching
 
     }

@@ -1,7 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Header from './header';
+import { getZipCodes, getCountries } from '../../actions/commonActions';
+import '../handlers/songLengthHandler';
 
-export default class App extends React.Component {
+class App extends React.Component {
+    componentWillMount() {
+        this.props.getZipCodes();
+        this.props.getCountries();
+    }
     render() {
         return (
             <div>
@@ -17,3 +24,5 @@ export default class App extends React.Component {
         );
     }
 }
+
+export default connect(null, { getZipCodes, getCountries })(App);

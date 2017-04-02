@@ -2,6 +2,7 @@ import React from 'react';
 //import Filter from '../common/filter';
 import ListView from '../common/listView';
 import { getPersonsByCriteria } from '../../actions/personActions';
+import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import SearchBar from '../common/searchBar';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
@@ -45,7 +46,7 @@ export class Users extends React.Component {
         } else {
             if (!this.state.hasFetched) {
                 const { pageSize, pageNumber, searchQuery } = this.state;
-                this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
+                this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery, this.props.isFetchingList, this.props.hasStoppedFetchingList);
                 this.setState({ hasFetched: true });
             }
         }
@@ -54,7 +55,7 @@ export class Users extends React.Component {
     search(term) {
         console.log(term);
         const { pageSize } = this.state;
-        this.props.getPersonsByCriteria(pageSize, 1, term);
+        this.props.getPersonsByCriteria(pageSize, 1, term, this.props.isFetchingList, this.props.hasStoppedFetchingList);
         this.setState({
             searchQuery: term,
             pageNumber: 1
@@ -63,7 +64,7 @@ export class Users extends React.Component {
 
     changePagesize(newPagesize) {
         const { searchQuery } = this.state;
-        this.props.getPersonsByCriteria(newPagesize, 1, searchQuery);
+        this.props.getPersonsByCriteria(newPagesize, 1, searchQuery, this.props.isFetchingList, this.props.hasStoppedFetchingList);
 
         this.setState({
             pageSize: newPagesize,
@@ -73,7 +74,7 @@ export class Users extends React.Component {
 
     changePageNumber(newPageNumber) {
         const { searchQuery, pageSize } = this.state;
-        this.props.getPersonsByCriteria(pageSize, newPageNumber, searchQuery);
+        this.props.getPersonsByCriteria(pageSize, newPageNumber, searchQuery, this.props.isFetchingList, this.props.hasStoppedFetchingList);
 
         this.setState({
             pageNumber: newPageNumber
@@ -82,7 +83,7 @@ export class Users extends React.Component {
 
     componentWillMount() {
         const { pageSize, pageNumber, searchQuery } = this.state;
-        this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery);
+        this.props.getPersonsByCriteria(pageSize, pageNumber, searchQuery, this.props.isFetchingList, this.props.hasStoppedFetchingList);
     }
 
     resetState() {
@@ -133,11 +134,11 @@ export class Users extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        persons: state.person.personEnvelope.persons,
+        persons: state.person.personEnvelope.objects,
         isFetchingPersons: state.person.isFetching,
         currentPage: state.person.personEnvelope.currentPage,
         maximumPage: state.person.personEnvelope.maximumPage,
     };
 };
 
-export default connect(mapStateToProps, { getPersonsByCriteria })(Users);
+export default connect(mapStateToProps, { getPersonsByCriteria, isFetchingList, hasStoppedFetchingList })(Users);

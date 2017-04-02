@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const AlbumDetailsForm = ({album, songs}) => {
+const AlbumDetailsForm = ({album, songs, countryOptions}) => {
     validateAlbum(album);
     console.log(album);
     console.log(songs);
@@ -34,12 +34,15 @@ const AlbumDetailsForm = ({album, songs}) => {
                 <div className="col-xs-12 col-sm-6 form-group">
                     <label>Framleiðsluland</label>
                     <select className="form-control"
-                        value={album.countryOfProduction}/>
+                        value={album.countryOfProduction}>
+                        {countryOptions()}
+                    </select>
                 </div>
                 <div className="col-xs-12 col-sm-6 form-group">
                     <label>Útgáfuland</label>
                     <select className="form-control"
-                        value={album.countryOfPublication}/>
+                        value={album.countryOfPublication}
+                        {countryOptions}/>
                 </div>
             </div>
             <button type="submit" className="btn btn-primary pull-right">Vista</button>

@@ -13,7 +13,9 @@ class AddPublisher extends React.Component {
             let publisher = _.cloneDeep(this.state.publisher);
             let firstLabel = newProps.labels[0];
             publisher.label = firstLabel.isrcSeriesId;
-            publisher.labelName = `${firstLabel.purposeLabel} (${firstLabel.isrcOrganizationPart})`;
+            publisher.labelName = firstLabel.isrcOrganizationPart;
+            publisher.lastUsedIsrc = firstLabel.lastIsrcNumber;
+            publisher.labelPrettyName = `${firstLabel.purposeLabel} (${firstLabel.isrcOrganizationPart})`;
             this.setState({
                 publisher: publisher
             });
@@ -28,7 +30,9 @@ class AddPublisher extends React.Component {
                 id: -1,
                 name: '',
                 label: '',
-                labelName: ''
+                labelName: '',
+                labelPrettyName: '',
+                lastUsedIsrc: -1
             }
         };
     }
@@ -40,7 +44,13 @@ class AddPublisher extends React.Component {
     renderLabels() {
         return this.props.labels.map((label) => {
             return (
-                <option key={label.isrcSeriesId} value={label.isrcSeriesId}>{`${label.purposeLabel} (${label.isrcOrganizationPart})`}</option>
+                <option 
+                    key={label.isrcSeriesId} 
+                    data-organization-part={label.isrcOrganizationPart} 
+                    data-last-used-isrc={label.lastIsrcNumber} 
+                    value={label.isrcSeriesId}>
+                        {`${label.purposeLabel} (${label.isrcOrganizationPart})`}
+                </option>
             );
         });
     }
@@ -60,7 +70,9 @@ class AddPublisher extends React.Component {
                 id: -1,
                 name: '',
                 label: '',
-                labelName: ''
+                labelName: '',
+                labelPrettyName: '',
+                lastUsedIsrc: -1
             }
         });
         toastr.success('Tókst!', 'Það tókst að fjarlægja útgefanda');
@@ -81,7 +93,9 @@ class AddPublisher extends React.Component {
     updateLabel(e) {
         let publisher = _.cloneDeep(this.state.publisher);
         publisher.label = e.target.value;
-        publisher.labelName = e.target.options[e.target.selectedIndex].text;
+        publisher.labelPrettyName = e.target.options[e.target.selectedIndex].text;
+        publisher.labelName = e.target.options[e.target.selectedIndex].getAttribute('data-organization-part');
+        publisher.lastUsedIsrc = e.target.options[e.target.selectedIndex].getAttribute('data-last-used-isrc');
         this.setState({ publisher: publisher });
     }
     render() {
@@ -127,7 +141,6 @@ class AddPublisher extends React.Component {
                 </div>
                 <SelectPersonModal
                     isOpen={isAddPublisherModelOpen}
-                    registerPath="/api/organizations"
                     fetch={this.props.getPublishersByCriteria}
                     beginFetch={this.props.isFetchingList}
                     stoppedFetch={this.props.hasStoppedFetchingList}

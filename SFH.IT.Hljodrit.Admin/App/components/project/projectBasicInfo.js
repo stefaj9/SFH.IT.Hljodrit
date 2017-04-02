@@ -13,6 +13,11 @@ class ProjectBasicInfo extends React.Component {
         this.state = {
             projectName: '',
             projectType: 1,
+            projectYearOfPublish: '',
+            projectCountryOfPublish: {
+                code: 'IS',
+                name: 'Ísland'
+            },
             projectMainArtist: {
                 id: -1,
                 name: ''
@@ -21,7 +26,6 @@ class ProjectBasicInfo extends React.Component {
         };
     }
     populateOptions() {
-        // TODO: Populate with real data
         let options = ['Venjuleg plata', 'Safnplata', 'Single'];
         return options.map((option, idx) => {
             return (
@@ -29,9 +33,27 @@ class ProjectBasicInfo extends React.Component {
             );
         });
     }
+    populateCountryOptions() {
+        return this.props.countries.map((country) => {
+            return (
+                <option key={country.numericIsoCode} value={country.twoLetterCode}>{country.name}</option>
+            );
+        });
+    }
+    updateCountry(e) {
+        let code = e.target.value;
+        let name = e.target.options[e.target.selectedIndex].text;
+
+        this.setState({
+            projectCountryOfPublish: {
+                code: code,
+                name: name
+            }
+        });
+    }
     isValid() {
-        const { projectType, projectName, projectMainArtist } = this.state;
-        return projectType === 1 ? projectName.length > 0 && projectMainArtist.id !== -1 : projectName.length > 0;
+        const { projectType, projectName, projectMainArtist, projectYearOfPublish } = this.state;
+        return projectType === 1 ? projectName.length > 0 && projectMainArtist.id !== -1 && projectYearOfPublish !== '' : projectName.length > 0 && projectYearOfPublish !== '';
     }
     submitBasicInfo(e) {
         e.preventDefault();
@@ -54,7 +76,7 @@ class ProjectBasicInfo extends React.Component {
         toastr.success('Tókst!', 'Það tókst að fjarlægja aðalflytjanda');
     }
     render() {
-        const { projectType, projectName, projectMainArtist, mainArtistModalIsOpen } = this.state;
+        const { projectType, projectName, projectMainArtist, mainArtistModalIsOpen, projectYearOfPublish, projectCountryOfPublish } = this.state;
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
                 <ModalSteps steps={this.props.steps} currentStep={1} />
@@ -80,6 +102,27 @@ class ProjectBasicInfo extends React.Component {
                             value={projectType} 
                             onChange={(e) => this.setState({ projectType: parseInt(e.target.value) })}>
                                 {this.populateOptions()}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="project-publish-year">Útgáfuár:</label>
+                        <input 
+                            type="number"
+                            className="form-control"
+                            name="project-publish-year"
+                            id="project-publish-year"
+                            value={projectYearOfPublish}
+                            onChange={(e) =>  this.setState({ projectYearOfPublish: e.target.value })} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="project-publish-country">Útgáfuland:</label>
+                        <select 
+                            name="project-publish-country" 
+                            id="project-publish-country" 
+                            className="form-control"
+                            value={projectCountryOfPublish.code}
+                            onChange={(e) => this.updateCountry(e)}>
+                            {this.populateCountryOptions()}
                         </select>
                     </div>
                     <div className={projectType === 1 ? 'form-group' : 'hidden'}>
@@ -134,7 +177,8 @@ class ProjectBasicInfo extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        mainArtistEnvelope: state.mainArtist.mainArtistEnvelope
+        mainArtistEnvelope: state.mainArtist.mainArtistEnvelope,
+        countries: state.common.countries
     };
 };
 

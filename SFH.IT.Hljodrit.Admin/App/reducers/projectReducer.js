@@ -6,7 +6,12 @@ let initialState = {
             projectMainArtist: {
                 id: -1,
                 name: ''
-            }
+            },
+            projectCountryOfPublish: {
+                code: '',
+                name: ''
+            },
+            projectYearOfPublish: 1337
         },
         songs: [],
         publisher: {}
