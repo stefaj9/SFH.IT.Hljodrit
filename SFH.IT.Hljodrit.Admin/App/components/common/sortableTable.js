@@ -8,7 +8,7 @@ class SortableTable extends React.Component {
                 <div key={`${header}-${idx}`} className="fake-table-header col-xs-2">{header}</div> 
             ); 
         });
-        let items = this.props.items.map((item) => { 
+        let items = this.props.items.map((item, idx) => { 
             return ( 
                 <li key={`${item.number}-${item.name}`} data-id={item.number} className="list-group-item row">
                     <div className="list-group-data col-xs-2"></div>
@@ -16,7 +16,7 @@ class SortableTable extends React.Component {
                     <div className="list-group-data col-xs-2">{item.name}</div>
                     <div className="list-group-data col-xs-2">{item.length}</div>
                     <div className="list-group-data col-xs-2">{item.isrc}</div>
-                    <div className="list-group-data col-xs-2"><a href="#"><i onClick={(e) => this.props.remove(e, item.number)} className="fa fa-times"></i></a></div>
+                    <div className="list-group-data col-xs-2"><a tabIndex={(idx + 1) + 7} href="#"><i onClick={(e) => this.props.remove(e, item.number)} className="fa fa-times"></i></a></div>
                 </li>
             );
         })

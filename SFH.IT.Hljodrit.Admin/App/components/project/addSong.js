@@ -85,6 +85,7 @@ export default class AddSong extends React.Component {
 
         newSongs = _.forEach(newSongs, (song, idx) => {
             song.number = idx + 1;
+            song.isrc = `${this.props.isrcPrefix}${padIsrcNumber(parseInt(this.props.lastUsedIsrc) + (idx + 1))}`;
         });
 
         this.setState({
@@ -116,6 +117,7 @@ export default class AddSong extends React.Component {
                     <div className="form-group">
                         <label htmlFor="song-name">Nafn lags:</label>
                         <input 
+                            tabIndex="1"
                             name="song-name"
                             id="song-name"
                             autoFocus={true}
@@ -146,6 +148,7 @@ export default class AddSong extends React.Component {
                         </div>
                         <div className="col-xs-9 isrc-series">
                             <input 
+                                tabIndex="3"
                                 id="song-isrc"
                                 name="song-isrc"
                                 value={this.state.currentSongIsrc}
@@ -165,6 +168,7 @@ export default class AddSong extends React.Component {
                     </div>
                     <div className="form-group text-right">
                         <button 
+                            tabIndex="5"
                             className="btn btn-default" 
                             onClick={(e) => this.addSongToList(e)}
                             disabled={!this.isAddSongValid()}>Bæta við</button>
@@ -179,9 +183,11 @@ export default class AddSong extends React.Component {
                 <p className={this.state.songs.length === 0 ? '' : 'hidden'}>Engin lög hafa verið skráð á þetta verkefni.</p>
                 <div className="btn-group pull-right">
                     <button 
+                        tabIndex={this.state.songs.length + 7}
                         className="btn btn-default"
                         onClick={() => this.props.back()}>Til baka</button>
                     <button
+                        tabIndex={this.state.songs.length + 8}
                         disabled={this.state.songs.length === 0}
                         className="btn btn-default btn-primary" 
                         onClick={() => this.props.next(this.state.songs)}>Áfram
