@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Header from './header';
 import { getZipCodes, getCountries } from '../../actions/commonActions';
-import _ from 'lodash';
+//import _ from 'lodash';
 import '../handlers/songLengthHandler';
 
 class App extends React.Component {
