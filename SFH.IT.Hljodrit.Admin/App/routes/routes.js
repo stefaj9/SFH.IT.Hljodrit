@@ -10,6 +10,7 @@ import Projects from '../components/project/projects';
 import ProjectManagement from '../components/project/projectManagement';
 import Intro from '../components/common/intro';
 import AddProject from '../components/project/addProject';
+import Media from '../components/media/media';
 
 export default (
     <Route path="/" component={App}>
@@ -22,6 +23,7 @@ export default (
         <Route path="albums" component={Albums} />
         <Route path="users" component={Users} />
         <Route path="settings" component={Settings} />
+        <Route path="media" component={Media} />
         <Route path="*" component={NotFound} />
     </Route>
 );
