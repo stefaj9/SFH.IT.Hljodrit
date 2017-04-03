@@ -32,6 +32,14 @@ class SelectInstrumentModal extends React.Component {
         this.props.next();
     }
     render() {
+        var suggestions = this.props.instrumentSuggestions;
+        if (this.props.instrumentSuggestions.length > 0) {
+            suggestions = _.forEach(this.props.instrumentSuggestions, (item) => {
+                item.instrumentNameIcelandic = item.instrumentNameIcelandic.replace(',', ':');
+            });
+            suggestions = _.map(suggestions, 'instrumentNameIcelandic');
+        }
+
         return (
             <Modal 
                 isOpen={this.props.isOpen}
@@ -39,7 +47,7 @@ class SelectInstrumentModal extends React.Component {
                 className="modal-window"
                 overlayClass="modal-overlay">
                 <div className="modal-dialog">
-                    <div className="modal-content">
+                    <div className="modal-content overflow-y-off">
                         <div className="modal-header">
                             { this.props.steps() }
                             <span className="top-corner">
@@ -54,7 +62,7 @@ class SelectInstrumentModal extends React.Component {
                             <Chips
                                 value={this.state.chips}
                                 onChange={this.onChipsChange.bind(this)}
-                                suggestions={this.props.instrumentSuggestions} />
+                                suggestions={suggestions} />
                         </div>
                         <div className="modal-footer">
                             <div className="btn-group pull-right">

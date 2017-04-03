@@ -12,5 +12,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public string PurposeLabel { get; set; }
         [JsonProperty(PropertyName = "isrcOrganizationPart")]
         public string IsrcOrganizationPart { get; set; }
+        [JsonProperty(PropertyName = "lastIsrcNumber")]
+        public int LastIsrcNumber { get; set; }
     }
 }

@@ -22,7 +22,8 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Organization
                         IsrcSeriesId = series.id,
                         IsrcOrganizationPart = series.isrc_organizationpart,
                         OrganizationId = master.id,
-                        PurposeLabel = series.purposelabel
+                        PurposeLabel = series.purposelabel,
+                        LastIsrcNumber = series.isrc_lastusednumber
                     });
         }
     }

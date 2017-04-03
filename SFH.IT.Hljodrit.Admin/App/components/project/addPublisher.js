@@ -14,6 +14,7 @@ class AddPublisher extends React.Component {
             let firstLabel = newProps.labels[0];
             publisher.label = firstLabel.isrcSeriesId;
             publisher.labelName = firstLabel.isrcOrganizationPart;
+            publisher.lastUsedIsrc = firstLabel.lastIsrcNumber;
             publisher.labelPrettyName = `${firstLabel.purposeLabel} (${firstLabel.isrcOrganizationPart})`;
             this.setState({
                 publisher: publisher
@@ -30,7 +31,8 @@ class AddPublisher extends React.Component {
                 name: '',
                 label: '',
                 labelName: '',
-                labelPrettyName: ''
+                labelPrettyName: '',
+                lastUsedIsrc: -1
             }
         };
     }
@@ -42,7 +44,13 @@ class AddPublisher extends React.Component {
     renderLabels() {
         return this.props.labels.map((label) => {
             return (
-                <option key={label.isrcSeriesId} data-organization-part={label.isrcOrganizationPart} value={label.isrcSeriesId}>{`${label.purposeLabel} (${label.isrcOrganizationPart})`}</option>
+                <option 
+                    key={label.isrcSeriesId} 
+                    data-organization-part={label.isrcOrganizationPart} 
+                    data-last-used-isrc={label.lastIsrcNumber} 
+                    value={label.isrcSeriesId}>
+                        {`${label.purposeLabel} (${label.isrcOrganizationPart})`}
+                </option>
             );
         });
     }
@@ -63,7 +71,8 @@ class AddPublisher extends React.Component {
                 name: '',
                 label: '',
                 labelName: '',
-                labelPrettyName: ''
+                labelPrettyName: '',
+                lastUsedIsrc: -1
             }
         });
         toastr.success('Tókst!', 'Það tókst að fjarlægja útgefanda');
@@ -85,7 +94,8 @@ class AddPublisher extends React.Component {
         let publisher = _.cloneDeep(this.state.publisher);
         publisher.label = e.target.value;
         publisher.labelPrettyName = e.target.options[e.target.selectedIndex].text;
-        publisher.labelName = e.target.getAttribute('data-organization-part');
+        publisher.labelName = e.target.options[e.target.selectedIndex].getAttribute('data-organization-part');
+        publisher.lastUsedIsrc = e.target.options[e.target.selectedIndex].getAttribute('data-last-used-isrc');
         this.setState({ publisher: publisher });
     }
     render() {
