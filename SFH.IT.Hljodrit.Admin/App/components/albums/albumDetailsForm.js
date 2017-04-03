@@ -2,8 +2,6 @@ import React, {PropTypes} from 'react';
 
 const AlbumDetailsForm = ({album, songs, countryOptions}) => {
     validateAlbum(album);
-    console.log(album);
-    console.log(songs);
     return (
         <form>
             <div className="row">
@@ -41,8 +39,9 @@ const AlbumDetailsForm = ({album, songs, countryOptions}) => {
                 <div className="col-xs-12 col-sm-6 form-group">
                     <label>Útgáfuland</label>
                     <select className="form-control"
-                        value={album.countryOfPublication}
-                        {countryOptions}/>
+                        value={album.countryOfPublication}>
+                        {countryOptions()}
+                    </select>
                 </div>
             </div>
             <button type="submit" className="btn btn-primary pull-right">Vista</button>
@@ -54,7 +53,7 @@ function validateAlbum(album) {
     if (!album.label) {
         album.label = 'ekki skráð';
     }
-    if (!album.mainArtistName){
+    if (!album.mainArtistName) {
         album.mainArtistName = 'ekki skráð';
     }
     if (!album.publisher) {

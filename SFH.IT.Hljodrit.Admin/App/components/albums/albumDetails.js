@@ -30,7 +30,7 @@ class AlbumDetails extends React.Component {
                 <AlbumDetailsForm
                     album={this.props.selectedAlbum}
                     songs={this.props.songsOnSelectedAlbum}
-                    countryOptions={this.populateCountryOptions}/>
+                    countryOptions={this.populateCountryOptions.bind(this)}/>
             </div>
         );
     }
