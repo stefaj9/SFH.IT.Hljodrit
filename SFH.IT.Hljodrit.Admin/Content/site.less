@@ -8,6 +8,41 @@ body {
     margin-bottom: 20px;
 }
 
+.tab-content {
+    padding: 25px;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+#add-song-tabs {
+    .tab-content {
+        .song-search-bar {
+            margin-bottom: 20px;
+        }
+        max-height: 500px;
+        min-height: 300px;
+        overflow: auto;
+        .well {
+            padding: 0;
+            .song-select-info {
+                padding: 20px;
+            }
+            .add-song-plus {
+                padding: 20px;
+                background-color: rgba(155, 155, 155, 0.5);
+                transition: background-color .2s ease-in;
+                &:hover {
+                    cursor: pointer;
+                    background-color: rgba(155, 155, 155, 0.7);
+                }
+            }
+        }
+    }
+    margin-bottom: 20px;
+}
+
 .isrc-wrapper {
     margin-bottom: 60px;
     .isrc-series {

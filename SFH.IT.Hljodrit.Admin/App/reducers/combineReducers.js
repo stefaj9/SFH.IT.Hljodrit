@@ -8,6 +8,7 @@ import SettingsReducer from './settingsReducer';
 import AlbumsReducer from './albumsReducer';
 import FlowReducer from './flowReducer';
 import MainArtistReducer from './mainArtistReducer';
+import SongReducer from './songReducer';
 import {reducer as ToastrReducer} from 'react-redux-toastr';
 import { routerReducer } from 'react-router-redux';
 
@@ -22,5 +23,6 @@ export default combineReducers({
     mainArtist: MainArtistReducer,
     instrument: InstrumentReducer,
     settings: SettingsReducer,
+    songs: SongReducer,
     albums: AlbumsReducer
 });
