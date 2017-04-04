@@ -1,9 +1,8 @@
 import React, {PropTypes} from 'react';
 import Table from './../common/table';
-import {data, tableKey} from './albumTableData';
+import albumTableData from './albumTableData';
 
 const AlbumDetailsForm = ({album, songs, countryOptions}) => {
-    console.log(songs);
     validateAlbum(album);
     return (
         <div>
@@ -54,8 +53,7 @@ const AlbumDetailsForm = ({album, songs, countryOptions}) => {
             </div>
             <div>
                 <h3>Lög</h3>
-                debugger;
-                <Table tableKey={tableKey} tableData={data} objects={songs} />
+                <Table tableData={albumTableData} objects={songs} />
             </div>
         </div>
     );

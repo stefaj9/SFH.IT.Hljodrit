@@ -1,4 +1,5 @@
-export const data = {
+const albumTableData = {
+    trackNumber: 'Númer lags',
     isrc: 'ISRC',
     songTitle: 'Heiti',
     mainArtist: 'Aðalflytjandi',
@@ -7,4 +8,4 @@ export const data = {
     totalMusicians: 'Fj. aðila',
 };
 
-export const tableKey = 'isrc';
+export default albumTableData;
