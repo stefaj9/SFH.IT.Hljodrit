@@ -21,8 +21,6 @@ const Table = ({tableData, objects}) => {
 
     // console.log("tableKey: " + tableKey);
     // console.log("tableData: " + tableData);
- console.log("objects: " + objects);
-
     return (
 
         <div>
