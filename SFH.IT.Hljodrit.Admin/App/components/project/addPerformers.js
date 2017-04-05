@@ -2,6 +2,7 @@ import React from 'react';
 import ModalSteps from '../common/modalSteps';
 import { PanelGroup, Panel } from 'react-bootstrap';
 import PerformerListModal from './performerListModal';
+import PerformerGroup from './performerGroup';
 import { toastr } from 'react-redux-toastr';
 import _ from 'lodash';
 
@@ -130,11 +131,16 @@ export default class AddPerformers extends React.Component {
             <div className={this.props.isVisible ? '' : 'hidden'}>
                 <ModalSteps steps={this.props.steps} currentStep={4} />
                 <h4>Skrá flytjendur</h4>
-                <div className="song-wrapper">
-                    <p>Gerð er krafa um að það sé að lágmarki einn flytjandi skráður á hvert lag. Lög hér að neðanverðu eru röðuð eftir númer lags á verkefninu.</p>
-                    <PanelGroup defaultActiveKey="1" accordion>
-                        {this.renderSongs()}
-                    </PanelGroup>
+                <div className="row">
+                    <div className="col-xs-4 performer-group-wrapper">
+                        <PerformerGroup />
+                    </div>
+                    <div className="song-wrapper col-xs-8">
+                        <p>Gerð er krafa um að það sé að lágmarki einn flytjandi skráður á hvert lag. Lög hér að neðanverðu eru röðuð eftir númer lags á verkefninu.</p>
+                        <PanelGroup defaultActiveKey="1" accordion>
+                            {this.renderSongs()}
+                        </PanelGroup>
+                    </div>
                 </div>
                 <div className="btn-group pull-right">
                     <button 

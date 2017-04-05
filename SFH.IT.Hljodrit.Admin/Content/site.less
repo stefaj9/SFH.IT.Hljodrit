@@ -4,6 +4,19 @@ body {
     font-family: @baseFont, sans-serif !important;
 }
 
+.ReactModal__Overlay {
+    -webkit-perspective: 0;
+    perspective: 0;
+}
+
+.ReactModal__Overlay--after-open {
+    transition: none !important;
+}
+
+.ReactModal__Content--after-open {
+    transition: none !important;
+}
+
 .site {
     margin-bottom: 20px;
 }
