@@ -69,8 +69,8 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                         MainArtistName = r.y.artistname,
                         MainArtistId = r.y.id,
                         CatalogueNumber = r.album.cataloguenumber,
-                        CountryOfProduction = r.z.name_is,
-                        CountryOfPublication = r.z.name_is,
+                        CountryOfProduction = r.z.twoletterisocode,
+                        CountryOfPublication = r.z.twoletterisocode,
                         Label = r.x.labelname,
                         PublisherId = r.x.organizationid,
                         Publisher = (from a in DbContext.organization_master

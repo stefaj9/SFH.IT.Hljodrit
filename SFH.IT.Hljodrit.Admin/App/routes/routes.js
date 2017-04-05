@@ -10,9 +10,9 @@ import Projects from '../components/project/projects';
 import ProjectManagement from '../components/project/projectManagement';
 import Intro from '../components/common/intro';
 import AddProject from '../components/project/addProject';
-import AlbumDetails from '../components/albums/albumDetails';
-//import Media from '../components/media/media';
 import Songs from '../components/songs/songs';
+//import Media from '../components/media/media';
+import AlbumDetails from '../components/albums/albumDetails';
 
 export default (
     <Route path="/" component={App}>
