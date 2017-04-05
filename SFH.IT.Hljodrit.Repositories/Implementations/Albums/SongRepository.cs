@@ -34,7 +34,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                             RecordingId = song.recordingid,
                             TotalMusicians = (from x in DbContext.recording_party
                                               where x.recordingid == song.recordingid
-                                              select x).Distinct().Count(),
+                                              select x).GroupBy(x => x.partyrealid).Count(),
                             MainArtistId = mainArtist.id,
                             MainArtist = mainArtist.artistname,
                             Registration = new RegistrationDto
@@ -71,7 +71,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                              RecordingId = song.recordingid,
                              TotalMusicians = (from x in DbContext.recording_party
                                                where x.recordingid == song.recordingid
-                                               select x).Distinct().Count(),
+                                               select x).GroupBy(x => x.partyrealid).Count(),
                              MainArtistId = mainArtist.id,
                              MainArtist = mainArtist.artistname,
                              Registration = new RegistrationDto
