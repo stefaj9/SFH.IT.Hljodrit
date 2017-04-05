@@ -30,6 +30,11 @@ export default class Header extends React.Component {
                                     Verkefnastýring
                                 </Link>
                             </li>
+                            <li className={this.state.selectedItem === 'media' ? 'active' : ''}>
+                                <Link to="/media" onClick={() => this.setState({ selectedItem: 'media' })}>
+                                    Hljóðrit
+                                </Link>
+                            </li>
                             <li className={this.state.selectedItem === 'calculations' ? 'active' : ''}>
                                 <Link to="/calculations" onClick={() => this.setState({ selectedItem: 'calculations' })}>
                                     Útreikningar

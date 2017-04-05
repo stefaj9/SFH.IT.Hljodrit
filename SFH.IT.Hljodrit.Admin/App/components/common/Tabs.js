@@ -3,7 +3,7 @@ import Tab from './Tab';
 
 const Tabs = ({tabData, activeTab, changeTab}) => {
     return (
-        <ul className="nav nav-tabs">
+        <ul className="nav nav-tabs nav-justified">
             {tabData.map((tab) => {
                 return (
                     <Tab key={tab.name} data={tab} isActive={activeTab === tab}
