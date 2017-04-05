@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import Spinner from 'react-spinner';
 import AlbumListItem from './albumListItem';
 
-// add onSelect
+
 const AlbumListView = ({albums, isFetching, onSelect}) => {
     const renderAlbums = () => {
         if (!isFetching) {
