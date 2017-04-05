@@ -18,6 +18,7 @@ class AddSong extends React.Component {
     componentWillReceiveProps(newProps) {
         if (!newProps.isVisible) {
             this.setState({
+                currentSongId: -1,
                 currentSongName: '',
                 currentSongLength: '',
                 currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
@@ -33,6 +34,7 @@ class AddSong extends React.Component {
         this.state = {
             songs: [],
             lastSongNumber: 0,
+            currentSongId: -1,
             currentSongName: '',
             currentSongLength: '',
             currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
@@ -41,23 +43,19 @@ class AddSong extends React.Component {
             selectedTab: 1
         };
     }
-    selectSongAndAdd(e, song) {
-        this.setState({ 
-            currentSongName: song.songTitle, 
-            currentSongLength: song.duration,
-            currentSongIsrc: song.isrc }, this.addSongToList(e));
-    }
-    addSongToList(e) {
+    addSongToList(e, songId, songName, songLength, songIsrc) {
         e.preventDefault();
-        const { songs, lastSongNumber, currentSongName, currentSongLength, currentSongIsrc } = this.state;
+        const { songs, lastSongNumber } = this.state;
         let newSongList = _.concat(songs, { 
+            id: songId,
             number: lastSongNumber + 1, 
-            name: currentSongName,
-            length: currentSongLength,
-            isrc: `${this.props.isrcPrefix}${_.padStart(currentSongIsrc, 5, '0')}`,
+            name: songName,
+            length: songLength,
+            isrc: `${this.props.isrcPrefix}${_.padStart(songIsrc, 5, '0')}`,
             performers: []
         });
         this.setState({
+            currentSongId: -1,
             currentSongName: '',
             currentSongLength: '',
             currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
@@ -66,13 +64,13 @@ class AddSong extends React.Component {
             songSearchTerm: '',
             songs: newSongList
         });
-        toastr.success('Tókst!', 'Tókst að bæta við lagi');
+        toastr.success('Tókst!', `Tókst að bæta við laginu ${songName}`);
     }
     removeSongFromList(e, songNumber) {
         e.preventDefault();
         const { songs, lastSongNumber } = this.state;
         let newSongList = _.cloneDeep(songs);
-        _.remove(newSongList, (item) => {
+        let removeSong = _.remove(newSongList, (item) => {
             return item.number === songNumber;
         });
         newSongList = _.forEach(newSongList, (song, idx) => {
@@ -82,7 +80,7 @@ class AddSong extends React.Component {
             lastSongNumber: lastSongNumber - 1,
             songs: newSongList
         });
-        toastr.success('Tókst!', 'Tókst að fjarlægja lag');
+        toastr.success('Tókst!', `Tókst að fjarlægja lagið ${removeSong[0].name}`);
     }
     isAddSongValid() {
         const { currentSongName, currentSongLength } = this.state;
@@ -113,25 +111,27 @@ class AddSong extends React.Component {
     renderSongSuggestions() {
         if (!this.props.songs.isFetchingSongs) {
             return this.props.songs.map((song) => {
-                return (
-                    <div className="well row" key={song.songId}>
-                        <div className="col-xs-11 song-select-info">
-                            <div className="row">
-                                <div className="col-xs-6 text-left">{song.songTitle}</div>
-                                <div className="col-xs-6 text-right">{song.mainArtist}</div>
+                if (!_.find(this.state.songs, (s) => { return s.id === song.songId })) {
+                    return (
+                        <div className="well row" key={song.songId}>
+                            <div className="col-xs-11 song-select-info">
+                                <div className="row">
+                                    <div className="col-xs-6 text-left">{song.songTitle}</div>
+                                    <div className="col-xs-6 text-right">{song.mainArtist}</div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-xs-6 text-left">{song.releaseDate}</div>
+                                    <div className="col-xs-6 text-right">{song.duration}</div>
+                                </div>
                             </div>
-                            <div className="row">
-                                <div className="col-xs-6 text-left">{song.releaseDate}</div>
-                                <div className="col-xs-6 text-right">{song.duration}</div>
+                            <div 
+                                className="col-xs-1 text-center add-song-plus"
+                                onClick={(e) => this.addSongToList(e, song.songId, song.songTitle, song.duration, song.isrc)}>
+                                <i className="fa fa-plus fa-2x"></i>
                             </div>
                         </div>
-                        <div 
-                            className="col-xs-1 text-center add-song-plus"
-                            onClick={(e) => this.selectSongAndAdd(e, song)}>
-                            <i className="fa fa-plus fa-2x"></i>
-                        </div>
-                    </div>
-                );
+                    );
+                }
             });
         }
     }
@@ -224,7 +224,7 @@ class AddSong extends React.Component {
                                 <button 
                                     tabIndex="5"
                                     className="btn btn-default" 
-                                    onClick={(e) => this.addSongToList(e)}
+                                    onClick={(e) => this.addSongToList(e, this.state.currentSongId, this.state.currentSongName, this.state.currentSongLength, this.state.currentSongIsrc)}
                                     disabled={!this.isAddSongValid()}>Bæta við</button>
                             </div>
                         </form>
