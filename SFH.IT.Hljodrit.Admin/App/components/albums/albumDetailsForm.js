@@ -93,7 +93,7 @@ class AlbumDetailsForm extends React.Component {
                     <button type="submit" className="btn btn-primary pull-right">Vista</button>
                 </form>
                 <div>
-                    <h3>Lög</h3>
+                    <h2>Lög</h2>
                     <Table tableData={albumTableData} objects={this.props.songs} />
                 </div>
             </div>
