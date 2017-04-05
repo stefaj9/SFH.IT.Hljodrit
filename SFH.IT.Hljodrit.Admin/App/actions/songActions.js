@@ -5,7 +5,7 @@ export function getSongsByCriteria(pageSize, pageNumber, searchString, searchTyp
     return (dispatch) => {
         dispatch(isFetchingSongs());
         dispatch(clearSongList());
-        return fetch(`/api/songs?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchString}`, {
+        return fetch(`/api/songs?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchString}&searchType=${searchType}`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {
@@ -27,6 +27,32 @@ function getSongsbyCriteriaSuccess(data) {
     };
 };
 
+export function getMediaRecordingsByCriteria(pageSize, pageNumber, searchString, searchType) {
+    return (dispatch) => {
+        dispatch(isFetchingSongs());
+        dispatch(clearMediaRecordingList());
+        return fetch(`/api/media?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchString}&searchType=${searchType}`, {
+            method: 'GET'
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                dispatch(hasStoppedFetchingSongs());
+            }
+        }).then((data) => {
+            dispatch(getMediaRecordingsByCriteriaSuccess(data));
+            dispatch(hasStoppedFetchingSongs());
+        });
+    };
+}
+
+function getMediaRecordingsByCriteriaSuccess(data) {
+    return {
+        type: actionType.GET_MEDIA,
+        payload: data
+    };
+};
+
 function isFetchingSongs() {
     return {
         type: actionType.IS_FETCHING_SONGS,
@@ -44,6 +70,13 @@ function hasStoppedFetchingSongs() {
 function clearSongList() {
     return {
         type: actionType.CLEAR_SONGS,
+        payload: {}
+    };
+};
+
+function clearMediaRecordingList() {
+    return {
+        type: actionType.CLEAR_MEDIA,
         payload: {}
     };
 };

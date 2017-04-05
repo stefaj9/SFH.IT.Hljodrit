@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Dto\AlbumDto.cs" />
     <Compile Include="Dto\AlbumExtendedDto.cs" />
+    <Compile Include="Dto\MediaDto.cs" />
     <Compile Include="Dto\MusicianCreditsDto.cs" />
     <Compile Include="Dto\MusicianDto.cs" />
     <Compile Include="Dto\RegistrationDto.cs" />

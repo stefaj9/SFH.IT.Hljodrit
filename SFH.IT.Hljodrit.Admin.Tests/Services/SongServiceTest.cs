@@ -5,6 +5,7 @@ using FizzWare.NBuilder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using SFH.IT.Hljodrit.Common.Dto;
@@ -35,7 +36,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var expectedObjectCount = 25;
 
 			var songs = Builder<SongDto>.CreateListOfSize(25).Build();
-			_songRepository.Setup(s => s.GetSongs(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()))
+			_songRepository.Setup(s => s.GetSongs(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<Expression<Func<SongDto, bool>>>()))
 				.Returns(new Envelope<SongDto>
 				{
 					CurrentPage = 1,
@@ -45,7 +46,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 
 			var songService = new SongService(_songRepository.Object);
 			// Act
-			var songResultEnvelope = songService.GetSongs(pageSize, pageNumber, "");
+			var songResultEnvelope = songService.GetSongs(pageSize, pageNumber, "", "");
 
 			// Assert
 			Assert.AreEqual(songResultEnvelope.Objects.Count(), expectedObjectCount);

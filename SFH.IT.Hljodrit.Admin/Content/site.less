@@ -21,17 +21,22 @@ body {
         .song-search-bar {
             margin-bottom: 20px;
         }
-        max-height: 500px;
+        max-height: 800px;
         min-height: 300px;
         overflow: auto;
         .well {
             padding: 0;
+            position: relative;
             .song-select-info {
                 padding: 20px;
             }
             .add-song-plus {
                 padding: 20px;
                 background-color: rgba(155, 155, 155, 0.5);
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                top: 0;
                 transition: background-color .2s ease-in;
                 &:hover {
                     cursor: pointer;

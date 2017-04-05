@@ -15,9 +15,9 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpGet]
         [Route("")]
-        public IHttpActionResult GetSongs([FromUri]int pageSize, [FromUri]int pageNumber, [FromUri] string searchTerm)
+        public IHttpActionResult GetSongs([FromUri]int pageSize, [FromUri]int pageNumber, [FromUri] string searchTerm, [FromUri] string searchType)
         {
-            return Ok(_songService.GetSongs(pageSize, pageNumber, searchTerm ?? ""));
+            return Ok(_songService.GetSongs(pageSize, pageNumber, searchTerm ?? "", searchType));
         }
 
         [HttpGet]

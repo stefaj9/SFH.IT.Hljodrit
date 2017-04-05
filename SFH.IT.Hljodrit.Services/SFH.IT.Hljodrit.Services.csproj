@@ -48,6 +48,7 @@
     <Compile Include="Implementations\CommonService.cs" />
     <Compile Include="Implementations\InstrumentService.cs" />
     <Compile Include="Implementations\MainArtistService.cs" />
+    <Compile Include="Implementations\MediaService.cs" />
     <Compile Include="Implementations\OrganizationService.cs" />
     <Compile Include="Implementations\PersonService.cs" />
     <Compile Include="Implementations\ProjectService.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Implementations\SettingsService.cs" />
     <Compile Include="Interfaces\IInstrumentService.cs" />
     <Compile Include="Interfaces\IMainArtistService.cs" />
+    <Compile Include="Interfaces\IMediaService.cs" />
     <Compile Include="Interfaces\IOrganizationService.cs" />
     <Compile Include="Interfaces\IPersonService.cs" />
     <Compile Include="Interfaces\IProjectService.cs" />

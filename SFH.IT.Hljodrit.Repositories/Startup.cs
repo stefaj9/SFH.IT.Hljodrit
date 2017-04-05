@@ -38,6 +38,7 @@ namespace SFH.IT.Hljodrit.Repositories
             container.Register<IAlbumRepository, AlbumRepository>(Lifestyle.Transient);
             container.Register<ISettingsRepository, SettingsRepository>(Lifestyle.Transient);
             container.Register<IOrganizationRepository, OrganizationRepository>(Lifestyle.Transient);
+            container.Register<IMediaRecordingRepository, MediaRecordingRepository>(Lifestyle.Transient);
             container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Transient);
         }
     }
