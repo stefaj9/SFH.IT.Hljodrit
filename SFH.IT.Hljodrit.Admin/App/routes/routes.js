@@ -11,7 +11,8 @@ import ProjectManagement from '../components/project/projectManagement';
 import Intro from '../components/common/intro';
 import AddProject from '../components/project/addProject';
 import AlbumDetails from '../components/albums/albumDetails';
-import Media from '../components/media/media';
+//import Media from '../components/media/media';
+import Songs from '../components/songs/songs';
 
 export default (
     <Route path="/" component={App}>
@@ -25,7 +26,7 @@ export default (
         <Route path="albums/:albumId" component={AlbumDetails} />
         <Route path="users" component={Users} />
         <Route path="settings" component={Settings} />
-        <Route path="media" component={Media} />
+        <Route path="songs" component={Songs} />
         <Route path="*" component={NotFound} />
     </Route>
 );
