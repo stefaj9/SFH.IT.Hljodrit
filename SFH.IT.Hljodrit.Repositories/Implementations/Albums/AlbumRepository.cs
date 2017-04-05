@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
@@ -44,49 +42,49 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
         public AlbumExtendedDto GetAlbumById(int id)
         {
             var result = from album in DbContext.media_product_package
-                where album.id == id
-                join mainArtist in DbContext.party_mainartist on album.mainartistid equals mainArtist.id into
-                albumsWithArtist
+                         where album.id == id
+                         join mainArtist in DbContext.party_mainartist on album.mainartistid equals mainArtist.id into
+                         albumsWithArtist
 
-                from y in albumsWithArtist.DefaultIfEmpty()
-                join label in DbContext.organization_labels on album.labelid equals label.id into
-                albumsWithArtistAndLabel
+                         from y in albumsWithArtist.DefaultIfEmpty()
+                         join label in DbContext.organization_labels on album.labelid equals label.id into
+                         albumsWithArtistAndLabel
 
-                from x in albumsWithArtistAndLabel.DefaultIfEmpty()
-                join countryOfProduction in DbContext.common_country on album.countryofproduction equals
-                countryOfProduction.numericisocode into albumWithCountryCode
+                         from x in albumsWithArtistAndLabel.DefaultIfEmpty()
+                         join countryOfProduction in DbContext.common_country on album.countryofproduction equals
+                         countryOfProduction.numericisocode into albumWithCountryCode
 
-                from z in albumWithCountryCode.DefaultIfEmpty()
-                join countryOfPublication in DbContext.common_country on album.countryofproduction equals
-                countryOfPublication.numericisocode into completeAlbum
-                select new {album, y, x, z};
+                         from z in albumWithCountryCode.DefaultIfEmpty()
+                         join countryOfPublication in DbContext.common_country on album.countryofproduction equals
+                         countryOfPublication.numericisocode into completeAlbum
+                         select new { album, y, x, z };
 
 
-                return (from r in result
-                        select new AlbumExtendedDto
-                         {
-                            AlbumId = r.album.id,
-                             AlbumTitle = r.album.albumtitle,
-                             ReleaseDate = r.album.releasedate,
-                             MainArtistName = r.y.artistname,
-                             MainArtistId = r.y.id,
-                             CatalogueNumber = r.album.cataloguenumber,
-                             CountryOfProduction = r.z.name_is,
-                             CountryOfPublication = r.z.name_is,
-                             Label = r.x.labelname,
-                             PublisherId = r.x.organizationid,
-                            Publisher = (from a in DbContext.organization_master
-                                         where a.id == r.x.organizationid
-                                         select a.name).FirstOrDefault(),
-                            Registration = new RegistrationDto()
-                             {
-                                 Comment = r.album.comment,
-                                 CreatedBy = r.album.createdby,
-                                 CreatedOn = r.album.createdon,
-                                 UpdatedBy = r.album.updatedby,
-                                 UpdatedOn = r.album.updatedon
-                             }
-                         }).SingleOrDefault();
+            return (from r in result
+                    select new AlbumExtendedDto
+                    {
+                        AlbumId = r.album.id,
+                        AlbumTitle = r.album.albumtitle,
+                        ReleaseDate = r.album.releasedate,
+                        MainArtistName = r.y.artistname,
+                        MainArtistId = r.y.id,
+                        CatalogueNumber = r.album.cataloguenumber,
+                        CountryOfProduction = r.z.twoletterisocode,
+                        CountryOfPublication = r.z.twoletterisocode,
+                        Label = r.x.labelname,
+                        PublisherId = r.x.organizationid,
+                        Publisher = (from a in DbContext.organization_master
+                                     where a.id == r.x.organizationid
+                                     select a.name).FirstOrDefault(),
+                        Registration = new RegistrationDto()
+                        {
+                            Comment = r.album.comment,
+                            CreatedBy = r.album.createdby,
+                            CreatedOn = r.album.createdon,
+                            UpdatedBy = r.album.updatedby,
+                            UpdatedOn = r.album.updatedon
+                        }
+                    }).SingleOrDefault();
         }
 
         //public MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId)
@@ -115,12 +113,12 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
         public ICollection<MusiciansOnSongDto> GetMusiciansOnSong(int albumId, int songId)
         {
             var result = from song in DbContext.media_product
-                join recording in DbContext.recording_party on song.recordingid equals recording.recordingid
-                join person in DbContext.party_real on recording.partyrealid equals person.id
-                join instrument in DbContext.party_instrumenttype on recording.instrumentcode equals instrument.code
-                join role in DbContext.party_partyroletype on recording.rolecode equals role.rolecode
-                where song.packageid == albumId && song.id == songId
-                group new { song, recording, person, instrument, role } by new { person.id, person.fullname };
+                         join recording in DbContext.recording_party on song.recordingid equals recording.recordingid
+                         join person in DbContext.party_real on recording.partyrealid equals person.id
+                         join instrument in DbContext.party_instrumenttype on recording.instrumentcode equals instrument.code
+                         join role in DbContext.party_partyroletype on recording.rolecode equals role.rolecode
+                         where song.packageid == albumId && song.id == songId
+                         group new { song, recording, person, instrument, role } by new { person.id, person.fullname };
 
             var allSongs = new List<MusiciansOnSongDto>();
             foreach (var group in result)
@@ -138,12 +136,12 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
 
                 allSongs.Add(musician);
             }
-            
+
             return allSongs;
         }
 
 
-        private static void SetAllMusicianFields(MusicianCreditsDto musicianCredits, RegistrationDto registration, int creditId, int albumId, string nickName, 
+        private static void SetAllMusicianFields(MusicianCreditsDto musicianCredits, RegistrationDto registration, int creditId, int albumId, string nickName,
                                           string fullName, int personId, string instrument, string instrumentCode, string roleName, string roleCode)
         {
             musicianCredits.Registration = registration;
