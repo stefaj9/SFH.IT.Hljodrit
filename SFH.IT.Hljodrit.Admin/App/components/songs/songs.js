@@ -1,21 +1,28 @@
 import React from 'react';
+//import Table from '../common/table';
 
 export default class Songs extends React.Component {
 
     constructor(props, context) {
         super(props, context);
+
+        this.state = {
+            searchString: ''
+        }
     }
 
-    handleClick(tab) {
+    searchBy(searchString) {
         this.setState({
-            activeTab: tab
+            searchString: searchString
         });
+        //this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters, searchString);
     }
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>Songs</h1>
+
             </div>
         );
     }
