@@ -133,7 +133,8 @@ export default class AddPerformers extends React.Component {
                 <h4>Skrá flytjendur</h4>
                 <div className="row">
                     <div className="col-xs-4 performer-group-wrapper">
-                        <PerformerGroup />
+                        <PerformerGroup
+                            songs={this.state.songs} />
                     </div>
                     <div className="song-wrapper col-xs-8">
                         <p>Gerð er krafa um að það sé að lágmarki einn flytjandi skráður á hvert lag. Lög hér að neðanverðu eru röðuð eftir númer lags á verkefninu.</p>
