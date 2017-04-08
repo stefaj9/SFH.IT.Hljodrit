@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getAlbumById, getSongsByAlbumId } from '../../actions/AlbumsActions';
 import AlbumDetailsForm from './AlbumDetailsForm';
+import Table from '../common/table';
+import albumTableData from './albumTableData';
 
 class AlbumDetails extends React.Component {
 
@@ -13,10 +15,6 @@ class AlbumDetails extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-
-        this.state = {
-            hasFetchedLabels: false
-        };
     }
 
     populateCountryOptions() {
@@ -37,6 +35,10 @@ class AlbumDetails extends React.Component {
                     album={this.props.selectedAlbum}
                     songs={this.props.songsOnSelectedAlbum}
                     countryOptions={this.populateCountryOptions.bind(this)} />
+                <div>
+                    <h2>Lög</h2>
+                    <Table tableData={albumTableData} objects={this.props.songsOnSelectedAlbum} />
+                </div>
             </div>
         );
     }
