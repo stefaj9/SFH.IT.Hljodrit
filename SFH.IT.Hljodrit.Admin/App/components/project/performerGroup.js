@@ -16,16 +16,34 @@ class PerformerGroup extends React.Component {
             group: []
         }
     }
-    addInstrument(instruments) {
-        //let group = _.cloneDeep(this.state.group);
-        console.log(instruments);
+    addInstrument(instruments, performerId) {
+        let group = _.cloneDeep(this.state.group);
+        let selectedPerformer = _.find(group, (member) => { return member.id === performerId });
+        selectedPerformer.instruments = instruments;
+
+        this.setState({ group: group });
+    }
+    addRoleToUser(e, performerId) {
+        let group = _.cloneDeep(this.state.group);
+        let selectedPerformer = _.find(group, (member) => { return member.id === performerId });
+        let index = e.target.selectedIndex;
+        selectedPerformer.role.code = e.target.value;
+        selectedPerformer.role.name = e.target.options[index].text;
+
+        this.setState({ group: group });
     }
     openPerformerSelectionModal(e) {
         e.preventDefault();
         this.setState({ isAddingPerson: true });
     }
     addPerformerToGroup(performer) {
-        performer.role = '';
+        if (this.props.roles.length > 0) {
+            let firstRole = this.props.roles[0];
+            performer.role = { code: firstRole.roleCode, name: firstRole.roleName }
+        } else {
+            performer.role = {};
+        }
+        
         performer.instruments = [];
         let group = _.cloneDeep(this.state.group);
 
@@ -50,9 +68,7 @@ class PerformerGroup extends React.Component {
 
         toastr.success('Tókst!', 'Það tókst að fjarlægja flytjanda úr hópnum.');
 
-        this.setState({
-            group: group
-        });
+        this.setState({ group: group });
     }
     renderPerformerRoles() {
         return this.props.roles.map((role) => {
@@ -78,7 +94,9 @@ class PerformerGroup extends React.Component {
                         <select 
                             name="group-member-role" 
                             id={`group-member-role-${member.id}`} 
-                            className="form-control group-member-role">
+                            className="form-control group-member-role"
+                            onChange={(e) => this.addRoleToUser(e, member.id)}
+                            value={member.role.code}>
                             {this.renderPerformerRoles()}
                         </select>
                         <label>Hljóðfæri</label>
