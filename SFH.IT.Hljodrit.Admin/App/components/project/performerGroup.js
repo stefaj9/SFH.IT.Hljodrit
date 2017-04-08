@@ -28,11 +28,31 @@ class PerformerGroup extends React.Component {
         performer.role = '';
         performer.instruments = [];
         let group = _.cloneDeep(this.state.group);
+
+        // Prevent adding a performer which is already in the group.
+        if (_.find(group, (member) => { return member.id === performer.id })) {
+            toastr.error('Villa!', 'Ekki er hægt að bæta við flytjanda sem er nú þegar í hópnum.');
+            return;
+        }
+
         group = _.concat(group, performer);
 
         toastr.success('Tókst!', 'Það tókst að bæta við flytjanda í hóp.');
 
         this.setState({ group: group });
+    }
+    removePerformerFromGroup(e, performerId) {
+        e.preventDefault();
+        let group = _.cloneDeep(this.state.group);
+        _.remove(group, (member) => {
+            return member.id === performerId;
+        });
+
+        toastr.success('Tókst!', 'Það tókst að fjarlægja flytjanda úr hópnum.');
+
+        this.setState({
+            group: group
+        });
     }
     renderPerformerRoles() {
         return this.props.roles.map((role) => {
@@ -66,6 +86,13 @@ class PerformerGroup extends React.Component {
                             value={member.instruments}
                             onChange={(instruments) => this.addInstrument(instruments, member.id)}
                             suggestions={suggestions} />
+                        <div className="remove-performer-group-btn">
+                            <button 
+                                onClick={(e) => this.removePerformerFromGroup(e, member.id)}
+                                className="btn btn-default">Fjarlægja úr hóp
+                                <i className="fa fa-times fa-fw"></i>
+                            </button>
+                        </div>
                     </div>
                 );
             });
