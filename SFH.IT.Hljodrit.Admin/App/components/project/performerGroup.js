@@ -12,7 +12,7 @@ class PerformerGroup extends React.Component {
         super(props, context);
         this.state = {
             isAddingPerson: false,
-            currentNumber: 0,
+            selectedSongs: [],
             group: []
         }
     }
@@ -69,6 +69,24 @@ class PerformerGroup extends React.Component {
         toastr.success('Tókst!', 'Það tókst að fjarlægja flytjanda úr hópnum.');
 
         this.setState({ group: group });
+    }
+    selectAllSongs(e) {
+        let songs = [];
+        if (e.target.checked) {
+            this.props.songs.map((song) => {
+                songs = _.concat(songs, { number: song.number, name: song.name });
+            });
+        }
+        this.setState({ selectedSongs: songs });
+    }
+    selectSong(e, song) {
+        let selectedSongs = _.cloneDeep(this.state.selectedSongs);
+        if (e.target.checked) {
+            selectedSongs = _.concat(selectedSongs, { number: song.number, name: song.name });
+        } else {
+            _.remove(selectedSongs, (s) => { return s.number === song.number });
+        }
+        this.setState({ selectedSongs: selectedSongs });
     }
     renderPerformerRoles() {
         return this.props.roles.map((role) => {
@@ -129,12 +147,19 @@ class PerformerGroup extends React.Component {
                             type="checkbox" 
                             name={`${song.number}-${song.name}`} 
                             id={`${song.number}-${song.name}`}
-                            value="" />
+                            value=""
+                            onChange={(e) => this.selectSong(e, song)}
+                            checked={_.find(this.state.selectedSongs, (s) => { return s.number === song.number })} />
                         {`${song.number}. ${song.name}`}
                     </label>
                 </div>
             );
         });
+    }
+    transferGroupToSongs() {
+        const { selectedSongs, group } = this.state;
+        this.setState({ selectedSongs: [] });
+        this.props.transfer(group, _.map(selectedSongs, 'number'));
     }
     render() {
         return (
@@ -156,12 +181,16 @@ class PerformerGroup extends React.Component {
                     <h4>Lög</h4>
                     <div className="checkbox">
                         <label>
-                            <input type="checkbox" value="" />Velja öll lög
+                            <input 
+                                type="checkbox"
+                                value=""
+                                checked={this.state.selectedSongs.length === this.props.songs.length}
+                                onChange={(e) => this.selectAllSongs(e)} />Velja öll lög
                         </label>
                     </div>
                     {this.renderSongSelection()}
                     <div className="form-group pull-right">
-                        <button className="btn btn-default">Færa yfir <i className="fa fa-arrow-right"></i></button>
+                        <button onClick={() => this.transferGroupToSongs()} className="btn btn-default">Færa yfir <i className="fa fa-fw fa-arrow-right"></i></button>
                     </div>
                 </div>
                 <SelectPersonModal
@@ -181,7 +210,8 @@ class PerformerGroup extends React.Component {
 }
 
 PerformerGroup.propTypes = {
-    songs: React.PropTypes.array.isRequired
+    songs: React.PropTypes.array.isRequired,
+    transfer: React.PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {

@@ -126,6 +126,20 @@ export default class AddPerformers extends React.Component {
             return song.performers.length > 0;
         });
     }
+    addGroupToSongs(group, songNumbers) {
+        let songs = _.cloneDeep(this.state.songs);
+        songNumbers.map((number) => {
+            let song = _.find(songs, (song) => { return song.number === number });
+            group.map((g) => {
+                let exists = _.find(song.performers, (performer) => { return performer.id === g.id });
+                if (!exists) {
+                    song.performers = _.concat(song.performers, g);
+                }
+            });
+        });
+        toastr.success('Tókst!', 'Það tókst að bæta við hópi á valin lög.');
+        this.setState({ songs: songs });
+    }
     render() {
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
@@ -134,7 +148,8 @@ export default class AddPerformers extends React.Component {
                 <div className="row">
                     <div className="col-xs-4 performer-group-wrapper">
                         <PerformerGroup
-                            songs={this.state.songs} />
+                            songs={this.state.songs}
+                            transfer={this.addGroupToSongs.bind(this)} />
                     </div>
                     <div className="song-wrapper col-xs-8">
                         <p>Gerð er krafa um að það sé að lágmarki einn flytjandi skráður á hvert lag. Lög hér að neðanverðu eru röðuð eftir númer lags á verkefninu.</p>
