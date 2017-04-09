@@ -135,7 +135,7 @@ class SongDetails extends React.Component {
                                 onClick={(e) => this.changeSongDetails(e)}>Vista</button>
                         </div>
                     </div>
-                    <h4>Flytjendur á plötunni</h4>
+                    <h4>Flytjendur á laginu</h4>
                     <SongMusiciansTable musicians={this.props.musicians} />
                 </div>
             );
