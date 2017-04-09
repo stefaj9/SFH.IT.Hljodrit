@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using SFH.IT.Hljodrit.Models;
 
 namespace SFH.IT.Hljodrit.Common.Dto
@@ -23,6 +24,5 @@ namespace SFH.IT.Hljodrit.Common.Dto
 
         [JsonProperty(PropertyName = "sideNumber")]
         public int  SideNumber { get; set; }
-
     }
 }

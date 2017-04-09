@@ -29,9 +29,9 @@ namespace SFH.IT.Hljodrit.Common.Dto
 
         [JsonProperty(PropertyName = "highestRoleCode")]
         public string HighestRoleCode { get; set; }
-
+        [JsonProperty(PropertyName = "highestRoleName")]
         public string HighestRoleName { get; set; }
-
+        [JsonProperty(PropertyName = "credits")]
         public ICollection<MusicianCreditsDto> Credits { get; set; }
 
     }

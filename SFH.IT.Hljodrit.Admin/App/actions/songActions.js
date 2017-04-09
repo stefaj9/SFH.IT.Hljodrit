@@ -27,6 +27,27 @@ function getSongDetailsByIdSuccess(song) {
     };
 };
 
+export function getAllMusiciansOnSong(albumId, songId) {
+    return (dispatch) => {
+        return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
+            method: 'GET'
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then((data) => {
+            dispatch(getAllMusiciansOnSongSuccess(data));
+        });
+    }
+}
+
+function getAllMusiciansOnSongSuccess(musicians) {
+    return {
+        type: actionType.GET_ALL_MUSICIANS_ON_SONG,
+        payload: musicians
+    };
+};
+
 export function getSongsByCriteria(pageSize, pageNumber, searchString, searchType) {
     return (dispatch) => {
         dispatch(isFetchingSongs());

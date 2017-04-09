@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSongDetailsById } from '../../actions/songActions';
+import { getSongDetailsById, getAllMusiciansOnSong } from '../../actions/songActions';
 import { Link } from 'react-router';
+import SongMusiciansTable from './songMusiciansTable';
 import Spinner from 'react-spinner';
 import _ from 'lodash';
 import moment from 'moment';
@@ -11,6 +12,7 @@ import { toastr } from 'react-redux-toastr';
 
 class SongDetails extends React.Component {
     componentWillReceiveProps(newProps) {
+        console.log(newProps.musicians);
         if (_.keys(newProps.song).length > 0 && !this.state.hasFetched) {
             let song = _.cloneDeep(newProps.song);
             let durationSplit = newProps.song.duration.split(':');
@@ -23,6 +25,7 @@ class SongDetails extends React.Component {
     }
     componentWillMount() {
         this.props.getSongDetailsById(this.props.routeParams.songId);
+        this.props.getAllMusiciansOnSong(this.props.params.albumId, this.props.routeParams.songId);
         moment.locale('is');
     }
     constructor(props, context) {
@@ -132,6 +135,8 @@ class SongDetails extends React.Component {
                                 onClick={(e) => this.changeSongDetails(e)}>Vista</button>
                         </div>
                     </div>
+                    <h4>Flytjendur á plötunni</h4>
+                    <SongMusiciansTable musicians={this.props.musicians} />
                 </div>
             );
         }
@@ -149,8 +154,9 @@ class SongDetails extends React.Component {
 function mapStateToProps(state) {
     return {
         song: state.songs.selectedSong,
-        isFetching: state.songs.isFetching
+        isFetching: state.songs.isFetching,
+        musicians: state.songs.musiciansOnSelectedSong
     };
 };
 
-export default connect(mapStateToProps, { getSongDetailsById })(SongDetails);
+export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong })(SongDetails);
