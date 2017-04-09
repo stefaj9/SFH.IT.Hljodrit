@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getSongDetailsById } from '../../actions/songActions';
+import { Link } from 'react-router';
 import Spinner from 'react-spinner';
 import _ from 'lodash';
 import moment from 'moment';
 import { DateField, DatePicker } from 'react-date-picker'
 import TimePicker from 'rc-time-picker';
+import { toastr } from 'react-redux-toastr';
 
 class SongDetails extends React.Component {
     componentWillReceiveProps(newProps) {
@@ -31,6 +33,12 @@ class SongDetails extends React.Component {
             hasFetched: false,
             dirtyForm: false
         };
+    }
+    changeSongDetails(e) {
+        e.preventDefault();
+        let songDurationFormatted = moment(this.state.currentSong.duration).format('HH:mm:ss');
+        console.log(songDurationFormatted);
+        toastr.success('Tókst!', 'Það tókst að breyta upplýsingum um lag.');
     }
     renderFormGroup(label, id, value, onChangeFunc) {
         return (
@@ -102,6 +110,11 @@ class SongDetails extends React.Component {
         if (!this.props.isFetching) {
             return (
                 <div>
+                    <div className="row text-left">
+                        <div className="col-xs-12">
+                            <Link to={`/albums/${this.props.params.albumId}`}><i className="fa fa-arrow-left fa-fw"></i> Til baka á plötu</Link>
+                        </div>
+                    </div>
                     <h2>{this.props.song.songTitle}</h2>
                     <div className="row">
                         <div className="col-xs-12 col-sm-6">
@@ -113,7 +126,10 @@ class SongDetails extends React.Component {
                             {this.renderReleaseDatePicker()}
                         </div>
                         <div className="col-xs-12 text-right">
-                            <button disabled={!this.state.dirtyForm} className="btn btn-default btn-primary">Vista</button>
+                            <button 
+                                disabled={!this.state.dirtyForm} 
+                                className="btn btn-default btn-primary"
+                                onClick={(e) => this.changeSongDetails(e)}>Vista</button>
                         </div>
                     </div>
                 </div>

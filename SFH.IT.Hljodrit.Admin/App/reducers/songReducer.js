@@ -46,6 +46,9 @@ export default function(state = initialState, action) {
                 objects: []
             }
         });
+        case actionType.CLEAR_SONG_SELECTION: return Object.assign({}, state, {
+            selectedSong: {}
+        });
         default: return state;
     }
 }

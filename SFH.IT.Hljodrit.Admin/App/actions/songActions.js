@@ -4,6 +4,7 @@ import * as actionType from './actionTypes';
 export function getSongDetailsById(songId) {
     return (dispatch) => {
         dispatch(isFetchingSongs());
+        dispatch(clearSongSelection());
         return fetch(`/api/songs/${songId}`, {
             method: 'GET'
         }).then((resp) => {
@@ -102,6 +103,13 @@ function clearSongList() {
 function clearMediaRecordingList() {
     return {
         type: actionType.CLEAR_MEDIA,
+        payload: {}
+    };
+};
+
+function clearSongSelection() {
+    return {
+        type: actionType.CLEAR_SONG_SELECTION,
         payload: {}
     };
 };
