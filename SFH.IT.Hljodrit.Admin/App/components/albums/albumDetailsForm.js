@@ -1,11 +1,11 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import Table from './../common/table';
 import albumTableData from './albumTableData';
 
 class AlbumDetailsForm extends React.Component {
 
     componentWillReceiveProps(newProps) {
-        console.log(newProps);
         this.setState({
             countryOfPublication: newProps.album.countryOfPublication,
             countryOfProduction: newProps.album.countryOfProduction,
@@ -94,7 +94,10 @@ class AlbumDetailsForm extends React.Component {
                 </form>
                 <div>
                     <h2>Lög</h2>
-                    <Table tableData={albumTableData} objects={this.props.songs} />
+                    <Table 
+                        tableData={albumTableData} 
+                        objects={this.props.songs}
+                        selectCallback={(row) => browserHistory.push(`/albums/${row.albumId}/songs/${row.songId}`)} />
                 </div>
             </div>
         );

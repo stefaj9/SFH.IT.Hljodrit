@@ -6,7 +6,7 @@ import AlbumDetailsForm from './AlbumDetailsForm';
 class AlbumDetails extends React.Component {
 
     componentWillMount() {
-        const albumId = this.props.routeParams.albumId;
+        const albumId = this.props.params.albumId;
         this.props.getAlbumById(albumId);
         this.props.getSongsByAlbumId(albumId);
     }
