@@ -1,6 +1,31 @@
 import fetch from 'isomorphic-fetch';
 import * as actionType from './actionTypes';
 
+export function getSongDetailsById(songId) {
+    return (dispatch) => {
+        dispatch(isFetchingSongs());
+        return fetch(`/api/songs/${songId}`, {
+            method: 'GET'
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                dispatch(hasStoppedFetchingSongs());
+            }
+        }).then((song) => {
+            dispatch(getSongDetailsByIdSuccess(song));
+            dispatch(hasStoppedFetchingSongs());
+        });
+    }
+}
+
+function getSongDetailsByIdSuccess(song) {
+    return {
+        type: actionType.GET_SONG_BY_ID,
+        payload: song
+    };
+};
+
 export function getSongsByCriteria(pageSize, pageNumber, searchString, searchType) {
     return (dispatch) => {
         dispatch(isFetchingSongs());

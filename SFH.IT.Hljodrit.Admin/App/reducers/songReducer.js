@@ -11,13 +11,17 @@ let initialState = {
         maximumPage: -1,
         objects: []
     },
-    isFetching: true
+    isFetching: true,
+    selectedSong: {}
 };
 
 export default function(state = initialState, action) {
     switch (action.type) {
         case actionType.GET_SONGS: return Object.assign({}, state, {
             songEnvelope: action.payload
+        });
+        case actionType.GET_SONG_BY_ID: return Object.assign({}, state, {
+            selectedSong: action.payload
         });
         case actionType.GET_MEDIA: return Object.assign({}, state, {
             mediaRecordingEnvelope: action.payload
