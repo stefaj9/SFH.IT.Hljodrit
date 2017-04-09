@@ -50,6 +50,15 @@ class AlbumDetailsForm extends React.Component {
         });
     }
 
+    updateAlbumTitle(newTitle) {
+        this.setState({
+            selectedAlbum: {
+                albumTitle: newTitle
+            },
+            selectedAlbumHasChanged: true
+        });
+    }
+
     updateMainArtist(newMainArtist) {
         this.setState({
             selectedAlbum: {
@@ -60,15 +69,27 @@ class AlbumDetailsForm extends React.Component {
         });
     }
 
-    updateAlbumTitle(newTitle) {
+    updateCountryOfProduction(newCountryOfProduction) {
         this.setState({
             selectedAlbum: {
-                albumTitle:newTitle
+                countryOfProduction: newCountryOfProduction
             },
-            selectedAlbumHasChanged: true
+            selectedAlbumHasChanged: true,
+            isModalOpen: false
         });
-        console.log('new title: ' + newTitle);
     }
+
+    updateCountryOfPublication(newCountryOfPublication) {
+        this.setState({
+            selectedAlbum: {
+                countryOfPublication: newCountryOfPublication
+            },
+            selectedAlbumHasChanged: true,
+            isModalOpen: false
+        });
+        console.log('country:', this.state.selectedAlbum.countryOfPublication);
+    }
+
 
     validateAlbum(album) {
         if (!album.label) {
@@ -138,7 +159,7 @@ class AlbumDetailsForm extends React.Component {
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Framleiðsluland</label>
                             <select className="form-control"
-                                onChange={(e) => this.setState({countryOfProduction: e.target.value})}
+                                onChange={(e) => this.updateCountryOfProduction(e.target.value)}
                                 value={this.state.selectedAlbum.countryOfProduction}>
                                 {this.props.countryOptions()}
                             </select>
@@ -146,8 +167,8 @@ class AlbumDetailsForm extends React.Component {
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Útgáfuland</label>
                             <select className="form-control"
+                                onChange={(e) => this.updateCountryOfPublication(e.target.value)}
                                 value={this.state.selectedAlbum.countryOfPublication}>
-                                onChange={(e) => this.setState({countryOfProduction: e.target.value})}
                                 {this.props.countryOptions()}
                             </select>
                         </div>
