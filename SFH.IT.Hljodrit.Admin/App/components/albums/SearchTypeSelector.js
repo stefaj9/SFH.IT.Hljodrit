@@ -7,7 +7,7 @@ const SearchTypeSelector = ({onSelect}) => {
     }
 
     return (
-        <select onChange={changeHandler} className="form-control">
+        <select onChange={changeHandler} className="form-control no-border-radius">
             <option value="0">Plötuheiti</option>
             <option value="1">Aðalflytjandi</option>
             <option value="2">Útgáfuár</option>

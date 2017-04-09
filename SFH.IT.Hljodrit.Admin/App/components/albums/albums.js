@@ -62,8 +62,18 @@ class Albums extends React.Component {
         return (
             <div>
                 <h2>Plötur</h2>
-                <SearchTypeSelector onSelect = {idx => this.changeSearchType(idx)} />
-                <SearchBar visible={true} searchBy={(search) => this.searchBy(search)} searchTerm={this.state.searchString} />
+                <div className="row space-20">
+                    <div className="col-xs-12 col-sm-8 no-padding">
+                        <SearchBar 
+                            visible={true} 
+                            searchBy={(search) => this.searchBy(search)} 
+                            searchTerm={this.state.searchString}
+                            iconOn={false} />
+                    </div>
+                    <div className="col-xs-12 col-sm-4 no-padding">
+                        <SearchTypeSelector onSelect = {idx => this.changeSearchType(idx)} />
+                    </div>
+                </div>
                 <PageSelector change={newPageSize => this.changePageSize(newPageSize)} />
                 <AlbumList albums={this.props.albums}
                                isFetching={this.props.isFetching}

@@ -19,15 +19,15 @@ export default class SearchBar extends React.Component {
     render() {
         return (
             <form className={this.props.visible ? '' : 'hidden'} onSubmit={(e) => { this.submitForm(e); }}>
-                <div className="input-group search-bar">
+                <div className={this.props.iconOn ? 'input-group search-bar' : ''}>
                     <input 
                         value={this.state.searchInput}
                         type="text" 
-                        className="form-control" 
+                        className="form-control no-border-radius" 
                         placeholder="Leita.." 
                         aria-describedby="search-bar" 
                         onChange={(e) => this.setState({ searchInput: e.target.value }) } />
-                    <span className="input-group-addon" id="search-bar">
+                    <span className={this.props.iconOn ? 'input-group-addon' : 'hidden'} id="search-bar">
                         <i className="fa fa-search"><input type="submit" className="hidden" /></i>
                     </span>
                 </div>
