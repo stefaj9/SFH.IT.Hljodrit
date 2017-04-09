@@ -3,20 +3,25 @@ import { connect } from 'react-redux';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { getMainArtistsByCriteria } from '../../actions/mainArtistActions';
 import SelectPersonModal from '../project/selectPersonModal';
+import _ from 'lodash';
 
 class AlbumDetailsForm extends React.Component {
 
     componentWillReceiveProps(newProps) {
-        this.setState({
-            selectedAlbum: {
-                countryOfPublication: newProps.album.countryOfPublication,
-                countryOfProduction: newProps.album.countryOfProduction,
-                label: newProps.album.label,
-                albumTitle: newProps.album.albumTitle,
-                mainArtistName: newProps.album.mainArtistName,
-                publisher: newProps.album.publisher
-            }
-        });
+        if(_.keys(newProps.album).length > 0 && !this.state.hasFetched) {
+            this.setState({
+                selectedAlbum: {
+                    countryOfPublication: newProps.album.countryOfPublication,
+                    countryOfProduction: newProps.album.countryOfProduction,
+                    label: newProps.album.label,
+                    albumTitle: newProps.album.albumTitle,
+                    mainArtistName: newProps.album.mainArtistName,
+                    publisher: newProps.album.publisher
+                },
+                hasFetched: true
+            });
+        }
+
     }
 
     constructor(props, context) {
@@ -30,6 +35,7 @@ class AlbumDetailsForm extends React.Component {
                 label: '',
                 albumTitle: ''
             },
+            hasFetched: false,
             isModalOpen: false,
             selectedAlbumHasChanged: false,
             currentFetchMethod: props.getMainArtistsByCriteria,
@@ -51,43 +57,48 @@ class AlbumDetailsForm extends React.Component {
     }
 
     updateAlbumTitle(newTitle) {
+        let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
+        updatedAlbum.albumTitle = newTitle;
         this.setState({
-            selectedAlbum: {
-                albumTitle: newTitle
-            },
-            selectedAlbumHasChanged: true
+            selectedAlbum: updatedAlbum,
+            selectedAlbumHasChanged: true,
+            isModalOpen: false
         });
     }
 
     updateMainArtist(newMainArtist) {
+        let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
+        updatedAlbum.mainArtistName = newMainArtist.name;
         this.setState({
-            selectedAlbum: {
-                mainArtistName: newMainArtist.name
-            },
+            selectedAlbum: updatedAlbum,
             selectedAlbumHasChanged: true,
             isModalOpen: false
         });
     }
 
     updateCountryOfProduction(newCountryOfProduction) {
+        let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
+        updatedAlbum.countryOfProduction = newCountryOfProduction;
         this.setState({
-            selectedAlbum: {
-                countryOfProduction: newCountryOfProduction
-            },
+            selectedAlbum: updatedAlbum,
             selectedAlbumHasChanged: true,
             isModalOpen: false
         });
     }
 
     updateCountryOfPublication(newCountryOfPublication) {
+        let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
+        updatedAlbum.countryOfPublication = newCountryOfPublication;
         this.setState({
-            selectedAlbum: {
-                countryOfPublication: newCountryOfPublication
-            },
+            selectedAlbum: updatedAlbum,
             selectedAlbumHasChanged: true,
             isModalOpen: false
         });
-        console.log('country:', this.state.selectedAlbum.countryOfPublication);
+    }
+
+    updateSelectedAlbum(e) {
+        e.preventDefault();
+        console.log(this.state.selectedAlbum);
     }
 
 
@@ -173,7 +184,11 @@ class AlbumDetailsForm extends React.Component {
                             </select>
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-default btn-primary pull-right" disabled={!this.state.selectedAlbumHasChanged} >Vista</button>
+                    <button type="submit" className="btn btn-default btn-primary pull-right"
+                        disabled={!this.state.selectedAlbumHasChanged}
+                        onClick={(e) => this.updateSelectedAlbum(e)}>
+                        Vista
+                    </button>
                     <SelectPersonModal
                         isOpen={this.state.isModalOpen}
                         fetch={this.props.getMainArtistsByCriteria}

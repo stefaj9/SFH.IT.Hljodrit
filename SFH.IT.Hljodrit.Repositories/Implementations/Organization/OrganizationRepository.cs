@@ -26,5 +26,18 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Organization
                         LastIsrcNumber = series.isrc_lastusednumber
                     });
         }
+
+        public IEnumerable<LabelDto> GetLabelsByPublisherId(int publisherId)
+        {
+            var labels = from publisher in DbContext.organization_labels
+                where publisher.organizationid == publisherId
+                select new LabelDto
+                {
+                    OrganizationId = publisher.organizationid,
+                    LabelName = publisher.labelname
+                };
+
+            return labels.ToList();
+        }
     }
 }
