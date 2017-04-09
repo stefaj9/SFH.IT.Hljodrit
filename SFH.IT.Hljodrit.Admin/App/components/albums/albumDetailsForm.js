@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { getMainArtistsByCriteria } from '../../actions/mainArtistActions';
-import { getLabelsByPublisherId } from '../../actions/organizationActions';
+import { getPublishersByCriteria, getLabelsByPublisherId } from '../../actions/organizationActions';
 import SelectPersonModal from '../project/selectPersonModal';
 import _ from 'lodash';
 import Spinner from 'react-spinner';
@@ -10,7 +10,6 @@ import Spinner from 'react-spinner';
 class AlbumDetailsForm extends React.Component {
 
     componentWillReceiveProps(newProps) {
-        console.log(newProps);
         if(_.keys(newProps.album).length > 0 && !this.state.hasFetched) {
             this.validateAlbum(newProps.album);
             this.setState({
@@ -35,6 +34,7 @@ class AlbumDetailsForm extends React.Component {
             selectedAlbum: {
                 mainArtistName: '',
                 publisher: '',
+                publisherId: -1,
                 countryOfPublication: '',
                 countryOfProduction: '',
                 label: '',
@@ -60,22 +60,13 @@ class AlbumDetailsForm extends React.Component {
         });
     }
 
-    openMainArtistModal() {
+    openModal(fetchMethod, env, actiontype, updateFunction) {
         this.setState({
             isModalOpen: true,
-            currentFetchMethod: this.props.getMainArtistsByCriteria,
-            envelope: this.props.mainArtistEnvelope,
-            typeOfAction: 'Breyta aðalflytjanda',
-            currentUpdateFunction: this.updateMainArtist.bind(this)
-        });
-    }
-
-    updateAlbumTitle(newTitle) {
-        let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
-        updatedAlbum.albumTitle = newTitle;
-        this.setState({
-            selectedAlbum: updatedAlbum,
-            selectedAlbumHasChanged: true
+            currentFetchMethod: fetchMethod,
+            envelope: env,
+            typeOfAction: actiontype,
+            currentUpdateFunction: updateFunction
         });
     }
 
@@ -88,19 +79,21 @@ class AlbumDetailsForm extends React.Component {
         });
     }
 
-    updateCountryOfProduction(newCountryOfProduction) {
+    updatePublisher(newPublisher) {
         let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
-        updatedAlbum.countryOfProduction = newCountryOfProduction;
+        updatedAlbum.publisherId = newPublisher.id;
+        updatedAlbum.publisher = newPublisher.name;
+        updatedAlbum.label = '';
         this.setState({
             selectedAlbum: updatedAlbum,
-            selectedAlbumHasChanged: true,
-            isModalOpen: false
+            selectedAlbumHasChanged: true
         });
+        this.props.getLabelsByPublisherId(newPublisher.id);
     }
 
-    updateCountryOfPublication(newCountryOfPublication) {
+    updateAlbumField(field, newElement) {
         let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
-        updatedAlbum.countryOfPublication = newCountryOfPublication;
+        updatedAlbum[field]= newElement;
         this.setState({
             selectedAlbum: updatedAlbum,
             selectedAlbumHasChanged: true
@@ -110,27 +103,17 @@ class AlbumDetailsForm extends React.Component {
     updateSelectedAlbum(e) {
         e.preventDefault();
         //post updated album
-
         console.log(this.state.selectedAlbum);
     }
 
-
     validateAlbum(album) {
-        if (!album.label) {
-            album.label = 'ekki skráð';
+        let invalid = 'ekki skráð'
+        for (var key in album) {
+            if (album[key] === null || album[key] === undefined) {
+                album[key] = invalid;
+            }
         }
-        if (!album.mainArtistName) {
-            album.mainArtistName = 'ekki skráð';
-        }
-        if (!album.publisher) {
-            album.publisher = 'ekki skráð';
-        }
-        if (!album.label) {
-            album.label = 'ekki skráð';
-        }
-        if (!album.publisherId) {
-            album.publisherId = -1;
-        }
+        album.publisherId = invalid ? -1 : album.publisherId;
     }
 
     renderForm() {
@@ -142,7 +125,7 @@ class AlbumDetailsForm extends React.Component {
                             <label>Plötuheiti</label>
                             <input type="text" className="form-control"
                                 value={this.state.selectedAlbum.albumTitle}
-                                onChange={(e) => this.updateAlbumTitle(e.target.value)}/>
+                                onChange={(e) => this.updateAlbumField('albumTitle', e.target.value)}/>
                         </div>
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Aðalflytjandi</label>
@@ -152,7 +135,10 @@ class AlbumDetailsForm extends React.Component {
                                     />
                                     <div className="input-group-btn">
                                         <button type="button" className="btn btn-primary"
-                                            onClick={() => this.openMainArtistModal()}>Breyta
+                                            onClick={() => this.openModal(this.props.getMainArtistsByCriteria,
+                                                                this.props.mainArtistEnvelope, 'Breyta aðalflytjanda',
+                                                                this.updateMainArtist.bind(this))}>
+                                            Breyta
                                         </button>
                                     </div>
                                 </div>
@@ -163,11 +149,13 @@ class AlbumDetailsForm extends React.Component {
                             <label>Útgefandi</label>
                             <div className="input-group">
                                 <input type="text" className="form-control" disabled="true"
-                                    value={this.state.selectedAlbum.publisher}
-                                    onChange={(e) => this.setState({publisher: e.target.value})}/>
+                                    value={this.state.selectedAlbum.publisher}/>
                                 <div className="input-group-btn">
                                     <button type="button" className="btn btn-primary"
-                                        onClick={() => console.log('publisher')}>Breyta
+                                        onClick={() => this.openModal(this.props.getPublishersByCriteria,
+                                                            this.props.organizationEnvelope,'Breyta útgefanda',
+                                                            this.updatePublisher.bind(this))}>
+                                        Breyta
                                     </button>
                                 </div>
                             </div>
@@ -175,7 +163,7 @@ class AlbumDetailsForm extends React.Component {
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Label</label>
                                 <select className="form-control"
-                                    onChange={(e) => this.updateCountryOfProduction(e.target.value)}
+                                    onChange={(e) => this.updateAlbumField('label', e.target.value)}
                                     value={this.state.selectedAlbum.label}>
                                     {this.populateLabelOptions()}
                                 </select>
@@ -185,7 +173,7 @@ class AlbumDetailsForm extends React.Component {
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Framleiðsluland</label>
                             <select className="form-control"
-                                onChange={(e) => this.updateCountryOfProduction(e.target.value)}
+                                onChange={(e) => this.updateAlbumField('countryOfProduction', e.target.value)}
                                 value={this.state.selectedAlbum.countryOfProduction}>
                                 {this.props.countryOptions()}
                             </select>
@@ -193,7 +181,7 @@ class AlbumDetailsForm extends React.Component {
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Útgáfuland</label>
                             <select className="form-control"
-                                onChange={(e) => this.updateCountryOfPublication(e.target.value)}
+                                onChange={(e) => this.updateAlbumField('countryOfPublication', e.target.value)}
                                 value={this.state.selectedAlbum.countryOfPublication}>
                                 {this.props.countryOptions()}
                             </select>
@@ -206,12 +194,12 @@ class AlbumDetailsForm extends React.Component {
                     </button>
                     <SelectPersonModal
                         isOpen={this.state.isModalOpen}
-                        fetch={this.props.getMainArtistsByCriteria}
+                        fetch={this.state.currentFetchMethod}
                         beginFetch={this.props.isFetchingList}
                         stoppedFetch={this.props.hasStoppedFetchingList}
                         next={() => this.setState({isModalOpen: false})}
                         close={() => this.setState({isModalOpen: false})}
-                        envelope={this.props.mainArtistEnvelope}
+                        envelope={this.state.envelope}
                         update={(newElement) => this.state.currentUpdateFunction(newElement)}
                         steps={() => { return ( <h4>{ this.state.typeOfAction }</h4> ) } }
                      />
@@ -238,4 +226,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { isFetchingList, hasStoppedFetchingList, getMainArtistsByCriteria, getLabelsByPublisherId })(AlbumDetailsForm);
+export default connect(mapStateToProps, { isFetchingList, hasStoppedFetchingList, getMainArtistsByCriteria, getPublishersByCriteria, getLabelsByPublisherId })(AlbumDetailsForm);
