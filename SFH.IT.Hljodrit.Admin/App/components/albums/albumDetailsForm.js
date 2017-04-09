@@ -48,12 +48,9 @@ class AlbumDetailsForm extends React.Component {
             typeOfAction: 'Breyta aðalflytjanda',
             currentUpdateFunction: this.updateMainArtist.bind(this)
         });
-        console.log(this.state.currentFetchMethod);
-        console.log(this.props.getMainArtistsByCriteria);
     }
 
     updateMainArtist(newMainArtist) {
-        console.log(newMainArtist);
         this.setState({
             selectedAlbum: {
                 mainArtistName: newMainArtist.name
@@ -61,7 +58,16 @@ class AlbumDetailsForm extends React.Component {
             selectedAlbumHasChanged: true,
             isModalOpen: false
         });
-        console.log(this.state.selectedAlbumHasChanged);
+    }
+
+    updateAlbumTitle(newTitle) {
+        this.setState({
+            selectedAlbum: {
+                albumTitle:newTitle
+            },
+            selectedAlbumHasChanged: true
+        });
+        console.log('new title: ' + newTitle);
     }
 
     validateAlbum(album) {
@@ -84,7 +90,7 @@ class AlbumDetailsForm extends React.Component {
                             <label>Plötuheiti</label>
                             <input type="text" className="form-control"
                                 value={this.state.selectedAlbum.albumTitle}
-                                onChange={(e) => this.setState({albumTitle: e.target.value})}/>
+                                onChange={(e) => this.updateAlbumTitle(e.target.value)}/>
                         </div>
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Aðalflytjandi</label>
