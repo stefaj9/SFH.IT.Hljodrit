@@ -1,26 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
+import { update, isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { getMainArtistsByCriteria } from '../../actions/mainArtistActions';
 import { getPublishersByCriteria, getLabelsByPublisherId } from '../../actions/organizationActions';
-import SelectPersonModal from '../project/selectPersonModal';
 import _ from 'lodash';
 import Spinner from 'react-spinner';
+import SelectPersonModal from '../project/selectPersonModal';
 import AlbumDetailsFormbla from './AlbumDetailsFormbla';
+
 class AlbumDetailsForm extends React.Component {
 
+    componentWillMount() {
+        this.props.getMainArtistsByCriteria(25, 1, '', this.props.isFetchingList, this.props.hasStoppedFetchingList);
+        this.props.getPublishersByCriteria(25, 1, '', this.props.isFetchingList, this.props.hasStoppedFetchingList);
+    }
+
     componentWillReceiveProps(newProps) {
+        console.log(newProps);
         if(_.keys(newProps.album).length > 0 && !this.state.hasFetched) {
             this.validateAlbum(newProps.album);
             this.setState({
                 selectedAlbum: {
+
+                    albumId: newProps.album.albumId,
                     countryOfPublication: newProps.album.countryOfPublication,
                     countryOfProduction: newProps.album.countryOfProduction,
+                    catalogueNumber: newProps.album.catalogueNumber,
                     label: newProps.album.label,
                     publisherId: newProps.album.publisherId,
                     albumTitle: newProps.album.albumTitle,
                     mainArtistName: newProps.album.mainArtistName,
-                    publisher: newProps.album.publisher
+                    mainArtistId: newProps.album.mainArtistId,
+                    publisher: newProps.album.publisher,
+                    releaseDate: newProps.album.releaseDate
                 },
                 hasFetched: true
             });
@@ -28,17 +40,23 @@ class AlbumDetailsForm extends React.Component {
         }
     }
 
+
     constructor(props, context) {
         super(props, context);
         this.state = {
-            selectedAlbum: {
-                mainArtistName: '',
-                publisher: '',
-                countryOfPublication: '',
-                countryOfProduction: '',
-                label: '',
-                albumTitle: ''
-            },
+            // selectedAlbum: {
+            //     albumId: -1,
+            //     mainArtistName: '',
+            //     mainArtistId: -1,
+            //     catalogueNumber: null,
+            //     publisher: '',
+            //     publisherId: -1,
+            //     countryOfPublication: '',
+            //     countryOfProduction: '',
+            //     label: '',
+            //     albumTitle: '',
+            //     registrationData: null
+            // },
             hasFetched: false,
             isModalOpen: false,
             selectedAlbumHasChanged: false,
@@ -79,10 +97,8 @@ class AlbumDetailsForm extends React.Component {
     updateMainArtist(newMainArtist) {
         let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
         updatedAlbum.mainArtistName = newMainArtist.name;
-        this.setState({
-            selectedAlbum: updatedAlbum,
-            selectedAlbumHasChanged: true
-        });
+        updatedAlbum.mainArtistId = newMainArtist.id;
+        this.updateAlbumState(updatedAlbum);
     }
 
     updatePublisher(newPublisher) {
@@ -90,26 +106,29 @@ class AlbumDetailsForm extends React.Component {
         updatedAlbum.publisherId = newPublisher.id;
         updatedAlbum.publisher = newPublisher.name;
         updatedAlbum.label = '';
-        this.setState({
-            selectedAlbum: updatedAlbum,
-            selectedAlbumHasChanged: true
-        });
+        this.updateAlbumState(updatedAlbum);
         this.props.getLabelsByPublisherId(newPublisher.id);
     }
 
     updateAlbumField(field, newElement) {
         let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
         updatedAlbum[field]= newElement;
+        this.updateAlbumState(updatedAlbum);
+    }
+
+    updateAlbumState(updatedState) {
         this.setState({
-            selectedAlbum: updatedAlbum,
+            selectedAlbum: updatedState,
             selectedAlbumHasChanged: true
         });
     }
-
     updateSelectedAlbum(e) {
         e.preventDefault();
-        //post updated album
-        console.log(this.state.selectedAlbum);
+        const path = `/api/albums/${this.state.selectedAlbum.albumId}`;
+        this.props.update(this.state.selectedAlbum, path, 'Það tókst að uppfæra upplýsingar plötunnar');
+        this.setState({
+            selectedAlbumHasChanged: false
+        });
     }
 
     validateAlbum(album) {
@@ -151,6 +170,17 @@ class AlbumDetailsForm extends React.Component {
             <div>
                 <Spinner className={!this.state.hasFetched ? '' : 'hidden'} />
                 { this.renderForm() }
+                <SelectPersonModal
+                     isOpen={this.state.isModalOpen}
+                     fetch={this.state.currentFetchMethod}
+                     beginFetch={this.props.isFetchingList}
+                     stoppedFetch={this.props.hasStoppedFetchingList}
+                     next={() => this.setState({isModalOpen: false})}
+                     close={() => this.setState({isModalOpen: false})}
+                     envelope={this.state.envelope}
+                     update={(newElement) => this.state.currentUpdateFunction(newElement)}
+                     steps={() => { return ( <h4>{ this.state.typeOfAction }</h4> ) } }
+                />
             </div>
         );
     }
@@ -164,4 +194,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { isFetchingList, hasStoppedFetchingList, getMainArtistsByCriteria, getPublishersByCriteria, getLabelsByPublisherId })(AlbumDetailsForm);
+export default connect(mapStateToProps, { update, isFetchingList, hasStoppedFetchingList, getMainArtistsByCriteria, getPublishersByCriteria, getLabelsByPublisherId })(AlbumDetailsForm);

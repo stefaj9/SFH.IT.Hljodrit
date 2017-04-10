@@ -1,5 +1,4 @@
 import React from 'react';
-import SelectPersonModal from '../project/selectPersonModal';
 import Spinner from 'react-spinner';
 
 const AlbumDetailsFormbla = ({hasFetched, album, updateAlbumField, openModal, getMainArtistsByCriteria,
@@ -84,5 +83,4 @@ const AlbumDetailsFormbla = ({hasFetched, album, updateAlbumField, openModal, ge
     );
 };
 
-
-export default AlbumDetailsFormbla
+export default AlbumDetailsFormbla;

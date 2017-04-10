@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { toastr } from 'react-redux-toastr';
+import * as types from './actionTypes';
 
 export function resetRegisterId() {
     return {
@@ -33,6 +34,54 @@ export function register(individual, path) {
         });
     }
 }
+
+export function update(data, path, message) {
+    console.log('update!!!!!!!');
+    return (dispatch) => {
+        dispatch(isUpdatingData());
+        return fetch(path, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                toastr.success('Tókst', message);
+                return resp.json();
+            } else {
+                resp.json().then((err) => {
+                    toastr.error('Villa', err.Message);
+                });
+                dispatch(hasStoppedUpdatingData());
+            }
+        }).then((data) => {
+            dispatch(hasStoppedUpdatingData());
+            dispatch(updateSuccess(data));
+        });
+    }
+}
+
+function isUpdatingData() {
+    return {
+        type: types.IS_UPDATING_DATA,
+        payload: {}
+    };
+};
+
+function hasStoppedUpdatingData() {
+    return {
+        type: types.HAS_STOPPED_UPDATING_DATA,
+        payload: {}
+    };
+}
+
+function updateSuccess(data) {
+    return {
+        type: types.UPDATE_DATA,
+        payload: data
+    };
+};
 
 function registerSuccess(data) {
     return {
