@@ -164,8 +164,13 @@ class PerformerGroup extends React.Component {
     }
     transferGroupToSongs() {
         const { selectedSongs, group } = this.state;
-        this.setState({ selectedSongs: [] });
+        let mainArtists = _.takeWhile(group, (member) => { return member.role.code === 'MA' });
+        if (mainArtists.length > 1) {
+            toastr.error('Villa!', 'Ekki er hægt að skrá meira en einn aðalflytjanda á hvert lag.');
+            return;
+        }
         this.props.transfer(group, _.map(selectedSongs, 'number'));
+        this.setState({ selectedSongs: [] });
     }
     render() {
         return (
