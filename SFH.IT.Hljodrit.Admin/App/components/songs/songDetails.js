@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getSongDetailsById, getAllMusiciansOnSong } from '../../actions/songActions';
+import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
+import { getPersonsByCriteria } from '../../actions/personActions';
 import { Link } from 'react-router';
 import SongMusiciansTable from './songMusiciansTable';
+import SelectPersonModal from '../project/selectPersonModal';
 import Spinner from 'react-spinner';
 import _ from 'lodash';
 import moment from 'moment';
@@ -12,7 +15,6 @@ import { toastr } from 'react-redux-toastr';
 
 class SongDetails extends React.Component {
     componentWillReceiveProps(newProps) {
-        console.log(newProps.musicians);
         if (_.keys(newProps.song).length > 0 && !this.state.hasFetched) {
             let song = _.cloneDeep(newProps.song);
             let durationSplit = newProps.song.duration.split(':');
@@ -34,7 +36,8 @@ class SongDetails extends React.Component {
         this.state = {
             currentSong: {},
             hasFetched: false,
-            dirtyForm: false
+            dirtyForm: false,
+            isAddingPerformer: false
         };
     }
     changeSongDetails(e) {
@@ -109,6 +112,9 @@ class SongDetails extends React.Component {
         song.releaseDate = momentObj.dateMoment._d;
         this.setState({ currentSong: song, dirtyForm: true });
     }
+    addPerformerToAlbum(performer) {
+        console.log(performer);
+    }
     renderSongInfo() {
         if (!this.props.isFetching) {
             return (
@@ -136,7 +142,19 @@ class SongDetails extends React.Component {
                         </div>
                     </div>
                     <h4>Flytjendur á laginu</h4>
-                    <SongMusiciansTable musicians={this.props.musicians} />
+                    <SongMusiciansTable 
+                        musicians={this.props.musicians}
+                        addMusicianToSong={() => this.setState({ isAddingPerformer: true })} />
+                    <SelectPersonModal
+                        isOpen={this.state.isAddingPerformer}
+                        fetch={this.props.getPersonsByCriteria}
+                        beginFetch={this.props.isFetchingList}
+                        stoppedFetch={this.props.hasStoppedFetchingList}
+                        envelope={this.props.personEnvelope}
+                        close={() => this.setState({ isAddingPerformer: false })}
+                        next={() => this.setState({ isAddingPerformer: false })}
+                        update={(person) => this.addPerformerToAlbum(person)}
+                        steps={() => { return ( <h4>Bæta við flytjanda á plötu</h4> ); }} />
                 </div>
             );
         }
@@ -155,8 +173,9 @@ function mapStateToProps(state) {
     return {
         song: state.songs.selectedSong,
         isFetching: state.songs.isFetching,
-        musicians: state.songs.musiciansOnSelectedSong
+        musicians: state.songs.musiciansOnSelectedSong,
+        personEnvelope: state.person.personEnvelope
     };
 };
 
-export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong })(SongDetails);
+export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong, isFetchingList, hasStoppedFetchingList, getPersonsByCriteria })(SongDetails);
