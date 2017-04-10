@@ -78,6 +78,7 @@
     <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticHelperClasses\EnvelopeCreator.cs" />
+    <Compile Include="ViewModels\MusicianRegisterViewModel.cs" />
     <Compile Include="ViewModels\PersonRegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

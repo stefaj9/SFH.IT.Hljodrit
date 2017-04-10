@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Services.Implementations;
 using SFH.IT.Hljodrit.Models;
+using SFH.IT.Hljodrit.Repositories.Base;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Instruments;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
 
 namespace SFH.IT.Hljodrit.Admin.Tests.Services
 {
@@ -18,12 +21,18 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 	public class SongServiceTest
 	{
 		private Mock<ISongRepository> _songRepository;
+	    private Mock<IRecordingPartyRepository> _recordingPartyRepository;
+	    private Mock<IInstrumentRepository> _instrumentRepository;
+	    private Mock<IUnitOfWork> _unitOfWork;
 
 		[TestInitialize]
 		public void TestInitialize()
 		{
 			_songRepository = new Mock<ISongRepository>();
-		}
+            _unitOfWork = new Mock<IUnitOfWork>();
+            _recordingPartyRepository = new Mock<IRecordingPartyRepository>();
+            _instrumentRepository = new Mock<IInstrumentRepository>();
+        }
 
 		#region GetSongs tests
 
@@ -44,7 +53,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 					Objects = songs
 				});
 
-			var songService = new SongService(_songRepository.Object);
+			var songService = new SongService(_songRepository.Object, _recordingPartyRepository.Object, _unitOfWork.Object, _instrumentRepository.Object);
 			// Act
 			var songResultEnvelope = songService.GetSongs(pageSize, pageNumber, "", "");
 
@@ -67,7 +76,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 
 			_songRepository.Setup(s => s.GetById(It.IsAny<int>())).Returns(song);
 
-			var songService = new SongService(_songRepository.Object);
+			var songService = new SongService(_songRepository.Object, _recordingPartyRepository.Object, _unitOfWork.Object, _instrumentRepository.Object);
 			// Act
 			var songResult = songService.GetSongById(expectedId);
 			// Assert

@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import * as actionType from './actionTypes';
+import { toastr } from 'react-redux-toastr';
 
 export function getSongDetailsById(songId) {
     return (dispatch) => {
@@ -26,6 +27,25 @@ function getSongDetailsByIdSuccess(song) {
         payload: song
     };
 };
+
+export function addMusicianToSong(albumId, songId, musician) {
+    return (dispatch) => {
+        return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
+            method: 'POST',
+            body: JSON.stringify(musician),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að bæta við flytjanda á lagið.');
+                dispatch(getAllMusiciansOnSong(albumId, songId));
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að bæta við flytjanda á lagið.');
+            }
+        });
+    }
+}
 
 export function getAllMusiciansOnSong(albumId, songId) {
     return (dispatch) => {

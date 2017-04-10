@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 
@@ -8,10 +9,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     public class AlbumController : ApiController
     {
         private readonly IAlbumService _albumService;
+        private readonly ISongService _songService;
 
-        public AlbumController(IAlbumService albumService)
+        public AlbumController(IAlbumService albumService, ISongService songService)
         {
             _albumService = albumService;
+            _songService = songService;
         }
 
         [HttpGet]
@@ -54,6 +57,14 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult GetMusiciansOnSong(int albumId, int songId)
         {
             return Ok(_albumService.GetMusiciansOnSong(albumId, songId));
+        }
+
+        [HttpPost]
+        [Route("{albumId:int}/songs/{songId:int}/musicians")]
+        public IHttpActionResult AddMusicianToSong(int albumId, int songId, [FromBody] MusicianRegisterViewModel musician)
+        {
+            _songService.AddMusicianToSong(songId, musician);
+            return Ok();
         }
     }
 }

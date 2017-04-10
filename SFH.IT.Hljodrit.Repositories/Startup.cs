@@ -2,6 +2,7 @@
 using SFH.IT.Hljodrit.Repositories.Implementations.Albums;
 using SFH.IT.Hljodrit.Repositories.Implementations.Common;
 using SFH.IT.Hljodrit.Repositories.Implementations.Instruments;
+using SFH.IT.Hljodrit.Repositories.Implementations.Media;
 using SFH.IT.Hljodrit.Repositories.Implementations.Organization;
 using SFH.IT.Hljodrit.Repositories.Implementations.Persons;
 using SFH.IT.Hljodrit.Repositories.Implementations.Project;
@@ -9,6 +10,7 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
 using SFH.IT.Hljodrit.Repositories.Implementations.Settings;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Instruments;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Organization;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
@@ -39,6 +41,7 @@ namespace SFH.IT.Hljodrit.Repositories
             container.Register<ISettingsRepository, SettingsRepository>(Lifestyle.Transient);
             container.Register<IOrganizationRepository, OrganizationRepository>(Lifestyle.Transient);
             container.Register<IMediaRecordingRepository, MediaRecordingRepository>(Lifestyle.Transient);
+            container.Register<IRecordingPartyRepository, RecordingPartyRepository>(Lifestyle.Transient);
             container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Transient);
         }
     }

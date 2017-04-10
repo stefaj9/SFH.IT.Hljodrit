@@ -45,7 +45,7 @@ class PerformerGroup extends React.Component {
     addPerformerToGroup(performer) {
         if (this.props.roles.length > 0) {
             let firstRole = this.props.roles[0];
-            performer.role = { code: firstRole.roleCode, name: firstRole.roleName }
+            performer.role = { code: firstRole.code, name: firstRole.name }
         } else {
             performer.role = {};
         }
@@ -97,7 +97,7 @@ class PerformerGroup extends React.Component {
     renderPerformerRoles() {
         return this.props.roles.map((role) => {
             return (
-                <option key={role.roleCode} value={role.roleCode}>{role.roleName}</option>
+                <option key={role.code} value={role.code}>{role.name}</option>
             );
         });
     }

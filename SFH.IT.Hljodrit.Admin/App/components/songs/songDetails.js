@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSongDetailsById, getAllMusiciansOnSong } from '../../actions/songActions';
+import { getSongDetailsById, getAllMusiciansOnSong, addMusicianToSong } from '../../actions/songActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { getPersonsByCriteria } from '../../actions/personActions';
 import { Link } from 'react-router';
 import SongMusiciansTable from './songMusiciansTable';
-import SelectPersonModal from '../project/selectPersonModal';
+import PerformerListModal from '../project/performerListModal';
 import Spinner from 'react-spinner';
 import _ from 'lodash';
 import moment from 'moment';
@@ -113,7 +113,8 @@ class SongDetails extends React.Component {
         this.setState({ currentSong: song, dirtyForm: true });
     }
     addPerformerToAlbum(performer) {
-        console.log(performer);
+        this.props.addMusicianToSong(this.props.params.albumId, this.props.routeParams.songId, performer);
+        this.setState({ isAddingPerformer: false });
     }
     renderSongInfo() {
         if (!this.props.isFetching) {
@@ -145,16 +146,11 @@ class SongDetails extends React.Component {
                     <SongMusiciansTable 
                         musicians={this.props.musicians}
                         addMusicianToSong={() => this.setState({ isAddingPerformer: true })} />
-                    <SelectPersonModal
+
+                    <PerformerListModal
                         isOpen={this.state.isAddingPerformer}
-                        fetch={this.props.getPersonsByCriteria}
-                        beginFetch={this.props.isFetchingList}
-                        stoppedFetch={this.props.hasStoppedFetchingList}
-                        envelope={this.props.personEnvelope}
-                        close={() => this.setState({ isAddingPerformer: false })}
-                        next={() => this.setState({ isAddingPerformer: false })}
-                        update={(person) => this.addPerformerToAlbum(person)}
-                        steps={() => { return ( <h4>Bæta við flytjanda á plötu</h4> ); }} />
+                        update={(performer) => this.addPerformerToAlbum(performer)}
+                        close={() => this.setState({ isAddingPerformer: false })} />
                 </div>
             );
         }
@@ -178,4 +174,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong, isFetchingList, hasStoppedFetchingList, getPersonsByCriteria })(SongDetails);
+export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong, isFetchingList, hasStoppedFetchingList, getPersonsByCriteria, addMusicianToSong })(SongDetails);
