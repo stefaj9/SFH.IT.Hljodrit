@@ -1,5 +1,5 @@
 const songTableData = {
-    fullName: 'Nafn',
+    name: 'Nafn',
     role: 'Hlutverk',
     instruments: 'Hljóðfæri',
     points: 'Punktar'
