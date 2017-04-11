@@ -34,6 +34,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Organization
                 select new LabelDto
                 {
                     OrganizationId = publisher.organizationid,
+                    LabelId = publisher.id,
                     LabelName = publisher.labelname
                 };
 

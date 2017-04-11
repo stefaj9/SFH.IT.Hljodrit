@@ -8,8 +8,12 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty(PropertyName = "organizationId")]
         public int OrganizationId { get; set; }
 
+        [JsonProperty(PropertyName = "labelId")]
+        public int LabelId { get; set; }
+
         [JsonProperty(PropertyName = "labelName")]
         public string LabelName { get; set; }
+
 
     }
 }

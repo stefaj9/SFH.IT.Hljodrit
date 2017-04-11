@@ -7,6 +7,9 @@ namespace SFH.IT.Hljodrit.Common.Dto
 {
     public class AlbumExtendedDto : AlbumDto
     {
+        [JsonProperty(PropertyName = "labelId")]
+        public int? LabelId { get; set; }
+
         [JsonProperty(PropertyName = "label")]
         public string Label { get; set; }
 
