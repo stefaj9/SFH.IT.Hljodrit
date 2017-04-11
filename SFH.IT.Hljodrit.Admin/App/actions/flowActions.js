@@ -36,7 +36,6 @@ export function register(individual, path) {
 }
 
 export function update(data, path, message) {
-    console.log('update!!!!!!!');
     return (dispatch) => {
         dispatch(isUpdatingData());
         return fetch(path, {

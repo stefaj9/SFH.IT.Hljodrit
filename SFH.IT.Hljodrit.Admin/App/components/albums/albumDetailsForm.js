@@ -16,7 +16,6 @@ class AlbumDetailsForm extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        console.log(newProps);
         if(_.keys(newProps.album).length > 0 && !this.state.hasFetched) {
             this.validateAlbum(newProps.album);
             this.setState({
@@ -44,19 +43,6 @@ class AlbumDetailsForm extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            // selectedAlbum: {
-            //     albumId: -1,
-            //     mainArtistName: '',
-            //     mainArtistId: -1,
-            //     catalogueNumber: null,
-            //     publisher: '',
-            //     publisherId: -1,
-            //     countryOfPublication: '',
-            //     countryOfProduction: '',
-            //     label: '',
-            //     albumTitle: '',
-            //     registrationData: null
-            // },
             hasFetched: false,
             isModalOpen: false,
             selectedAlbumHasChanged: false,
@@ -72,6 +58,16 @@ class AlbumDetailsForm extends React.Component {
             return (
                 <option key={idx}
                     value={label.labelId}>{label.labelName}
+                </option>
+            );
+        });
+    }
+
+    populateCountryOptions() {
+        return this.props.countries.map((country) => {
+            return (
+                <option key={country.numericIsoCode}
+                    value={country.twoLetterCode}>{country.name}
                 </option>
             );
         });
@@ -100,9 +96,6 @@ class AlbumDetailsForm extends React.Component {
         updatedAlbum.publisher = newPublisher.name;
         updatedAlbum.labelId = -1;
         updatedAlbum.label = '';
-        // this.setState({
-        //     publisherHasChanged: true
-        // });
         this.updateAlbumState(updatedAlbum);
         this.props.getLabelsByPublisherId(newPublisher.id);
     }
@@ -122,7 +115,7 @@ class AlbumDetailsForm extends React.Component {
     updateSelectedAlbum(e) {
         e.preventDefault();
         const path = `/api/albums/${this.state.selectedAlbum.albumId}`;
-        console.log('state: ', this.state.selectedAlbum);
+        console.log(this.state.selectedAlbum);
         this.props.update(this.state.selectedAlbum, path, 'Það tókst að uppfæra upplýsingar plötunnar');
         this.setState({
             selectedAlbumHasChanged: false
@@ -155,7 +148,7 @@ class AlbumDetailsForm extends React.Component {
                     organizationEnvelope={ this.props.organizationEnvelope }
                     updatePublisher={ this.updatePublisher.bind(this) }
                     populateLabelOptions={ this.populateLabelOptions.bind(this) }
-                    countryOptions={ this.props.countryOptions.bind(this) }
+                    countryOptions={ this.populateCountryOptions.bind(this) }
                     updateSelectedAlbum={ this.updateSelectedAlbum.bind(this) }
                     selectedAlbumHasChanged={ this.state.selectedAlbumHasChanged }
                 />
@@ -188,7 +181,8 @@ function mapStateToProps(state) {
     return {
         mainArtistEnvelope: state.mainArtist.mainArtistEnvelope,
         organizationEnvelope: state.organization.organizationEnvelope,
-        selectedOrganizationLabels: state.organization.selectedOrganizationLabels
+        selectedOrganizationLabels: state.organization.selectedOrganizationLabels,
+        countries: state.common.countries
     };
 };
 
