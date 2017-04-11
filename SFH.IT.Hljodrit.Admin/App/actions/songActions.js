@@ -78,6 +78,25 @@ export function addMusicianToSong(albumId, songId, musician) {
     }
 }
 
+export function removeMusiciansFromSong(albumId, songId, musicians) {
+    return (dispatch) => {
+        return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
+            method: 'DELETE',
+            body: JSON.stringify(musicians),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að eyða völdum flytjendum af lagi.');
+                dispatch(getAllMusiciansOnSong(albumId, songId));
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að eyða völdum flytjendum af lagi.');
+            }
+        });
+    }
+}
+
 export function getAllMusiciansOnSong(albumId, songId) {
     return (dispatch) => {
         return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {

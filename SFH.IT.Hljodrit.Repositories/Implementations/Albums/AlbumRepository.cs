@@ -120,7 +120,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                          join instrument in DbContext.party_instrumenttype on recording.instrumentcode equals instrument.code
                          join role in DbContext.party_partyroletype on recording.rolecode equals role.rolecode
                          where song.packageid == albumId && song.id == songId
-                         group new { song, recording, person, instrument, role } by new { person.id, person.fullname };
+                         group new { song, recording, person, instrument, role } by new { person.id, recordingId = recording.id, person.fullname };
 
             var allSongs = new List<MusiciansOnSongDto>();
             foreach (var group in result)
@@ -134,7 +134,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                     SetAllMusicianFields(musicianCredits, registration, e.recording.id, albumId, null, e.person.fullname, e.person.id, e.instrument.description_is, e.instrument.code, e.role.rolename_is, e.recording.rolecode);
                     credits.Add(musicianCredits);
                 }
-                var musician = new MusiciansOnSongDto(group.Key.id, group.Key.fullname, null, null, credits);
+                var musician = new MusiciansOnSongDto(group.Key.id, group.Key.recordingId, group.Key.fullname, null, null, credits);
 
                 allSongs.Add(musician);
             }

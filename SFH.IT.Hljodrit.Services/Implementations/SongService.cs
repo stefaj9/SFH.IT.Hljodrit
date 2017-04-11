@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
@@ -99,6 +100,12 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             }
 
             return song;
+        }
+
+        public void RemoveMusiciansFromSong(int songId, IEnumerable<MusiciansOnSongDto> musicians)
+        {
+            musicians.ToList().ForEach(m => _recordingPartyRepository.Delete(r => r.id == m.MusicianId));
+            _unitOfWork.Commit();
         }
     }
 }

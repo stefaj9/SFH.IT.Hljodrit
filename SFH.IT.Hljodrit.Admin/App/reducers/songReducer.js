@@ -32,7 +32,8 @@ export default function(state = initialState, action) {
             let musicians = [];
             action.payload.map((musician) => {
                 musicians = _.concat(musicians, {
-                    id: musician.musicianId,
+                    id: musician.partyRealId,
+                    musicianId: musician.musicianId,
                     name: musician.fullName,
                     role: musician.highestRoleName,
                     instruments: musician.credits.map((credit) => {
