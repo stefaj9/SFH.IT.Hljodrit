@@ -1,11 +1,29 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using SFH.IT.Hljodrit.Models;
 
 namespace SFH.IT.Hljodrit.Common.Dto
 {
     public class SongDto
     {
+        public SongDto() { }
+        public SongDto(media_product song)
+        {
+            Id = song.id;
+            Title = song.title;
+            AlbumId = song.packageid ?? -1;
+            TrackNumber = song.tracknumber ?? -1;
+            Isrc = song.isrc;
+            if (song.media_recording != null)
+            {
+                Duration = song.media_recording.duration;
+                MainArtist = song.media_recording.party_mainartist.artistname;
+                if (song.media_recording.mainartist != null) MainArtistId = (int)song.media_recording.mainartist;
+            }
+            ReleaseDate = song.releasedate;
+        }
+
         [JsonProperty(PropertyName = "songId")]
         public int Id { get; set; }
 
@@ -43,5 +61,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
 
         [JsonProperty(PropertyName = "registration")]
         public RegistrationDto Registration { get; set; }
+
+        [JsonProperty(PropertyName = "sideNumber")]
+        public int SideNumber { get; set; }
     }
 }

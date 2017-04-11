@@ -61,7 +61,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return songs;
         }
 
-        public SongExtendedDto GetSongOnAlbum(int albumId, int songId)
+        public SongDto GetSongOnAlbum(int albumId, int songId)
         {
             var song = _songRepository.GetSongOnAlbum(albumId, songId);
             return song;

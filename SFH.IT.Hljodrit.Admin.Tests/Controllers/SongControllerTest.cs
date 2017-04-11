@@ -26,13 +26,13 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Controllers
         [TestMethod]
         public void UpdateSongMethod_DataValid()
         {
-            var status = _songController.UpdateSongById(1, new SongExtendedDto
+            var status = _songController.UpdateSongById(1, new SongDto
             {
                 Title = "Test Title",
                 Isrc = "IS-VA-98-00001"
             });
 
-            Assert.IsInstanceOfType(status, typeof(OkNegotiatedContentResult<SongExtendedDto>));
+            Assert.IsInstanceOfType(status, typeof(OkNegotiatedContentResult<SongDto>));
         }
     }
 }

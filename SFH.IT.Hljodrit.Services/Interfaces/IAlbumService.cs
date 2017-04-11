@@ -10,7 +10,7 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         AlbumExtendedDto GetAlbumById(int id);
         IEnumerable<SongDto> GetSongsByAlbumId(int albumId);
         AlbumExtendedDto UpdateAlbumInfo(int albumId, AlbumViewModel updatedAlbum);
-        SongExtendedDto GetSongOnAlbum(int albumId, int songId);
+        SongDto GetSongOnAlbum(int albumId, int songId);
         //MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId);
         ICollection<MusiciansOnSongDto> GetMusiciansOnSong(int albumId, int songId);
     }

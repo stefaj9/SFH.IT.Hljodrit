@@ -116,7 +116,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 
             var songService = new SongService(_songRepository.Object, _recordingPartyRepository.Object, _unitOfWork.Object, _instrumentRepository.Object, _mediaRecordingRepository.Object);
 
-	        var song = songService.UpdateSongById(1, new SongExtendedDto
+	        var song = songService.UpdateSongById(1, new SongDto
 	        {
                 Title = "Test",
 	            Isrc = "IS-VA-96-000002"

@@ -14,6 +14,6 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Albums
     {
         Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm, Expression<Func<SongDto, bool>> expr);
         IEnumerable<SongDto> GetSongsByAlbumId(int albumId);
-        SongExtendedDto GetSongOnAlbum(int albumId, int songId);
+        SongDto GetSongOnAlbum(int albumId, int songId);
     }
 }

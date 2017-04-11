@@ -38,7 +38,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         public SongDto GetSongById(int id)
         {
             var song = _songRepository.GetById(id);
-            return new SongExtendedDto(song);
+            return new SongDto(song);
         }
 
         private Expression<Func<SongDto, bool>> GetSearchType(string searchType, string searchTerm)
