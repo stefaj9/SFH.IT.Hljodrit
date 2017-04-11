@@ -74,7 +74,7 @@ class SongDetails extends React.Component {
                         dateFormat="DD.MM.YYYY"
                         forceValidDate={true}
                         updateOnDateClick={true}
-                        defaultValue={moment(this.props.song.releaseDate).format('DD.MM.YYYY')}>
+                        defaultValue={moment(this.state.currentSong.releaseDate).format('DD.MM.YYYY')}>
                         <DatePicker
                             navigation={true}
                             locale="is"
