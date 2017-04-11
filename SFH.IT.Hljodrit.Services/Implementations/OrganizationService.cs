@@ -38,5 +38,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 Objects = organizations
             };
         }
+
+        public IEnumerable<LabelDto> GetLabelsByPublisherId(int publisherId)
+        {
+            var labels = _organizationRepository.GetLabelsByPublisherId(publisherId);
+            return labels;
+        }
     }
 }

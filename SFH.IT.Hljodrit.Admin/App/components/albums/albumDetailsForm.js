@@ -1,107 +1,189 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
-import Table from './../common/table';
-import albumTableData from './albumTableData';
+import { connect } from 'react-redux';
+import { update, isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
+import { getMainArtistsByCriteria } from '../../actions/mainArtistActions';
+import { getPublishersByCriteria, getLabelsByPublisherId } from '../../actions/organizationActions';
+import _ from 'lodash';
+import Spinner from 'react-spinner';
+import SelectPersonModal from '../project/selectPersonModal';
+import AlbumDetailsFormbla from './AlbumDetailsFormbla';
+
 
 class AlbumDetailsForm extends React.Component {
 
-    componentWillReceiveProps(newProps) {
-        this.setState({
-            countryOfPublication: newProps.album.countryOfPublication,
-            countryOfProduction: newProps.album.countryOfProduction,
-            label: newProps.album.label,
-            albumTitle: newProps.album.albumTitle,
-            mainArtistName: newProps.album.mainArtistName,
-            publisher: newProps.album.publisher,
-        });
+    componentWillMount() {
+        this.props.getMainArtistsByCriteria(25, 1, '', this.props.isFetchingList, this.props.hasStoppedFetchingList);
+        this.props.getPublishersByCriteria(25, 1, '', this.props.isFetchingList, this.props.hasStoppedFetchingList);
     }
+
+    componentWillReceiveProps(newProps) {
+        if(_.keys(newProps.album).length > 0 && !this.state.hasFetched) {
+            this.validateAlbum(newProps.album);
+            this.setState({
+                selectedAlbum: {
+                    albumId: newProps.album.albumId,
+                    countryOfPublication: newProps.album.countryOfPublication,
+                    countryOfProduction: newProps.album.countryOfProduction,
+                    catalogueNumber: newProps.album.catalogueNumber,
+                    label: newProps.album.label,
+                    labelId: newProps.album.labelId,
+                    publisherId: newProps.album.publisherId,
+                    albumTitle: newProps.album.albumTitle,
+                    mainArtistName: newProps.album.mainArtistName,
+                    mainArtistId: newProps.album.mainArtistId,
+                    publisher: newProps.album.publisher,
+                    releaseDate: newProps.album.releaseDate
+                },
+                hasFetched: true
+            });
+            this.props.getLabelsByPublisherId(newProps.album.publisherId);
+        }
+    }
+
 
     constructor(props, context) {
         super(props, context);
         this.state = {
-            albumTitle: '',
-            mainArtistName: '',
-            publisher: '',
-            countryOfPublication: '',
-            countryOfProduction: '',
-            label: ''
+            hasFetched: false,
+            isModalOpen: false,
+            selectedAlbumHasChanged: false,
+            currentFetchMethod: props.getMainArtistsByCriteria,
+            envelope: props.mainArtistEnvelope,
+            typeOfAction: '',
+            currentUpdateFunction: null
         }
     }
 
+    populateLabelOptions() {
+        return this.props.selectedOrganizationLabels.map((label, idx) => {
+            return (
+                <option key={idx}
+                    value={label.labelId}>{label.labelName}
+                </option>
+            );
+        });
+    }
+
+    populateCountryOptions() {
+        return this.props.countries.map((country) => {
+            return (
+                <option key={country.numericIsoCode}
+                    value={country.twoLetterCode}>{country.name}
+                </option>
+            );
+        });
+    }
+
+    openModal(fetchMethod, env, actiontype, updateFunction) {
+        this.setState({
+            isModalOpen: true,
+            currentFetchMethod: fetchMethod,
+            envelope: env,
+            typeOfAction: actiontype,
+            currentUpdateFunction: updateFunction
+        });
+    }
+
+    updateMainArtist(newMainArtist) {
+        let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
+        updatedAlbum.mainArtistName = newMainArtist.name;
+        updatedAlbum.mainArtistId = newMainArtist.id;
+        this.updateAlbumState(updatedAlbum);
+    }
+
+    updatePublisher(newPublisher) {
+        let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
+        updatedAlbum.publisherId = newPublisher.id;
+        updatedAlbum.publisher = newPublisher.name;
+        updatedAlbum.labelId = -1;
+        updatedAlbum.label = '';
+        this.updateAlbumState(updatedAlbum);
+        this.props.getLabelsByPublisherId(newPublisher.id);
+    }
+
+    updateAlbumField(field, newElement) {
+        let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
+        updatedAlbum[field]= newElement;
+        this.updateAlbumState(updatedAlbum);
+    }
+
+    updateAlbumState(updatedState) {
+        this.setState({
+            selectedAlbum: updatedState,
+            selectedAlbumHasChanged: true
+        });
+    }
+    updateSelectedAlbum(e) {
+        e.preventDefault();
+        const path = `/api/albums/${this.state.selectedAlbum.albumId}`;
+        this.props.update(this.state.selectedAlbum, path, 'Það tókst að uppfæra upplýsingar plötunnar');
+        this.setState({
+            selectedAlbumHasChanged: false
+        });
+    }
+
     validateAlbum(album) {
-        if (!album.label) {
-            album.label = 'ekki skráð';
+        let invalid = 'Ekki skráð'
+        for (var key in album) {
+            if (album[key] === null || album[key] === undefined) {
+                album[key] = invalid;
+
+            }
         }
-        if (!album.mainArtistName) {
-            album.mainArtistName = 'ekki skráð';
-        }
-        if (!album.publisher) {
-            album.publisher ='ekki skráð';
+        album.publisherId = (album.publisherId === invalid) ? -1 : album.publisherId;
+    }
+
+    renderForm() {
+        if (this.state.hasFetched) {
+            return (
+                <AlbumDetailsFormbla
+                    hasFetched={ this.state.hasFetched }
+                    album={ this.state.selectedAlbum }
+                    updateAlbumField={ this.updateAlbumField.bind(this) }
+                    openModal={ this.openModal.bind(this) }
+                    getMainArtistsByCriteria={ this.props.getMainArtistsByCriteria.bind(this) }
+                    mainArtistEnvelope={ this.props.mainArtistEnvelope }
+                    updateMainArtist={ this.updateMainArtist.bind(this) }
+                    getPublishersByCriteria={ this.props.getPublishersByCriteria.bind(this) }
+                    organizationEnvelope={ this.props.organizationEnvelope }
+                    updatePublisher={ this.updatePublisher.bind(this) }
+                    populateLabelOptions={ this.populateLabelOptions.bind(this) }
+                    countryOptions={ this.populateCountryOptions.bind(this) }
+                    updateSelectedAlbum={ this.updateSelectedAlbum.bind(this) }
+                    selectedAlbumHasChanged={ this.state.selectedAlbumHasChanged }
+                />
+            );
         }
     }
 
     render() {
         return (
             <div>
-                <form>
-                    <div className="row">
-                        <div className="col-xs-12 col-sm-6 form-group">
-                            <label>Plötuheiti</label>
-                            <input type="text" className="form-control"
-                                value={this.state.albumTitle}
-                                onChange={(e) => this.setState({albumTitle: e.target.value})}/>
-                        </div>
-                        <div className="col-xs-12 col-sm-6 form-group">
-                            <label>Aðalflytjandi</label>
-                            <input type="text" className="form-control"
-                                value={this.state.mainArtistName}
-                                onChange={(e) => this.setState({mainArtistName: e.target.value})}/>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-xs-12 col-sm-6 form-group">
-                            <label>Útgefandi</label>
-                            <input type="text" className="form-control"
-                                value={this.state.publisher}
-                                onChange={(e) => this.setState({publisher: e.target.value})}/>
-                        </div>
-                        <div className="col-xs-12 col-sm-6 form-group">
-                            <label>Label</label>
-                                <input type="text" className="form-control"
-                                    value={this.state.label}
-                                    onChange={(e) => this.setState({label: e.target.value})}/>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-xs-12 col-sm-6 form-group">
-                            <label>Framleiðsluland</label>
-                            <select className="form-control"
-                                onChange={(e) => this.setState({countryOfProduction: e.target.value})}
-                                value={this.state.countryOfProduction}>
-                                {this.props.countryOptions()}
-                            </select>
-                        </div>
-                        <div className="col-xs-12 col-sm-6 form-group">
-                            <label>Útgáfuland</label>
-                            <select className="form-control"
-                                value={this.state.countryOfPublication}>
-                                onChange={(e) => this.setState({countryOfProduction: e.target.value})}
-                                {this.props.countryOptions()}
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" className="btn btn-primary pull-right">Vista</button>
-                </form>
-                <div>
-                    <h2>Lög</h2>
-                    <Table 
-                        tableData={albumTableData} 
-                        objects={this.props.songs}
-                        selectCallback={(row) => browserHistory.push(`/albums/${row.albumId}/songs/${row.songId}`)} />
-                </div>
+                <Spinner className={!this.state.hasFetched ? '' : 'hidden'} />
+                { this.renderForm() }
+                <SelectPersonModal
+                     isOpen={this.state.isModalOpen}
+                     fetch={this.state.currentFetchMethod}
+                     beginFetch={this.props.isFetchingList}
+                     stoppedFetch={this.props.hasStoppedFetchingList}
+                     next={() => this.setState({isModalOpen: false})}
+                     close={() => this.setState({isModalOpen: false})}
+                     envelope={this.state.envelope}
+                     update={(newElement) => this.state.currentUpdateFunction(newElement)}
+                     steps={() => { return ( <h4>{ this.state.typeOfAction }</h4> ) } }
+                />
             </div>
         );
     }
 };
 
-export default AlbumDetailsForm;
+function mapStateToProps(state) {
+    return {
+        mainArtistEnvelope: state.mainArtist.mainArtistEnvelope,
+        organizationEnvelope: state.organization.organizationEnvelope,
+        selectedOrganizationLabels: state.organization.selectedOrganizationLabels,
+        countries: state.common.countries
+    };
+};
+
+export default connect(mapStateToProps, { update, isFetchingList, hasStoppedFetchingList, getMainArtistsByCriteria, getPublishersByCriteria, getLabelsByPublisherId })(AlbumDetailsForm);

@@ -72,6 +72,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                         CountryOfProduction = r.z.twoletterisocode,
                         CountryOfPublication = r.z.twoletterisocode,
                         Label = r.x.labelname,
+                        LabelId = r.album.labelid,
                         PublisherId = r.x.organizationid,
                         Publisher = (from a in DbContext.organization_master
                                      where a.id == r.x.organizationid
@@ -109,6 +110,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
         //    }
         //    return musician;
         //}
+
 
         public ICollection<MusiciansOnSongDto> GetMusiciansOnSong(int albumId, int songId)
         {
@@ -164,5 +166,6 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
             registration.CreatedOn = createdOn;
             registration.CreatedBy = createdBy;
         }
+
     }
 }

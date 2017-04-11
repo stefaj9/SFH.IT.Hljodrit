@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
@@ -31,6 +32,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok(_albumService.GetAlbumById(albumId));
         }
 
+        [HttpPut]
+        [Route("{albumId:int}")]
+        public IHttpActionResult UpdateAlbumInfo(int albumId, [FromBody] AlbumViewModel updatedAlbum )
+        {
+            return Ok(_albumService.UpdateAlbumInfo(albumId, updatedAlbum));
+        }
+
         //[HttpGet]
         //[Route("{albumId:int}/musicians/{musicianId:int}")]
         //public IHttpActionResult GetMusicianOnAlbum(int albumId, int musicianId)
@@ -44,6 +52,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         {
             return Ok(_albumService.GetSongsByAlbumId(albumId));
         }
+
 
         [HttpGet]
         [Route("{albumId:int}/songs/{songId:int}")]
