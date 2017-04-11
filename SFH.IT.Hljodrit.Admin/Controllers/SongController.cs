@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Data.Entity.ModelConfiguration;
+using System.Web.Http;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
@@ -30,8 +31,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpPut]
         [Route("{songId:int}")]
-        public IHttpActionResult UpdateSongById(int songId, [FromBody] SongExtendedDto song)
+        public IHttpActionResult UpdateSongById(int songId, [FromBody] SongDto song)
         {
+            if (!ModelState.IsValid)
+            {
+                throw new ModelValidationException("Song was not properly formatted.");
+            }
             return Ok(_songService.UpdateSongById(songId, song));
         }
     }

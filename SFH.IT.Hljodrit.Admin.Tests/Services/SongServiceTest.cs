@@ -81,6 +81,50 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			// Assert
 			Assert.AreEqual(expectedId, songResult.Id);
 		}
-		#endregion
-	}
+        #endregion
+
+	    #region UpdateSong
+        [TestMethod]
+	    public void TestUpdateSongSuccess()
+	    {
+	        _mediaRecordingRepository.Setup(m => m.GetById(1)).Returns(new media_recording
+	        {
+	            id = 1,
+                isrc = "IS-VA-96-00001",
+                recordingtitle = "Test 1",
+                workingtitle = "Test 1",
+                recordingcountrycode = 354,
+                statusid = 4,
+                updatedby = "Test",
+                updatedon = DateTime.Now,
+                createdby = "Test",
+                createdon = DateTime.Now,
+                markedfordeletion = false
+	        });
+	        _songRepository.Setup(s => s.GetById(1)).Returns(new media_product
+	        {
+	            id = 1,
+                tracknumber = 1,
+                isrc = "IS-VA-96-00001",
+                recordingid = 1,
+                title = "Test",
+                updatedon = DateTime.Now,
+                updatedby = "Test",
+                createdon = DateTime.Now,
+                createdby = "Test"
+            });
+
+            var songService = new SongService(_songRepository.Object, _recordingPartyRepository.Object, _unitOfWork.Object, _instrumentRepository.Object, _mediaRecordingRepository.Object);
+
+	        var song = songService.UpdateSongById(1, new SongExtendedDto
+	        {
+                Title = "Test",
+	            Isrc = "IS-VA-96-000002"
+	        });
+
+	        Assert.AreEqual(song.Isrc, "IS-VA-96-000002");
+	    }
+
+	    #endregion
+    }
 }

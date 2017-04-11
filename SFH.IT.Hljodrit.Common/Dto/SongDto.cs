@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 namespace SFH.IT.Hljodrit.Common.Dto
@@ -8,6 +9,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty(PropertyName = "songId")]
         public int Id { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
         [JsonProperty(PropertyName = "songTitle")]
         public string Title { get; set; }
 
@@ -33,6 +35,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public TimeSpan? Duration { get; set; }
 
         [JsonProperty(PropertyName = "isrc")]
+        [Required(AllowEmptyStrings = false)]
         public string Isrc { get; set; }
 
         [JsonProperty(PropertyName = "totalMusicians")]

@@ -35,7 +35,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return songs;
         }
 
-        public SongExtendedDto GetSongById(int id)
+        public SongDto GetSongById(int id)
         {
             var song = _songRepository.GetById(id);
             return new SongExtendedDto(song);
@@ -79,20 +79,24 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork.Commit();
         }
 
-        public SongExtendedDto UpdateSongById(int songId, SongExtendedDto song)
+        public SongDto UpdateSongById(int songId, SongDto song)
         {
             var songEntity = _songRepository.GetById(songId);
             var mediaRecording = _mediaRecordingRepository.GetById(songEntity.recordingid);
-            songEntity.title = song.Title;
-            mediaRecording.duration = song.Duration;
-            songEntity.isrc = song.Isrc;
-            mediaRecording.isrc = song.Isrc;
-            songEntity.releasedate = song.ReleaseDate;
 
-            _mediaRecordingRepository.Update(mediaRecording);
-            _songRepository.Update(songEntity);
+            if (songEntity != null && mediaRecording != null)
+            {
+                songEntity.title = song.Title;
+                mediaRecording.duration = song.Duration;
+                songEntity.isrc = song.Isrc;
+                mediaRecording.isrc = song.Isrc;
+                songEntity.releasedate = song.ReleaseDate;
 
-            _unitOfWork.Commit();
+                _mediaRecordingRepository.Update(mediaRecording);
+                _songRepository.Update(songEntity);
+
+                _unitOfWork.Commit();
+            }
 
             return song;
         }
