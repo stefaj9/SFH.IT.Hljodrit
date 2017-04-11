@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
@@ -25,6 +26,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult GetSongById(int songId)
         {
             return Ok(_songService.GetSongById(songId));
+        }
+
+        [HttpPut]
+        [Route("{songId:int}")]
+        public IHttpActionResult UpdateSongById(int songId, [FromBody] SongExtendedDto song)
+        {
+            return Ok(_songService.UpdateSongById(songId, song));
         }
     }
 }

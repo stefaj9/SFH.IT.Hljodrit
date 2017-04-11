@@ -9,5 +9,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm, string searchType);
         SongExtendedDto GetSongById(int songId);
         void AddMusicianToSong(int songId, MusicianRegisterViewModel musician);
+        SongExtendedDto UpdateSongById(int songId, SongExtendedDto song);
     }
 }

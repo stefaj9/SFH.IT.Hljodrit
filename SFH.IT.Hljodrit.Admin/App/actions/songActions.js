@@ -2,6 +2,37 @@ import fetch from 'isomorphic-fetch';
 import * as actionType from './actionTypes';
 import { toastr } from 'react-redux-toastr';
 
+export function updateSongDetailsById(songId, song) {
+    return (dispatch) => {
+        dispatch(isFetchingSongs());
+        return fetch(`/api/songs/${songId}`, {
+            method: 'PUT',
+            body: JSON.stringify(song),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að breyta upplýsingum um lag.');
+                dispatch(hasStoppedFetchingSongs());
+                return resp.json();
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að breyta upplýsingum um lag.');
+                dispatch(hasStoppedFetchingSongs());
+            }
+        }).then((data) => {
+            dispatch(updateSongDetailsByIdSuccess(data));
+        });
+    }
+}
+
+function updateSongDetailsByIdSuccess(updatedSong) {
+    return {
+        type: actionType.UPDATE_SONG_BY_ID,
+        payload: updatedSong
+    };
+};
+
 export function getSongDetailsById(songId) {
     return (dispatch) => {
         dispatch(isFetchingSongs());

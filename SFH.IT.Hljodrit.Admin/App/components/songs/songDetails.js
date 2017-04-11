@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSongDetailsById, getAllMusiciansOnSong, addMusicianToSong } from '../../actions/songActions';
+import { getSongDetailsById, getAllMusiciansOnSong, addMusicianToSong, updateSongDetailsById } from '../../actions/songActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { getPersonsByCriteria } from '../../actions/personActions';
 import { Link } from 'react-router';
@@ -11,7 +11,6 @@ import _ from 'lodash';
 import moment from 'moment';
 import { DateField, DatePicker } from 'react-date-picker'
 import TimePicker from 'rc-time-picker';
-import { toastr } from 'react-redux-toastr';
 
 class SongDetails extends React.Component {
     componentWillReceiveProps(newProps) {
@@ -42,9 +41,9 @@ class SongDetails extends React.Component {
     }
     changeSongDetails(e) {
         e.preventDefault();
-        let songDurationFormatted = moment(this.state.currentSong.duration).format('HH:mm:ss');
-        console.log(songDurationFormatted);
-        toastr.success('Tókst!', 'Það tókst að breyta upplýsingum um lag.');
+        let currentSong = _.cloneDeep(this.state.currentSong);
+        currentSong.duration = moment(currentSong.duration).format('HH:mm:ss');
+        this.props.updateSongDetailsById(this.props.routeParams.songId, currentSong);
     }
     renderFormGroup(label, id, value, onChangeFunc) {
         return (
@@ -109,7 +108,7 @@ class SongDetails extends React.Component {
     }
     updateSongReleaseDate(dateString, momentObj) {
         let song = _.cloneDeep(this.state.currentSong);
-        song.releaseDate = momentObj.dateMoment._d;
+        song.releaseDate = moment(momentObj.timestamp).format('YYYY-MM-DDTHH:mm:ss');
         this.setState({ currentSong: song, dirtyForm: true });
     }
     addPerformerToAlbum(performer) {
@@ -146,7 +145,6 @@ class SongDetails extends React.Component {
                     <SongMusiciansTable 
                         musicians={this.props.musicians}
                         addMusicianToSong={() => this.setState({ isAddingPerformer: true })} />
-
                     <PerformerListModal
                         isOpen={this.state.isAddingPerformer}
                         update={(performer) => this.addPerformerToAlbum(performer)}
@@ -174,4 +172,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong, isFetchingList, hasStoppedFetchingList, getPersonsByCriteria, addMusicianToSong })(SongDetails);
+export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong, isFetchingList, hasStoppedFetchingList, getPersonsByCriteria, addMusicianToSong, updateSongDetailsById })(SongDetails);

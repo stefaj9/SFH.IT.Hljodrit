@@ -15,16 +15,18 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     public class SongService : ISongService
     {
         private readonly ISongRepository _songRepository;
+        private readonly IMediaRecordingRepository _mediaRecordingRepository;
         private readonly IRecordingPartyRepository _recordingPartyRepository;
         private readonly IInstrumentRepository _instrumentRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public SongService(ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IUnitOfWork unitOfWork, IInstrumentRepository instrumentRepository)
+        public SongService(ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IUnitOfWork unitOfWork, IInstrumentRepository instrumentRepository, IMediaRecordingRepository mediaRecordingRepository)
         {
             _songRepository = songRepository;
             _recordingPartyRepository = recordingPartyRepository;
             _unitOfWork = unitOfWork;
             _instrumentRepository = instrumentRepository;
+            _mediaRecordingRepository = mediaRecordingRepository;
         }
 
         public Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm, string searchType)
@@ -75,6 +77,24 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             }
 
             _unitOfWork.Commit();
+        }
+
+        public SongExtendedDto UpdateSongById(int songId, SongExtendedDto song)
+        {
+            var songEntity = _songRepository.GetById(songId);
+            var mediaRecording = _mediaRecordingRepository.GetById(songEntity.recordingid);
+            songEntity.title = song.Title;
+            mediaRecording.duration = song.Duration;
+            songEntity.isrc = song.Isrc;
+            mediaRecording.isrc = song.Isrc;
+            songEntity.releasedate = song.ReleaseDate;
+
+            _mediaRecordingRepository.Update(mediaRecording);
+            _songRepository.Update(songEntity);
+
+            _unitOfWork.Commit();
+
+            return song;
         }
     }
 }
