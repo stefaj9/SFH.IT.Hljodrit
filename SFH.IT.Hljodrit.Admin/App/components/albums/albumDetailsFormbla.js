@@ -4,7 +4,6 @@ import Spinner from 'react-spinner';
 const AlbumDetailsFormbla = ({hasFetched, album, updateAlbumField, openModal, getMainArtistsByCriteria,
         mainArtistEnvelope, updateMainArtist, getPublishersByCriteria, organizationEnvelope, updatePublisher,
         populateLabelOptions, countryOptions, updateSelectedAlbum, selectedAlbumHasChanged}) => {
-            let publisherHasChanged = false;
     return (
         <div>
             <Spinner className={!hasFetched ? '' : 'hidden'} />

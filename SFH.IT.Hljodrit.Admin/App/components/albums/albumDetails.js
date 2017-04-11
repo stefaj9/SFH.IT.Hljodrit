@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { getAlbumById, getSongsByAlbumId } from '../../actions/AlbumsActions';
 import AlbumDetailsForm from './AlbumDetailsForm';
 import Table from '../common/table';
@@ -29,7 +30,7 @@ class AlbumDetails extends React.Component {
                          />
                     <div>
                         <h2>Lög</h2>
-                        <Table tableData={albumTableData} objects={this.props.songsOnSelectedAlbum} />
+                        <Table selectCallback={(row) => browserHistory.push(`/albums/${row.albumId}/songs/${row.songId}`)} tableData={albumTableData} objects={this.props.songsOnSelectedAlbum} />
                     </div>
                 </div>
             );
