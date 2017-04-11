@@ -1,9 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.ViewModels;
+using SFH.IT.Hljodrit.Models;
+using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Instruments;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Services.Implementations
@@ -11,10 +15,16 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     public class SongService : ISongService
     {
         private readonly ISongRepository _songRepository;
+        private readonly IRecordingPartyRepository _recordingPartyRepository;
+        private readonly IInstrumentRepository _instrumentRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public SongService(ISongRepository songRepository)
+        public SongService(ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IUnitOfWork unitOfWork, IInstrumentRepository instrumentRepository)
         {
             _songRepository = songRepository;
+            _recordingPartyRepository = recordingPartyRepository;
+            _unitOfWork = unitOfWork;
+            _instrumentRepository = instrumentRepository;
         }
 
         public Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm, string searchType)
@@ -41,6 +51,30 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     return dto => !dto.ReleaseDate.HasValue || dto.ReleaseDate.Value.Year.ToString().Contains(searchTerm);
             }
             return dto => dto.Title.Contains(searchTerm);
+        }
+
+        public void AddMusicianToSong(int songId, MusicianRegisterViewModel musician)
+        {
+            var recordingId = _songRepository.Get(s => s.id == songId).recordingid;
+            int counter = 0;
+            foreach (var instrument in musician.Instruments)
+            {
+                _recordingPartyRepository.Add(new recording_party
+                {
+                    recordingid = recordingId,
+                    partyrealid = musician.PartyRealId,
+                    rolecode = counter == 0 ? musician.Role.RoleCode : "N/A",
+                    instrumentcode = _instrumentRepository.Get(i => i.name_is == instrument.Replace(":", ",")).code,
+                    updatedby = "User", // Replace with user
+                    updatedon = DateTime.Now,
+                    createdby = "User",
+                    createdon = DateTime.Now,
+                    status = 2
+                });
+                counter++;
+            }
+
+            _unitOfWork.Commit();
         }
     }
 }

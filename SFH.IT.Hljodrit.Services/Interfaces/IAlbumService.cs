@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.ViewModels;
 
 namespace SFH.IT.Hljodrit.Services.Interfaces
 {

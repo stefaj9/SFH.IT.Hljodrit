@@ -1,4 +1,5 @@
 import * as actionType from '../actions/actionTypes';
+import _ from 'lodash';
 
 let initialState = {
     songEnvelope: {
@@ -11,7 +12,9 @@ let initialState = {
         maximumPage: -1,
         objects: []
     },
-    isFetching: true
+    isFetching: true,
+    selectedSong: {},
+    musiciansOnSelectedSong: []
 };
 
 export default function(state = initialState, action) {
@@ -19,6 +22,25 @@ export default function(state = initialState, action) {
         case actionType.GET_SONGS: return Object.assign({}, state, {
             songEnvelope: action.payload
         });
+        case actionType.GET_SONG_BY_ID: return Object.assign({}, state, {
+            selectedSong: action.payload
+        });
+        case actionType.GET_ALL_MUSICIANS_ON_SONG: 
+            let musicians = [];
+            action.payload.map((musician) => {
+                musicians = _.concat(musicians, {
+                    id: musician.musicianId,
+                    name: musician.fullName,
+                    role: musician.highestRoleName,
+                    instruments: musician.credits.map((credit) => {
+                        return credit.instrumentName;
+                    })
+                });
+            });
+
+            return Object.assign({}, state, {
+                musiciansOnSelectedSong: musicians
+            });
         case actionType.GET_MEDIA: return Object.assign({}, state, {
             mediaRecordingEnvelope: action.payload
         });
@@ -41,6 +63,9 @@ export default function(state = initialState, action) {
                 maximumPage: -1,
                 objects: []
             }
+        });
+        case actionType.CLEAR_SONG_SELECTION: return Object.assign({}, state, {
+            selectedSong: {}
         });
         default: return state;
     }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using SFH.IT.Hljodrit.Models;
 
 namespace SFH.IT.Hljodrit.Common.Dto
@@ -14,10 +15,14 @@ namespace SFH.IT.Hljodrit.Common.Dto
             Title = song.title;
             AlbumId = song.packageid ?? -1;
             TrackNumber = song.tracknumber ?? -1;
+            Isrc = song.isrc;
+            Duration = song.media_recording.duration;
+            MainArtist = song.media_recording.party_mainartist.artistname;
+            if (song.media_recording.mainartist != null) MainArtistId = (int) song.media_recording.mainartist;
+            ReleaseDate = song.releasedate;
         }
 
         [JsonProperty(PropertyName = "sideNumber")]
         public int  SideNumber { get; set; }
-
     }
 }

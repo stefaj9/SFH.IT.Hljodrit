@@ -3,6 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 import App from '../components/common/app';
 import Settings from '../components/settings/settings';
 import Calculations from '../components/calculations/calculations';
+import AlbumContainer from '../components/albums/albumContainer';
 import Albums from '../components/albums/albums';
 import Users from '../components/users/users';
 import NotFound from '../components/common/notFound';
@@ -11,7 +12,9 @@ import ProjectManagement from '../components/project/projectManagement';
 import Intro from '../components/common/intro';
 import AddProject from '../components/project/addProject';
 import Media from '../components/media/media';
+import AlbumDetailsContainer from '../components/albums/albumDetailsContainer';
 import AlbumDetails from '../components/albums/albumDetails';
+import SongDetails from '../components/songs/songDetails';
 
 export default (
     <Route path="/" component={App}>
@@ -21,8 +24,13 @@ export default (
             <Route path="createproject" component={AddProject} />
         </Route>
         <Route path="calculations" component={Calculations} />
-        <Route path="albums" component={Albums} />
-        <Route path="albums/:albumId" component={AlbumDetails} />
+        <Route path="albums" component={AlbumContainer}>
+            <IndexRoute component={Albums} />
+            <Route path=":albumId" component={AlbumDetailsContainer}>
+                <IndexRoute component={AlbumDetails} />
+                <Route path="songs/:songId" component={SongDetails} />
+            </Route>
+        </Route>
         <Route path="users" component={Users} />
         <Route path="settings" component={Settings} />
         <Route path="media" component={Media} />

@@ -1,5 +1,72 @@
 import fetch from 'isomorphic-fetch';
 import * as actionType from './actionTypes';
+import { toastr } from 'react-redux-toastr';
+
+export function getSongDetailsById(songId) {
+    return (dispatch) => {
+        dispatch(isFetchingSongs());
+        dispatch(clearSongSelection());
+        return fetch(`/api/songs/${songId}`, {
+            method: 'GET'
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                dispatch(hasStoppedFetchingSongs());
+            }
+        }).then((song) => {
+            dispatch(getSongDetailsByIdSuccess(song));
+            dispatch(hasStoppedFetchingSongs());
+        });
+    }
+}
+
+function getSongDetailsByIdSuccess(song) {
+    return {
+        type: actionType.GET_SONG_BY_ID,
+        payload: song
+    };
+};
+
+export function addMusicianToSong(albumId, songId, musician) {
+    return (dispatch) => {
+        return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
+            method: 'POST',
+            body: JSON.stringify(musician),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að bæta við flytjanda á lagið.');
+                dispatch(getAllMusiciansOnSong(albumId, songId));
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að bæta við flytjanda á lagið.');
+            }
+        });
+    }
+}
+
+export function getAllMusiciansOnSong(albumId, songId) {
+    return (dispatch) => {
+        return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
+            method: 'GET'
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then((data) => {
+            dispatch(getAllMusiciansOnSongSuccess(data));
+        });
+    }
+}
+
+function getAllMusiciansOnSongSuccess(musicians) {
+    return {
+        type: actionType.GET_ALL_MUSICIANS_ON_SONG,
+        payload: musicians
+    };
+};
 
 export function getSongsByCriteria(pageSize, pageNumber, searchString, searchType) {
     return (dispatch) => {
@@ -77,6 +144,13 @@ function clearSongList() {
 function clearMediaRecordingList() {
     return {
         type: actionType.CLEAR_MEDIA,
+        payload: {}
+    };
+};
+
+function clearSongSelection() {
+    return {
+        type: actionType.CLEAR_SONG_SELECTION,
         payload: {}
     };
 };

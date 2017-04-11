@@ -66,6 +66,7 @@
     <Compile Include="Implementations\Common\CountryRepository.cs" />
     <Compile Include="Implementations\Common\ZipCodeRepository.cs" />
     <Compile Include="Implementations\Instruments\InstrumentRepository.cs" />
+    <Compile Include="Implementations\Media\RecordingPartyRepository.cs" />
     <Compile Include="Implementations\Organization\OrganizationRepository.cs" />
     <Compile Include="Implementations\Persons\PartyMainArtistRepository.cs" />
     <Compile Include="Implementations\Persons\PartyRealRepository.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Interfaces\Common\ICountryRepository.cs" />
     <Compile Include="Interfaces\Common\IZipCodeRepository.cs" />
     <Compile Include="Interfaces\Instruments\IInstrumentRepository.cs" />
+    <Compile Include="Interfaces\Media\IRecordingPartyRepository.cs" />
     <Compile Include="Interfaces\Organization\IOrganizationRepository.cs" />
     <Compile Include="Interfaces\Persons\IPartyMainArtistRepository.cs" />
     <Compile Include="Interfaces\Persons\IPartyRealRepository.cs" />

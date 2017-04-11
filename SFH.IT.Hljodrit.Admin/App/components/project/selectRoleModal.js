@@ -29,7 +29,7 @@ class SelectRoleModal extends React.Component {
     renderOptions() {
         return this.props.roles.map((role) => {
             return (
-                <option key={role.roleCode} value={role.roleCode}>{role.roleName}</option>
+                <option key={role.code} value={role.code}>{role.name}</option>
             );
         });
     }

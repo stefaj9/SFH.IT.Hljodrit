@@ -3,11 +3,17 @@ import Chips from 'react-chips';
 import { connect } from 'react-redux';
 import { getPersonsByCriteria } from '../../actions/personActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
+import { saveGroupToCookie } from '../../actions/cacheActions';
 import _ from 'lodash';
 import SelectPersonModal from './selectPersonModal';
 import { toastr } from 'react-redux-toastr';
 
 class PerformerGroup extends React.Component {
+    componentWillReceiveProps(newProps) {
+        this.setState({
+            group: newProps.group
+        });
+    }
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -21,7 +27,7 @@ class PerformerGroup extends React.Component {
         let selectedPerformer = _.find(group, (member) => { return member.id === performerId });
         selectedPerformer.instruments = instruments;
 
-        this.setState({ group: group });
+        this.props.saveGroupToCookie(group);
     }
     addRoleToUser(e, performerId) {
         let group = _.cloneDeep(this.state.group);
@@ -30,7 +36,7 @@ class PerformerGroup extends React.Component {
         selectedPerformer.role.code = e.target.value;
         selectedPerformer.role.name = e.target.options[index].text;
 
-        this.setState({ group: group });
+        this.props.saveGroupToCookie(group);
     }
     openPerformerSelectionModal(e) {
         e.preventDefault();
@@ -39,7 +45,7 @@ class PerformerGroup extends React.Component {
     addPerformerToGroup(performer) {
         if (this.props.roles.length > 0) {
             let firstRole = this.props.roles[0];
-            performer.role = { code: firstRole.roleCode, name: firstRole.roleName }
+            performer.role = { code: firstRole.code, name: firstRole.name }
         } else {
             performer.role = {};
         }
@@ -57,7 +63,7 @@ class PerformerGroup extends React.Component {
 
         toastr.success('Tókst!', 'Það tókst að bæta við flytjanda í hóp.');
 
-        this.setState({ group: group });
+        this.props.saveGroupToCookie(group);
     }
     removePerformerFromGroup(e, performerId) {
         e.preventDefault();
@@ -68,7 +74,7 @@ class PerformerGroup extends React.Component {
 
         toastr.success('Tókst!', 'Það tókst að fjarlægja flytjanda úr hópnum.');
 
-        this.setState({ group: group });
+        this.props.saveGroupToCookie(group);
     }
     selectAllSongs(e) {
         let songs = [];
@@ -91,7 +97,7 @@ class PerformerGroup extends React.Component {
     renderPerformerRoles() {
         return this.props.roles.map((role) => {
             return (
-                <option key={role.roleCode} value={role.roleCode}>{role.roleName}</option>
+                <option key={role.code} value={role.code}>{role.name}</option>
             );
         });
     }
@@ -158,8 +164,13 @@ class PerformerGroup extends React.Component {
     }
     transferGroupToSongs() {
         const { selectedSongs, group } = this.state;
-        this.setState({ selectedSongs: [] });
+        let mainArtists = _.takeWhile(group, (member) => { return member.role.code === 'MA' });
+        if (mainArtists.length > 1) {
+            toastr.error('Villa!', 'Ekki er hægt að skrá meira en einn aðalflytjanda á hvert lag.');
+            return;
+        }
         this.props.transfer(group, _.map(selectedSongs, 'number'));
+        this.setState({ selectedSongs: [] });
     }
     render() {
         return (
@@ -218,8 +229,9 @@ function mapStateToProps(state) {
     return {
         instrumentSuggestions: state.instrument.instrumentSuggestions,
         roles: state.person.personRoles,
-        performersEnvelope: state.person.personEnvelope
+        performersEnvelope: state.person.personEnvelope,
+        group: state.cache.group
     };
 };
 
-export default connect(mapStateToProps, { isFetchingList, hasStoppedFetchingList, getPersonsByCriteria })(PerformerGroup);
+export default connect(mapStateToProps, { isFetchingList, hasStoppedFetchingList, getPersonsByCriteria, saveGroupToCookie })(PerformerGroup);

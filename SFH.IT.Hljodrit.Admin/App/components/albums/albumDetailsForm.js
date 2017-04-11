@@ -8,6 +8,7 @@ import Spinner from 'react-spinner';
 import SelectPersonModal from '../project/selectPersonModal';
 import AlbumDetailsFormbla from './AlbumDetailsFormbla';
 
+
 class AlbumDetailsForm extends React.Component {
 
     componentWillMount() {
@@ -115,7 +116,6 @@ class AlbumDetailsForm extends React.Component {
     updateSelectedAlbum(e) {
         e.preventDefault();
         const path = `/api/albums/${this.state.selectedAlbum.albumId}`;
-        console.log(this.state.selectedAlbum);
         this.props.update(this.state.selectedAlbum, path, 'Það tókst að uppfæra upplýsingar plötunnar');
         this.setState({
             selectedAlbumHasChanged: false
