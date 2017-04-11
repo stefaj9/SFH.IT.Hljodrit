@@ -31,7 +31,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpPut]
         [Route("{albumId:int}")]
-        public IHttpActionResult UpdateAlbumInfo(int albumId, [FromBody] AlbumExtendedDto updatedAlbum )
+        public IHttpActionResult UpdateAlbumInfo(int albumId, [FromBody] AlbumViewModel updatedAlbum )
         {
             return Ok(_albumService.UpdateAlbumInfo(albumId, updatedAlbum));
         }

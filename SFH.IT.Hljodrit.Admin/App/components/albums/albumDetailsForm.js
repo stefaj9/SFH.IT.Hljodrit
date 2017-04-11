@@ -21,12 +21,12 @@ class AlbumDetailsForm extends React.Component {
             this.validateAlbum(newProps.album);
             this.setState({
                 selectedAlbum: {
-
                     albumId: newProps.album.albumId,
                     countryOfPublication: newProps.album.countryOfPublication,
                     countryOfProduction: newProps.album.countryOfProduction,
                     catalogueNumber: newProps.album.catalogueNumber,
                     label: newProps.album.label,
+                    labelId: newProps.album.labelId,
                     publisherId: newProps.album.publisherId,
                     albumTitle: newProps.album.albumTitle,
                     mainArtistName: newProps.album.mainArtistName,
@@ -68,17 +68,10 @@ class AlbumDetailsForm extends React.Component {
     }
 
     populateLabelOptions() {
-        if (this.props.selectedOrganizationLabels.length === 0) {
-            return (
-                <option key={-1}
-                    value="Ekki skráð"> Ekki skráð
-                </option>
-            );
-        }
         return this.props.selectedOrganizationLabels.map((label, idx) => {
             return (
                 <option key={idx}
-                    value={label.labelName}>{label.labelName}
+                    value={label.labelId}>{label.labelName}
                 </option>
             );
         });
@@ -105,7 +98,11 @@ class AlbumDetailsForm extends React.Component {
         let updatedAlbum = _.cloneDeep(this.state.selectedAlbum);
         updatedAlbum.publisherId = newPublisher.id;
         updatedAlbum.publisher = newPublisher.name;
+        updatedAlbum.labelId = -1;
         updatedAlbum.label = '';
+        // this.setState({
+        //     publisherHasChanged: true
+        // });
         this.updateAlbumState(updatedAlbum);
         this.props.getLabelsByPublisherId(newPublisher.id);
     }
@@ -125,6 +122,7 @@ class AlbumDetailsForm extends React.Component {
     updateSelectedAlbum(e) {
         e.preventDefault();
         const path = `/api/albums/${this.state.selectedAlbum.albumId}`;
+        console.log('state: ', this.state.selectedAlbum);
         this.props.update(this.state.selectedAlbum, path, 'Það tókst að uppfæra upplýsingar plötunnar');
         this.setState({
             selectedAlbumHasChanged: false

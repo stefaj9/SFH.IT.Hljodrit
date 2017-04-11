@@ -4,6 +4,7 @@ import Spinner from 'react-spinner';
 const AlbumDetailsFormbla = ({hasFetched, album, updateAlbumField, openModal, getMainArtistsByCriteria,
         mainArtistEnvelope, updateMainArtist, getPublishersByCriteria, organizationEnvelope, updatePublisher,
         populateLabelOptions, countryOptions, updateSelectedAlbum, selectedAlbumHasChanged}) => {
+            let publisherHasChanged = false;
     return (
         <div>
             <Spinner className={!hasFetched ? '' : 'hidden'} />
@@ -48,9 +49,9 @@ const AlbumDetailsFormbla = ({hasFetched, album, updateAlbumField, openModal, ge
                     </div>
                     <div className="col-xs-12 col-sm-6 form-group">
                         <label>Label</label>
-                            <select className="form-control"
-                                onChange={(e) => updateAlbumField('label', e.target.value)}
-                                value={album.label}>
+                            <select value={album.labelId} className="form-control"
+                                onChange={(e) => updateAlbumField('labelId', e.target.value)}>
+                                <option value="-1"> Ekki skráð </option>
                                 {populateLabelOptions()}
                             </select>
                     </div>
