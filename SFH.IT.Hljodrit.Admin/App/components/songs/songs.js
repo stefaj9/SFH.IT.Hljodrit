@@ -21,7 +21,9 @@ export default class Songs extends React.Component {
     render() {
         return (
             <div className="container">
-                <h1>Songs</h1>
+                <div className="row">
+                    <h1>Songs</h1>
+                </div>
 
             </div>
         );
