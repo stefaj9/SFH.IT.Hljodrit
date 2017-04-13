@@ -25,11 +25,15 @@ export default function(state = initialState, action) {
         case actionType.GET_SONG_BY_ID: return Object.assign({}, state, {
             selectedSong: action.payload
         });
+        case actionType.UPDATE_SONG_BY_ID: return Object.assign({}, state, {
+            selectedSong: action.payload
+        });
         case actionType.GET_ALL_MUSICIANS_ON_SONG: 
             let musicians = [];
             action.payload.map((musician) => {
                 musicians = _.concat(musicians, {
-                    id: musician.musicianId,
+                    id: musician.partyRealId,
+                    musicianId: musician.musicianId,
                     name: musician.fullName,
                     role: musician.highestRoleName,
                     instruments: musician.credits.map((credit) => {

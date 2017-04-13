@@ -43,7 +43,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     break;
                 case AlbumReleaseYearSearchFilter:
                     var releaseYear = Convert.ToInt32(searchTerm.Trim());
-                    filter = album => album.releasedate.Year == releaseYear;
+                    filter = album => album.releasedate.Value.Year == releaseYear;
                     break;
             }
 
@@ -61,7 +61,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return songs;
         }
 
-        public SongExtendedDto GetSongOnAlbum(int albumId, int songId)
+        public SongDto GetSongOnAlbum(int albumId, int songId)
         {
             var song = _songRepository.GetSongOnAlbum(albumId, songId);
             return song;

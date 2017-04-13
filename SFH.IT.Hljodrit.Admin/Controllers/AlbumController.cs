@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
@@ -73,6 +74,14 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult AddMusicianToSong(int albumId, int songId, [FromBody] MusicianRegisterViewModel musician)
         {
             _songService.AddMusicianToSong(songId, musician);
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("{albumId:int}/songs/{songId:int}/musicians")]
+        public IHttpActionResult RemoveMusiciansFromSong(int albumId, int songId, [FromBody] IEnumerable<int> musicianIds)
+        {
+            _songService.RemoveMusiciansFromSong(songId, musicianIds);
             return Ok();
         }
     }

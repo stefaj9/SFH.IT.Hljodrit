@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { update, isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { getMainArtistsByCriteria } from '../../actions/mainArtistActions';
 import { getPublishersByCriteria, getLabelsByPublisherId } from '../../actions/organizationActions';
+import { browserHistory } from 'react-router';
 import _ from 'lodash';
 import Spinner from 'react-spinner';
 import SelectPersonModal from '../project/selectPersonModal';
@@ -171,7 +172,7 @@ class AlbumDetails extends React.Component {
                     { this.renderForm() }
                     <div>
                         <h2>Lög</h2>
-                        <Table tableData={albumTableData} objects={this.props.songsOnSelectedAlbum} />
+                        <Table onClickCallback={(row) => browserHistory.push(`/albums/${row.albumId}/songs/${row.songId}`)} tableData={albumTableData} objects={this.props.songsOnSelectedAlbum} />
                     </div>
                     <SelectPersonModal
                          isOpen={this.state.isModalOpen}

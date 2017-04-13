@@ -50,7 +50,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
             return songs.Distinct().OrderBy(x => x.TrackNumber);
         }
 
-        public SongExtendedDto GetSongOnAlbum(int albumId, int songId)
+        public SongDto GetSongOnAlbum(int albumId, int songId)
         {
 
             var result = from song in DbContext.media_product
@@ -58,7 +58,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                          join mainArtist in DbContext.party_mainartist on recording.mainartist equals mainArtist.id
                          where song.packageid.Value == albumId && song.id == songId
 
-                         select new SongExtendedDto
+                         select new SongDto
                          {
                              Id = song.id,
                              Title = song.title,

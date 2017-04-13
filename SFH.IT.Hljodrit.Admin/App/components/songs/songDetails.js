@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSongDetailsById, getAllMusiciansOnSong, addMusicianToSong } from '../../actions/songActions';
+import { getSongDetailsById, getAllMusiciansOnSong, addMusicianToSong, updateSongDetailsById,removeMusiciansFromSong } from '../../actions/songActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { getPersonsByCriteria } from '../../actions/personActions';
 import { Link } from 'react-router';
@@ -11,7 +11,6 @@ import _ from 'lodash';
 import moment from 'moment';
 import { DateField, DatePicker } from 'react-date-picker'
 import TimePicker from 'rc-time-picker';
-import { toastr } from 'react-redux-toastr';
 
 class SongDetails extends React.Component {
     componentWillReceiveProps(newProps) {
@@ -37,14 +36,15 @@ class SongDetails extends React.Component {
             currentSong: {},
             hasFetched: false,
             dirtyForm: false,
-            isAddingPerformer: false
+            isAddingPerformer: false,
+            selectedMusicians: []
         };
     }
     changeSongDetails(e) {
         e.preventDefault();
-        let songDurationFormatted = moment(this.state.currentSong.duration).format('HH:mm:ss');
-        console.log(songDurationFormatted);
-        toastr.success('Tókst!', 'Það tókst að breyta upplýsingum um lag.');
+        let currentSong = _.cloneDeep(this.state.currentSong);
+        currentSong.duration = moment(currentSong.duration).format('HH:mm:ss');
+        this.props.updateSongDetailsById(this.props.routeParams.songId, currentSong);
     }
     renderFormGroup(label, id, value, onChangeFunc) {
         return (
@@ -75,7 +75,7 @@ class SongDetails extends React.Component {
                         dateFormat="DD.MM.YYYY"
                         forceValidDate={true}
                         updateOnDateClick={true}
-                        defaultValue={moment(this.props.song.releaseDate).format('DD.MM.YYYY')}>
+                        defaultValue={moment(this.state.currentSong.releaseDate).format('DD.MM.YYYY')}>
                         <DatePicker
                             navigation={true}
                             locale="is"
@@ -109,12 +109,28 @@ class SongDetails extends React.Component {
     }
     updateSongReleaseDate(dateString, momentObj) {
         let song = _.cloneDeep(this.state.currentSong);
-        song.releaseDate = momentObj.dateMoment._d;
+        song.releaseDate = moment(momentObj.timestamp).format('YYYY-MM-DDTHH:mm:ss');
         this.setState({ currentSong: song, dirtyForm: true });
     }
     addPerformerToAlbum(performer) {
         this.props.addMusicianToSong(this.props.params.albumId, this.props.routeParams.songId, performer);
         this.setState({ isAddingPerformer: false });
+    }
+    addToListOfSelectedMusicians(musicians, status) {
+        let selectedMusicians = _.cloneDeep(this.state.selectedMusicians);
+        if (!status) {
+            // The musicians are being removed
+            _.forEach(musicians, (musician) => {
+                _.remove(selectedMusicians, (m) => { return m.id === musician.id });
+            });
+        } else {
+            selectedMusicians = _.concat(selectedMusicians, musicians);
+        }
+        this.setState({ selectedMusicians: selectedMusicians });
+    }
+    removeMusiciansFromSong() {
+        this.props.removeMusiciansFromSong(this.props.params.albumId, this.props.routeParams.songId, this.state.selectedMusicians.map((m) => { return m.musicianId } ));
+        this.setState({ selectedMusicians: [] });
     }
     renderSongInfo() {
         if (!this.props.isFetching) {
@@ -145,8 +161,10 @@ class SongDetails extends React.Component {
                     <h4>Flytjendur á laginu</h4>
                     <SongMusiciansTable 
                         musicians={this.props.musicians}
-                        addMusicianToSong={() => this.setState({ isAddingPerformer: true })} />
-
+                        addMusicianToSong={() => this.setState({ isAddingPerformer: true })}
+                        addToListOfSelectedMusicians={(musicians, status) => this.addToListOfSelectedMusicians(musicians, status)} 
+                        removeMusiciansFromSong={() => this.removeMusiciansFromSong()}
+                        isRemoveButtonActive={this.state.selectedMusicians.length > 0} />
                     <PerformerListModal
                         isOpen={this.state.isAddingPerformer}
                         update={(performer) => this.addPerformerToAlbum(performer)}
@@ -174,4 +192,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong, isFetchingList, hasStoppedFetchingList, getPersonsByCriteria, addMusicianToSong })(SongDetails);
+export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong, isFetchingList, hasStoppedFetchingList, getPersonsByCriteria, addMusicianToSong, updateSongDetailsById, removeMusiciansFromSong })(SongDetails);

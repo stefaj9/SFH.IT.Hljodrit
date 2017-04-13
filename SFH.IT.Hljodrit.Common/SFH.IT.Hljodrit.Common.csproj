@@ -74,7 +74,6 @@
     <Compile Include="Dto\PublisherLabelDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\SongDto.cs" />
-    <Compile Include="Dto\SongExtendedDto.cs" />
     <Compile Include="Dto\ZipCodeDto.cs" />
     <Compile Include="Dto\Envelope.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
