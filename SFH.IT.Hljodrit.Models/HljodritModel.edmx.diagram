@@ -36,12 +36,9 @@
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_master" Width="1.5" PointX="3.75" PointY="55.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.organization_type" Width="1.5" PointX="1.5" PointY="57.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_address" Width="1.5" PointX="4.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_artistdefaultroles" Width="1.5" PointX="8.25" PointY="26.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_artistgroupmember" Width="1.5" PointX="8.25" PointY="38.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_artisttype" Width="1.5" PointX="3.75" PointY="45.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_contactmedium" Width="1.5" PointX="3" PointY="34.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_groupmembership" Width="1.5" PointX="8.25" PointY="55" IsExpanded="true" />
-        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_instrument" Width="1.5" PointX="3" PointY="29.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_instrumenttype" Width="1.5" PointX="0.75" PointY="24.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_mainartist" Width="1.5" PointX="6" PointY="30.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.party_partyroletype" Width="1.5" PointX="6" PointY="26.25" IsExpanded="true" />
@@ -105,16 +102,9 @@
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_organization_master_organization_type" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_master_organization_master" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_superuser_organizations_organization_master" ManuallyRouted="false" />
-        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_artistdefaultroles_party_mainartist" ManuallyRouted="false" />
-        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_artistdefaultroles_party_partyroletype" ManuallyRouted="false" />
-        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_artistgroupmember_party_instrumenttype" ManuallyRouted="false" />
-        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_artistgroupmember_party_mainartist" ManuallyRouted="false" />
-        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_artistgroupmember_party_partyroletype" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_mainartist_party_artisttype" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_contactmedium_party_real" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.membership_group" ManuallyRouted="false" />
-        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_instrument_instrumenttype" ManuallyRouted="false" />
-        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_instrument_party_real" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_instrumenttype_party_instrumenttype" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_track_artist_party_instrumenttype" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_recording_party_party_instrumenttype" ManuallyRouted="false" />
@@ -137,6 +127,8 @@
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_project_track_artist_project_track" ManuallyRouted="false" />
         <AssociationConnector Association="SFH.IT.Hljodrit.Model.activerate_revenyplan" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.NLog" Width="1.5" PointX="3.375" PointY="11.75" />
+        <EntityTypeShape EntityType="SFH.IT.Hljodrit.Model.MusicianRoleGroup" Width="1.5" PointX="3.75" PointY="20.25" />
+        <AssociationConnector Association="SFH.IT.Hljodrit.Model.FK_party_partyroletype_MusicianRoleGroup" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

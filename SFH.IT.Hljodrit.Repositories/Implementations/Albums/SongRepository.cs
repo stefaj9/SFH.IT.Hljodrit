@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.StaticHelperClasses;
 using SFH.IT.Hljodrit.Models;
@@ -48,7 +50,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
             return songs.Distinct().OrderBy(x => x.TrackNumber);
         }
 
-        public SongExtendedDto GetSongOnAlbum(int albumId, int songId)
+        public SongDto GetSongOnAlbum(int albumId, int songId)
         {
 
             var result = from song in DbContext.media_product
@@ -56,7 +58,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                          join mainArtist in DbContext.party_mainartist on recording.mainartist equals mainArtist.id
                          where song.packageid.Value == albumId && song.id == songId
 
-                         select new SongExtendedDto
+                         select new SongDto
                          {
                              Id = song.id,
                              Title = song.title,
@@ -84,15 +86,19 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
             return result.SingleOrDefault();
         }
 
-        public Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm)
+        public Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm, Expression<Func<SongDto, bool>> expr)
         {
             var songs = DbContext.media_product.Where(
                 song => song.title.StartsWith(searchTerm)).Select(song => new SongDto()
             {
                 Id = song.id,
                 Title = song.title,
-                TrackNumber = song.tracknumber ?? -1
-            }).OrderBy(song => song.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+                TrackNumber = song.tracknumber ?? -1,
+                ReleaseDate = song.releasedate,
+                MainArtist = song.media_recording.party_mainartist.artistname,
+                Isrc = song.isrc,
+                Duration = song.media_recording.duration
+            }).Where(expr).OrderBy(song => song.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             var totalSongs = DbContext.media_product.Count(song => song.title.StartsWith(searchTerm));
             var result = EnvelopeCreator.CreateEnvelope(songs, pageSize, pageNumber, totalSongs);

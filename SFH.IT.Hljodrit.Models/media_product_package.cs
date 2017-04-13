@@ -29,7 +29,7 @@ namespace SFH.IT.Hljodrit.Models
         public string physicallocation { get; set; }
         public Nullable<int> countryofproduction { get; set; }
         public Nullable<int> countryofpublication { get; set; }
-        public DateTime releasedate { get; set; }
+        public Nullable<System.DateTime> releasedate { get; set; }
         public Nullable<int> packagestatusid { get; set; }
         public Nullable<int> numberoftracks { get; set; }
         public Nullable<int> formattypeid { get; set; }

@@ -20,8 +20,6 @@ namespace SFH.IT.Hljodrit.Models
             this.common_cache_recordingparty_detail = new HashSet<common_cache_recordingparty_detail>();
             this.media_product_package = new HashSet<media_product_package>();
             this.media_recording = new HashSet<media_recording>();
-            this.party_artistdefaultroles = new HashSet<party_artistdefaultroles>();
-            this.party_artistgroupmember = new HashSet<party_artistgroupmember>();
             this.party_groupmembership = new HashSet<party_groupmembership>();
             this.project_master = new HashSet<project_master>();
         }
@@ -54,10 +52,6 @@ namespace SFH.IT.Hljodrit.Models
         public virtual ICollection<media_product_package> media_product_package { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<media_recording> media_recording { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<party_artistdefaultroles> party_artistdefaultroles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<party_artistgroupmember> party_artistgroupmember { get; set; }
         public virtual party_artisttype party_artisttype { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<party_groupmembership> party_groupmembership { get; set; }

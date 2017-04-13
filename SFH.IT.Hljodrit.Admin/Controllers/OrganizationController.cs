@@ -26,5 +26,14 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         {
             return Ok(_organizationService.GetAllPublishers(pageSize, pageNumber, searchTerm ?? ""));
         }
+
+        //ATH tad a ad breyta thessari rutu
+        [HttpGet]
+        [Route("bla/{publisherId:int}/labels")]
+
+        public IHttpActionResult GetLabelsByPublisherId(int publisherId)
+        {
+            return Ok(_organizationService.GetLabelsByPublisherId(publisherId));
+        }
     }
 }

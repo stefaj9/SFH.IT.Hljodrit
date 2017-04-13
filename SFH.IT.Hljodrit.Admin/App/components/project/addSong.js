@@ -1,19 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSongsByCriteria } from '../../actions/songActions';
+import { getMediaRecordingsByCriteria } from '../../actions/songActions';
 import ModalSteps from '../common/modalSteps';
 import SortableTable from '../common/sortableTable';
+import MediaSuggestions from './mediaSuggestions';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import { toastr } from 'react-redux-toastr';
 import { padIsrcNumber } from '../../helpers/isrcHelper';
 import { Tabs, Tab } from 'react-bootstrap';
-import Spinner from 'react-spinner';
 import _ from 'lodash';
 
 class AddSong extends React.Component {
     componentWillMount() {
-        this.props.getSongsByCriteria(25, 1, '');
+        this.props.getMediaRecordingsByCriteria(50, 1, '', 'name');
+        moment.locale('is');
     }
     componentWillReceiveProps(newProps) {
         if (!newProps.isVisible) {
@@ -24,6 +25,7 @@ class AddSong extends React.Component {
                 currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
                 currentSongIsrc: '',
                 songSearchTerm: '',
+                selectSongFilter: 'name',
                 selectedTab: 1
             });
         }
@@ -40,10 +42,11 @@ class AddSong extends React.Component {
             currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
             currentSongIsrc: '',
             songSearchTerm: '',
+            selectSongFilter: 'name',
             selectedTab: 1
         };
     }
-    addSongToList(e, songId, songName, songLength, songIsrc) {
+    addSongToList(e, songId, songName, songLength, songIsrc, isrcPrefix) {
         e.preventDefault();
         const { songs, lastSongNumber } = this.state;
         let newSongList = _.concat(songs, { 
@@ -51,7 +54,7 @@ class AddSong extends React.Component {
             number: lastSongNumber + 1, 
             name: songName,
             length: songLength,
-            isrc: `${this.props.isrcPrefix}${_.padStart(songIsrc, 5, '0')}`,
+            isrc: `${isrcPrefix}${_.padStart(songIsrc, 5, '0')}`,
             performers: []
         });
         this.setState({
@@ -61,7 +64,6 @@ class AddSong extends React.Component {
             currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
             currentSongIsrc: '',
             lastSongNumber: lastSongNumber + 1,
-            songSearchTerm: '',
             songs: newSongList
         });
         toastr.success('Tókst!', `Tókst að bæta við laginu ${songName}`);
@@ -108,33 +110,6 @@ class AddSong extends React.Component {
             songs: newSongs
         });
     }
-    renderSongSuggestions() {
-        if (!this.props.songs.isFetchingSongs) {
-            return this.props.songs.map((song) => {
-                if (!_.find(this.state.songs, (s) => { return s.id === song.songId })) {
-                    return (
-                        <div className="well row" key={song.songId}>
-                            <div className="col-xs-11 song-select-info">
-                                <div className="row">
-                                    <div className="col-xs-6 text-left">{song.songTitle}</div>
-                                    <div className="col-xs-6 text-right">{song.mainArtist}</div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-xs-6 text-left">{song.releaseDate}</div>
-                                    <div className="col-xs-6 text-right">{song.duration}</div>
-                                </div>
-                            </div>
-                            <div 
-                                className="col-xs-1 text-center add-song-plus"
-                                onClick={(e) => this.addSongToList(e, song.songId, song.songTitle, song.duration, song.isrc)}>
-                                <i className="fa fa-plus fa-2x"></i>
-                            </div>
-                        </div>
-                    );
-                }
-            });
-        }
-    }
     addSongLength(value) {
         if (moment(value).isValid()) {
             this.setState({
@@ -153,7 +128,7 @@ class AddSong extends React.Component {
     }
     getNewSongs(e) {
         if (e.keyCode === 13) {
-            this.props.getSongsByCriteria(25, 1, e.target.value);
+            this.props.getMediaRecordingsByCriteria(50, 1, e.target.value, this.state.selectSongFilter);
         }
     }
     render() {
@@ -224,7 +199,7 @@ class AddSong extends React.Component {
                                 <button 
                                     tabIndex="5"
                                     className="btn btn-default" 
-                                    onClick={(e) => this.addSongToList(e, this.state.currentSongId, this.state.currentSongName, this.state.currentSongLength, this.state.currentSongIsrc)}
+                                    onClick={(e) => this.addSongToList(e, this.state.currentSongId, this.state.currentSongName, this.state.currentSongLength, this.state.currentSongIsrc, this.props.isrcPrefix)}
                                     disabled={!this.isAddSongValid()}>Bæta við</button>
                             </div>
                         </form>
@@ -241,17 +216,23 @@ class AddSong extends React.Component {
                                     className="form-control no-border-radius" />
                             </div>
                             <div className="col-xs-4 no-padding">
-                                <select name="song-search-by" id="song-search-by" className="form-control no-border-radius">
+                                <select 
+                                    name="song-search-by" 
+                                    id="song-search-by" 
+                                    className="form-control no-border-radius"
+                                    value={this.state.selectSongFilter}
+                                    onChange={(e) => this.setState({ selectSongFilter: e.target.value })}>
                                     <option value="name">Nafn lags</option>
                                     <option value="mainArtist">Aðalflytjandi</option>
                                     <option value="publishYear">Útgáfuár</option>
                                 </select>
                             </div>
                         </div>
-                        <div>
-                            {this.renderSongSuggestions()}
-                            <Spinner className={this.props.isFetchingSongs ? '' : 'hidden'} />
-                        </div>
+                        <MediaSuggestions
+                            media={this.props.media}
+                            isFetching={this.props.isFetchingSongs}
+                            songs={this.state.songs}
+                            addSongToList={this.addSongToList.bind(this)} />
                     </Tab>
                 </Tabs>
                 <SortableTable
@@ -280,9 +261,9 @@ class AddSong extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        songs: state.songs.songEnvelope.objects,
+        media: state.songs.mediaRecordingEnvelope.objects,
         isFetchingSongs: state.songs.isFetching
     };
 };
 
-export default connect(mapStateToProps, { getSongsByCriteria })(AddSong);
+export default connect(mapStateToProps, { getMediaRecordingsByCriteria })(AddSong);

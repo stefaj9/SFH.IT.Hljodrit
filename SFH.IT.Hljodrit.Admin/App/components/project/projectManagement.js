@@ -77,7 +77,7 @@ class ProjectManagement extends React.Component {
         return (
             <div className="projects">
                 <h2>Verkefnastýring</h2>
-                <div className="add-project text-right">
+                <div className="add-project space-20 text-right">
                     <Link to='projects/createproject'><i className="fa fa-2x fa-plus"></i></Link>
                 </div>
                 <SearchBar visible={true} searchBy={(search) => this.searchBy(search)} searchTerm={this.state.searchString} />

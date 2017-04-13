@@ -39,6 +39,23 @@ export function getPublisherLabelsById(publisherId) {
     }
 }
 
+//bjoggi
+export function getLabelsByPublisherId(publisherId) {
+    return (dispatch) => {
+        return fetch(`/api/organizations/bla/${publisherId}/labels`, {
+            method: 'GET'
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then((data) => {
+            dispatch(getPublisherLabelsByIdSuccess(data));
+        });
+    }
+}
+
+
+
 function getPublisherLabelsByIdSuccess(labels) {
     return {
         type: 'GET_PUBLISHER_LABELS',

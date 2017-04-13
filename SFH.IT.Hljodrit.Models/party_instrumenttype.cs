@@ -18,8 +18,6 @@ namespace SFH.IT.Hljodrit.Models
         public party_instrumenttype()
         {
             this.common_cache_recordingparty_detail = new HashSet<common_cache_recordingparty_detail>();
-            this.party_artistgroupmember = new HashSet<party_artistgroupmember>();
-            this.party_instrument = new HashSet<party_instrument>();
             this.project_track_artist = new HashSet<project_track_artist>();
             this.recording_party = new HashSet<recording_party>();
         }
@@ -39,12 +37,6 @@ namespace SFH.IT.Hljodrit.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<common_cache_recordingparty_detail> common_cache_recordingparty_detail { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<party_artistgroupmember> party_artistgroupmember { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<party_instrument> party_instrument { get; set; }
-        public virtual party_instrumenttype party_instrumenttype1 { get; set; }
-        public virtual party_instrumenttype party_instrumenttype2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<project_track_artist> project_track_artist { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

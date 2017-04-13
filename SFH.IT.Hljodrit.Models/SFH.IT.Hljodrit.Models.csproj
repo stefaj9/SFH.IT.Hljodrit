@@ -183,6 +183,9 @@
       <DependentUpon>HljodritModel.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="MusicianRoleGroup.cs">
+      <DependentUpon>HljodritModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="NLog.cs">
       <DependentUpon>HljodritModel.tt</DependentUpon>
     </Compile>
@@ -230,14 +233,6 @@
       <DependentUpon>HljodritModel.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="party_artistdefaultroles.cs">
-      <DependentUpon>HljodritModel.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="party_artistgroupmember.cs">
-      <DependentUpon>HljodritModel.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="party_artisttype.cs">
       <DependentUpon>HljodritModel.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -247,10 +242,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="party_groupmembership.cs">
-      <DependentUpon>HljodritModel.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="party_instrument.cs">
       <DependentUpon>HljodritModel.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>

@@ -18,7 +18,6 @@ namespace SFH.IT.Hljodrit.Models
         public party_real()
         {
             this.common_cache_recordingparty_detail = new HashSet<common_cache_recordingparty_detail>();
-            this.party_instrument = new HashSet<party_instrument>();
             this.party_mainartist = new HashSet<party_mainartist>();
             this.party_mainartist1 = new HashSet<party_mainartist>();
             this.party_pseudonym = new HashSet<party_pseudonym>();
@@ -49,8 +48,6 @@ namespace SFH.IT.Hljodrit.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<common_cache_recordingparty_detail> common_cache_recordingparty_detail { get; set; }
         public virtual party_contactmedium party_contactmedium { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<party_instrument> party_instrument { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<party_mainartist> party_mainartist { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

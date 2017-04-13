@@ -1,4 +1,5 @@
 import * as actionType from '../actions/actionTypes';
+import _ from 'lodash';
 
 let initialState = {
     songEnvelope: {
@@ -6,13 +7,46 @@ let initialState = {
         maximumPage: -1,
         objects: []
     },
-    isFetching: true
+    mediaRecordingEnvelope: {
+        currentPage: -1,
+        maximumPage: -1,
+        objects: []
+    },
+    isFetching: true,
+    selectedSong: {},
+    musiciansOnSelectedSong: []
 };
 
 export default function(state = initialState, action) {
     switch (action.type) {
         case actionType.GET_SONGS: return Object.assign({}, state, {
             songEnvelope: action.payload
+        });
+        case actionType.GET_SONG_BY_ID: return Object.assign({}, state, {
+            selectedSong: action.payload
+        });
+        case actionType.UPDATE_SONG_BY_ID: return Object.assign({}, state, {
+            selectedSong: action.payload
+        });
+        case actionType.GET_ALL_MUSICIANS_ON_SONG: 
+            let musicians = [];
+            action.payload.map((musician) => {
+                musicians = _.concat(musicians, {
+                    id: musician.partyRealId,
+                    musicianId: musician.musicianId,
+                    name: musician.fullName,
+                    role: musician.highestRoleName,
+                    instruments: musician.credits.map((credit) => {
+                        return credit.instrumentName;
+                    })
+                });
+            });
+
+            return Object.assign({}, state, {
+                musiciansOnSelectedSong: musicians
+            });
+        case actionType.GET_MEDIA: return Object.assign({}, state, {
+            mediaRecordingEnvelope: action.payload
         });
         case actionType.IS_FETCHING_SONGS: return Object.assign({}, state, {
             isFetching: true
@@ -26,6 +60,16 @@ export default function(state = initialState, action) {
                 maximumPage: -1,
                 objects: []
             }
+        });
+        case actionType.CLEAR_MEDIA: return Object.assign({}, state, {
+            mediaRecordingEnvelope: {
+                currentPage: -1,
+                maximumPage: -1,
+                objects: []
+            }
+        });
+        case actionType.CLEAR_SONG_SELECTION: return Object.assign({}, state, {
+            selectedSong: {}
         });
         default: return state;
     }

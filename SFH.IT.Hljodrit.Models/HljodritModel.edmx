@@ -477,6 +477,14 @@ warning 6002: The table/view 'hljodrit-db.dbo.Difference' does not have a primar
           <Property Name="createdby" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="MusicianRoleGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Points" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="NLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -746,35 +754,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="createdby" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="party_artistdefaultroles">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="mainartistid" Type="int" Nullable="false" />
-          <Property Name="rolecode" Type="nvarchar" MaxLength="5" Nullable="false" />
-          <Property Name="sortorder" Type="int" />
-          <Property Name="comment" Type="nvarchar" MaxLength="500" />
-          <Property Name="updatedby" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="updatedon" Type="datetime" Nullable="false" />
-          <Property Name="createdby" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="createdon" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="party_artistgroupmember">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="artistgroupid" Type="int" Nullable="false" />
-          <Property Name="artistid" Type="int" Nullable="false" />
-          <Property Name="partyrolecode" Type="nvarchar" MaxLength="5" />
-          <Property Name="instrumentcode" Type="nvarchar" MaxLength="5" />
-          <Property Name="active" Type="bit" />
-          <Property Name="updatedby" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="updatedon" Type="datetime" Nullable="false" />
-          <Property Name="createdby" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="createdon" Type="datetime" Nullable="false" />
-        </EntityType>
         <EntityType Name="party_artisttype">
           <Key>
             <PropertyRef Name="code" />
@@ -815,21 +794,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="updatedby" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="updatedon" Type="datetime" Nullable="false" />
           <Property Name="createdby" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="createdon" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="party_instrument">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="partyrealid" Type="int" Nullable="false" />
-          <Property Name="instrumentcode" Type="nvarchar" MaxLength="5" Nullable="false" />
-          <Property Name="capabilityrating" Type="int" />
-          <Property Name="comment" Type="nvarchar" MaxLength="500" />
-          <Property Name="sortorder" Type="int" />
-          <Property Name="updatedby" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="updatedon" Type="datetime" Nullable="false" />
-          <Property Name="createdby" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="party_instrumenttype">
@@ -886,6 +850,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="sortorder" Type="int" />
           <Property Name="equivalent_role" Type="nvarchar" MaxLength="5" />
           <Property Name="adminonly" Type="bit" Nullable="false" />
+          <Property Name="MusicianRoleGroupId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="party_pseudonym">
           <Key>
@@ -1421,66 +1386,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_party_artistdefaultroles_party_mainartist">
-          <End Role="party_mainartist" Type="Self.party_mainartist" Multiplicity="1" />
-          <End Role="party_artistdefaultroles" Type="Self.party_artistdefaultroles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_mainartist">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="party_artistdefaultroles">
-              <PropertyRef Name="mainartistid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_artistdefaultroles_party_partyroletype">
-          <End Role="party_partyroletype" Type="Self.party_partyroletype" Multiplicity="1" />
-          <End Role="party_artistdefaultroles" Type="Self.party_artistdefaultroles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_partyroletype">
-              <PropertyRef Name="rolecode" />
-            </Principal>
-            <Dependent Role="party_artistdefaultroles">
-              <PropertyRef Name="rolecode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_artistgroupmember_party_instrumenttype">
-          <End Role="party_instrumenttype" Type="Self.party_instrumenttype" Multiplicity="0..1" />
-          <End Role="party_artistgroupmember" Type="Self.party_artistgroupmember" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_instrumenttype">
-              <PropertyRef Name="code" />
-            </Principal>
-            <Dependent Role="party_artistgroupmember">
-              <PropertyRef Name="instrumentcode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_artistgroupmember_party_mainartist">
-          <End Role="party_mainartist" Type="Self.party_mainartist" Multiplicity="1" />
-          <End Role="party_artistgroupmember" Type="Self.party_artistgroupmember" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_mainartist">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="party_artistgroupmember">
-              <PropertyRef Name="artistid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_artistgroupmember_party_partyroletype">
-          <End Role="party_partyroletype" Type="Self.party_partyroletype" Multiplicity="0..1" />
-          <End Role="party_artistgroupmember" Type="Self.party_artistgroupmember" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_partyroletype">
-              <PropertyRef Name="rolecode" />
-            </Principal>
-            <Dependent Role="party_artistgroupmember">
-              <PropertyRef Name="partyrolecode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_party_contactmedium_party_real">
           <End Role="party_real" Type="Self.party_real" Multiplicity="1" />
           <End Role="party_contactmedium" Type="Self.party_contactmedium" Multiplicity="0..1" />
@@ -1489,30 +1394,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="party_contactmedium">
-              <PropertyRef Name="partyrealid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_instrument_instrumenttype">
-          <End Role="party_instrumenttype" Type="Self.party_instrumenttype" Multiplicity="1" />
-          <End Role="party_instrument" Type="Self.party_instrument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_instrumenttype">
-              <PropertyRef Name="code" />
-            </Principal>
-            <Dependent Role="party_instrument">
-              <PropertyRef Name="instrumentcode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_instrument_party_real">
-          <End Role="party_real" Type="Self.party_real" Multiplicity="1" />
-          <End Role="party_instrument" Type="Self.party_instrument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_real">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="party_instrument">
               <PropertyRef Name="partyrealid" />
             </Dependent>
           </ReferentialConstraint>
@@ -1562,6 +1443,18 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </Principal>
             <Dependent Role="party_mainartist">
               <PropertyRef Name="partyrealid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_party_partyroletype_MusicianRoleGroup">
+          <End Role="MusicianRoleGroup" Type="Self.MusicianRoleGroup" Multiplicity="1" />
+          <End Role="party_partyroletype" Type="Self.party_partyroletype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MusicianRoleGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="party_partyroletype">
+              <PropertyRef Name="MusicianRoleGroupId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2033,6 +1926,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <EntitySet Name="media_source" EntityType="Self.media_source" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="media_status" EntityType="Self.media_status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="media_work" EntityType="Self.media_work" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MusicianRoleGroup" EntityType="Self.MusicianRoleGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NLog" EntityType="Self.NLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="organization_cataloguerights" EntityType="Self.organization_cataloguerights" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="organization_isrc_series" EntityType="Self.organization_isrc_series" Schema="dbo" store:Type="Tables" />
@@ -2040,12 +1934,9 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <EntitySet Name="organization_master" EntityType="Self.organization_master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="organization_type" EntityType="Self.organization_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="party_address" EntityType="Self.party_address" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="party_artistdefaultroles" EntityType="Self.party_artistdefaultroles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="party_artistgroupmember" EntityType="Self.party_artistgroupmember" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="party_artisttype" EntityType="Self.party_artisttype" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="party_contactmedium" EntityType="Self.party_contactmedium" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="party_groupmembership" EntityType="Self.party_groupmembership" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="party_instrument" EntityType="Self.party_instrument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="party_instrumenttype" EntityType="Self.party_instrumenttype" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="party_mainartist" EntityType="Self.party_mainartist" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="party_partyroletype" EntityType="Self.party_partyroletype" Schema="dbo" store:Type="Tables" />
@@ -2266,37 +2157,9 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             <End Role="organization_type" EntitySet="organization_type" />
             <End Role="organization_master" EntitySet="organization_master" />
           </AssociationSet>
-          <AssociationSet Name="FK_party_artistdefaultroles_party_mainartist" Association="Self.FK_party_artistdefaultroles_party_mainartist">
-            <End Role="party_mainartist" EntitySet="party_mainartist" />
-            <End Role="party_artistdefaultroles" EntitySet="party_artistdefaultroles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_artistdefaultroles_party_partyroletype" Association="Self.FK_party_artistdefaultroles_party_partyroletype">
-            <End Role="party_partyroletype" EntitySet="party_partyroletype" />
-            <End Role="party_artistdefaultroles" EntitySet="party_artistdefaultroles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_artistgroupmember_party_instrumenttype" Association="Self.FK_party_artistgroupmember_party_instrumenttype">
-            <End Role="party_instrumenttype" EntitySet="party_instrumenttype" />
-            <End Role="party_artistgroupmember" EntitySet="party_artistgroupmember" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_artistgroupmember_party_mainartist" Association="Self.FK_party_artistgroupmember_party_mainartist">
-            <End Role="party_mainartist" EntitySet="party_mainartist" />
-            <End Role="party_artistgroupmember" EntitySet="party_artistgroupmember" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_artistgroupmember_party_partyroletype" Association="Self.FK_party_artistgroupmember_party_partyroletype">
-            <End Role="party_partyroletype" EntitySet="party_partyroletype" />
-            <End Role="party_artistgroupmember" EntitySet="party_artistgroupmember" />
-          </AssociationSet>
           <AssociationSet Name="FK_party_contactmedium_party_real" Association="Self.FK_party_contactmedium_party_real">
             <End Role="party_real" EntitySet="party_real" />
             <End Role="party_contactmedium" EntitySet="party_contactmedium" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_instrument_instrumenttype" Association="Self.FK_party_instrument_instrumenttype">
-            <End Role="party_instrumenttype" EntitySet="party_instrumenttype" />
-            <End Role="party_instrument" EntitySet="party_instrument" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_instrument_party_real" Association="Self.FK_party_instrument_party_real">
-            <End Role="party_real" EntitySet="party_real" />
-            <End Role="party_instrument" EntitySet="party_instrument" />
           </AssociationSet>
           <AssociationSet Name="FK_party_instrumenttype_party_instrumenttype" Association="Self.FK_party_instrumenttype_party_instrumenttype">
             <End Role="party_instrumenttype" EntitySet="party_instrumenttype" />
@@ -2313,6 +2176,10 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <AssociationSet Name="FK_party_mainartist_party_real" Association="Self.FK_party_mainartist_party_real">
             <End Role="party_real" EntitySet="party_real" />
             <End Role="party_mainartist" EntitySet="party_mainartist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_party_partyroletype_MusicianRoleGroup" Association="Self.FK_party_partyroletype_MusicianRoleGroup">
+            <End Role="MusicianRoleGroup" EntitySet="MusicianRoleGroup" />
+            <End Role="party_partyroletype" EntitySet="party_partyroletype" />
           </AssociationSet>
           <AssociationSet Name="FK_party_pseudonym_party_real" Association="Self.FK_party_pseudonym_party_real">
             <End Role="party_real" EntitySet="party_real" />
@@ -3090,40 +2957,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
-        <EntityType Name="party_artistdefaultroles">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="mainartistid" Type="Int32" Nullable="false" />
-          <Property Name="rolecode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="sortorder" Type="Int32" />
-          <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="updatedby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="updatedon" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="party_mainartist" Relationship="Self.FK_party_artistdefaultroles_party_mainartist" FromRole="party_artistdefaultroles" ToRole="party_mainartist" />
-          <NavigationProperty Name="party_partyroletype" Relationship="Self.FK_party_artistdefaultroles_party_partyroletype" FromRole="party_artistdefaultroles" ToRole="party_partyroletype" />
-        </EntityType>
-        <EntityType Name="party_artistgroupmember">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="artistgroupid" Type="Int32" Nullable="false" />
-          <Property Name="artistid" Type="Int32" Nullable="false" />
-          <Property Name="partyrolecode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="instrumentcode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="active" Type="Boolean" />
-          <Property Name="updatedby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="updatedon" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="party_instrumenttype" Relationship="Self.FK_party_artistgroupmember_party_instrumenttype" FromRole="party_artistgroupmember" ToRole="party_instrumenttype" />
-          <NavigationProperty Name="party_mainartist" Relationship="Self.FK_party_artistgroupmember_party_mainartist" FromRole="party_artistgroupmember" ToRole="party_mainartist" />
-          <NavigationProperty Name="party_partyroletype" Relationship="Self.FK_party_artistgroupmember_party_partyroletype" FromRole="party_artistgroupmember" ToRole="party_partyroletype" />
-        </EntityType>
         <EntityType Name="party_artisttype">
           <Key>
             <PropertyRef Name="code" />
@@ -3169,23 +3002,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="party_mainartist" Relationship="Self.membership_group" FromRole="party_groupmembership" ToRole="party_mainartist" />
         </EntityType>
-        <EntityType Name="party_instrument">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="partyrealid" Type="Int32" Nullable="false" />
-          <Property Name="instrumentcode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="capabilityrating" Type="Int32" />
-          <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="sortorder" Type="Int32" />
-          <Property Name="updatedby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="updatedon" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="party_instrumenttype" Relationship="Self.FK_party_instrument_instrumenttype" FromRole="party_instrument" ToRole="party_instrumenttype" />
-          <NavigationProperty Name="party_real" Relationship="Self.FK_party_instrument_party_real" FromRole="party_instrument" ToRole="party_real" />
-        </EntityType>
         <EntityType Name="party_instrumenttype">
           <Key>
             <PropertyRef Name="code" />
@@ -3203,10 +3019,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="createdon" Type="DateTime" Precision="3" />
           <NavigationProperty Name="common_cache_recordingparty_detail" Relationship="Self.FK_common_cache_recordingparty_detail_party_instrumenttype" FromRole="party_instrumenttype" ToRole="common_cache_recordingparty_detail" />
-          <NavigationProperty Name="party_artistgroupmember" Relationship="Self.FK_party_artistgroupmember_party_instrumenttype" FromRole="party_instrumenttype" ToRole="party_artistgroupmember" />
-          <NavigationProperty Name="party_instrument" Relationship="Self.FK_party_instrument_instrumenttype" FromRole="party_instrumenttype" ToRole="party_instrument" />
-          <NavigationProperty Name="party_instrumenttype1" Relationship="Self.FK_party_instrumenttype_party_instrumenttype" FromRole="party_instrumenttype" ToRole="party_instrumenttype1" />
-          <NavigationProperty Name="party_instrumenttype2" Relationship="Self.FK_party_instrumenttype_party_instrumenttype" FromRole="party_instrumenttype1" ToRole="party_instrumenttype" />
           <NavigationProperty Name="project_track_artist" Relationship="Self.FK_project_track_artist_party_instrumenttype" FromRole="party_instrumenttype" ToRole="project_track_artist" />
           <NavigationProperty Name="recording_party" Relationship="Self.FK_recording_party_party_instrumenttype" FromRole="party_instrumenttype" ToRole="recording_party" />
         </EntityType>
@@ -3238,8 +3050,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <NavigationProperty Name="common_country" Relationship="Self.FK_party_mainartist_common_country" FromRole="party_mainartist" ToRole="common_country" />
           <NavigationProperty Name="media_product_package" Relationship="Self.FK_media_product_package_party_mainartist" FromRole="party_mainartist" ToRole="media_product_package" />
           <NavigationProperty Name="media_recording" Relationship="Self.FK_media_recording_mainartist" FromRole="party_mainartist" ToRole="media_recording" />
-          <NavigationProperty Name="party_artistdefaultroles" Relationship="Self.FK_party_artistdefaultroles_party_mainartist" FromRole="party_mainartist" ToRole="party_artistdefaultroles" />
-          <NavigationProperty Name="party_artistgroupmember" Relationship="Self.FK_party_artistgroupmember_party_mainartist" FromRole="party_mainartist" ToRole="party_artistgroupmember" />
           <NavigationProperty Name="party_artisttype" Relationship="Self.FK_party_mainartist_party_artisttype" FromRole="party_mainartist" ToRole="party_artisttype" />
           <NavigationProperty Name="party_groupmembership" Relationship="Self.membership_group" FromRole="party_mainartist" ToRole="party_groupmembership" />
           <NavigationProperty Name="party_real" Relationship="Self.FK_mainartist_maincontact" FromRole="party_mainartist" ToRole="party_real" />
@@ -3259,10 +3069,10 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="equivalent_role" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
           <Property Name="adminonly" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="common_cache_recordingparty_detail" Relationship="Self.FK_common_cache_recordingparty_detail_party_partyroletype" FromRole="party_partyroletype" ToRole="common_cache_recordingparty_detail" />
-          <NavigationProperty Name="party_artistdefaultroles" Relationship="Self.FK_party_artistdefaultroles_party_partyroletype" FromRole="party_partyroletype" ToRole="party_artistdefaultroles" />
-          <NavigationProperty Name="party_artistgroupmember" Relationship="Self.FK_party_artistgroupmember_party_partyroletype" FromRole="party_partyroletype" ToRole="party_artistgroupmember" />
           <NavigationProperty Name="project_track_artist" Relationship="Self.FK_project_track_artist_party_partyroletype" FromRole="party_partyroletype" ToRole="project_track_artist" />
           <NavigationProperty Name="recording_party" Relationship="Self.FK_recording_party_party_partyroletype" FromRole="party_partyroletype" ToRole="recording_party" />
+          <Property Name="MusicianRoleGroupId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MusicianRoleGroup" Relationship="SFH.IT.Hljodrit.Model.FK_party_partyroletype_MusicianRoleGroup" FromRole="party_partyroletype" ToRole="MusicianRoleGroup" />
         </EntityType>
         <EntityType Name="party_pseudonym">
           <Key>
@@ -3307,7 +3117,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="importid" Type="Int32" />
           <NavigationProperty Name="common_cache_recordingparty_detail" Relationship="Self.FK_common_cache_recordingparty_detail_party_real" FromRole="party_real" ToRole="common_cache_recordingparty_detail" />
           <NavigationProperty Name="party_contactmedium" Relationship="Self.FK_party_contactmedium_party_real" FromRole="party_real" ToRole="party_contactmedium" />
-          <NavigationProperty Name="party_instrument" Relationship="Self.FK_party_instrument_party_real" FromRole="party_real" ToRole="party_instrument" />
           <NavigationProperty Name="party_mainartist" Relationship="Self.FK_mainartist_maincontact" FromRole="party_real" ToRole="party_mainartist" />
           <NavigationProperty Name="party_mainartist1" Relationship="Self.FK_party_mainartist_party_real" FromRole="party_real" ToRole="party_mainartist" />
           <NavigationProperty Name="party_pseudonym" Relationship="Self.FK_party_pseudonym_party_real" FromRole="party_real" ToRole="party_pseudonym" />
@@ -4165,66 +3974,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_party_artistdefaultroles_party_mainartist">
-          <End Role="party_mainartist" Type="Self.party_mainartist" Multiplicity="1" />
-          <End Role="party_artistdefaultroles" Type="Self.party_artistdefaultroles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_mainartist">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="party_artistdefaultroles">
-              <PropertyRef Name="mainartistid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_artistdefaultroles_party_partyroletype">
-          <End Role="party_partyroletype" Type="Self.party_partyroletype" Multiplicity="1" />
-          <End Role="party_artistdefaultroles" Type="Self.party_artistdefaultroles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_partyroletype">
-              <PropertyRef Name="rolecode" />
-            </Principal>
-            <Dependent Role="party_artistdefaultroles">
-              <PropertyRef Name="rolecode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_artistgroupmember_party_instrumenttype">
-          <End Role="party_instrumenttype" Type="Self.party_instrumenttype" Multiplicity="0..1" />
-          <End Role="party_artistgroupmember" Type="Self.party_artistgroupmember" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_instrumenttype">
-              <PropertyRef Name="code" />
-            </Principal>
-            <Dependent Role="party_artistgroupmember">
-              <PropertyRef Name="instrumentcode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_artistgroupmember_party_mainartist">
-          <End Role="party_mainartist" Type="Self.party_mainartist" Multiplicity="1" />
-          <End Role="party_artistgroupmember" Type="Self.party_artistgroupmember" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_mainartist">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="party_artistgroupmember">
-              <PropertyRef Name="artistid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_artistgroupmember_party_partyroletype">
-          <End Role="party_partyroletype" Type="Self.party_partyroletype" Multiplicity="0..1" />
-          <End Role="party_artistgroupmember" Type="Self.party_artistgroupmember" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_partyroletype">
-              <PropertyRef Name="rolecode" />
-            </Principal>
-            <Dependent Role="party_artistgroupmember">
-              <PropertyRef Name="partyrolecode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_party_mainartist_party_artisttype">
           <End Role="party_artisttype" Type="Self.party_artisttype" Multiplicity="0..1" />
           <End Role="party_mainartist" Type="Self.party_mainartist" Multiplicity="*" />
@@ -4258,30 +4007,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </Principal>
             <Dependent Role="party_groupmembership">
               <PropertyRef Name="mainartistid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_instrument_instrumenttype">
-          <End Role="party_instrumenttype" Type="Self.party_instrumenttype" Multiplicity="1" />
-          <End Role="party_instrument" Type="Self.party_instrument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_instrumenttype">
-              <PropertyRef Name="code" />
-            </Principal>
-            <Dependent Role="party_instrument">
-              <PropertyRef Name="instrumentcode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_party_instrument_party_real">
-          <End Role="party_real" Type="Self.party_real" Multiplicity="1" />
-          <End Role="party_instrument" Type="Self.party_instrument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_real">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="party_instrument">
-              <PropertyRef Name="partyrealid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4581,12 +4306,9 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <EntitySet Name="organization_master" EntityType="Self.organization_master" />
           <EntitySet Name="organization_type" EntityType="Self.organization_type" />
           <EntitySet Name="party_address" EntityType="Self.party_address" />
-          <EntitySet Name="party_artistdefaultroles" EntityType="Self.party_artistdefaultroles" />
-          <EntitySet Name="party_artistgroupmember" EntityType="Self.party_artistgroupmember" />
           <EntitySet Name="party_artisttype" EntityType="Self.party_artisttype" />
           <EntitySet Name="party_contactmedium" EntityType="Self.party_contactmedium" />
           <EntitySet Name="party_groupmembership" EntityType="Self.party_groupmembership" />
-          <EntitySet Name="party_instrument" EntityType="Self.party_instrument" />
           <EntitySet Name="party_instrumenttype" EntityType="Self.party_instrumenttype" />
           <EntitySet Name="party_mainartist" EntityType="Self.party_mainartist" />
           <EntitySet Name="party_partyroletype" EntityType="Self.party_partyroletype" />
@@ -4773,26 +4495,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             <End Role="organization_master" EntitySet="organization_master" />
             <End Role="project_superuser_organizations" EntitySet="project_superuser_organizations" />
           </AssociationSet>
-          <AssociationSet Name="FK_party_artistdefaultroles_party_mainartist" Association="Self.FK_party_artistdefaultroles_party_mainartist">
-            <End Role="party_mainartist" EntitySet="party_mainartist" />
-            <End Role="party_artistdefaultroles" EntitySet="party_artistdefaultroles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_artistdefaultroles_party_partyroletype" Association="Self.FK_party_artistdefaultroles_party_partyroletype">
-            <End Role="party_partyroletype" EntitySet="party_partyroletype" />
-            <End Role="party_artistdefaultroles" EntitySet="party_artistdefaultroles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_artistgroupmember_party_instrumenttype" Association="Self.FK_party_artistgroupmember_party_instrumenttype">
-            <End Role="party_instrumenttype" EntitySet="party_instrumenttype" />
-            <End Role="party_artistgroupmember" EntitySet="party_artistgroupmember" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_artistgroupmember_party_mainartist" Association="Self.FK_party_artistgroupmember_party_mainartist">
-            <End Role="party_mainartist" EntitySet="party_mainartist" />
-            <End Role="party_artistgroupmember" EntitySet="party_artistgroupmember" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_artistgroupmember_party_partyroletype" Association="Self.FK_party_artistgroupmember_party_partyroletype">
-            <End Role="party_partyroletype" EntitySet="party_partyroletype" />
-            <End Role="party_artistgroupmember" EntitySet="party_artistgroupmember" />
-          </AssociationSet>
           <AssociationSet Name="FK_party_mainartist_party_artisttype" Association="Self.FK_party_mainartist_party_artisttype">
             <End Role="party_artisttype" EntitySet="party_artisttype" />
             <End Role="party_mainartist" EntitySet="party_mainartist" />
@@ -4804,14 +4506,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <AssociationSet Name="membership_group" Association="Self.membership_group">
             <End Role="party_mainartist" EntitySet="party_mainartist" />
             <End Role="party_groupmembership" EntitySet="party_groupmembership" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_instrument_instrumenttype" Association="Self.FK_party_instrument_instrumenttype">
-            <End Role="party_instrumenttype" EntitySet="party_instrumenttype" />
-            <End Role="party_instrument" EntitySet="party_instrument" />
-          </AssociationSet>
-          <AssociationSet Name="FK_party_instrument_party_real" Association="Self.FK_party_instrument_party_real">
-            <End Role="party_real" EntitySet="party_real" />
-            <End Role="party_instrument" EntitySet="party_instrument" />
           </AssociationSet>
           <AssociationSet Name="FK_party_instrumenttype_party_instrumenttype" Association="Self.FK_party_instrumenttype_party_instrumenttype">
             <End Role="party_instrumenttype" EntitySet="party_instrumenttype" />
@@ -4916,6 +4610,11 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             <Parameter Name="callSite" Mode="In" Type="String" />
             <Parameter Name="exception" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="MusicianRoleGroup" EntityType="SFH.IT.Hljodrit.Model.MusicianRoleGroup" />
+          <AssociationSet Name="FK_party_partyroletype_MusicianRoleGroup" Association="SFH.IT.Hljodrit.Model.FK_party_partyroletype_MusicianRoleGroup">
+            <End Role="MusicianRoleGroup" EntitySet="MusicianRoleGroup" />
+            <End Role="party_partyroletype" EntitySet="party_partyroletype" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="NLog">
           <Key>
@@ -4939,6 +4638,27 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="Callsite" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="Exception" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="MusicianRoleGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="party_partyroletype" Relationship="SFH.IT.Hljodrit.Model.FK_party_partyroletype_MusicianRoleGroup" FromRole="MusicianRoleGroup" ToRole="party_partyroletype" />
+        </EntityType>
+        <Association Name="FK_party_partyroletype_MusicianRoleGroup">
+          <End Type="SFH.IT.Hljodrit.Model.MusicianRoleGroup" Role="MusicianRoleGroup" Multiplicity="1" />
+          <End Type="SFH.IT.Hljodrit.Model.party_partyroletype" Role="party_partyroletype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MusicianRoleGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="party_partyroletype">
+              <PropertyRef Name="MusicianRoleGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5541,37 +5261,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="party_artistdefaultroles">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_artistdefaultroles">
-              <MappingFragment StoreEntitySet="party_artistdefaultroles">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="mainartistid" ColumnName="mainartistid" />
-                <ScalarProperty Name="rolecode" ColumnName="rolecode" />
-                <ScalarProperty Name="sortorder" ColumnName="sortorder" />
-                <ScalarProperty Name="comment" ColumnName="comment" />
-                <ScalarProperty Name="updatedby" ColumnName="updatedby" />
-                <ScalarProperty Name="updatedon" ColumnName="updatedon" />
-                <ScalarProperty Name="createdby" ColumnName="createdby" />
-                <ScalarProperty Name="createdon" ColumnName="createdon" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="party_artistgroupmember">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_artistgroupmember">
-              <MappingFragment StoreEntitySet="party_artistgroupmember">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="artistgroupid" ColumnName="artistgroupid" />
-                <ScalarProperty Name="artistid" ColumnName="artistid" />
-                <ScalarProperty Name="partyrolecode" ColumnName="partyrolecode" />
-                <ScalarProperty Name="instrumentcode" ColumnName="instrumentcode" />
-                <ScalarProperty Name="active" ColumnName="active" />
-                <ScalarProperty Name="updatedby" ColumnName="updatedby" />
-                <ScalarProperty Name="updatedon" ColumnName="updatedon" />
-                <ScalarProperty Name="createdby" ColumnName="createdby" />
-                <ScalarProperty Name="createdon" ColumnName="createdon" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="party_artisttype">
             <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_artisttype">
               <MappingFragment StoreEntitySet="party_artisttype">
@@ -5610,22 +5299,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
                 <ScalarProperty Name="mainartistid" ColumnName="mainartistid" />
                 <ScalarProperty Name="validmember" ColumnName="validmember" />
                 <ScalarProperty Name="validmemberfrom" ColumnName="validmemberfrom" />
-                <ScalarProperty Name="updatedby" ColumnName="updatedby" />
-                <ScalarProperty Name="updatedon" ColumnName="updatedon" />
-                <ScalarProperty Name="createdby" ColumnName="createdby" />
-                <ScalarProperty Name="createdon" ColumnName="createdon" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="party_instrument">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_instrument">
-              <MappingFragment StoreEntitySet="party_instrument">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="partyrealid" ColumnName="partyrealid" />
-                <ScalarProperty Name="instrumentcode" ColumnName="instrumentcode" />
-                <ScalarProperty Name="capabilityrating" ColumnName="capabilityrating" />
-                <ScalarProperty Name="comment" ColumnName="comment" />
-                <ScalarProperty Name="sortorder" ColumnName="sortorder" />
                 <ScalarProperty Name="updatedby" ColumnName="updatedby" />
                 <ScalarProperty Name="updatedon" ColumnName="updatedon" />
                 <ScalarProperty Name="createdby" ColumnName="createdby" />
@@ -5680,6 +5353,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <EntitySetMapping Name="party_partyroletype">
             <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_partyroletype">
               <MappingFragment StoreEntitySet="party_partyroletype">
+                <ScalarProperty Name="MusicianRoleGroupId" ColumnName="MusicianRoleGroupId" />
                 <ScalarProperty Name="rolecode" ColumnName="rolecode" />
                 <ScalarProperty Name="rolename_en" ColumnName="rolename_en" />
                 <ScalarProperty Name="rolename_is" ColumnName="rolename_is" />
@@ -6052,6 +5726,15 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="NLog_AddEntry_p" FunctionName="SFH.IT.Hljodrit.Model.Store.NLog_AddEntry_p" />
+          <EntitySetMapping Name="MusicianRoleGroup">
+            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.MusicianRoleGroup">
+              <MappingFragment StoreEntitySet="MusicianRoleGroup">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Points" ColumnName="Points" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
