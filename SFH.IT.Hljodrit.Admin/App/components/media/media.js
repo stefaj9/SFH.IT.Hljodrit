@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getMediaRecordingsByCriteria } from '../../actions/songActions';
 import Table from '../common/table';
-import songTableData from '../songs/songTableData';
+import mediaTableData from './mediaTableData';
 import Spinner from 'react-spinner';
 
 class Media extends React.Component {
@@ -15,7 +15,7 @@ class Media extends React.Component {
         return (
             <div>
                 <h1>Hljóðrit</h1>
-                <Table tableData={songTableData} objects={this.props.mediaEnvelope.objects} />
+                <Table tableData={mediaTableData} objects={this.props.mediaEnvelope.objects} />
             </div>
         );
     }
