@@ -56,12 +56,9 @@ namespace SFH.IT.Hljodrit.Models
         public virtual DbSet<organization_master> organization_master { get; set; }
         public virtual DbSet<organization_type> organization_type { get; set; }
         public virtual DbSet<party_address> party_address { get; set; }
-        public virtual DbSet<party_artistdefaultroles> party_artistdefaultroles { get; set; }
-        public virtual DbSet<party_artistgroupmember> party_artistgroupmember { get; set; }
         public virtual DbSet<party_artisttype> party_artisttype { get; set; }
         public virtual DbSet<party_contactmedium> party_contactmedium { get; set; }
         public virtual DbSet<party_groupmembership> party_groupmembership { get; set; }
-        public virtual DbSet<party_instrument> party_instrument { get; set; }
         public virtual DbSet<party_instrumenttype> party_instrumenttype { get; set; }
         public virtual DbSet<party_mainartist> party_mainartist { get; set; }
         public virtual DbSet<party_partyroletype> party_partyroletype { get; set; }

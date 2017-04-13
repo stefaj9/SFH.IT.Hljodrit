@@ -88,6 +88,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             if (songEntity != null && mediaRecording != null)
             {
                 songEntity.title = song.Title;
+                mediaRecording.recordingtitle = song.Title;
                 mediaRecording.duration = song.Duration;
                 songEntity.isrc = song.Isrc;
                 mediaRecording.isrc = song.Isrc;

@@ -43,7 +43,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     break;
                 case AlbumReleaseYearSearchFilter:
                     var releaseYear = Convert.ToInt32(searchTerm.Trim());
-                    filter = album => album.releasedate.Year == releaseYear;
+                    filter = album => album.releasedate.Value.Year == releaseYear;
                     break;
             }
 

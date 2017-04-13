@@ -66,7 +66,6 @@
     <Folder Include="SchemaCompare" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\party_instrument.sql" />
     <Build Include="dbo\Tables\party_instrumenttype.sql" />
     <Build Include="dbo\Tables\party_mainartist.sql" />
     <Build Include="dbo\Tables\party_partyroletype.sql" />
@@ -120,14 +119,13 @@
     <Build Include="dbo\Tables\organization_master_oli.sql" />
     <Build Include="dbo\Tables\organization_type.sql" />
     <Build Include="dbo\Tables\party_address.sql" />
-    <Build Include="dbo\Tables\party_artistdefaultroles.sql" />
-    <Build Include="dbo\Tables\party_artistgroupmember.sql" />
     <Build Include="dbo\Tables\party_artisttype.sql" />
     <Build Include="dbo\Tables\party_contactmedium.sql" />
     <Build Include="dbo\Tables\party_groupmembership.sql" />
     <Build Include="dbo\Views\Recording_List.sql" />
     <Build Include="dbo\Tables\NLog.sql" />
     <Build Include="dbo\Stored Procedures\NLog_AddEntry_p.sql" />
+    <Build Include="dbo\Tables\MusicianRoleGroup.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SchemaCompare\DatabaseToProject.scmp" />
