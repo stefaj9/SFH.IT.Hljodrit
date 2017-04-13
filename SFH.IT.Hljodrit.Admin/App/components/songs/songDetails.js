@@ -129,7 +129,7 @@ class SongDetails extends React.Component {
         this.setState({ selectedMusicians: selectedMusicians });
     }
     removeMusiciansFromSong() {
-        this.props.removeMusiciansFromSong(this.props.params.albumId, this.props.routeParams.songId, this.state.selectedMusicians);
+        this.props.removeMusiciansFromSong(this.props.params.albumId, this.props.routeParams.songId, this.state.selectedMusicians.map((m) => { return m.musicianId } ));
         this.setState({ selectedMusicians: [] });
     }
     renderSongInfo() {

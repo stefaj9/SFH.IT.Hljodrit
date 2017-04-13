@@ -9,7 +9,7 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         Envelope<SongDto> GetSongs(int pageSize, int pageNumber, string searchTerm, string searchType);
         SongDto GetSongById(int songId);
         void AddMusicianToSong(int songId, MusicianRegisterViewModel musician);
-        void RemoveMusiciansFromSong(int songId, IEnumerable<MusiciansOnSongDto> musicians);
+        void RemoveMusiciansFromSong(int songId, IEnumerable<int> musicianIds);
         SongDto UpdateSongById(int songId, SongDto song);
     }
 }

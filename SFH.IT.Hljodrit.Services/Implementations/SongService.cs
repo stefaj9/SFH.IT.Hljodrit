@@ -102,9 +102,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return song;
         }
 
-        public void RemoveMusiciansFromSong(int songId, IEnumerable<MusiciansOnSongDto> musicians)
+        public void RemoveMusiciansFromSong(int songId, IEnumerable<int> musicianIds)
         {
-            musicians.ToList().ForEach(m => _recordingPartyRepository.Delete(r => r.id == m.MusicianId));
+            var mediaRecordingId = _songRepository.GetById(songId).media_recording.id;
+            musicianIds.ToList().ForEach(musicianId => _recordingPartyRepository.Delete(r => r.id == musicianId && r.media_recording.id == mediaRecordingId));
             _unitOfWork.Commit();
         }
     }

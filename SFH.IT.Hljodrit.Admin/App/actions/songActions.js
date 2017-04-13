@@ -78,11 +78,11 @@ export function addMusicianToSong(albumId, songId, musician) {
     }
 }
 
-export function removeMusiciansFromSong(albumId, songId, musicians) {
+export function removeMusiciansFromSong(albumId, songId, musicianIds) {
     return (dispatch) => {
         return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
             method: 'DELETE',
-            body: JSON.stringify(musicians),
+            body: JSON.stringify(musicianIds),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -99,14 +99,18 @@ export function removeMusiciansFromSong(albumId, songId, musicians) {
 
 export function getAllMusiciansOnSong(albumId, songId) {
     return (dispatch) => {
+        dispatch(isFetchingSongs());
         return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
+            } else {
+                dispatch(hasStoppedFetchingSongs());
             }
         }).then((data) => {
             dispatch(getAllMusiciansOnSongSuccess(data));
+            dispatch(hasStoppedFetchingSongs());
         });
     }
 }
