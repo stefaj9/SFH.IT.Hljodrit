@@ -11,8 +11,8 @@ import Projects from '../components/project/projects';
 import ProjectManagement from '../components/project/projectManagement';
 import Intro from '../components/common/intro';
 import AddProject from '../components/project/addProject';
-import Songs from '../components/songs/songs';
-//import Media from '../components/media/media';
+//import Songs from '../components/songs/songs';
+import Media from '../components/media/media';
 import AlbumDetailsContainer from '../components/albums/albumDetailsContainer';
 import AlbumDetails from '../components/albums/albumDetails';
 import SongDetails from '../components/songs/songDetails';
@@ -34,7 +34,7 @@ export default (
         </Route>
         <Route path="users" component={Users} />
         <Route path="settings" component={Settings} />
-        <Route path="songs" component={Songs} />
+        <Route path="media" component={Media} />
         <Route path="*" component={NotFound} />
     </Route>
 );

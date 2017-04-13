@@ -23,9 +23,7 @@ export default class Settings extends React.Component {
     render() {
         return (
             <div>
-                <Tabs tabData={this.state.tabData} activeTab={this.state.activeTab}
-                      changeTab={(newTab) => this.handleClick(newTab)} />
-                <Content activeTab={this.state.activeTab} />
+                <h1>Hljóðrit</h1>
             </div>
         );
     }
