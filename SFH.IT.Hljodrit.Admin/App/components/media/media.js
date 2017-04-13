@@ -1,30 +1,31 @@
 import React from 'react';
-import Tabs from '../common/Tabs';
-import TabItems from './mediaTabData';
-import Content from './mediaContent';
+import { connect } from 'react-redux';
+import { getMediaRecordingsByCriteria } from '../../actions/songActions';
+import Table from '../common/table';
+import songTableData from '../songs/songTableData';
+import Spinner from 'react-spinner';
 
-export default class Settings extends React.Component {
+class Media extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-
-        this.state = {
-            tabData: TabItems,
-            activeTab: TabItems[0]
-        };
-    }
-
-    handleClick(tab) {
-        this.setState({
-            activeTab: tab
-        });
     }
 
     render() {
         return (
             <div>
                 <h1>Hljóðrit</h1>
+                <Table tableData={songTableData} objects={this.props.mediaEnvelope.objects} />
             </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        isFetching: state.songs.isFetching,
+        mediaEnvelope: state.songs.mediaRecordingEnvelope
+    }
+}
+
+export default connect(mapStateToProps, { getMediaRecordingsByCriteria }) (Media);
