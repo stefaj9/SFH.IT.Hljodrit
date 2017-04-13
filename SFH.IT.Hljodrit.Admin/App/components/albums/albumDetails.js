@@ -30,7 +30,11 @@ class AlbumDetails extends React.Component {
                          />
                     <div>
                         <h2>Lög</h2>
-                        <Table onClickCallback={(row) => browserHistory.push(`/albums/${row.albumId}/songs/${row.songId}`)} tableData={albumTableData} objects={this.props.songsOnSelectedAlbum} />
+                        <Table 
+                            onClickCallback={(row) => browserHistory.push(`/albums/${row.albumId}/songs/${row.songId}`)} 
+                            tableData={albumTableData} 
+                            objects={this.props.songsOnSelectedAlbum}
+                            tableRowClassName="album-song-selection-row" />
                     </div>
                 </div>
             );

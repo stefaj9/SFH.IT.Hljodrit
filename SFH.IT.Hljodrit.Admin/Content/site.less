@@ -4,6 +4,23 @@ body {
     font-family: @baseFont, sans-serif !important;
 }
 
+.hover-cursor {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.fa-greyed-out {
+    color: rgba(155, 155, 155, 0.5);
+    &:hover {
+        cursor: not-allowed;
+    }
+}
+
+.fa-green {
+    color: green;
+}
+
 .react-date-field {
     width: 100% !important;
     border-radius: 4px;

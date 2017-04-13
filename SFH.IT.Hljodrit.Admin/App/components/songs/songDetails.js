@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSongDetailsById, getAllMusiciansOnSong, addMusicianToSong, updateSongDetailsById,removeMusiciansFromSong } from '../../actions/songActions';
+import { getSongDetailsById, getAllMusiciansOnSong, addMusicianToSong, updateSongDetailsById } from '../../actions/songActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { getPersonsByCriteria } from '../../actions/personActions';
 import { Link } from 'react-router';
@@ -36,8 +36,7 @@ class SongDetails extends React.Component {
             currentSong: {},
             hasFetched: false,
             dirtyForm: false,
-            isAddingPerformer: false,
-            selectedMusicians: []
+            isAddingPerformer: false
         };
     }
     changeSongDetails(e) {
@@ -116,22 +115,6 @@ class SongDetails extends React.Component {
         this.props.addMusicianToSong(this.props.params.albumId, this.props.routeParams.songId, performer);
         this.setState({ isAddingPerformer: false });
     }
-    addToListOfSelectedMusicians(musicians, status) {
-        let selectedMusicians = _.cloneDeep(this.state.selectedMusicians);
-        if (!status) {
-            // The musicians are being removed
-            _.forEach(musicians, (musician) => {
-                _.remove(selectedMusicians, (m) => { return m.id === musician.id });
-            });
-        } else {
-            selectedMusicians = _.concat(selectedMusicians, musicians);
-        }
-        this.setState({ selectedMusicians: selectedMusicians });
-    }
-    removeMusiciansFromSong() {
-        this.props.removeMusiciansFromSong(this.props.params.albumId, this.props.routeParams.songId, this.state.selectedMusicians.map((m) => { return m.musicianId } ));
-        this.setState({ selectedMusicians: [] });
-    }
     renderSongInfo() {
         if (!this.props.isFetching) {
             return (
@@ -160,11 +143,10 @@ class SongDetails extends React.Component {
                     </div>
                     <h4>Flytjendur á laginu</h4>
                     <SongMusiciansTable 
+                        albumId={this.props.params.albumId}
+                        songId={this.props.routeParams.songId}
                         musicians={this.props.musicians}
-                        addMusicianToSong={() => this.setState({ isAddingPerformer: true })}
-                        addToListOfSelectedMusicians={(musicians, status) => this.addToListOfSelectedMusicians(musicians, status)} 
-                        removeMusiciansFromSong={() => this.removeMusiciansFromSong()}
-                        isRemoveButtonActive={this.state.selectedMusicians.length > 0} />
+                        addMusicianToSong={() => this.setState({ isAddingPerformer: true })} />
                     <PerformerListModal
                         isOpen={this.state.isAddingPerformer}
                         update={(performer) => this.addPerformerToAlbum(performer)}
@@ -192,4 +174,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong, isFetchingList, hasStoppedFetchingList, getPersonsByCriteria, addMusicianToSong, updateSongDetailsById, removeMusiciansFromSong })(SongDetails);
+export default connect(mapStateToProps, { getSongDetailsById, getAllMusiciansOnSong, isFetchingList, hasStoppedFetchingList, getPersonsByCriteria, addMusicianToSong, updateSongDetailsById })(SongDetails);
