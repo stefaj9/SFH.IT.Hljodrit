@@ -114,6 +114,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         public void RemoveSongsFromAlbum(int albumId, IEnumerable<int> songIds)
         {
             songIds.ToList().ForEach(songId => _songRepository.Delete(s => s.id == songId));
+            _unitOfWork.Commit();
         }
 
         public void UpdateMusicianInfoOnSong(int songId, int musicianId, MusicianInfoModifyModel model)
