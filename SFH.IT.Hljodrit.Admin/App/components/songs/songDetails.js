@@ -67,28 +67,30 @@ class SongDetails extends React.Component {
         );
     }
     renderReleaseDatePicker() {
-        return (
-            <div className="form-group">
-                <label>Útgáfudagur lags</label>
-                <div>
-                    <DateField
-                        dateFormat="DD.MM.YYYY"
-                        forceValidDate={true}
-                        updateOnDateClick={true}
-                        defaultValue={moment(this.state.currentSong.releaseDate).format('DD.MM.YYYY')}>
-                        <DatePicker
-                            navigation={true}
-                            locale="is"
+        if (this.state.currentSong.releaseDate) {
+            return (
+                <div className="form-group">
+                    <label>Útgáfudagur lags</label>
+                    <div>
+                        <DateField
+                            dateFormat="DD.MM.YYYY"
                             forceValidDate={true}
-                            highlightWeekends={true}
-                            highlightToday={true}
-                            weekNumbers={true}
-                            weekStartDay={1}
-                            onChange={this.updateSongReleaseDate.bind(this)} />
-                    </DateField>
+                            updateOnDateClick={true}
+                            defaultValue={moment(this.state.currentSong.releaseDate).format('DD.MM.YYYY')}>
+                            <DatePicker
+                                navigation={true}
+                                locale="is"
+                                forceValidDate={true}
+                                highlightWeekends={true}
+                                highlightToday={true}
+                                weekNumbers={true}
+                                weekStartDay={1}
+                                onChange={this.updateSongReleaseDate.bind(this)} />
+                        </DateField>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
     updateSongTitle(e) {
         let song = _.cloneDeep(this.state.currentSong);

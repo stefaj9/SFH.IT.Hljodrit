@@ -10,6 +10,7 @@ const SongsOnAlbumTable = ({songs, callback, removeSongsFromAlbum, addToListOfSe
                 selectRowMode="checkbox"
                 onClickCallback={callback}
                 tableData={albumTableData}
+                tableRowClassName="album-song-selection-row"
                 selectRowCallback={(row, status) => addToListOfSelectedSongs([row], status)}
                 selectRowCallBackAll={(status, rows) => addToListOfSelectedSongs(rows, status)}
                 objects={songs}
