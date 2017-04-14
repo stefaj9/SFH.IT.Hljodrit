@@ -36,8 +36,8 @@ const Table = ({tableData, objects, onClickCallback, selectRow, selectRowMode, s
         return idxObj.idx = idx;
     });
     return (
-        <div>
-            <BootstrapTable 
+        <div className="col-xs-12">
+            <BootstrapTable
               data={indexedObjects}
               options={{onRowClick: onClickCallback}}
               selectRow={selectRowOptions}

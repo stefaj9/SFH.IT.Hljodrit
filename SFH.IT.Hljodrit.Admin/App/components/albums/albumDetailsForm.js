@@ -2,7 +2,7 @@ import React from 'react';
 import Spinner from 'react-spinner';
 
 const AlbumDetailsForm = ({hasFetched, album, updateAlbumField, openModal, getMainArtistsByCriteria,
-        mainArtistEnvelope, updateMainArtist, getPublishersByCriteria, organizationEnvelope, updatePublisher,
+                           updateMainArtist, getPublishersByCriteria, updatePublisher,
         populateLabelOptions, countryOptions, updateSelectedAlbum, selectedAlbumHasChanged}) => {
     return (
         <div>
@@ -23,7 +23,7 @@ const AlbumDetailsForm = ({hasFetched, album, updateAlbumField, openModal, getMa
                                 />
                                 <div className="input-group-btn">
                                     <button type="button" className="btn btn-primary"
-                                        onClick={() => openModal(getMainArtistsByCriteria, mainArtistEnvelope, 'Breyta aðalflytjanda', updateMainArtist)}>
+                                        onClick={() => openModal(getMainArtistsByCriteria, 'Breyta aðalflytjanda', updateMainArtist)}>
                                         Breyta
                                     </button>
                                 </div>
@@ -38,8 +38,7 @@ const AlbumDetailsForm = ({hasFetched, album, updateAlbumField, openModal, getMa
                                 value={album.publisher}/>
                             <div className="input-group-btn">
                                 <button type="button" className="btn btn-primary"
-                                    onClick={() => openModal(getPublishersByCriteria,
-                                                        organizationEnvelope,'Breyta útgefanda',
+                                    onClick={() => openModal(getPublishersByCriteria,'Breyta útgefanda',
                                                         updatePublisher)}>
                                     Breyta
                                 </button>
