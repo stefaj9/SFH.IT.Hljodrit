@@ -109,5 +109,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             musicianIds.ToList().ForEach(musicianId => _recordingPartyRepository.Delete(r => r.id == musicianId && r.media_recording.id == mediaRecordingId));
             _unitOfWork.Commit();
         }
+
+        public void RemoveSongsFromAlbum(int albumId, IEnumerable<int> songIds)
+        {
+            songIds.ToList().ForEach(songId => _songRepository.Delete(s => s.id == songId));
+            _unitOfWork.Commit();
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         SongDto GetSongById(int songId);
         void AddMusicianToSong(int songId, MusicianRegisterViewModel musician);
         void RemoveMusiciansFromSong(int songId, IEnumerable<int> musicianIds);
+        void RemoveSongsFromAlbum(int albumId, IEnumerable<int> songIds);
         SongDto UpdateSongById(int songId, SongDto song);
     }
 }
