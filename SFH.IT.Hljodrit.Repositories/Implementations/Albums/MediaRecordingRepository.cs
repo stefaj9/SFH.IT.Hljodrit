@@ -24,7 +24,10 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                 Isrc = media.isrc,
                 MainArtist = media.party_mainartist.artistname,
                 Duration = media.duration,
-                ReleaseDate = media.recordingdate
+                ReleaseDate = media.recordingdate,
+                TotalMusicians = (from x in DbContext.recording_party
+                    where x.recordingid == media.id
+                    select x).GroupBy(x => x.partyrealid).Count()
             }).Where(expr).OrderBy(media => media.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
             var totalSongs = mediaList.Count();

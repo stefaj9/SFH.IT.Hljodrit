@@ -3,7 +3,8 @@ const mediaTableData = {
     mediaTitle: 'Heiti',
     mainArtist: 'Aðalflytjandi',
     duration: 'Lengd',
-    releaseDate: 'Útgáfuár'
+    releaseDate: 'Útgáfuár',
+    totalMusicians: 'Fj. aðila'
 };
 
 export default mediaTableData;
