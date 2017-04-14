@@ -86,8 +86,7 @@ class AlbumDetails extends React.Component {
             this.setState({
                 mainArtistModalType:true
             });
-        }
-        else {
+        } else {
             this.setState({
                 mainArtistModalType:false
             });
