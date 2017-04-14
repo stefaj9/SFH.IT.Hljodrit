@@ -97,8 +97,11 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                 ReleaseDate = song.releasedate,
                 MainArtist = song.media_recording.party_mainartist.artistname,
                 Isrc = song.isrc,
-                Duration = song.media_recording.duration
-            }).Where(expr).OrderBy(song => song.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                Duration = song.media_recording.duration,
+                TotalMusicians = (from x in DbContext.recording_party
+                                  where x.recordingid == song.recordingid
+                                  select x).GroupBy(x => x.partyrealid).Count()
+                }).Where(expr).OrderBy(song => song.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             var totalSongs = DbContext.media_product.Count(song => song.title.StartsWith(searchTerm));
             var result = EnvelopeCreator.CreateEnvelope(songs, pageSize, pageNumber, totalSongs);
