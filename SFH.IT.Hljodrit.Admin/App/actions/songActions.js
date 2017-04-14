@@ -37,6 +37,7 @@ export function getSongDetailsById(songId) {
     return (dispatch) => {
         dispatch(isFetchingSongs());
         dispatch(clearSongSelection());
+        dispatch(clearMusiciansOnSong());
         return fetch(`/api/songs/${songId}`, {
             method: 'GET'
         }).then((resp) => {
@@ -209,6 +210,13 @@ function clearMediaRecordingList() {
 function clearSongSelection() {
     return {
         type: actionType.CLEAR_SONG_SELECTION,
+        payload: {}
+    };
+};
+
+function clearMusiciansOnSong() {
+    return {
+        type: actionType.CLEAR_MUSICIANS_ON_SONG,
         payload: {}
     };
 };

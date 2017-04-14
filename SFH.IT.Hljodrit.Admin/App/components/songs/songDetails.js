@@ -116,7 +116,7 @@ class SongDetails extends React.Component {
         this.setState({ isAddingPerformer: false });
     }
     renderSongInfo() {
-        if (!this.props.isFetching) {
+        if (!this.props.isFetching && this.props.musicians.length > 0) {
             return (
                 <div>
                     <div className="row text-left">
@@ -158,7 +158,7 @@ class SongDetails extends React.Component {
     render() {
         return (
             <div>
-                <Spinner className={this.props.isFetching ? '' : 'hidden'} />
+                <Spinner className={this.props.isFetching || this.props.musicians.length === 0 ? '' : 'hidden'} />
                 {this.renderSongInfo()}
             </div>
         );

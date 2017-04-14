@@ -35,6 +35,13 @@ class SongMusiciansTable extends React.Component {
             );
         });
     }
+    renderInstruments() {
+        return this.props.instrumentSuggestions.map((suggestion) => {
+            return (
+                <option key={suggestion.idCode} value={suggestion.idCode}>{suggestion.instrumentNameIcelandic}</option>
+            );
+        });
+    }
     markRowAsChanged(rowNumber) {
         let rowsToUpdate = _.cloneDeep(this.state.rowsToUpdate);
         if (!_.find(rowsToUpdate, (row) => { return row === rowNumber })) {
@@ -54,8 +61,9 @@ class SongMusiciansTable extends React.Component {
     buildMusicians() {
         let musicians = _.cloneDeep(this.props.musicians);
         return _.forEach(musicians, (musician, idx) => {
-            musician.role = <select value={(musician.role ? musician.role : '')} className="form-control" onChange={() => this.markRowAsChanged(idx + 1)}>{this.renderRoles()}</select>;
+            musician.role = <select value={musician.role[0].code} className="form-control" onChange={() => this.markRowAsChanged(idx + 1)}>{this.renderRoles()}</select>;
             musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(idx + 1) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician, !this.isRowActionDisabled(idx + 1))}></i>
+            musician.instruments = <select value={musician.instruments[0].code} onChange={() => this.markRowAsChanged(idx + 1)} className="form-control" >{this.renderInstruments()}</select>;
         });
     }
     render() {

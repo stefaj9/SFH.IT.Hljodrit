@@ -35,9 +35,11 @@ export default function(state = initialState, action) {
                     id: musician.partyRealId,
                     musicianId: musician.musicianId,
                     name: musician.fullName,
-                    role: musician.highestRoleName,
+                    role: musician.credits.map((credit) => {
+                        return { code: credit.roleCode, name: credit.roleName };
+                    }),
                     instruments: musician.credits.map((credit) => {
-                        return credit.instrumentName;
+                        return { code: credit.instrumentCode, name: credit.instrumentName};
                     })
                 });
             });
@@ -70,6 +72,9 @@ export default function(state = initialState, action) {
         });
         case actionType.CLEAR_SONG_SELECTION: return Object.assign({}, state, {
             selectedSong: {}
+        });
+        case actionType.CLEAR_MUSICIANS_ON_SONG: return Object.assign({}, state, {
+            musiciansOnSelectedSong: []
         });
         default: return state;
     }
