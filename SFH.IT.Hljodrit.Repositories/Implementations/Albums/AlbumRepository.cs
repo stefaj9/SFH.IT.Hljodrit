@@ -22,6 +22,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                                where mainArtist.artistname.StartsWith(mainArtistSearchName)
                                select new AlbumDto()
                                {
+
                                    AlbumId = album.id,
                                    AlbumTitle = album.albumtitle,
                                    ReleaseYear = album.releasedate.Value.Year,
@@ -55,9 +56,11 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                          countryOfProduction.numericisocode into albumWithCountryCode
 
                          from z in albumWithCountryCode.DefaultIfEmpty()
-                         join countryOfPublication in DbContext.common_country on album.countryofproduction equals
+                         join countryOfPublication in DbContext.common_country on album.countryofpublication equals
                          countryOfPublication.numericisocode into completeAlbum
-                         select new { album, y, x, z };
+
+                         from c in completeAlbum
+                         select new { album, y, x, z, c };
 
 
             return (from r in result
@@ -70,7 +73,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                         MainArtistId = r.y.id,
                         CatalogueNumber = r.album.cataloguenumber,
                         CountryOfProduction = r.z.twoletterisocode,
-                        CountryOfPublication = r.z.twoletterisocode,
+                        CountryOfPublication = r.c.twoletterisocode,
                         Label = r.x.labelname,
                         LabelId = r.album.labelid,
                         PublisherId = r.x.organizationid,

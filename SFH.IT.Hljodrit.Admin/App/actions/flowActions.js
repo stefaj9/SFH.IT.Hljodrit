@@ -35,7 +35,7 @@ export function register(individual, path) {
     }
 }
 
-export function update(data, path, message) {
+export function update(data, path, message, optionalSuccessCallback) {
     return (dispatch) => {
         dispatch(isUpdatingData());
         return fetch(path, {
@@ -47,6 +47,7 @@ export function update(data, path, message) {
         }).then((resp) => {
             if (resp.ok) {
                 toastr.success('Tókst', message);
+                optionalSuccessCallback();
                 return resp.json();
             } else {
                 resp.json().then((err) => {
