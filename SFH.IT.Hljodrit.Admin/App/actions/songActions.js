@@ -101,7 +101,7 @@ export function updateMusicianInfo(albumId, songId, musicianId, newInfo) {
 
 export function removeMusiciansFromSong(albumId, songId, musicianIds) {
     return (dispatch) => {
-        dispatch(isFetchingSongs());
+        dispatch(isFetchingMusicians());
         return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
             method: 'DELETE',
             body: JSON.stringify(musicianIds),
@@ -112,10 +112,10 @@ export function removeMusiciansFromSong(albumId, songId, musicianIds) {
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að eyða völdum flytjendum af lagi.');
                 dispatch(getAllMusiciansOnSong(albumId, songId));
-                dispatch(hasStoppedFetchingSongs());
+                dispatch(hasStoppedFetchingMusicians());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að eyða völdum flytjendum af lagi.');
-                dispatch(hasStoppedFetchingSongs());
+                dispatch(hasStoppedFetchingMusicians());
             }
         });
     }
@@ -135,7 +135,6 @@ export function getAllMusiciansOnSong(albumId, songId) {
             }
         }).then((data) => {
             dispatch(getAllMusiciansOnSongSuccess(data));
-            dispatch(hasStoppedFetchingMusicians());
         });
     }
 }
