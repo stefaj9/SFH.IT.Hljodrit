@@ -61,6 +61,7 @@ function getSongDetailsByIdSuccess(song) {
 
 export function addMusicianToSong(albumId, songId, musician) {
     return (dispatch) => {
+        dispatch(isFetchingSongs());
         return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
             method: 'POST',
             body: JSON.stringify(musician),
@@ -71,15 +72,36 @@ export function addMusicianToSong(albumId, songId, musician) {
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að bæta við flytjanda á lagið.');
                 dispatch(getAllMusiciansOnSong(albumId, songId));
+                dispatch(hasStoppedFetchingSongs());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að bæta við flytjanda á lagið.');
+                dispatch(hasStoppedFetchingSongs());
             }
         });
     }
 }
 
+export function updateMusicianInfo(albumId, songId, musicianId, newInfo) {
+    return () => {
+        return fetch(`/api/albums/${albumId}/songs/${songId}/musicians/${musicianId}`, {
+            method: 'PUT',
+            body: JSON.stringify(newInfo),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að breyta upplýsingum um flytjanda.');
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að breyta upplýsingum um flytjanda.');
+            }
+        });
+    };
+}
+
 export function removeMusiciansFromSong(albumId, songId, musicianIds) {
     return (dispatch) => {
+        dispatch(isFetchingSongs());
         return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
             method: 'DELETE',
             body: JSON.stringify(musicianIds),
@@ -90,8 +112,10 @@ export function removeMusiciansFromSong(albumId, songId, musicianIds) {
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að eyða völdum flytjendum af lagi.');
                 dispatch(getAllMusiciansOnSong(albumId, songId));
+                dispatch(hasStoppedFetchingSongs());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að eyða völdum flytjendum af lagi.');
+                dispatch(hasStoppedFetchingSongs());
             }
         });
     }
@@ -99,18 +123,19 @@ export function removeMusiciansFromSong(albumId, songId, musicianIds) {
 
 export function getAllMusiciansOnSong(albumId, songId) {
     return (dispatch) => {
-        dispatch(isFetchingSongs());
+        dispatch(clearMusiciansOnSong());
+        dispatch(isFetchingMusicians());
         return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
             } else {
-                dispatch(hasStoppedFetchingSongs());
+                dispatch(hasStoppedFetchingMusicians());
             }
         }).then((data) => {
             dispatch(getAllMusiciansOnSongSuccess(data));
-            dispatch(hasStoppedFetchingSongs());
+            dispatch(hasStoppedFetchingMusicians());
         });
     }
 }
@@ -188,6 +213,20 @@ function hasStoppedFetchingSongs() {
     };
 };
 
+function isFetchingMusicians() {
+    return {
+        type: actionType.IS_FETCHING_MUSICIANS,
+        payload: {}
+    };
+};
+
+function hasStoppedFetchingMusicians() {
+    return {
+        type: actionType.HAS_STOPPED_FETCHING_MUSICIANS,
+        payload: {}
+    };
+};
+
 function clearSongList() {
     return {
         type: actionType.CLEAR_SONGS,
@@ -205,6 +244,13 @@ function clearMediaRecordingList() {
 function clearSongSelection() {
     return {
         type: actionType.CLEAR_SONG_SELECTION,
+        payload: {}
+    };
+};
+
+function clearMusiciansOnSong() {
+    return {
+        type: actionType.CLEAR_MUSICIANS_ON_SONG,
         payload: {}
     };
 };

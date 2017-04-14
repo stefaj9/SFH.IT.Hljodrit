@@ -84,6 +84,15 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [Route("{albumId:int}/songs/{songId:int}/musicians/{musicianId:int}")]
+        public IHttpActionResult UpdateMusicianInfoOnSong(int albumId, int songId, int musicianId,
+            [FromBody] MusicianInfoModifyModel model)
+        {
+            _songService.UpdateMusicianInfoOnSong(songId, musicianId, model);
+            return Ok();
+        }
+
         [HttpDelete]
         [Route("{albumId:int}/songs/{songId:int}/musicians")]
         public IHttpActionResult RemoveMusiciansFromSong(int albumId, int songId, [FromBody] IEnumerable<int> musicianIds)
