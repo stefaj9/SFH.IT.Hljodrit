@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import SongTableData from './songTableData';
 import Table from '../common/table';
 import { createPromise } from '../../helpers/promiseWrapper';
-import { removeMusiciansFromSong } from '../../actions/songActions';
+import { removeMusiciansFromSong, updateMusicianInfo } from '../../actions/songActions';
 
 class SongMusiciansTable extends React.Component {
     componentWillReceiveProps(newProps) {
@@ -70,7 +70,7 @@ class SongMusiciansTable extends React.Component {
         promise.then(() => this.setState({ musicians: musicians }));
     }
     updateAction(rowNumber, musician) {
-        musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(rowNumber) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician, !this.isRowActionDisabled(rowNumber))}></i>;
+        musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(rowNumber) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician.musicianId, !this.isRowActionDisabled(rowNumber), rowNumber)}></i>;
     }
     markRowAsChanged(rowNumber, callback) {
         let rowsToUpdate = _.cloneDeep(this.state.rowsToUpdate);
@@ -82,10 +82,25 @@ class SongMusiciansTable extends React.Component {
     isRowActionDisabled(rowNumber) {
         return !_.find(this.state.rowsToUpdate, (row) => { return row === rowNumber });
     }
-    updateMusician(musician, hasChanged, rowNumber) {
+    updateMusician(musicianId, hasChanged, rowNumber) {
         if (hasChanged) {
-            // Should update musician and remove the rowNumber from the rowsToUpdate state prop
-            console.log(musician);
+            // Format the musician according to be able to process it in the backend.
+            let musicians = _.cloneDeep(this.state.musicians);
+            let musicianToChange = _.find(musicians, (m) => { return m.musicianId === musicianId });
+
+            // Issue request to update the musician.
+            this.props.updateMusicianInfo(this.props.albumId, this.props.songId, musicianId, { instruments: musicianToChange.instruments.props.value, role: musicianToChange.role.props.value });
+
+            // Remove the row which should be updated.
+            let rowsToUpdate = _.cloneDeep(this.state.rowsToUpdate);
+            _.remove(rowsToUpdate, (row) => { return row === rowNumber });
+
+            this.setState({ rowsToUpdate: rowsToUpdate }, () => {
+                // Update the musician action to being disabled.
+                let musician = _.find(musicians, (m) => { return m.musicianId === musicianId });
+                this.updateAction(rowNumber, musician);
+                this.setState({ musicians: musicians });
+            });
         }
     }
     buildMusicians() {
@@ -97,7 +112,7 @@ class SongMusiciansTable extends React.Component {
 
             musician.instruments = <select value={musician.instruments[0].code} onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musician.musicianId)} className="form-control" >{this.renderInstruments()}</select>;
 
-            musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(rowNumber) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician, !this.isRowActionDisabled(rowNumber), rowNumber)}></i>;
+            this.updateAction(rowNumber, musician);
         });
         this.setState({
             musicians: musicians
@@ -147,4 +162,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { removeMusiciansFromSong })(SongMusiciansTable);
+export default connect(mapStateToProps, { removeMusiciansFromSong, updateMusicianInfo })(SongMusiciansTable);

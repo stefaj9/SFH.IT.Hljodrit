@@ -81,6 +81,24 @@ export function addMusicianToSong(albumId, songId, musician) {
     }
 }
 
+export function updateMusicianInfo(albumId, songId, musicianId, newInfo) {
+    return () => {
+        return fetch(`/api/albums/${albumId}/songs/${songId}/musicians/${musicianId}`, {
+            method: 'PUT',
+            body: JSON.stringify(newInfo),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að breyta upplýsingum um flytjanda.');
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að breyta upplýsingum um flytjanda.');
+            }
+        });
+    };
+}
+
 export function removeMusiciansFromSong(albumId, songId, musicianIds) {
     return (dispatch) => {
         dispatch(isFetchingSongs());

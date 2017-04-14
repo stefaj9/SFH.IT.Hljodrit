@@ -109,5 +109,17 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             musicianIds.ToList().ForEach(musicianId => _recordingPartyRepository.Delete(r => r.id == musicianId && r.media_recording.id == mediaRecordingId));
             _unitOfWork.Commit();
         }
+
+        public void UpdateMusicianInfoOnSong(int songId, int musicianId, MusicianInfoModifyModel model)
+        {
+            var musicianToUpdate = _recordingPartyRepository.GetById(musicianId);
+
+            musicianToUpdate.instrumentcode = model.Instruments;
+            musicianToUpdate.rolecode = model.Role;
+
+            _recordingPartyRepository.Update(musicianToUpdate);
+
+            _unitOfWork.Commit();
+        }
     }
 }
