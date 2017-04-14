@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import SongTableData from './songTableData';
 import Table from '../common/table';
 import { createPromise } from '../../helpers/promiseWrapper';
@@ -107,6 +108,8 @@ class SongMusiciansTable extends React.Component {
         let musicians = _.cloneDeep(this.state.musicians);
         _.forEach(musicians, (musician, idx) => {
             let rowNumber = idx + 1;
+
+            musician.name = <Link to={`/musicians/${musician.id}`}>{musician.name}</Link>;
 
             musician.role = <select value={musician.role[0].code} className="form-control" onChange={(e) => this.updateMusicianRole(e, rowNumber, musician.musicianId)}>{this.renderRoles()}</select>;
 
