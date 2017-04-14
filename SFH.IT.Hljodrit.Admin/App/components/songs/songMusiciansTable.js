@@ -2,14 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SongTableData from './songTableData';
 import Table from '../common/table';
+import { createPromise } from '../../helpers/promiseWrapper';
 import { removeMusiciansFromSong } from '../../actions/songActions';
 
 class SongMusiciansTable extends React.Component {
+    componentWillReceiveProps(newProps) {
+        if (newProps.musicians.length > 0) {
+            this.setState({
+                musicians: newProps.musicians
+            }, () => this.buildMusicians());
+        }
+    }
     constructor() {
         super();
         this.state = {
             selectedMusicians: [],
-            rowsToUpdate: []
+            rowsToUpdate: [],
+            musicians: []
         }
     }
     addToListOfSelectedMusicians(musicians, status) {
@@ -42,11 +51,32 @@ class SongMusiciansTable extends React.Component {
             );
         });
     }
-    markRowAsChanged(rowNumber) {
+    updateMusicianRole(e, rowNumber, musicianId) {
+        let musicians = _.cloneDeep(this.state.musicians);
+        let musician = _.find(musicians, (m) => { return m.musicianId === musicianId });
+
+        musician.role = <select value={ e.target.value } className="form-control" onChange={(e) => this.updateMusicianRole(e, rowNumber, musicianId)}>{this.renderRoles()}</select>;
+
+        let promise = createPromise(() => this.markRowAsChanged(rowNumber, () => this.updateAction(rowNumber, musician)));
+        promise.then(() => this.setState({ musicians: musicians }));
+    }
+    updateMusicianInstrument(e, rowNumber, musicianId) {
+        let musicians = _.cloneDeep(this.state.musicians);
+        let musician = _.find(musicians, (m) => { return m.musicianId === musicianId });
+
+        musician.instruments = <select value={ e.target.value } onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musicianId)} className="form-control" >{this.renderInstruments()}</select>;
+
+        let promise = createPromise(() => this.markRowAsChanged(rowNumber, () => this.updateAction(rowNumber, musician)));
+        promise.then(() => this.setState({ musicians: musicians }));
+    }
+    updateAction(rowNumber, musician) {
+        musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(rowNumber) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician, !this.isRowActionDisabled(rowNumber))}></i>;
+    }
+    markRowAsChanged(rowNumber, callback) {
         let rowsToUpdate = _.cloneDeep(this.state.rowsToUpdate);
         if (!_.find(rowsToUpdate, (row) => { return row === rowNumber })) {
             rowsToUpdate = _.concat(rowsToUpdate, rowNumber);
-            this.setState({ rowsToUpdate: rowsToUpdate });
+            this.setState({ rowsToUpdate: rowsToUpdate }, () => callback());
         }
     }
     isRowActionDisabled(rowNumber) {
@@ -59,20 +89,25 @@ class SongMusiciansTable extends React.Component {
         }
     }
     buildMusicians() {
-        let musicians = _.cloneDeep(this.props.musicians);
-        return _.forEach(musicians, (musician, idx) => {
-            musician.role = <select value={musician.role[0].code} className="form-control" onChange={() => this.markRowAsChanged(idx + 1)}>{this.renderRoles()}</select>;
-            musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(idx + 1) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician, !this.isRowActionDisabled(idx + 1))}></i>
-            musician.instruments = <select value={musician.instruments[0].code} onChange={() => this.markRowAsChanged(idx + 1)} className="form-control" >{this.renderInstruments()}</select>;
+        let musicians = _.cloneDeep(this.state.musicians);
+        _.forEach(musicians, (musician, idx) => {
+
+            musician.role = <select value={musician.role[0].code} className="form-control" onChange={(e) => this.updateMusicianRole(e, idx + 1, musician.musicianId)}>{this.renderRoles()}</select>;
+
+            musician.instruments = <select value={musician.instruments[0].code} onChange={(e) => this.updateMusicianInstrument(e, idx + 1, musician.musicianId)} className="form-control" >{this.renderInstruments()}</select>;
+
+            musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(idx + 1) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician, !this.isRowActionDisabled(idx + 1))}></i>;
+        });
+        this.setState({
+            musicians: musicians
         });
     }
     render() {
-        let musicians = this.buildMusicians();
         return (
             <div className="row">
                 <Table
                     tableData={SongTableData}
-                    objects={musicians}
+                    objects={this.state.musicians}
                     selectRow={true}
                     selectRowMode="checkbox"
                     selectRowCallback={(row, status) => this.addToListOfSelectedMusicians([row], status)}

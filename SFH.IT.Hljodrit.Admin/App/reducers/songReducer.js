@@ -13,6 +13,7 @@ let initialState = {
         objects: []
     },
     isFetching: true,
+    isFetchingMusicians: true,
     selectedSong: {},
     musiciansOnSelectedSong: []
 };
@@ -55,6 +56,12 @@ export default function(state = initialState, action) {
         });
         case actionType.HAS_STOPPED_FETCHING_SONGS: return Object.assign({}, state, {
             isFetching: false
+        });
+        case actionType.IS_FETCHING_MUSICIANS: return Object.assign({}, state, {
+            isFetchingMusicians: true
+        });
+        case actionType.HAS_STOPPED_FETCHING_MUSICIANS: return Object.assign({}, state, {
+            isFetchingMusicians: false
         });
         case actionType.CLEAR_SONGS: return Object.assign({}, state, {
             songEnvelope: {

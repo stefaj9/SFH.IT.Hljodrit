@@ -37,7 +37,6 @@ export function getSongDetailsById(songId) {
     return (dispatch) => {
         dispatch(isFetchingSongs());
         dispatch(clearSongSelection());
-        dispatch(clearMusiciansOnSong());
         return fetch(`/api/songs/${songId}`, {
             method: 'GET'
         }).then((resp) => {
@@ -104,18 +103,19 @@ export function removeMusiciansFromSong(albumId, songId, musicianIds) {
 
 export function getAllMusiciansOnSong(albumId, songId) {
     return (dispatch) => {
-        dispatch(isFetchingSongs());
+        dispatch(clearMusiciansOnSong());
+        dispatch(isFetchingMusicians());
         return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
             } else {
-                dispatch(hasStoppedFetchingSongs());
+                dispatch(hasStoppedFetchingMusicians());
             }
         }).then((data) => {
             dispatch(getAllMusiciansOnSongSuccess(data));
-            dispatch(hasStoppedFetchingSongs());
+            dispatch(hasStoppedFetchingMusicians());
         });
     }
 }
@@ -189,6 +189,20 @@ function isFetchingSongs() {
 function hasStoppedFetchingSongs() {
     return {
         type: actionType.HAS_STOPPED_FETCHING_SONGS,
+        payload: {}
+    };
+};
+
+function isFetchingMusicians() {
+    return {
+        type: actionType.IS_FETCHING_MUSICIANS,
+        payload: {}
+    };
+};
+
+function hasStoppedFetchingMusicians() {
+    return {
+        type: actionType.HAS_STOPPED_FETCHING_MUSICIANS,
         payload: {}
     };
 };
