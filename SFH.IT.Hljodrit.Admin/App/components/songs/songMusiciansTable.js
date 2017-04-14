@@ -82,21 +82,22 @@ class SongMusiciansTable extends React.Component {
     isRowActionDisabled(rowNumber) {
         return !_.find(this.state.rowsToUpdate, (row) => { return row === rowNumber });
     }
-    updateMusician(musician, hasChanged) {
+    updateMusician(musician, hasChanged, rowNumber) {
         if (hasChanged) {
-            // Should update musician
+            // Should update musician and remove the rowNumber from the rowsToUpdate state prop
             console.log(musician);
         }
     }
     buildMusicians() {
         let musicians = _.cloneDeep(this.state.musicians);
         _.forEach(musicians, (musician, idx) => {
+            let rowNumber = idx + 1;
 
-            musician.role = <select value={musician.role[0].code} className="form-control" onChange={(e) => this.updateMusicianRole(e, idx + 1, musician.musicianId)}>{this.renderRoles()}</select>;
+            musician.role = <select value={musician.role[0].code} className="form-control" onChange={(e) => this.updateMusicianRole(e, rowNumber, musician.musicianId)}>{this.renderRoles()}</select>;
 
-            musician.instruments = <select value={musician.instruments[0].code} onChange={(e) => this.updateMusicianInstrument(e, idx + 1, musician.musicianId)} className="form-control" >{this.renderInstruments()}</select>;
+            musician.instruments = <select value={musician.instruments[0].code} onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musician.musicianId)} className="form-control" >{this.renderInstruments()}</select>;
 
-            musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(idx + 1) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician, !this.isRowActionDisabled(idx + 1))}></i>;
+            musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(rowNumber) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician, !this.isRowActionDisabled(rowNumber), rowNumber)}></i>;
         });
         this.setState({
             musicians: musicians

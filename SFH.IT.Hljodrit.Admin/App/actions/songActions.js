@@ -72,6 +72,7 @@ export function addMusicianToSong(albumId, songId, musician) {
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að bæta við flytjanda á lagið.');
                 dispatch(getAllMusiciansOnSong(albumId, songId));
+                dispatch(hasStoppedFetchingSongs());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að bæta við flytjanda á lagið.');
                 dispatch(hasStoppedFetchingSongs());
@@ -93,6 +94,7 @@ export function removeMusiciansFromSong(albumId, songId, musicianIds) {
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að eyða völdum flytjendum af lagi.');
                 dispatch(getAllMusiciansOnSong(albumId, songId));
+                dispatch(hasStoppedFetchingSongs());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að eyða völdum flytjendum af lagi.');
                 dispatch(hasStoppedFetchingSongs());
