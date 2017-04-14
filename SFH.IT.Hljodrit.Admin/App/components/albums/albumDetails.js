@@ -8,9 +8,8 @@ import _ from 'lodash';
 import Spinner from 'react-spinner';
 import SelectPersonModal from '../project/selectPersonModal';
 import AlbumDetailsForm from './AlbumDetailsForm';
-import { getAlbumById, getSongsByAlbumId } from '../../actions/AlbumsActions';
-import Table from '../common/table';
-import albumTableData from './albumTableData';
+import { getAlbumById, getSongsByAlbumId, removeSongsFromAlbum } from '../../actions/AlbumsActions';
+import SongsOnAlbumTable from './SongsOnAlbumTable';
 
 class AlbumDetails extends React.Component {
 
@@ -23,6 +22,7 @@ class AlbumDetails extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
+        console.log(newProps);
         if(_.keys(newProps.selectedAlbum).length > 0 && !this.state.hasFetched && !newProps.isFetching) {
             this.validateAlbum(newProps.selectedAlbum);
 
@@ -54,9 +54,10 @@ class AlbumDetails extends React.Component {
             isModalOpen: false,
             selectedAlbumHasChanged: false,
             currentFetchMethod: props.getMainArtistsByCriteria,
-            envelope: props.mainArtistEnvelope,
             typeOfAction: '',
-            currentUpdateFunction: null
+            currentUpdateFunction: null,
+            selectedSongsForDeletion: [],
+            mainArtistModalType: true
         }
     }
 
@@ -80,11 +81,19 @@ class AlbumDetails extends React.Component {
         });
     }
 
-    openModal(fetchMethod, env, actiontype, updateFunction) {
+    openModal(fetchMethod, actiontype, updateFunction) {
+        if (actiontype === 'Breyta aðalflytjanda') {
+            this.setState({
+                mainArtistModalType:true
+            });
+        } else {
+            this.setState({
+                mainArtistModalType:false
+            });
+        }
         this.setState({
             isModalOpen: true,
             currentFetchMethod: fetchMethod,
-            envelope: env,
             typeOfAction: actiontype,
             currentUpdateFunction: updateFunction
         });
@@ -130,6 +139,25 @@ class AlbumDetails extends React.Component {
         });
     }
 
+    addToListOfSelectedSongs(songs, status) {
+        let selectedSongs = _.cloneDeep(this.state.selectedSongsForDeletion);
+        if (!status) {
+            _.forEach(songs, (song) => {
+                _.remove(selectedSongs, (s) => { return s === song.songId });
+            });
+        } else {
+            selectedSongs = _.concat(selectedSongs, songs.map((s) => { return s.songId }));
+        }
+        this.setState({
+            selectedSongsForDeletion: selectedSongs
+        });
+    }
+
+    removeSongsFromAlbum() {
+        this.props.removeSongsFromAlbum(this.props.params.albumId, this.state.selectedSongsForDeletion);
+        this.setState({ selectedSongsForDeletion: [] });
+    }
+
     validateAlbum(album) {
         let invalid = 'Ekki skráð'
         for (var key in album) {
@@ -149,10 +177,8 @@ class AlbumDetails extends React.Component {
                     updateAlbumField={ this.updateAlbumField.bind(this) }
                     openModal={ this.openModal.bind(this) }
                     getMainArtistsByCriteria={ this.props.getMainArtistsByCriteria.bind(this) }
-                    mainArtistEnvelope={ this.props.mainArtistEnvelope }
                     updateMainArtist={ this.updateMainArtist.bind(this) }
                     getPublishersByCriteria={ this.props.getPublishersByCriteria.bind(this) }
-                    organizationEnvelope={ this.props.organizationEnvelope }
                     updatePublisher={ this.updatePublisher.bind(this) }
                     populateLabelOptions={ this.populateLabelOptions.bind(this) }
                     countryOptions={ this.populateCountryOptions.bind(this) }
@@ -172,11 +198,11 @@ class AlbumDetails extends React.Component {
                     { this.renderForm() }
                     <div>
                         <h2>Lög</h2>
-                        <Table 
-                            onClickCallback={(row) => browserHistory.push(`/albums/${row.albumId}/songs/${row.songId}`)} 
-                            tableData={albumTableData} 
-                            objects={this.props.songsOnSelectedAlbum}
-                            tableRowClassName="album-song-selection-row" />
+                        <SongsOnAlbumTable callback={(row) => browserHistory.push(`/albums/${row.albumId}/songs/${row.songId}`)}
+                            songs={this.props.songsOnSelectedAlbum}
+                            addToListOfSelectedSongs={this.addToListOfSelectedSongs.bind(this)}
+                            removeSongsFromAlbum={this.removeSongsFromAlbum.bind(this)}
+                            isRemoveButtonActive={this.state.selectedSongsForDeletion.length > 0} />
                     </div>
                     <SelectPersonModal
                          isOpen={this.state.isModalOpen}
@@ -185,7 +211,7 @@ class AlbumDetails extends React.Component {
                          stoppedFetch={() => this.props.hasStoppedFetchingList() }
                          next={() => this.setState({isModalOpen: false})}
                          close={() => this.setState({isModalOpen: false})}
-                         envelope={this.state.envelope}
+                         envelope={this.state.mainArtistModalType ? this.props.mainArtistEnvelope : this.props.organizationEnvelope}
                          update={(newElement) => this.state.currentUpdateFunction(newElement)}
                          steps={() => { return ( <h4>{ this.state.typeOfAction }</h4> ) } }
                     />
@@ -207,4 +233,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getAlbumById, update, isFetchingList, hasStoppedFetchingList, getMainArtistsByCriteria, getPublishersByCriteria, getLabelsByPublisherId, getSongsByAlbumId })(AlbumDetails);
+export default connect(mapStateToProps, { getAlbumById, update, isFetchingList, hasStoppedFetchingList, getMainArtistsByCriteria, getPublishersByCriteria, getLabelsByPublisherId, getSongsByAlbumId, removeSongsFromAlbum })(AlbumDetails);

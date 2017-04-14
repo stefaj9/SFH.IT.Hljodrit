@@ -42,6 +42,10 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 songsOnSelectedAlbum: action.payload
             });
+        case types.CLEAR_CURRENT_ALBUM:
+            return Object.assign({}, state, {
+                songsOnSelectedAlbum: action.payload
+            });
         default:
             return state;
     }

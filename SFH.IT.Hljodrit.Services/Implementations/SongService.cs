@@ -110,6 +110,13 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork.Commit();
         }
 
+
+        public void RemoveSongsFromAlbum(int albumId, IEnumerable<int> songIds)
+        {
+            songIds.ToList().ForEach(songId => _songRepository.Delete(s => s.id == songId));
+            _unitOfWork.Commit();
+        }
+
         public void UpdateMusicianInfoOnSong(int songId, int musicianId, MusicianInfoModifyModel model)
         {
             var musicianToUpdate = _recordingPartyRepository.GetById(musicianId);
@@ -118,7 +125,6 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             musicianToUpdate.rolecode = model.Role;
 
             _recordingPartyRepository.Update(musicianToUpdate);
-
             _unitOfWork.Commit();
         }
     }
