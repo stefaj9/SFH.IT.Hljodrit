@@ -54,6 +54,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok(_albumService.GetSongsByAlbumId(albumId));
         }
 
+        [HttpDelete]
+        [Route("{albumId:int}/songs")]
+        public IHttpActionResult RemoveSongsFromAlbum(int albumId, [FromBody] IEnumerable<int> songIds)
+        {
+            _songService.RemoveSongsFromAlbum(albumId, songIds);
+            return Ok();
+        }
 
         [HttpGet]
         [Route("{albumId:int}/songs/{songId:int}")]
@@ -84,5 +91,6 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             _songService.RemoveMusiciansFromSong(songId, musicianIds);
             return Ok();
         }
+
     }
 }
