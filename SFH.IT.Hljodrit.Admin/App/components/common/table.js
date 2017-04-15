@@ -2,9 +2,9 @@ import React, {PropTypes} from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import _ from 'lodash';
 
-const Table = ({tableData, objects, onClickCallback, selectRow, selectRowMode, selectRowCallback, selectRowCallBackAll, tableRowClassName }) => {
-
-    const createTableHeader = () => {
+class Table extends React.Component {
+    createTableHeader() {
+        let tableData = this.props.tableData;
         return Object.keys(tableData).map((header) => {
             let formatter = tableData[header].formatter;
             let sortable = tableData[header].sortable;
@@ -24,39 +24,43 @@ const Table = ({tableData, objects, onClickCallback, selectRow, selectRowMode, s
                </TableHeaderColumn>
             );
         });
-    };
-    let selectRowOptions;
-    if (selectRow) {
-        selectRowOptions = {
-            mode: selectRowMode,
-            onSelect: selectRowCallback,
-            onSelectAll: selectRowCallBackAll
-        };
     }
-    let indexedObjects = _.cloneDeep(objects);
-    indexedObjects.map((idxObj, idx) => {
-        return idxObj.idx = idx;
-    });
-    return (
-        <div className="col-xs-12">
-            <BootstrapTable
-              data={indexedObjects}
-              options={{onRowClick: onClickCallback}}
-              selectRow={selectRowOptions}
-              trClassName={tableRowClassName}
-              striped 
-              hover>
-                <TableHeaderColumn
-                  isKey={true}
-                  dataField="idx"
-                  key="idx"
-                  dataSort={true}
-                  hidden></TableHeaderColumn>
-                {createTableHeader()}
-            </BootstrapTable>
-        </div>
-    );
-};
+    render() {
+        const { objects, onClickCallback, selectRow, selectRowMode, selectRowCallback, selectRowCallBackAll, tableRowClassName, refCallback } = this.props;
+        let selectRowOptions;
+        if (selectRow) {
+            selectRowOptions = {
+                mode: selectRowMode,
+                onSelect: selectRowCallback,
+                onSelectAll: selectRowCallBackAll
+            };
+        }
+        let indexedObjects = _.cloneDeep(objects);
+        indexedObjects.map((idxObj, idx) => {
+            return idxObj.idx = idx;
+        });
+        return (
+            <div className="col-xs-12">
+                <BootstrapTable
+                  data={indexedObjects}
+                  options={{onRowClick: onClickCallback}}
+                  selectRow={selectRowOptions}
+                  trClassName={tableRowClassName}
+                  striped 
+                  ref={(ref) => refCallback(ref)}
+                  hover>
+                    <TableHeaderColumn
+                      isKey={true}
+                      dataField="idx"
+                      key="idx"
+                      dataSort={true}
+                      hidden></TableHeaderColumn>
+                    {this.createTableHeader()}
+                </BootstrapTable>
+            </div>
+        );
+    }
+}
 
 Table.propTypes = {
     tableData: PropTypes.object.isRequired,
@@ -66,7 +70,8 @@ Table.propTypes = {
     selectRowMode: PropTypes.string,
     selectRowCallback: PropTypes.func,
     selectRowCallBackAll: PropTypes.func,
-    tableRowClassName: PropTypes.string
+    tableRowClassName: PropTypes.string,
+    refCallback: PropTypes.func
 };
 
 export default Table;

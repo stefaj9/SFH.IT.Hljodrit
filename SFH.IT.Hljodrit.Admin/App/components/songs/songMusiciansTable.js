@@ -19,7 +19,8 @@ class SongMusiciansTable extends React.Component {
         this.state = {
             selectedMusicians: [],
             rowsToUpdate: [],
-            musicians: []
+            musicians: [],
+            bootstrapTableRef: null
         };
     }
     addToListOfSelectedMusicians(musicians, status) {
@@ -36,6 +37,7 @@ class SongMusiciansTable extends React.Component {
     }
     removeMusiciansFromSong() {
         this.props.removeMusiciansFromSong(this.props.albumId, this.props.songId, this.state.selectedMusicians.map((m) => { return m.musicianId } ));
+        this.state.bootstrapTableRef.reset();
         this.setState({ selectedMusicians: [] });
     }
     renderRoles() {
@@ -131,6 +133,7 @@ class SongMusiciansTable extends React.Component {
                 <Table
                     tableData={SongTableData}
                     objects={this.state.musicians}
+                    refCallback={(ref) => { if (this.state.bootstrapTableRef === null && ref !== null) { this.setState({ bootstrapTableRef: ref }); } }}
                     selectRow={true}
                     selectRowMode="checkbox"
                     selectRowCallback={(row, status) => this.addToListOfSelectedMusicians([row], status)}
