@@ -10,6 +10,7 @@ const Table = ({tableData, objects, onClickCallback, selectRow, selectRowMode, s
             let sortable = tableData[header].sortable;
             let width = tableData[header].width;
             let dataAlign = tableData[header].dataAlign;
+            let sortFunc = tableData[header].sortFunc;
             return (
                 <TableHeaderColumn
                    dataField={header}
@@ -17,7 +18,8 @@ const Table = ({tableData, objects, onClickCallback, selectRow, selectRowMode, s
                    dataSort={sortable}
                    dataFormat={formatter}
                    dataAlign={dataAlign}
-                   width={width}>
+                   width={width}
+                   sortFunc={sortFunc}>
                    { tableData[header].value }
                </TableHeaderColumn>
             );

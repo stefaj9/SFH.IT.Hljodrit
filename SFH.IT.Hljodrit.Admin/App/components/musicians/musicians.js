@@ -1,5 +1,4 @@
 import React from 'react';
-//import Filter from '../common/filter';
 import ListView from '../common/listView';
 import { getPersonsByCriteria } from '../../actions/personActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
@@ -9,7 +8,7 @@ import Paging from '../common/paging';
 import { connect } from 'react-redux';
 import Filter from '../common/filter';
 
-export class Users extends React.Component {
+class Musicians extends React.Component {
 
     constructor() {
         super();
@@ -141,4 +140,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getPersonsByCriteria, isFetchingList, hasStoppedFetchingList })(Users);
+export default connect(mapStateToProps, { getPersonsByCriteria, isFetchingList, hasStoppedFetchingList })(Musicians);

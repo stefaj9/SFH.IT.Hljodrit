@@ -71,7 +71,11 @@ class SongMusiciansTable extends React.Component {
         promise.then(() => this.setState({ musicians: musicians }));
     }
     updateAction(rowNumber, musician) {
-        musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(rowNumber) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician.musicianId, !this.isRowActionDisabled(rowNumber), rowNumber)}></i>;
+        musician.action = 
+            <button 
+                disabled={this.isRowActionDisabled(rowNumber)} 
+                className="btn btn-default btn-primary"
+                onClick={() => this.updateMusician(musician.musicianId, !this.isRowActionDisabled(rowNumber), rowNumber)}>Breyta</button>;
     }
     markRowAsChanged(rowNumber, callback) {
         let rowsToUpdate = _.cloneDeep(this.state.rowsToUpdate);
@@ -137,7 +141,7 @@ class SongMusiciansTable extends React.Component {
                             disabled={this.state.selectedMusicians.length === 0}
                             className="btn btn-default btn-primary"
                             onClick={() => this.removeMusiciansFromSong()}>
-                            <i className="fa fa-times"></i> Eyða völdum flytjendum
+                            <i className="fa fa-minus"></i> Eyða völdum flytjendum
                         </button>
                         <button 
                             className="btn btn-default btn-primary"
