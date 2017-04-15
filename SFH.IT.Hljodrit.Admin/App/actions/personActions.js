@@ -84,6 +84,31 @@ function getPersonsByCriteriaSuccess(data) {
     };
 };
 
+export function getMediaAssociatedWithPerson(personId, pageNumber, pageSize, searchTerm) {
+    return (dispatch) => {
+        dispatch(isFetchingPersonMedia());
+        return fetch(`/api/persons/${personId}/medias?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}`, {
+            method: 'GET'
+        }).then((resp) => {
+            if (resp.ok) {
+                dispatch(hasStoppedFetchingPersonMedia());
+                return resp.json();
+            } else {
+                dispatch(hasStoppedFetchingPersonMedia());
+            }
+        }).then((data) => {
+            dispatch(getMediaAssociatedWithPersonSuccess(data));
+        });
+    }
+}
+
+function getMediaAssociatedWithPersonSuccess(media) {
+    return {
+        type: actionType.GET_MEDIA_ASSOCIATED_WITH_PERSON,
+        payload: media
+    };
+};
+
 export function getPersonRoles() {
     return (dispatch) => {
         return fetch('/api/persons/roles', {
@@ -115,6 +140,20 @@ function isFetchingPerson() {
 function hasStoppedFetchingPerson() {
     return {
         type: actionType.HAS_STOPPED_FETCHING_PERSON,
+        payload: {}
+    };
+};
+
+function isFetchingPersonMedia() {
+    return {
+        type: actionType.IS_FETCHING_PERSON_MEDIA,
+        payload: {}
+    };
+};
+
+function hasStoppedFetchingPersonMedia() {
+    return {
+        type: actionType.HAS_STOPPED_FETCHING_PERSON_MEDIA,
         payload: {}
     };
 };

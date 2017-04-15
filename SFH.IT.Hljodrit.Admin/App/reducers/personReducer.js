@@ -8,7 +8,9 @@ let initialState = {
     },
     personRoles: [],
     selectedPerson: {},
-    isFetchingPerson: true
+    selectedPersonMedia: [],
+    isFetchingPerson: true,
+    isFetchingPersonMedia: true
 };
 
 export default function(state = initialState, action) {
@@ -25,6 +27,9 @@ export default function(state = initialState, action) {
         case actionType.UPDATE_PERSON_BY_ID: return Object.assign({}, state, {
             selectedPerson: action.payload
         });
+        case actionType.GET_MEDIA_ASSOCIATED_WITH_PERSON: return Object.assign({}, state, {
+            selectedPersonMedia: action.payload
+        });
         case actionType.CLEAR_SELECTED_PERSON: return Object.assign({}, state, {
             selectedPerson: {}
         });
@@ -33,6 +38,12 @@ export default function(state = initialState, action) {
         });
         case actionType.HAS_STOPPED_FETCHING_PERSON: return Object.assign({}, state, {
             isFetchingPerson: false
+        });
+        case actionType.IS_FETCHING_PERSON_MEDIA: return Object.assign({}, state, {
+            isFetchingPersonMedia: true
+        });
+        case actionType.HAS_STOPPED_FETCHING_PERSON_MEDIA: return Object.assign({}, state, {
+            isFetchingPersonMedia: false
         });
     }
 
