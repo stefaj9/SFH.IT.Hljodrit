@@ -33,6 +33,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 		{
 			_partyRealRepository = new Mock<IPartyRealRepository>();
             _partyRoleRepository = new Mock<IPartyRoleRepository>();
+            _partyContactMediumRepository = new Mock<IPartyContactMediumRepository>();
             _countryRepository = new Mock<ICountryRepository>();
             _zipCodeRepository = new Mock<IZipCodeRepository>();
             _unitOfWork = new Mock<IUnitOfWork>();
