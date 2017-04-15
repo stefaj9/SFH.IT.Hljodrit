@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import * as actionType from './actionTypes';
+import { toastr } from 'react-redux-toastr';
 
 export function getPersonById(personId) {
     return (dispatch) => {
@@ -23,6 +24,37 @@ export function getPersonById(personId) {
 function getPersonByIdSuccess(person) {
     return {
         type: actionType.GET_PERSON_BY_ID,
+        payload: person
+    };
+};
+
+export function updatePersonById(personId, person) {
+    return (dispatch) => {
+        dispatch(isFetchingPerson());
+        return fetch(`/api/persons/${personId}`, {
+            method: 'PUT',
+            body: JSON.stringify(person),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                dispatch(hasStoppedFetchingPerson());
+                toastr.success('Tókst!', 'Það tókst að uppfæra aðila.');
+                return resp.json();
+            } else {
+                dispatch(hasStoppedFetchingPerson());
+                toastr.error('Villa!', 'Ekki tókst að uppfæra aðila.');
+            }
+        }).then((data) => {
+            dispatch(updatePersonByIdSuccess(data));
+        });
+    }
+}
+
+function updatePersonByIdSuccess(person) {
+    return {
+        type: actionType.UPDATE_PERSON_BY_ID,
         payload: person
     };
 };

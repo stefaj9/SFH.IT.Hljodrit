@@ -20,6 +20,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 	{
 		private Mock<IPartyRealRepository> _partyRealRepository;
 	    private Mock<IPartyRoleRepository> _partyRoleRepository;
+	    private Mock<IPartyContactMediumRepository> _partyContactMediumRepository;
 	    private Mock<IZipCodeRepository> _zipCodeRepository;
 	    private Mock<ICountryRepository> _countryRepository;
 	    private Mock<IUnitOfWork> _unitOfWork;
@@ -35,7 +36,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _countryRepository = new Mock<ICountryRepository>();
             _zipCodeRepository = new Mock<IZipCodeRepository>();
             _unitOfWork = new Mock<IUnitOfWork>();
-            _personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
+            _personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object, _partyContactMediumRepository.Object);
         }
 
 		#region GetAllPerformers

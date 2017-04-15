@@ -20,7 +20,7 @@ class SongMusiciansTable extends React.Component {
             selectedMusicians: [],
             rowsToUpdate: [],
             musicians: []
-        }
+        };
     }
     addToListOfSelectedMusicians(musicians, status) {
         let selectedMusicians = _.cloneDeep(this.state.selectedMusicians);

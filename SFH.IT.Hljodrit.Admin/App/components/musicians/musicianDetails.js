@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getPersonById } from '../../actions/personActions';
+import { getPersonById, updatePersonById } from '../../actions/personActions';
 import MusicianDetailsForm from './musicianDetailsForm';
 import Spinner from 'react-spinner';
 
@@ -16,7 +16,7 @@ class MusicianDetails extends React.Component {
                     musician={this.props.musician}
                     zipCodes={this.props.zipCodes}
                     countries={this.props.countries}
-                    updateMusician={(musician) => console.log(this.props.routeParams.musicianId, musician)} />
+                    updateMusician={(musician) => this.props.updatePersonById(this.props.routeParams.musicianId, musician)} />
             </div>
         );
     }
@@ -39,4 +39,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getPersonById })(MusicianDetails);
+export default connect(mapStateToProps, { getPersonById, updatePersonById })(MusicianDetails);

@@ -11,9 +11,9 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public PersonDto(party_real person)
         {
             Id = person.id;
-            Fullname = person.fullname;
+            Fullname = person.fullname.Trim();
             PostalAddressLine1 = person.postaladdressline1;
-            ZipCode = person.zipcode;
+            ZipCode = person.zipcode.Trim();
             Area = person.area;
         }
 

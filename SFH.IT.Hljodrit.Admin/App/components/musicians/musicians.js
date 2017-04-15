@@ -1,6 +1,7 @@
 import React from 'react';
 import ListView from '../common/listView';
 import { getPersonsByCriteria } from '../../actions/personActions';
+import { browserHistory } from 'react-router';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import SearchBar from '../common/searchBar';
 import PageSelector from '../common/pageSelector';
@@ -52,7 +53,6 @@ class Musicians extends React.Component {
     }
 
     search(term) {
-        console.log(term);
         const { pageSize } = this.state;
         this.props.getPersonsByCriteria(pageSize, 1, term, this.props.isFetchingList, this.props.hasStoppedFetchingList);
         this.setState({
@@ -119,6 +119,8 @@ class Musicians extends React.Component {
                 <ListView
                     items={this.props.persons}
                     isFetching={this.props.isFetchingPersons}
+                    rowClass="hover-cursor"
+                    add={(item) => browserHistory.push(`/musicians/${item.id}`)}
                     />
                 <Paging
                     visible={!this.props.isFetchingPersons}

@@ -15,17 +15,19 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     {
         private readonly IPartyRealRepository _partyRealRepository;
         private readonly IPartyRoleRepository _partyRoleRepository;
+        private readonly IPartyContactMediumRepository _partyContactMediumRepository;
         private readonly IZipCodeRepository _zipCodeRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IUnitOfWork _unitOfWork;
         private const string ProducerRoleCode = "PRO";
 
-        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository, IUnitOfWork unitOfWork, ICountryRepository countryRepository, IZipCodeRepository zipCodeRepository)
+        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository, IUnitOfWork unitOfWork, ICountryRepository countryRepository, IZipCodeRepository zipCodeRepository, IPartyContactMediumRepository partyContactMediumRepository)
         {
             _partyRoleRepository = partyRoleRepository;
             _unitOfWork = unitOfWork;
             _countryRepository = countryRepository;
             _zipCodeRepository = zipCodeRepository;
+            _partyContactMediumRepository = partyContactMediumRepository;
             _partyRealRepository = partyRealRepository;
         }
 
@@ -112,6 +114,47 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork.Commit();
 
             return entity.id;
+        }
+
+        public PersonExtendedDto UpdatePersonInfo(int personId, PersonExtendedDto updateModel)
+        {
+            var personToUpdate = _partyRealRepository.GetById(personId);
+
+            if (personToUpdate != null)
+            {
+                personToUpdate.fullname = updateModel.Fullname;
+                personToUpdate.uniqueidentifier = updateModel.Ssn.Replace("-", "");
+                personToUpdate.postaladdressline1 = updateModel.PostalAddressLine1;
+                personToUpdate.zipcode = updateModel.ZipCode;
+                personToUpdate.area = updateModel.Area;
+                personToUpdate.countrycode = updateModel.CountryCode;
+                personToUpdate.deceased = updateModel.IsDeceased;
+                personToUpdate.website = updateModel.Website;
+
+                if (personToUpdate.party_contactmedium != null)
+                {
+                    personToUpdate.party_contactmedium.mobilephone = updateModel.MobileNumber;
+                    personToUpdate.party_contactmedium.emailaddress = updateModel.Email;
+                }
+                else
+                {
+                    _partyContactMediumRepository.Add(new party_contactmedium
+                    {
+                        partyrealid = personId,
+                        uniqueidentifier = updateModel.Ssn.Replace("-", ""),
+                        emailaddress = updateModel.Email,
+                        mobilephone = updateModel.MobileNumber,
+                        updatedon = DateTime.Now,
+                        updatedby = "User", // Needs to be replaced
+                        createdby = "User",
+                        createdon = DateTime.Now
+                    });
+                }
+
+                _unitOfWork.Commit();
+            }
+
+            return updateModel;
         }
     }
 }

@@ -68,6 +68,7 @@
     <Compile Include="Implementations\Instruments\InstrumentRepository.cs" />
     <Compile Include="Implementations\Media\RecordingPartyRepository.cs" />
     <Compile Include="Implementations\Organization\OrganizationRepository.cs" />
+    <Compile Include="Implementations\Persons\PartyContactMediumRepository.cs" />
     <Compile Include="Implementations\Persons\PartyMainArtistRepository.cs" />
     <Compile Include="Implementations\Persons\PartyRealRepository.cs" />
     <Compile Include="Implementations\Persons\PartyRoleRepository.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Interfaces\Instruments\IInstrumentRepository.cs" />
     <Compile Include="Interfaces\Media\IRecordingPartyRepository.cs" />
     <Compile Include="Interfaces\Organization\IOrganizationRepository.cs" />
+    <Compile Include="Interfaces\Persons\IPartyContactMediumRepository.cs" />
     <Compile Include="Interfaces\Persons\IPartyMainArtistRepository.cs" />
     <Compile Include="Interfaces\Persons\IPartyRealRepository.cs" />
     <Compile Include="Interfaces\Persons\IPartyRoleRepository.cs" />

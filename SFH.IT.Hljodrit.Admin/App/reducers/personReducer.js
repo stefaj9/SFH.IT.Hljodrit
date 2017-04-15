@@ -22,6 +22,9 @@ export default function(state = initialState, action) {
         case actionType.GET_PERSON_BY_ID: return Object.assign({}, state, {
             selectedPerson: action.payload
         });
+        case actionType.UPDATE_PERSON_BY_ID: return Object.assign({}, state, {
+            selectedPerson: action.payload
+        });
         case actionType.CLEAR_SELECTED_PERSON: return Object.assign({}, state, {
             selectedPerson: {}
         });

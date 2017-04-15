@@ -12,5 +12,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         PersonExtendedDto GetPersonById(int personId);
         IEnumerable<RoleDto> GetPersonRoles();
         int AddPerson(PersonRegisterViewModel person);
+        PersonExtendedDto UpdatePersonInfo(int personId, PersonExtendedDto updateModel);
     }
 }

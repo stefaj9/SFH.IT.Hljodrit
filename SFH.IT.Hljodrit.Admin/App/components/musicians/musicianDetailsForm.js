@@ -1,11 +1,14 @@
 import React from 'react';
 import _ from 'lodash';
+import { toastr } from 'react-redux-toastr';
 
 class MusicianDetailsForm extends React.Component {
     componentWillReceiveProps(newProps) {
         if (_.keys(newProps.musician).length > 0) {
             let musician = _.cloneDeep(newProps.musician);
-            musician.ssn = `${musician.ssn.slice(0, 6)}-${musician.ssn.slice(6)}`;
+            if (musician.ssn.length === 10) {
+                musician.ssn = `${musician.ssn.slice(0, 6)}-${musician.ssn.slice(6)}`;
+            }
             this.setState({ currentMusician: musician });
         }
     }
@@ -21,7 +24,8 @@ class MusicianDetailsForm extends React.Component {
                 area: '',
                 email: '',
                 isDeceased: false,
-                countryCode: ''
+                countryCode: '',
+                mobileNumber: ''
             }
         };
     }
@@ -31,18 +35,19 @@ class MusicianDetailsForm extends React.Component {
         this.setState({ currentMusician: currentMusician });
     }
     onSsnChange(e) {
-        if (e.target.value.length > 11) {
+        let value = e.target.value;
+        if (value.length > 11) {
             return;
         }
         let currentMusician = _.cloneDeep(this.state.currentMusician);
         let oldLength = currentMusician.ssn.length;
 
-        if (oldLength < e.target.value.length && e.target.value.length === 6) {
-            currentMusician.ssn = `${e.target.value}-`;
-        } else if (oldLength > e.target.value.length && oldLength === 7) {
-            currentMusician.ssn = e.target.value.slice(0, -1);
+        if (oldLength < value.length && value.length === 6) {
+            currentMusician.ssn = `${value}-`;
+        } else if (oldLength > value.length && oldLength === 7) {
+            currentMusician.ssn = value.slice(0, -1);
         } else {
-            currentMusician.ssn = e.target.value;
+            currentMusician.ssn = value;
         }
 
         this.setState({ currentMusician: currentMusician });
@@ -54,7 +59,25 @@ class MusicianDetailsForm extends React.Component {
     }
     onSubmit(e) {
         e.preventDefault();
+        if (!this.isSsnValid() && !this.isMobileValid()) {
+            toastr.error('Villa!', 'Kennitala og símanúmerið er ekki á réttu formi.');
+            return;
+        }
+        if (!this.isSsnValid()) {
+            toastr.error('Villa!', 'Kennitala er ekki á réttu formi.');
+            return;
+        }
+        if (!this.isMobileValid()) {
+            toastr.error('Villa!', 'Símanúmer er ekki á réttu formi.');
+            return;
+        }
         this.props.updateMusician(this.state.currentMusician);
+    }
+    isSsnValid() {
+        return this.state.currentMusician.ssn.match(/^([0-9]{6}-[0-9]{4})|(^$)$/g) !== null;
+    }
+    isMobileValid() {
+        return this.state.currentMusician.mobileNumber.match(/^[0-9]*$/g) !== null;
     }
     renderZipCodes() {
         return this.props.zipCodes.map((zip) => {
@@ -113,6 +136,10 @@ class MusicianDetailsForm extends React.Component {
                         <div className="form-group">
                             <label htmlFor="musician-detail-email">Netfang</label>
                             <input type="email" value={currentMusician.email} onChange={(e) => this.onInputChange(e, 'email')} className="form-control"/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="musician-detail-mobile">Símanúmer</label>
+                            <input type="text" value={currentMusician.mobileNumber} onChange={(e) => this.onInputChange(e, 'mobileNumber')} className="form-control" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="">Látinn?</label>

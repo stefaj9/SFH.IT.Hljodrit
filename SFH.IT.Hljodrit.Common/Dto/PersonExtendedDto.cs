@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using SFH.IT.Hljodrit.Models;
 
@@ -27,16 +28,18 @@ namespace SFH.IT.Hljodrit.Common.Dto
             IsDeceased = person.deceased;
         }
 
-
+        [RegularExpression("^([0-9]{6}-[0-9]{4})|(^$)$", ErrorMessage = "Kennitala not in correct format.")]
         [JsonProperty(PropertyName = "ssn")]
         public string Ssn { get; set; }
 
         [JsonProperty(PropertyName = "dateOfBirth")]
         public DateTime? DateOfBirth { get; set; }
 
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Mobile number not in correct format.")]
         [JsonProperty(PropertyName = "mobileNumber")]
         public string MobileNumber { get; set; }
 
+        [EmailAddress(ErrorMessage = "Email not in correct format")]
         [JsonProperty(PropertyName = "email")]
         public string Email { get; set; }
 
