@@ -10,7 +10,10 @@ class MusicianDetails extends React.Component {
     render() {
         return (
             <div>
-                <MusicianDetailsForm musician={this.props.musician} />
+                <h2>{this.props.musician.fullName}</h2>
+                <MusicianDetailsForm 
+                    musician={this.props.musician}
+                    updateMusician={(musician) => console.log(musician)} />
             </div>
         );
     }
