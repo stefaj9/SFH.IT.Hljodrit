@@ -81,7 +81,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         {
             var person = _partyRealRepository.GetById(personId);
 
-            return new PersonExtendedDto(person);
+            return person == null ? new PersonExtendedDto() : new PersonExtendedDto(person);
         }
 
         public IEnumerable<RoleDto> GetPersonRoles()

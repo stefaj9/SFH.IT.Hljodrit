@@ -1,10 +1,25 @@
 import React from 'react';
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { getPersonById } from '../../actions/personActions';
+import MusicianDetailsForm from './musicianDetailsForm';
 
-export default class MusicianDetails extends React.Component {
+class MusicianDetails extends React.Component {
+    componentWillMount() {
+        this.props.getPersonById(this.props.routeParams.musicianId);
+    }
     render() {
         return (
-            <h1>{this.props.routeParams.musicianId}</h1>
+            <div>
+                <MusicianDetailsForm musician={this.props.musician} />
+            </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        musician: state.person.selectedPerson
+    };
+};
+
+export default connect(mapStateToProps, { getPersonById })(MusicianDetails);

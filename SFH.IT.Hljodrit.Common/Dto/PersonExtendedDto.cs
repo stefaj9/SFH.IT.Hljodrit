@@ -6,6 +6,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
 {
     public class PersonExtendedDto: PersonDto
     {
+        public PersonExtendedDto() { }
         public PersonExtendedDto(party_real person) : base(person)
         {
             Ssn = person.uniqueidentifier;
