@@ -6,6 +6,7 @@ import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowAction
 import SearchBar from '../common/searchBar';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
+import Spinner from 'react-spinner';
 import { connect } from 'react-redux';
 import Filter from '../common/filter';
 
@@ -104,11 +105,10 @@ class Musicians extends React.Component {
                 break;
         }
     }
-
-    render() {
+    renderData() {
         let containsData = !this.props.isFetchingPersons && this.props.persons.length !== 0;
         return (
-            <div>
+            <div className={this.props.isFetchingPersons ? 'hidden' : ''}>
                 <h2>Aðilar</h2>
                 <SearchBar
                     searchTerm={this.state.searchQuery}
@@ -131,12 +131,21 @@ class Musicians extends React.Component {
             </div>
         );
     }
+
+    render() {
+        return (
+            <div>
+                <Spinner className={this.props.isFetchingPersons ? '' : 'hidden'} />
+                {this.renderData()}
+            </div>
+        );
+    }
 }
 
 function mapStateToProps(state) {
     return {
         persons: state.person.personEnvelope.objects,
-        isFetchingPersons: state.person.isFetching,
+        isFetchingPersons: state.flow.isFetchingList,
         currentPage: state.person.personEnvelope.currentPage,
         maximumPage: state.person.personEnvelope.maximumPage,
     };

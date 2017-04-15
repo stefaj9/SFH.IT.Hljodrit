@@ -63,6 +63,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         [HttpGet]
+        [Route("persons/{personId:int}/medias")]
+        public IHttpActionResult GetAllMediaForPerson(int personId, [FromUri] int pageNumber, [FromUri] int pageSize, [FromUri] string searchTerm)
+        {
+            return Ok(_personService.GetAllMediaAssociatedWithMusician(personId, pageNumber, pageSize, searchTerm ?? ""));
+        }
+
+        [HttpGet]
         [Route("persons/roles")]
         public IHttpActionResult GetRoles()
         {

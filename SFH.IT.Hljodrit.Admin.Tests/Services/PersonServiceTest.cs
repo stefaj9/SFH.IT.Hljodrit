@@ -10,6 +10,7 @@ using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
@@ -23,6 +24,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 	    private Mock<IPartyContactMediumRepository> _partyContactMediumRepository;
 	    private Mock<IZipCodeRepository> _zipCodeRepository;
 	    private Mock<ICountryRepository> _countryRepository;
+	    private Mock<IRecordingPartyRepository> _recordingPartyRepository;
 	    private Mock<IUnitOfWork> _unitOfWork;
 	    private IPersonService _personService;
 
@@ -36,8 +38,9 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _partyContactMediumRepository = new Mock<IPartyContactMediumRepository>();
             _countryRepository = new Mock<ICountryRepository>();
             _zipCodeRepository = new Mock<IZipCodeRepository>();
+            _recordingPartyRepository = new Mock<IRecordingPartyRepository>();
             _unitOfWork = new Mock<IUnitOfWork>();
-            _personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object, _partyContactMediumRepository.Object);
+            _personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object, _partyContactMediumRepository.Object, _recordingPartyRepository.Object);
         }
 
 		#region GetAllPerformers

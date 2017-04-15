@@ -12,9 +12,9 @@ namespace SFH.IT.Hljodrit.Common.Dto
         {
             Id = person.id;
             Fullname = person.fullname.Trim();
-            PostalAddressLine1 = person.postaladdressline1;
+            PostalAddressLine1 = person.postaladdressline1 ?? "";
             ZipCode = person.zipcode.Trim();
-            Area = person.area;
+            Area = person.area ?? "";
         }
 
         [JsonProperty(PropertyName = "id")]

@@ -71,7 +71,7 @@ Table.propTypes = {
     selectRowCallback: PropTypes.func,
     selectRowCallBackAll: PropTypes.func,
     tableRowClassName: PropTypes.string,
-    refCallback: PropTypes.func
+    refCallback: PropTypes.func.isRequired
 };
 
 export default Table;

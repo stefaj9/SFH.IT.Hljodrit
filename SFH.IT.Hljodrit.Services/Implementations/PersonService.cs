@@ -6,6 +6,7 @@ using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
@@ -16,18 +17,20 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly IPartyRealRepository _partyRealRepository;
         private readonly IPartyRoleRepository _partyRoleRepository;
         private readonly IPartyContactMediumRepository _partyContactMediumRepository;
+        private readonly IRecordingPartyRepository _recordingPartyRepository;
         private readonly IZipCodeRepository _zipCodeRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IUnitOfWork _unitOfWork;
         private const string ProducerRoleCode = "PRO";
 
-        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository, IUnitOfWork unitOfWork, ICountryRepository countryRepository, IZipCodeRepository zipCodeRepository, IPartyContactMediumRepository partyContactMediumRepository)
+        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository, IUnitOfWork unitOfWork, ICountryRepository countryRepository, IZipCodeRepository zipCodeRepository, IPartyContactMediumRepository partyContactMediumRepository, IRecordingPartyRepository recordingPartyRepository)
         {
             _partyRoleRepository = partyRoleRepository;
             _unitOfWork = unitOfWork;
             _countryRepository = countryRepository;
             _zipCodeRepository = zipCodeRepository;
             _partyContactMediumRepository = partyContactMediumRepository;
+            _recordingPartyRepository = recordingPartyRepository;
             _partyRealRepository = partyRealRepository;
         }
 
@@ -155,6 +158,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             }
 
             return updateModel;
+        }
+
+        public IEnumerable<MediaWithRoleDto> GetAllMediaAssociatedWithMusician(int partyRealId, int pageNumber, int pageSize, string searchTerm)
+        {
+            return _recordingPartyRepository.GetAllMediaAssociatedWithMusician(partyRealId, pageNumber, pageSize, searchTerm);
         }
     }
 }

@@ -57,6 +57,7 @@
     <Compile Include="Dto\AlbumViewModel.cs" />
     <Compile Include="Dto\LabelDto.cs" />
     <Compile Include="Dto\MediaDto.cs" />
+    <Compile Include="Dto\MediaWithRoleDto.cs" />
     <Compile Include="Dto\MusicianCreditsDto.cs" />
     <Compile Include="Dto\MusicianDto.cs" />
     <Compile Include="Dto\RegistrationDto.cs" />
