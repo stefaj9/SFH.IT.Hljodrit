@@ -7,11 +7,24 @@ namespace SFH.IT.Hljodrit.Common.Dto
     public class PersonExtendedDto: PersonDto
     {
         public PersonExtendedDto() { }
-        public PersonExtendedDto(party_real person) : base(person)
+        public PersonExtendedDto(party_real person, party_contactmedium partyContactmedium) : base(person)
         {
-            Ssn = person.uniqueidentifier;
+            Ssn = person.uniqueidentifier ?? "";
             DateOfBirth = person.dateofbirth;
-            Website = person.website;
+            Website = person.website ?? "";
+            CountryCode = person.countrycode.ToUpper();
+            if (partyContactmedium != null)
+            {
+                MobileNumber = partyContactmedium.mobilephone ?? "";
+                Email = partyContactmedium.emailaddress ?? "";
+            }
+            else
+            {
+                MobileNumber = "";
+                Email = "";
+            }
+            
+            IsDeceased = person.deceased;
         }
 
 
@@ -21,7 +34,19 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty(PropertyName = "dateOfBirth")]
         public DateTime? DateOfBirth { get; set; }
 
+        [JsonProperty(PropertyName = "mobileNumber")]
+        public string MobileNumber { get; set; }
+
+        [JsonProperty(PropertyName = "email")]
+        public string Email { get; set; }
+
         [JsonProperty(PropertyName = "website")]
         public string Website { get; set; }
+
+        [JsonProperty(PropertyName = "isDeceased")]
+        public bool? IsDeceased { get; set; }
+
+        [JsonProperty(PropertyName = "countryCode")]
+        public string CountryCode { get; set; }
     }
 }

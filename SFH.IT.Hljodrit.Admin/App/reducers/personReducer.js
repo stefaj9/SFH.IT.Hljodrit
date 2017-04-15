@@ -7,7 +7,8 @@ let initialState = {
         objects: []
     },
     personRoles: [],
-    selectedPerson: {}
+    selectedPerson: {},
+    isFetchingPerson: true
 };
 
 export default function(state = initialState, action) {
@@ -23,6 +24,12 @@ export default function(state = initialState, action) {
         });
         case actionType.CLEAR_SELECTED_PERSON: return Object.assign({}, state, {
             selectedPerson: {}
+        });
+        case actionType.IS_FETCHING_PERSON: return Object.assign({}, state, {
+            isFetchingPerson: true
+        });
+        case actionType.HAS_STOPPED_FETCHING_PERSON: return Object.assign({}, state, {
+            isFetchingPerson: false
         });
     }
 
