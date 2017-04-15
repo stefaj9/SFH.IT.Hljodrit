@@ -22,7 +22,6 @@ class AlbumDetails extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        console.log(newProps);
         if(_.keys(newProps.selectedAlbum).length > 0 && !this.state.hasFetched && !newProps.isFetching) {
             this.validateAlbum(newProps.selectedAlbum);
 
@@ -39,7 +38,8 @@ class AlbumDetails extends React.Component {
                     mainArtistName: newProps.selectedAlbum.mainArtistName,
                     mainArtistId: newProps.selectedAlbum.mainArtistId,
                     publisher: newProps.selectedAlbum.publisher,
-                    releaseDate: newProps.selectedAlbum.releaseDate
+                    releaseDate: newProps.selectedAlbum.releaseDate,
+                    selectedSongsForDeletion: []
                 },
                 hasFetched: true
             });
