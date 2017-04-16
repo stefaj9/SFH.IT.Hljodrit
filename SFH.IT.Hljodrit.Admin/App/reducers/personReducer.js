@@ -1,4 +1,6 @@
 import * as actionType from '../actions/actionTypes';
+import _ from 'lodash';
+import moment from 'moment';
 
 let initialState = {
     personEnvelope: {
@@ -27,9 +29,23 @@ export default function(state = initialState, action) {
         case actionType.UPDATE_PERSON_BY_ID: return Object.assign({}, state, {
             selectedPerson: action.payload
         });
-        case actionType.GET_MEDIA_ASSOCIATED_WITH_PERSON: return Object.assign({}, state, {
-            selectedPersonMedia: action.payload
-        });
+        case actionType.GET_MEDIA_ASSOCIATED_WITH_PERSON:
+            let media = _.cloneDeep(action.payload);
+            moment.locale('is');
+            media = media.map(m => {
+                return Object.assign({}, m, {
+                    instruments: m.instruments.map(instrument => {
+                        return instrument.instrumentNameIcelandic;
+                    }),
+                    roles: m.roles.map(role => {
+                        return role.name
+                    }),
+                    releaseDate: moment(m.releaseDate).format('LL')
+                });
+            });
+            return Object.assign({}, state, {
+                selectedPersonMedia: media
+            });
         case actionType.CLEAR_SELECTED_PERSON: return Object.assign({}, state, {
             selectedPerson: {}
         });

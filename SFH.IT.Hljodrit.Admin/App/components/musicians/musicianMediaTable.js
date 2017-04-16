@@ -7,7 +7,8 @@ const MusicianMediaTable = ({ musicianMedia }) => {
         <div>
             <Table
                 tableData={ musicianMediaTableData }
-                objects={ musicianMedia } />
+                objects={ musicianMedia }
+                refCallback={(ref) => { return ref; }} />
         </div>
     );
 };
@@ -15,3 +16,5 @@ const MusicianMediaTable = ({ musicianMedia }) => {
 MusicianMediaTable.propTypes = {
     musicianMedia: React.PropTypes.array.isRequired
 };
+
+export default MusicianMediaTable;

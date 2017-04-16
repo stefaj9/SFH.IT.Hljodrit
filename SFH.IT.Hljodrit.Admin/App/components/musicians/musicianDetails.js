@@ -12,7 +12,7 @@ class MusicianDetails extends React.Component {
     }
     renderData() {
         return (
-            <div className={this.props.isFetchingPerson ? 'hidden' : ''}>
+            <div className={!(!this.props.isFetchingPerson && !this.props.isFetchingPersonMedia) ? 'hidden' : 'col-xs-12'}>
                 <h2>{this.props.musician.fullName}</h2>
                 <MusicianDetailsForm 
                     musician={this.props.musician}
@@ -26,7 +26,7 @@ class MusicianDetails extends React.Component {
     render() {
         return (
             <div>
-                <Spinner className={this.props.isFetchingPerson ? '' : 'hidden'} />
+                <Spinner className={this.props.isFetchingPerson || this.props.isFetchingPersonMedia ? '' : 'hidden'} />
                 {this.renderData()}
             </div>
         );
@@ -39,7 +39,8 @@ function mapStateToProps(state) {
         musicianMedia: state.person.selectedPersonMedia,
         zipCodes: state.common.zipCodes,
         countries: state.common.countries,
-        isFetchingPerson: state.person.isFetchingPerson
+        isFetchingPerson: state.person.isFetchingPerson,
+        isFetchingPersonMedia: state.person.isFetchingPersonMedia
     };
 };
 
