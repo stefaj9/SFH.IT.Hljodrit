@@ -8,7 +8,7 @@ import Spinner from 'react-spinner';
 class MusicianDetails extends React.Component {
     componentWillMount() {
         this.props.getPersonById(this.props.routeParams.musicianId);
-        this.props.getMediaAssociatedWithPerson(this.props.routeParams.musicianId, 1, 25, '');
+        this.props.getMediaAssociatedWithPerson(this.props.routeParams.musicianId, 1, 10, '');
     }
     renderData() {
         return (
@@ -19,7 +19,7 @@ class MusicianDetails extends React.Component {
                     zipCodes={this.props.zipCodes}
                     countries={this.props.countries}
                     updateMusician={(musician) => this.props.updatePersonById(this.props.routeParams.musicianId, musician)} />
-                <MusicianMediaTable musicianMedia={this.props.musicianMedia} />
+                <MusicianMediaTable musicianMediaEnvelope={this.props.musicianMediaEnvelope} paginationCallback={(page, pageSize) => this.props.getMediaAssociatedWithPerson(this.props.routeParams.musicianId, page, pageSize, '')} />
             </div>
         );
     }
@@ -36,7 +36,7 @@ class MusicianDetails extends React.Component {
 function mapStateToProps(state) {
     return {
         musician: state.person.selectedPerson,
-        musicianMedia: state.person.selectedPersonMedia,
+        musicianMediaEnvelope: state.person.selectedPersonMediaEnvelope,
         zipCodes: state.common.zipCodes,
         countries: state.common.countries,
         isFetchingPerson: state.person.isFetchingPerson,

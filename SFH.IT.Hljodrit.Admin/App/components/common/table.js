@@ -26,7 +26,7 @@ class Table extends React.Component {
         });
     }
     render() {
-        const { objects, onClickCallback, selectRow, selectRowMode, selectRowCallback, selectRowCallBackAll, tableRowClassName, refCallback } = this.props;
+        const { objects, onClickCallback, selectRow, selectRowMode, selectRowCallback, selectRowCallBackAll, tableRowClassName, refCallback, hidePageSize, pagination, paginationCallback, paginationTotalElements, paginationCurrentPage } = this.props;
         let selectRowOptions;
         if (selectRow) {
             selectRowOptions = {
@@ -34,6 +34,12 @@ class Table extends React.Component {
                 onSelect: selectRowCallback,
                 onSelectAll: selectRowCallBackAll
             };
+        }
+        let options = {
+            onRowClick: onClickCallback,
+            hideSizePerPage: hidePageSize,
+            onPageChange: paginationCallback,
+            page: paginationCurrentPage
         }
         let indexedObjects = _.cloneDeep(objects);
         indexedObjects.map((idxObj, idx) => {
@@ -43,12 +49,16 @@ class Table extends React.Component {
             <div className="col-xs-12">
                 <BootstrapTable
                   data={indexedObjects}
-                  options={{onRowClick: onClickCallback}}
+                  options={options}
                   selectRow={selectRowOptions}
                   trClassName={tableRowClassName}
                   striped 
                   ref={(ref) => refCallback(ref)}
-                  hover>
+                  hover
+                  pagination={pagination}
+                  ignoreSinglePage
+                  remote
+                  fetchInfo={{dataTotalSize: paginationTotalElements}}>
                     <TableHeaderColumn
                       isKey={true}
                       dataField="idx"
@@ -71,7 +81,12 @@ Table.propTypes = {
     selectRowCallback: PropTypes.func,
     selectRowCallBackAll: PropTypes.func,
     tableRowClassName: PropTypes.string,
-    refCallback: PropTypes.func.isRequired
+    refCallback: PropTypes.func.isRequired,
+    hidePageSize: PropTypes.bool,
+    pagination: PropTypes.bool.isRequired,
+    paginationCallback: PropTypes.func,
+    paginationTotalElements: PropTypes.number,
+    paginationCurrentPage: PropTypes.number
 };
 
 export default Table;

@@ -10,7 +10,12 @@ let initialState = {
     },
     personRoles: [],
     selectedPerson: {},
-    selectedPersonMedia: [],
+    selectedPersonMediaEnvelope: {
+        totalNumber: -1,
+        maximumPage: -1,
+        currentPage: -1,
+        objects: []
+    },
     isFetchingPerson: true,
     isFetchingPersonMedia: true
 };
@@ -32,7 +37,7 @@ export default function(state = initialState, action) {
         case actionType.GET_MEDIA_ASSOCIATED_WITH_PERSON:
             let media = _.cloneDeep(action.payload);
             moment.locale('is');
-            media = media.map(m => {
+            media.objects = media.objects.map(m => {
                 return Object.assign({}, m, {
                     instruments: m.instruments.map(instrument => {
                         return instrument.instrumentNameIcelandic;
@@ -44,7 +49,7 @@ export default function(state = initialState, action) {
                 });
             });
             return Object.assign({}, state, {
-                selectedPersonMedia: media
+                selectedPersonMediaEnvelope: media
             });
         case actionType.CLEAR_SELECTED_PERSON: return Object.assign({}, state, {
             selectedPerson: {}

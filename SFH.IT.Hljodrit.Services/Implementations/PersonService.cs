@@ -160,7 +160,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return updateModel;
         }
 
-        public IEnumerable<MediaWithRoleDto> GetAllMediaAssociatedWithMusician(int partyRealId, int pageNumber, int pageSize, string searchTerm)
+        public Envelope<MediaWithRoleDto> GetAllMediaAssociatedWithMusician(int partyRealId, int pageNumber, int pageSize, string searchTerm)
         {
             return _recordingPartyRepository.GetAllMediaAssociatedWithMusician(partyRealId, pageNumber, pageSize, searchTerm);
         }

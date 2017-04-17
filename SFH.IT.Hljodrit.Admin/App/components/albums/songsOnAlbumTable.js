@@ -9,6 +9,7 @@ const SongsOnAlbumTable = ({songs, callback, removeSongsFromAlbum, addToListOfSe
                 selectRow={true}
                 selectRowMode="checkbox"
                 onClickCallback={callback}
+                pagination={false}
                 tableData={albumTableData}
                 refCallback={(ref) => { return ref; }}
                 tableRowClassName="album-song-selection-row"
