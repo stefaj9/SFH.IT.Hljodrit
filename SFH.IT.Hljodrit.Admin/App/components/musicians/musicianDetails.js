@@ -4,6 +4,7 @@ import { getPersonById, updatePersonById, getMediaAssociatedWithPerson, getAlbum
 import MusicianDetailsForm from './musicianDetailsForm';
 import MusicianMediaTable from './musicianMediaTable';
 import MusicianAlbumTable from './musicianAlbumTable';
+import PromptModal from '../common/promptModal';
 import Spinner from 'react-spinner';
 
 class MusicianDetails extends React.Component {
@@ -12,6 +13,12 @@ class MusicianDetails extends React.Component {
         this.props.getPersonById(musicianId);
         this.props.getMediaAssociatedWithPerson(musicianId);
         this.props.getAlbumsAssociatedWithPerson(musicianId);
+    }
+    constructor() {
+        super();
+        this.state = {
+            promptModalOpen: false
+        };
     }
     renderData() {
         const { isFetchingPerson, isFetchingPersonMedia, isFetchingPersonAlbums } = this.props;
@@ -27,6 +34,20 @@ class MusicianDetails extends React.Component {
                     musicianMedia={this.props.musicianMedia} />
                 <MusicianAlbumTable
                     musicianAlbums={this.props.musicianAlbums} />
+                <div className="spacer"></div>
+                <div className="row">
+                    <div className="col-xs-12 text-right">
+                        <button className="btn btn-default btn-lg btn-primary" onClick={() => this.setState({ promptModalOpen: true })}>Eyða flytjanda</button>
+                    </div>
+                </div>
+                <PromptModal
+                    isOpen={this.state.promptModalOpen}
+                    title="Eyða flytjanda"
+                    content={`Ertu viss um að þú viljir eyða ${this.props.musician.fullName}?`}
+                    confirmBtnText="Staðfesta"
+                    confirmBtnCallback={() => console.log('DELETE')}
+                    discardBtnText="Hætta við"
+                    discardBtnCallback={() => this.setState({ promptModalOpen: false })} />
             </div>
         );
     }
