@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import * as actionType from '../actions/actionTypes';
 import _ from 'lodash';
 import moment from 'moment';
@@ -83,6 +84,8 @@ export default function(state = initialState, action) {
         case actionType.HAS_STOPPED_FETCHING_PERSON_ALBUMS: return Object.assign({}, state, {
             isFetchingPersonAlbums: false
         });
+        case actionType.REDIRECT_TO_PATH: browserHistory.push(action.payload);
+            break;
     }
 
     return state;

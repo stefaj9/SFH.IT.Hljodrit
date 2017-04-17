@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getPersonById, updatePersonById, getMediaAssociatedWithPerson, getAlbumsAssociatedWithPerson } from '../../actions/personActions';
+import { getPersonById, updatePersonById, getMediaAssociatedWithPerson, getAlbumsAssociatedWithPerson, deletePersonById } from '../../actions/personActions';
 import MusicianDetailsForm from './musicianDetailsForm';
 import MusicianMediaTable from './musicianMediaTable';
 import MusicianAlbumTable from './musicianAlbumTable';
@@ -45,7 +45,7 @@ class MusicianDetails extends React.Component {
                     title="Eyða flytjanda"
                     content={`Ertu viss um að þú viljir eyða ${this.props.musician.fullName}?`}
                     confirmBtnText="Staðfesta"
-                    confirmBtnCallback={() => console.log('DELETE')}
+                    confirmBtnCallback={() => this.props.deletePersonById(this.props.routeParams.musicianId)}
                     discardBtnText="Hætta við"
                     discardBtnCallback={() => this.setState({ promptModalOpen: false })} />
             </div>
@@ -75,4 +75,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getPersonById, updatePersonById, getMediaAssociatedWithPerson, getAlbumsAssociatedWithPerson })(MusicianDetails);
+export default connect(mapStateToProps, { getPersonById, updatePersonById, getMediaAssociatedWithPerson, getAlbumsAssociatedWithPerson, deletePersonById })(MusicianDetails);

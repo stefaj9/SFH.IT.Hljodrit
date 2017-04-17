@@ -59,6 +59,30 @@ function updatePersonByIdSuccess(person) {
     };
 };
 
+export function deletePersonById(personId) {
+    return (dispatch) => {
+        dispatch(isFetchingPerson());
+        return fetch(`/api/persons/${personId}`, {
+            method: 'DELETE'
+        }).then(resp => {
+            dispatch(hasStoppedFetchingPerson());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að eyða aðila.');
+                dispatch(redirectToPath('/musicians'));
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að eyða aðila.');
+            }
+        })
+    }
+}
+
+function redirectToPath(path) {
+    return {
+        type: actionType.REDIRECT_TO_PATH,
+        payload: path
+    };
+};
+
 export function getPersonsByCriteria(pageSize, pageNumber, searchQuery, isFetchingList, hasStoppedFetchingList) {
     return (dispatch) => {
         dispatch(isFetchingList());
