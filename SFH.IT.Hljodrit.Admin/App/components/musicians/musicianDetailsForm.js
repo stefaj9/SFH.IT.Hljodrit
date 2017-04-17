@@ -119,7 +119,7 @@ class MusicianDetailsForm extends React.Component {
                         </div>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <div className={'form-group' + (currentMusician.zipCode === '0' ? '' : ' hidden')}>
+                        <div className={'form-group' + (currentMusician.zipCode === '0' || currentMusician.zipCode === '' ? '' : ' hidden')}>
                             <label htmlFor="musician-detail-city">Staður</label>
                             <input type="text" value={currentMusician.area} onChange={(e) => this.onInputChange(e, 'area')} className="form-control"/>
                         </div>
