@@ -109,6 +109,29 @@ function getMediaAssociatedWithPersonSuccess(media) {
     };
 };
 
+export function getAlbumsAssociatedWithPerson(personId) {
+    return (dispatch) => {
+        dispatch(isFetchingPersonAlbums());
+        return fetch(`/api/persons/${personId}/albums`, {
+            method: 'GET'
+        }).then(resp => {
+            dispatch(hasStoppedFetchingPersonAlbums());
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(data => {
+            dispatch(getAlbumsAssociatedWithPersonSuccess(data));
+        })
+    }
+}
+
+function getAlbumsAssociatedWithPersonSuccess(albums) {
+    return {
+        type: actionType.GET_ALBUMS_ASSOCIATED_WITH_PERSON,
+        payload: albums
+    };
+};
+
 export function getPersonRoles() {
     return (dispatch) => {
         return fetch('/api/persons/roles', {
@@ -154,6 +177,20 @@ function isFetchingPersonMedia() {
 function hasStoppedFetchingPersonMedia() {
     return {
         type: actionType.HAS_STOPPED_FETCHING_PERSON_MEDIA,
+        payload: {}
+    };
+};
+
+function isFetchingPersonAlbums() {
+    return {
+        type: actionType.IS_FETCHING_PERSON_ALBUMS,
+        payload: {}
+    };
+};
+
+function hasStoppedFetchingPersonAlbums() {
+    return {
+        type: actionType.HAS_STOPPED_FETCHING_PERSON_ALBUMS,
         payload: {}
     };
 };

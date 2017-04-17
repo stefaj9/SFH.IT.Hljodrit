@@ -13,5 +13,6 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Albums
         AlbumExtendedDto GetAlbumById(int id);
        // MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId);
         ICollection<MusiciansOnSongDto> GetMusiciansOnSong(int albumId, int songId);
+        IEnumerable<AlbumDto> GetAlbumsAssociatedWithMusician(int partyRealId);
     }
 }

@@ -5,6 +5,7 @@ using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
@@ -20,10 +21,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly IRecordingPartyRepository _recordingPartyRepository;
         private readonly IZipCodeRepository _zipCodeRepository;
         private readonly ICountryRepository _countryRepository;
+        private readonly IAlbumRepository _albumRepository;
         private readonly IUnitOfWork _unitOfWork;
         private const string ProducerRoleCode = "PRO";
 
-        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository, IUnitOfWork unitOfWork, ICountryRepository countryRepository, IZipCodeRepository zipCodeRepository, IPartyContactMediumRepository partyContactMediumRepository, IRecordingPartyRepository recordingPartyRepository)
+        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository, IUnitOfWork unitOfWork, ICountryRepository countryRepository, IZipCodeRepository zipCodeRepository, IPartyContactMediumRepository partyContactMediumRepository, IRecordingPartyRepository recordingPartyRepository, IAlbumRepository albumRepository)
         {
             _partyRoleRepository = partyRoleRepository;
             _unitOfWork = unitOfWork;
@@ -31,6 +33,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _zipCodeRepository = zipCodeRepository;
             _partyContactMediumRepository = partyContactMediumRepository;
             _recordingPartyRepository = recordingPartyRepository;
+            _albumRepository = albumRepository;
             _partyRealRepository = partyRealRepository;
         }
 
@@ -163,6 +166,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         public IEnumerable<MediaWithRoleDto> GetAllMediaAssociatedWithMusician(int partyRealId)
         {
             return _recordingPartyRepository.GetAllMediaAssociatedWithMusician(partyRealId);
+        }
+
+        public IEnumerable<AlbumDto> GetAllAlbumsAssociatedWithMusician(int partyRealId)
+        {
+            return _albumRepository.GetAlbumsAssociatedWithMusician(partyRealId);
         }
     }
 }

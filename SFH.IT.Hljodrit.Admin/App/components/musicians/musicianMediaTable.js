@@ -4,7 +4,7 @@ import musicianMediaTableData from './musicianMediaTableData';
 
 const MusicianMediaTable = ({ musicianMedia }) => {
     return (
-        <div>
+        <div className="row">
             <h3>Hljóðrit</h3>
             <Table
                 tableData={ musicianMediaTableData }

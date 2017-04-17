@@ -40,7 +40,8 @@ class Table extends React.Component {
             hideSizePerPage: hidePageSize,
             onPageChange: paginationCallback,
             page: paginationCurrentPage,
-            onSortChange: onSortChange
+            onSortChange: onSortChange,
+            noDataText: 'Engin gögn í boði.'
         }
         let indexedObjects = _.cloneDeep(objects);
         indexedObjects.map((idxObj, idx) => {

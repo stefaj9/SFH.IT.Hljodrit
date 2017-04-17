@@ -14,7 +14,7 @@ const musicianMediaTableData = {
             }
         }
     },
-    mainArtist: { 
+    mainArtist: {
         value: 'Aðalflytjandi', 
         formatter: (cell) => { return cell; }, 
         sortable: true,
@@ -28,10 +28,10 @@ const musicianMediaTableData = {
             }
         }
     },
-    duration: { value: 'Lengd', formatter: undefined, sortable: false },
-    releaseDate: { value: 'Útgáfuár', formatter: undefined, sortable: false },
-    roles: { value: 'Hlutverk', formatter: undefined, sortable: false },
-    instruments: { value: 'Hljóðfæri', formatter: undefined, sortable: false }
+    duration: { value: 'Lengd', formatter: undefined, sortable: true },
+    releaseDate: { value: 'Útgáfuár', formatter: undefined, sortable: true },
+    roles: { value: 'Hlutverk', formatter: undefined, sortable: true },
+    instruments: { value: 'Hljóðfæri', formatter: undefined, sortable: true }
 };
 
 export default musicianMediaTableData;

@@ -170,5 +170,36 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
             registration.CreatedBy = createdBy;
         }
 
+        public IEnumerable<AlbumDto> GetAlbumsAssociatedWithMusician(int partyRealId)
+        {
+            var result = (from product in DbContext.media_product
+                join recording in DbContext.media_recording on product.recordingid equals recording.id
+                join productPackage in DbContext.media_product_package on product.packageid equals productPackage.id
+                join mainArtist in DbContext.party_mainartist on productPackage.mainartistid equals mainArtist.id
+                join recordingParty in DbContext.recording_party on recording.id equals recordingParty.recordingid
+                where recordingParty.partyrealid == partyRealId
+                group new {productPackage, mainArtist} by new {productPackage.id});
+
+            var albums = new List<AlbumDto>();
+
+            foreach (var groups in result)
+            {
+                var firstGroupItem = groups.FirstOrDefault();
+                if (firstGroupItem != null)
+                {
+                    albums.Add(new AlbumDto
+                    {
+                        AlbumId = firstGroupItem.productPackage.id,
+                        AlbumTitle = firstGroupItem.productPackage.albumtitle,
+                        MainArtistId = firstGroupItem.productPackage.mainartistid,
+                        MainArtistName = firstGroupItem.mainArtist != null ? firstGroupItem.mainArtist.artistname ?? "" : "",
+                        NumberOfTracks = firstGroupItem.productPackage.numberoftracks ?? 0,
+                        ReleaseYear = firstGroupItem.productPackage.releasedate?.Year ?? 0
+                    });
+                }
+            }
+
+            return albums;
+        }
     }
 }

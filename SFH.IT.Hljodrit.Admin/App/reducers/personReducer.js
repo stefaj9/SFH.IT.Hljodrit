@@ -12,8 +12,10 @@ let initialState = {
     personRoles: [],
     selectedPerson: {},
     selectedPersonMedia: [],
+    selectedPersonAlbums: [],
     isFetchingPerson: true,
-    isFetchingPersonMedia: true
+    isFetchingPersonMedia: true,
+    isFetchingPersonAlbums: true
 };
 
 export default function(state = initialState, action) {
@@ -49,6 +51,17 @@ export default function(state = initialState, action) {
             return Object.assign({}, state, {
                 selectedPersonMedia: media
             });
+        case actionType.GET_ALBUMS_ASSOCIATED_WITH_PERSON:
+            let albums = _.cloneDeep(action.payload);
+            albums = albums.map(a => {
+                return Object.assign({}, a, {
+                    mainArtistName: <a href={`/mainartists/${a.mainArtistId}`}>{a.mainArtistName}</a>,
+                    albumTitle: <a href={`/albums/${a.albumId}`}>{a.albumTitle}</a>
+                });
+            });
+            return Object.assign({}, state, {
+                selectedPersonAlbums: albums
+            });
         case actionType.CLEAR_SELECTED_PERSON: return Object.assign({}, state, {
             selectedPerson: {}
         });
@@ -63,6 +76,12 @@ export default function(state = initialState, action) {
         });
         case actionType.HAS_STOPPED_FETCHING_PERSON_MEDIA: return Object.assign({}, state, {
             isFetchingPersonMedia: false
+        });
+        case actionType.IS_FETCHING_PERSON_ALBUMS: return Object.assign({}, state, {
+            isFetchingPersonAlbums: true
+        });
+        case actionType.HAS_STOPPED_FETCHING_PERSON_ALBUMS: return Object.assign({}, state, {
+            isFetchingPersonAlbums: false
         });
     }
 

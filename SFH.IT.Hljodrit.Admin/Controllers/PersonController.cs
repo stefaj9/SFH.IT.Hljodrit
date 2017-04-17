@@ -71,6 +71,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         [HttpGet]
+        [Route("persons/{personId:int}/albums")]
+        public IHttpActionResult GetAllAlbumsForPerson(int personId)
+        {
+            return Ok(_personService.GetAllAlbumsAssociatedWithMusician(personId));
+        }
+
+        [HttpGet]
         [Route("persons/roles")]
         public IHttpActionResult GetRoles()
         {
