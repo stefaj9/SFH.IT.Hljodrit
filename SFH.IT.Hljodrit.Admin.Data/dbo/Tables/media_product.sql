@@ -20,6 +20,7 @@
     [updatedon]           DATETIME       NOT NULL,
     [createdby]           NVARCHAR (20)  NOT NULL,
     [createdon]           DATETIME       NOT NULL,
+    [is_deleted]          BIT            CONSTRAINT [DF_media_product_is_deleted] DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_media.release] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_media_product_common_country] FOREIGN KEY ([countryofproduction]) REFERENCES [dbo].[common_country] ([numericisocode]),
     CONSTRAINT [release_revenuetype] FOREIGN KEY ([revenuetypeid]) REFERENCES [dbo].[revenue_plan] ([id]),
@@ -28,6 +29,16 @@
     CONSTRAINT [release_to_releasetype] FOREIGN KEY ([mediaproducttypeid]) REFERENCES [dbo].[media_producttype] ([id]),
     CONSTRAINT [track_to_package] FOREIGN KEY ([packageid]) REFERENCES [dbo].[media_product_package] ([id])
 );
+
+
+GO
+ALTER TABLE [dbo].[media_product] NOCHECK CONSTRAINT [release_revenuetype];
+
+
+GO
+ALTER TABLE [dbo].[media_product] NOCHECK CONSTRAINT [track_to_package];
+
+
 
 
 GO

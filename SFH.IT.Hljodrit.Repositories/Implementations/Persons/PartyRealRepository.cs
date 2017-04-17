@@ -34,7 +34,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
         public IEnumerable<PersonDto> GetPersons(string searchTerm)
         {
             var persons = DbContext.party_real.Where(
-                partyReal => partyReal.fullname.Contains(searchTerm)).Select(person => new PersonDto()
+                partyReal => partyReal.fullname.Contains(searchTerm) && !partyReal.isdeleted).Select(person => new PersonDto()
             {
                 Id = person.id,
                 Fullname = person.fullname,
@@ -44,6 +44,16 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
             }).OrderBy(person => person.Fullname);
 
             return persons;
+        }
+
+        public void MarkPersonAsDeleted(int partyRealId)
+        {
+            var personToMarkAsDeleted = DbContext.party_real.FirstOrDefault(p => p.id == partyRealId);
+
+            if (personToMarkAsDeleted != null)
+            {
+                personToMarkAsDeleted.isdeleted = true;
+            }
         }
     }
 }

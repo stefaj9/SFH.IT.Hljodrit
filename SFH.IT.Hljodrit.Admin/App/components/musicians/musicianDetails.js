@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { getPersonById, updatePersonById, getMediaAssociatedWithPerson, getAlbumsAssociatedWithPerson, deletePersonById } from '../../actions/personActions';
 import MusicianDetailsForm from './musicianDetailsForm';
 import MusicianMediaTable from './musicianMediaTable';
@@ -51,12 +52,36 @@ class MusicianDetails extends React.Component {
             </div>
         );
     }
+    containsValidMusician() {
+        if (this.props.musician !== null) {
+            const { isFetchingPerson, isFetchingPersonMedia, isFetchingPersonAlbums } = this.props;
+            return (
+                <div>
+                    <Spinner className={isFetchingPerson || isFetchingPersonMedia || isFetchingPersonAlbums ? '' : 'hidden'} />
+                    {this.renderData()}
+                </div>
+            );
+        }
+    }
+    doesNotContainValidMusician() {
+        if (this.props.musician === null) {
+            return (
+                <div>
+                    <h3>Flytjandi með þessar upplýsingar er ekki til eða hefur verið eytt.</h3>
+                    <div className="row text-right">
+                        <button 
+                            className="btn btn-default btn-primary"
+                            onClick={() => browserHistory.push('/musicians')}>Til baka</button>
+                    </div>
+                </div>
+            );
+        }
+    }
     render() {
-        const { isFetchingPerson, isFetchingPersonMedia, isFetchingPersonAlbums } = this.props;
         return (
             <div>
-                <Spinner className={isFetchingPerson || isFetchingPersonMedia || isFetchingPersonAlbums ? '' : 'hidden'} />
-                {this.renderData()}
+                {this.containsValidMusician()}
+                {this.doesNotContainValidMusician()}
             </div>
         );
     }

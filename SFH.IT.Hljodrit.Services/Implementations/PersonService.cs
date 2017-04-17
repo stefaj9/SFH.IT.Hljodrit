@@ -56,7 +56,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public Envelope<PersonDto> GetPerformers(int pageSize, int pageNumber, string searchTerm = null)
         {
-            var performers = _partyRealRepository.GetPersons(p => p.rolecode != ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
+            var performers = _partyRealRepository.GetPersons(p => p.rolecode != ProducerRoleCode && !p.party_real.isdeleted, searchTerm).OrderBy(person => person.Fullname);
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
              
             var performersEnvelope =  CreateEnvelope(performers, pageSize, pageNumber);
@@ -66,7 +66,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public Envelope<PersonDto> GetPublishers(int pageSize, int pageNumber, string searchTerm = null)
         {
-            var producers = _partyRealRepository.GetPersons(p => p.rolecode == ProducerRoleCode, searchTerm).OrderBy(person => person.Fullname);
+            var producers = _partyRealRepository.GetPersons(p => p.rolecode == ProducerRoleCode && !p.party_real.isdeleted, searchTerm).OrderBy(person => person.Fullname);
 
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
 
@@ -89,7 +89,12 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         {
             var person = _partyRealRepository.GetById(personId);
 
-            return person == null ? new PersonExtendedDto() : new PersonExtendedDto(person, person.party_contactmedium);
+            if (person == null || person.isdeleted)
+            {
+                return null;
+            }
+
+            return new PersonExtendedDto(person, person.party_contactmedium);
         }
 
         public IEnumerable<RoleDto> GetPersonRoles()
@@ -173,9 +178,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return _albumRepository.GetAlbumsAssociatedWithMusician(partyRealId);
         }
 
-        public void DeletePersonById(int personId)
+        public void DeletePersonById(int partyRealId)
         {
-            throw new NotImplementedException();
+            _partyRealRepository.MarkPersonAsDeleted(partyRealId);
+            _unitOfWork.Commit();
         }
     }
 }

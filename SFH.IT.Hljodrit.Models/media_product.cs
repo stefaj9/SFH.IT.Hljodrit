@@ -41,6 +41,7 @@ namespace SFH.IT.Hljodrit.Models
         public System.DateTime updatedon { get; set; }
         public string createdby { get; set; }
         public System.DateTime createdon { get; set; }
+        public bool is_deleted { get; set; }
     
         public virtual common_country common_country { get; set; }
         public virtual media_airplay media_airplay { get; set; }

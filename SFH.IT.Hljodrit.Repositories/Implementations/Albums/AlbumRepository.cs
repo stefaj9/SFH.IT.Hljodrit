@@ -122,7 +122,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                          join person in DbContext.party_real on recording.partyrealid equals person.id
                          join instrument in DbContext.party_instrumenttype on recording.instrumentcode equals instrument.code
                          join role in DbContext.party_partyroletype on recording.rolecode equals role.rolecode
-                         where song.packageid == albumId && song.id == songId
+                         where song.packageid == albumId && song.id == songId && !person.isdeleted
                          group new { song, recording, person, instrument, role } by new { person.id, recordingId = recording.id, person.fullname };
 
             var allSongs = new List<MusiciansOnSongDto>();
