@@ -59,7 +59,16 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Media
                         media.Id = item.recording.id;
                         media.Isrc = item.recording.isrc;
                         media.Duration = item.recording.duration;
-                        media.MainArtist = item.recording.party_mainartist != null ? item.recording.party_mainartist.artistname : "";
+                        if (item.recording.party_mainartist != null)
+                        {
+                            media.MainArtist = item.recording.party_mainartist.artistname;
+                            media.MainArtistId = item.recording.party_mainartist.id;
+                        }
+                        else
+                        {
+                            media.MainArtist = "";
+                            media.MainArtistId = -1;
+                        }
                         media.ReleaseDate = item.recording.recordingdate;
                         media.Title = item.recording.recordingtitle;
                     }

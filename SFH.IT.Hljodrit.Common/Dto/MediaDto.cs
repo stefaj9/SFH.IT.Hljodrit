@@ -11,6 +11,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public string Title { get; set; }
         [JsonProperty("duration")]
         public TimeSpan? Duration { get; set; }
+        [JsonProperty(PropertyName = "mainArtistId")]
+        public int MainArtistId { get; set; }
         [JsonProperty("mainArtist")]
         public string MainArtist { get; set; }
         [JsonProperty("releaseDate")]

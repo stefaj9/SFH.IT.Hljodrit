@@ -1,3 +1,4 @@
+import React from 'react';
 import * as actionType from '../actions/actionTypes';
 import _ from 'lodash';
 import moment from 'moment';
@@ -39,6 +40,8 @@ export default function(state = initialState, action) {
             moment.locale('is');
             media.objects = media.objects.map(m => {
                 return Object.assign({}, m, {
+                    mainArtist: <a href={`/mainartists/${m.mainArtistId}`}>{m.mainArtist}</a>,
+                    mediaTitle: <a href={`/media/${m.mediaId}`}>{m.mediaTitle}</a>,
                     instruments: m.instruments.map(instrument => {
                         return instrument.instrumentNameIcelandic;
                     }),
