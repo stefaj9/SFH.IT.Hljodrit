@@ -63,6 +63,14 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok(_personService.UpdatePersonInfo(personId, person));
         }
 
+        [HttpDelete]
+        [Route("persons/{personId:int}")]
+        public IHttpActionResult DeletePersonById(int personId)
+        {
+            _personService.DeletePersonById(personId);
+            return Ok();
+        }
+
         [HttpGet]
         [Route("persons/{personId:int}/medias")]
         public IHttpActionResult GetAllMediaForPerson(int personId)

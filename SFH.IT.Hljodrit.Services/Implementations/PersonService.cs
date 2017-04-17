@@ -172,5 +172,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         {
             return _albumRepository.GetAlbumsAssociatedWithMusician(partyRealId);
         }
+
+        public void DeletePersonById(int personId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

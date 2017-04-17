@@ -45,7 +45,7 @@ class MusicianDetails extends React.Component {
                     title="Eyða flytjanda"
                     content={`Ertu viss um að þú viljir eyða ${this.props.musician.fullName}?`}
                     confirmBtnText="Staðfesta"
-                    confirmBtnCallback={() => this.props.deletePersonById(this.props.routeParams.musicianId)}
+                    confirmBtnCallback={() => { this.setState({ promptModalOpen: false }); this.props.deletePersonById(this.props.routeParams.musicianId); }}
                     discardBtnText="Hætta við"
                     discardBtnCallback={() => this.setState({ promptModalOpen: false })} />
             </div>
