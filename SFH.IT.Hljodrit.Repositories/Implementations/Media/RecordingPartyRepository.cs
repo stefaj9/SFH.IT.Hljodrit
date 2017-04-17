@@ -18,10 +18,11 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Media
             var calculations = (from musician in DbContext.recording_party
                 join recording in DbContext.media_recording on musician.recordingid equals recording.id
                 join person in DbContext.party_real on musician.partyrealid equals person.id
-                join instruments in DbContext.party_instrumenttype on musician.instrumentcode equals instruments.code
+                join instruments in DbContext.party_instrumenttype on musician.instrumentcode equals instruments.code into instrumentCheck
+                from subinstrument in instrumentCheck.DefaultIfEmpty()
                 join roles in DbContext.party_partyroletype on musician.rolecode equals roles.rolecode
-                where musician.partyrealid == partyRealId
-                group new {musician, recording, person, instruments, roles} by
+                where person.id == partyRealId && !person.isdeleted
+                group new {recording, subinstrument, roles} by
                 new {recordingId = recording.id}).OrderBy(p => p.Key.recordingId);
 
             var allMedias = new List<MediaWithRoleDto>();
@@ -35,13 +36,16 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Media
                 
                 foreach (var item in group)
                 {
-                    instruments.Add(new InstrumentDto
+                    if (item.subinstrument != null)
                     {
-                        IdCode = item.instruments.code,
-                        InstrumentNameIcelandic = item.instruments.name_is,
-                        InstrumentNameEnglish = item.instruments.name_en,
-                        DescriptionInIcelandic = item.instruments.description_is
-                    });
+                        instruments.Add(new InstrumentDto
+                        {
+                            IdCode = item.subinstrument.code,
+                            InstrumentNameIcelandic = item.subinstrument.name_is,
+                            InstrumentNameEnglish = item.subinstrument.name_en,
+                            DescriptionInIcelandic = item.subinstrument.description_is
+                        });
+                    }
 
                     roles.Add(new RoleDto
                     {

@@ -120,10 +120,11 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
             var result = from song in DbContext.media_product
                          join recording in DbContext.recording_party on song.recordingid equals recording.recordingid
                          join person in DbContext.party_real on recording.partyrealid equals person.id
-                         join instrument in DbContext.party_instrumenttype on recording.instrumentcode equals instrument.code
+                         join instrument in DbContext.party_instrumenttype on recording.instrumentcode equals instrument.code into instrumentCheck
+                         from subinstruments in instrumentCheck.DefaultIfEmpty()
                          join role in DbContext.party_partyroletype on recording.rolecode equals role.rolecode
                          where song.packageid == albumId && song.id == songId && !person.isdeleted
-                         group new { song, recording, person, instrument, role } by new { person.id, recordingId = recording.id, person.fullname };
+                         group new { song, recording, person, subinstruments, role } by new { person.id, recordingId = recording.id, person.fullname };
 
             var allSongs = new List<MusiciansOnSongDto>();
             foreach (var group in result)
@@ -134,7 +135,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                     var musicianCredits = new MusicianCreditsDto();
                     var registration = new RegistrationDto();
                     SetAllRegistrationFields(registration, e.recording.comment, e.recording.updatedon, e.recording.updatedby, e.recording.createdon, e.recording.createdby);
-                    SetAllMusicianFields(musicianCredits, registration, e.recording.id, albumId, null, e.person.fullname, e.person.id, e.instrument.description_is, e.instrument.code, e.role.rolename_is, e.recording.rolecode);
+                    SetAllMusicianFields(musicianCredits, registration, e.recording.id, albumId, null, e.person.fullname, e.person.id, e.subinstruments == null ? "" : e.subinstruments.description_is, e.subinstruments == null ? "" : e.subinstruments.code, e.role.rolename_is, e.recording.rolecode);
                     credits.Add(musicianCredits);
                 }
                 var musician = new MusiciansOnSongDto(group.Key.id, group.Key.recordingId, group.Key.fullname, null, null, credits);
