@@ -26,7 +26,7 @@ class Table extends React.Component {
         });
     }
     render() {
-        const { objects, onClickCallback, selectRow, selectRowMode, selectRowCallback, selectRowCallBackAll, tableRowClassName, refCallback, hidePageSize, pagination, paginationCallback, paginationTotalElements, paginationCurrentPage } = this.props;
+        const { objects, onClickCallback, selectRow, selectRowMode, selectRowCallback, selectRowCallBackAll, tableRowClassName, refCallback, hidePageSize, pagination, paginationCallback, paginationTotalElements, paginationCurrentPage, isRemote, onSortChange } = this.props;
         let selectRowOptions;
         if (selectRow) {
             selectRowOptions = {
@@ -39,7 +39,8 @@ class Table extends React.Component {
             onRowClick: onClickCallback,
             hideSizePerPage: hidePageSize,
             onPageChange: paginationCallback,
-            page: paginationCurrentPage
+            page: paginationCurrentPage,
+            onSortChange: onSortChange
         }
         let indexedObjects = _.cloneDeep(objects);
         indexedObjects.map((idxObj, idx) => {
@@ -57,7 +58,7 @@ class Table extends React.Component {
                   hover
                   pagination={pagination}
                   ignoreSinglePage
-                  remote
+                  remote={isRemote}
                   fetchInfo={{dataTotalSize: paginationTotalElements}}>
                     <TableHeaderColumn
                       isKey={true}
@@ -83,10 +84,12 @@ Table.propTypes = {
     tableRowClassName: PropTypes.string,
     refCallback: PropTypes.func.isRequired,
     hidePageSize: PropTypes.bool,
+    isRemote: PropTypes.bool.isRequired,
     pagination: PropTypes.bool.isRequired,
     paginationCallback: PropTypes.func,
     paginationTotalElements: PropTypes.number,
-    paginationCurrentPage: PropTypes.number
+    paginationCurrentPage: PropTypes.number,
+    onSortChange: PropTypes.func
 };
 
 export default Table;

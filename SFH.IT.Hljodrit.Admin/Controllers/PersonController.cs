@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
+using Microsoft.Ajax.Utilities;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.Helpers;
 using SFH.IT.Hljodrit.Common.ViewModels;
@@ -55,7 +56,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         [Route("persons/{personId:int}")]
         public IHttpActionResult UpdatePersonInfo(int personId, [FromBody] PersonExtendedDto person)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid && !person.Email.IsNullOrWhiteSpace())
             {
                 return BadRequest(ValidationHelper.GenerateErrorMessage(ModelState.Values));
             }
@@ -64,9 +65,9 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpGet]
         [Route("persons/{personId:int}/medias")]
-        public IHttpActionResult GetAllMediaForPerson(int personId, [FromUri] int pageNumber, [FromUri] int pageSize, [FromUri] string searchTerm)
+        public IHttpActionResult GetAllMediaForPerson(int personId)
         {
-            return Ok(_personService.GetAllMediaAssociatedWithMusician(personId, pageNumber, pageSize, searchTerm ?? ""));
+            return Ok(_personService.GetAllMediaAssociatedWithMusician(personId));
         }
 
         [HttpGet]

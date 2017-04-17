@@ -135,6 +135,7 @@ class SongMusiciansTable extends React.Component {
                     objects={this.state.musicians}
                     refCallback={(ref) => { if (this.state.bootstrapTableRef === null && ref !== null) { this.setState({ bootstrapTableRef: ref }); } }}
                     pagination={false}
+                    isRemote={false}
                     selectRow={true}
                     selectRowMode="checkbox"
                     selectRowCallback={(row, status) => this.addToListOfSelectedMusicians([row], status)}

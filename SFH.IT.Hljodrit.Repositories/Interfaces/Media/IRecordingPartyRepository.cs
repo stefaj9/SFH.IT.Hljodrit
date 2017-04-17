@@ -7,6 +7,6 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Media
 {
     public interface IRecordingPartyRepository : IRepository<recording_party>
     {
-        Envelope<MediaWithRoleDto> GetAllMediaAssociatedWithMusician(int partyRealId, int pageNumber, int pageSize, string searchTerm);
+        IEnumerable<MediaWithRoleDto> GetAllMediaAssociatedWithMusician(int partyRealId);
     }
 }

@@ -13,6 +13,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         IEnumerable<RoleDto> GetPersonRoles();
         int AddPerson(PersonRegisterViewModel person);
         PersonExtendedDto UpdatePersonInfo(int personId, PersonExtendedDto updateModel);
-        Envelope<MediaWithRoleDto> GetAllMediaAssociatedWithMusician(int partyRealId, int pageNumber, int pageSize, string searchTerm);
+        IEnumerable<MediaWithRoleDto> GetAllMediaAssociatedWithMusician(int partyRealId);
     }
 }

@@ -84,10 +84,10 @@ function getPersonsByCriteriaSuccess(data) {
     };
 };
 
-export function getMediaAssociatedWithPerson(personId, pageNumber, pageSize, searchTerm) {
+export function getMediaAssociatedWithPerson(personId) {
     return (dispatch) => {
         dispatch(isFetchingPersonMedia());
-        return fetch(`/api/persons/${personId}/medias?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}`, {
+        return fetch(`/api/persons/${personId}/medias`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {

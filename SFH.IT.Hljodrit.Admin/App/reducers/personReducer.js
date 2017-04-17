@@ -11,12 +11,7 @@ let initialState = {
     },
     personRoles: [],
     selectedPerson: {},
-    selectedPersonMediaEnvelope: {
-        totalNumber: -1,
-        maximumPage: -1,
-        currentPage: -1,
-        objects: []
-    },
+    selectedPersonMedia: [],
     isFetchingPerson: true,
     isFetchingPersonMedia: true
 };
@@ -38,7 +33,7 @@ export default function(state = initialState, action) {
         case actionType.GET_MEDIA_ASSOCIATED_WITH_PERSON:
             let media = _.cloneDeep(action.payload);
             moment.locale('is');
-            media.objects = media.objects.map(m => {
+            media = media.map(m => {
                 return Object.assign({}, m, {
                     mainArtist: <a href={`/mainartists/${m.mainArtistId}`}>{m.mainArtist}</a>,
                     mediaTitle: <a href={`/media/${m.mediaId}`}>{m.mediaTitle}</a>,
@@ -52,7 +47,7 @@ export default function(state = initialState, action) {
                 });
             });
             return Object.assign({}, state, {
-                selectedPersonMediaEnvelope: media
+                selectedPersonMedia: media
             });
         case actionType.CLEAR_SELECTED_PERSON: return Object.assign({}, state, {
             selectedPerson: {}

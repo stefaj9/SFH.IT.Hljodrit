@@ -2,26 +2,23 @@ import React from 'react';
 import Table from '../common/table';
 import musicianMediaTableData from './musicianMediaTableData';
 
-const MusicianMediaTable = ({ musicianMediaEnvelope, paginationCallback }) => {
+const MusicianMediaTable = ({ musicianMedia }) => {
     return (
         <div>
             <h3>Hljóðrit</h3>
             <Table
                 tableData={ musicianMediaTableData }
-                objects={ musicianMediaEnvelope.objects }
+                objects={ musicianMedia }
                 hidePageSize={true}
                 pagination={true}
-                paginationCallback={paginationCallback}
-                paginationTotalElements={ musicianMediaEnvelope.totalNumber }
-                paginationCurrentPage={ musicianMediaEnvelope.currentPage }
+                isRemote={false}
                 refCallback={(ref) => { return ref; }} />
         </div>
     );
 };
 
 MusicianMediaTable.propTypes = {
-    musicianMediaEnvelope: React.PropTypes.object.isRequired,
-    paginationCallback: React.PropTypes.func
+    musicianMedia: React.PropTypes.array.isRequired
 };
 
 export default MusicianMediaTable;
