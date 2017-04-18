@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
@@ -20,18 +21,19 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             return _mediaRecordingRepository.GetAllMedia(pageNumber, pageSize, searchTerm, GetSearchExpression(searchTerm, searchType));
         }
 
-        private Expression<Func<MediaDto, bool>> GetSearchExpression(string searchTerm, string searchType)
+        private Expression<Func<media_recording, bool>> GetSearchExpression(string searchTerm, string searchType)
         {
             switch (searchType)
             {
                 case "name":
-                    return dto => dto.Title.Contains(searchTerm);
+                    return dto => dto.recordingtitle.StartsWith(searchTerm);
                 case "mainArtist":
-                    return dto => dto.MainArtist.Contains(searchTerm);
+                    return dto => dto.party_mainartist == null || dto.party_mainartist.artistname.Contains(searchTerm);
                 case "publishYear":
-                    return dto => !dto.ReleaseDate.HasValue || dto.ReleaseDate.Value.Year.ToString().Contains(searchTerm);
+                    return dto => !dto.recordingdate.HasValue || dto.recordingdate.Value.Year.ToString().Contains(searchTerm);
             }
-            return dto => dto.Title.Contains(searchTerm);
+
+            return dto => dto.recordingtitle.Contains(searchTerm);
         }
     }
 }
