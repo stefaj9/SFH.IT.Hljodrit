@@ -12,6 +12,11 @@ const PromptModal = ({ isOpen, title, content, confirmBtnText, confirmBtnCallbac
                 <div className="modal-content">
                     <div className="modal-header">
                         <h4>{title}</h4>
+                        <span className="top-corner">
+                            <a href="#" onClick={() => discardBtnCallback()}>
+                                <i className="fa fa-times"></i>
+                            </a>
+                        </span>
                     </div>
                     <div className="modal-body">
                         <div>{content}</div>

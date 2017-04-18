@@ -1,22 +1,28 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinner';
+import SongWithMusiciansAccordion from '../common/songWithMusiciansAccordion';
 import _ from 'lodash';
-import { getProjectById } from '../../actions/projectActions';
+import { getProjectById, getTracksOnProjectById } from '../../actions/projectActions';
 
 class ProjectPreviewWindow extends React.Component {
     componentWillMount() {
         this.props.getProjectById(this.props.projectId);
+        this.props.getTracksOnProjectById(this.props.projectId);
     }
     componentWillReceiveProps(newProps) {
         if (_.keys(newProps.project).length > 0) {
             this.setState({ project: newProps.project });
         }
+        if (_.keys(newProps.projectTracks).length > 0) {
+            this.setState({ projectTracks: newProps.projectTracks });
+        }
     }
     constructor() {
         super();
         this.state = {
-            project: {}
+            project: {},
+            projectTracks: []
         };
     }
     renderForm() {
@@ -80,6 +86,9 @@ class ProjectPreviewWindow extends React.Component {
             <div>
                 <Spinner className={this.props.isLoading ? '' : 'hidden'} />
                 {this.renderForm()}
+                <SongWithMusiciansAccordion
+                    songs={this.state.projectTracks}
+                    updateState={(newState) => this.setState(newState)} />
             </div>
         );
     }
@@ -93,8 +102,9 @@ ProjectPreviewWindow.propTypes = {
 function mapStateToProps(state) {
     return {
         isLoading: state.project.isFetchingSingleProject,
-        project: state.project.reviewProject
+        project: state.project.reviewProject,
+        projectTracks: state.project.reviewProjectTracks
     };
 };
 
-export default connect(mapStateToProps, { getProjectById })(ProjectPreviewWindow);
+export default connect(mapStateToProps, { getProjectById, getTracksOnProjectById })(ProjectPreviewWindow);

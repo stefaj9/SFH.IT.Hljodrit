@@ -43,6 +43,29 @@ function getProjectByIdSuccess(project) {
     };
 };
 
+export function getTracksOnProjectById(projectId) {
+    return dispatch => {
+        dispatch(isFetchingSingleProject())
+        return fetch(`/api/projects/${projectId}/tracks`, {
+            method: 'GET'
+        }).then(resp => {
+            dispatch(hasStoppedFetchingSingleProject())
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(data => {
+            dispatch(getTracksOnProjectByIdSuccess(data));
+        });
+    }
+}
+
+function getTracksOnProjectByIdSuccess(tracks) {
+    return {
+        type: actionType.GET_TRACKS_ON_PROJECT,
+        payload: tracks
+    };
+};
+
 export function removeProjectById(projectId) {
     return dispatch => {
         dispatch(isFetchingProjects());

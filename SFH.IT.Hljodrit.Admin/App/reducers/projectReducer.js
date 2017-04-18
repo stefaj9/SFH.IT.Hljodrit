@@ -18,6 +18,7 @@ let initialState = {
         publisher: {}
     },
     reviewProject: {},
+    reviewProjectTracks: [],
     projectEnvelope: {
         objects: [],
         currentPage: -1,
@@ -92,6 +93,9 @@ export default function (state = initialState, action) {
         });
         case actionType.HAS_STOPPED_FETCHING_SINGLE_PROJECT: return Object.assign({}, state, {
             isFetchingSingleProject: false
+        });
+        case actionType.GET_TRACKS_ON_PROJECT: return Object.assign({}, state, {
+            reviewProjectTracks: action.payload
         });
         default: return state;
     }
