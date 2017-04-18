@@ -20,6 +20,29 @@ export function getAllProjects(pageSize, pageNumber, filters, searchString) {
     }
 }
 
+export function getProjectById(projectId) {
+    return dispatch => {
+        dispatch(isFetchingSingleProject());
+        return fetch(`/api/projects/${projectId}`, {
+            method: 'GET'
+        }).then(resp => {
+            dispatch(hasStoppedFetchingSingleProject());
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(data => {
+            dispatch(getProjectByIdSuccess(data));
+        });
+    }
+}
+
+function getProjectByIdSuccess(project) {
+    return {
+        type: actionType.GET_PROJECT_BY_ID,
+        payload: project
+    };
+};
+
 export function removeProjectById(projectId) {
     return dispatch => {
         dispatch(isFetchingProjects());
@@ -96,6 +119,20 @@ function isFetchingProjects() {
 function hasStoppedFetchingProjects() {
     return {
         type: 'HAS_STOPPED_FETCHING_PROJECTS',
+        payload: {}
+    };
+};
+
+function isFetchingSingleProject() {
+    return {
+        type: actionType.IS_FETCHING_SINGLE_PROJECT,
+        payload: {}
+    };
+};
+
+function hasStoppedFetchingSingleProject() {
+    return {
+        type: actionType.HAS_STOPPED_FETCHING_SINGLE_PROJECT,
         payload: {}
     };
 };

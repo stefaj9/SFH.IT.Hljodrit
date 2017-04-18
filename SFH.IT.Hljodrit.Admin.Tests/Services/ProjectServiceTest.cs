@@ -114,5 +114,32 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
         }
 
         #endregion
+
+        #region GetProjectById
+
+        [TestMethod]
+        public void GetProjectById_GivenCorrectId()
+        {
+            _projectMasterRepository.Setup(pm => pm.GetById(1)).Returns(new project_master
+            {
+                id = 1
+            });
+
+            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object);
+
+            Assert.IsNotNull(projectService.GetProjectById(1));
+        }
+
+        [TestMethod]
+        public void GetProjectById_GivenIncorrectId()
+        {
+            _projectMasterRepository.Setup(pm => pm.GetById(2)).Returns((project_master)null);
+
+            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object);
+
+            Assert.IsNull(projectService.GetProjectById(2));
+        }
+
+        #endregion
     }
 }

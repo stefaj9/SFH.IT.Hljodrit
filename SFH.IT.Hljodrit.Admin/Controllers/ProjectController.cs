@@ -21,6 +21,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok(_projectService.GetAllProjects(pageSize, pageNumber, pending, resent, approved, query ?? ""));
         }
 
+        [HttpGet]
+        [Route("{projectId:int}")]
+        public IHttpActionResult GetProjectById(int projectId)
+        {
+            return Ok(_projectService.GetProjectById(projectId));
+        }
+
         [HttpDelete]
         [Route("{projectId:int}")]
         public IHttpActionResult MarkProjectAsDeleted(int projectId)

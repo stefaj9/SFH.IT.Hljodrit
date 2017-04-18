@@ -60,6 +60,7 @@
     <Compile Include="Dto\MediaWithRoleDto.cs" />
     <Compile Include="Dto\MusicianCreditsDto.cs" />
     <Compile Include="Dto\MusicianDto.cs" />
+    <Compile Include="Dto\ProjectExtendedDto.cs" />
     <Compile Include="Dto\RegistrationDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\ExceptionDto.cs" />

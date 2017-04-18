@@ -28,15 +28,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 pm =>
                     !pm.removed &&
                     (pm.mainartist.StartsWith(query) || pm.projectname.StartsWith(query) ||
-                     pm.createdby.StartsWith(query))).Select(p => new ProjectDto
-            {
-                Id = p.id,
-                ProjectName = p.projectname,
-                MainArtist = p.mainartist,
-                SubmissionUser = p.createdby,
-                LastModificationDate = p.updatedon,
-                ProjectStatus = p.statuscode
-            }).OrderByDescending(p => p.Id);
+                     pm.createdby.StartsWith(query))).Select(p => new ProjectDto(p)).OrderByDescending(p => p.Id);
 
             var totalNumber = projects.Count();
 
@@ -56,6 +48,12 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             }
 
             return false;
+        }
+
+        public ProjectExtendedDto GetProjectById(int projectId)
+        {
+            var project = _projectMasterRepository.GetById(projectId);
+            return project == null ? null : new ProjectExtendedDto(project);
         }
     }
 }

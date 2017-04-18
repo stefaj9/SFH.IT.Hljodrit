@@ -23,16 +23,14 @@ let initialState = {
         currentPage: -1,
         maximumPage: -1
     },
-    isFetchingProjects: true
+    isFetchingProjects: true,
+    isFetchingSingleProject: true
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case 'GET_ALL_PROJECTS': return Object.assign({}, state, {
             projectEnvelope: action.payload
-        });
-        case 'SELECT_PROJECT_WITH_ACTION': return Object.assign({}, state, {
-            reviewProject: action.payload
         });
         case 'IS_FETCHING_PROJECTS': return Object.assign({}, state, {
             isFetchingProjects: true
@@ -80,12 +78,21 @@ export default function (state = initialState, action) {
         case 'CREATE_PROJECT': return Object.assign({}, state, {
 
         });
+        case actionType.GET_PROJECT_BY_ID: return Object.assign({}, state, {
+            reviewProject: action.payload
+        });
         case actionType.REMOVE_PROJECT_BY_ID: 
             let projectEnvelope = _.cloneDeep(state.projectEnvelope);
             _.remove(projectEnvelope.objects, (project) => { return project.id === action.payload });
             return Object.assign({}, state, {
                 projectEnvelope: projectEnvelope
             });
+        case actionType.IS_FETCHING_SINGLE_PROJECT: return Object.assign({}, state, {
+            isFetchingSingleProject: true
+        });
+        case actionType.HAS_STOPPED_FETCHING_SINGLE_PROJECT: return Object.assign({}, state, {
+            isFetchingSingleProject: false
+        });
         default: return state;
     }
 }

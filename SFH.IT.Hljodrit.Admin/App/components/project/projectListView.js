@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ProjectItem from './projectItem';
 import Spinner from 'react-spinner';
 import PromptModal from '../common/promptModal';
+import ProjectPreviewWindow from './projectPreviewWindow';
 import { removeProjectById } from '../../actions/projectActions';
 
 class ProjectListView extends React.Component {
@@ -36,11 +37,12 @@ class ProjectListView extends React.Component {
         });
     }
     approveProjectCallback(projectId) {
-        console.log(projectId);
         this.assignPromptModalContent({
             isModalOpen: true,
             title: 'Samþykkja verkefni',
-            content: '',
+            content: <ProjectPreviewWindow 
+                        projectId={projectId}
+                        isEditable={false} />,
             confirmBtnText: 'Samþykkja',
             confirmBtnCallback: () => { console.log('Approve!') },
             discardBtnText: 'Hætta við',
