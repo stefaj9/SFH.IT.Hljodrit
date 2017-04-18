@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.StaticHelperClasses;
@@ -11,13 +12,14 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     public class ProjectService : IProjectService
     {
         private readonly IProjectMasterRepository _projectMasterRepository;
-
+        private readonly IProjectTrackRepository _projectTrackRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProjectService(IProjectMasterRepository projectMasterRepository, IUnitOfWork unitOfWork)
+        public ProjectService(IProjectMasterRepository projectMasterRepository, IUnitOfWork unitOfWork, IProjectTrackRepository projectTrackRepository)
         {
             _projectMasterRepository = projectMasterRepository;
             _unitOfWork = unitOfWork;
+            _projectTrackRepository = projectTrackRepository;
         }
 
         public Envelope<ProjectDto> GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved, string query)
@@ -54,6 +56,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         {
             var project = _projectMasterRepository.GetById(projectId);
             return project == null ? null : new ProjectExtendedDto(project);
+        }
+
+        public IEnumerable<SongWithPerformersDto> GetProjectTracksById(int projectId)
+        {
+            return _projectTrackRepository.GetProjectTracksById(projectId);
         }
     }
 }

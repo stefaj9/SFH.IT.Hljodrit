@@ -61,6 +61,7 @@ export default class AddPerformers extends React.Component {
                             transfer={this.addGroupToSongs.bind(this)} />
                     </div>
                     <div className="song-wrapper col-xs-8">
+                        <p>Gerð er krafa um að það sé að lágmarki einn flytjandi skráður á hvert lag. Lög hér að neðanverðu eru röðuð eftir númer lags á verkefninu.</p>
                         <SongWithMusiciansAccordion
                             songs={this.state.songs}
                             updateState={(newState) => this.setState(newState)} />

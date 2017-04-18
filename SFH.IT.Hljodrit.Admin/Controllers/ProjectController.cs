@@ -28,6 +28,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok(_projectService.GetProjectById(projectId));
         }
 
+        [HttpGet]
+        [Route("{projectId:int}/tracks")]
+        public IHttpActionResult GetProjectTracksById(int projectId)
+        {
+            return Ok(_projectService.GetProjectTracksById(projectId));
+        }
+
         [HttpDelete]
         [Route("{projectId:int}")]
         public IHttpActionResult MarkProjectAsDeleted(int projectId)

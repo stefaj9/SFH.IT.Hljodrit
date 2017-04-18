@@ -112,7 +112,6 @@ class SongWithMusiciansAccordion extends React.Component {
     render() {
         return (
             <div>
-                <p>Gerð er krafa um að það sé að lágmarki einn flytjandi skráður á hvert lag. Lög hér að neðanverðu eru röðuð eftir númer lags á verkefninu.</p>
                 <PanelGroup defaultActiveKey="1" accordion>
                     {this.renderSongs()}
                 </PanelGroup>
