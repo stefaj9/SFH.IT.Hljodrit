@@ -1,12 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getMediaRecordingsByCriteria, hasStoppedFetchingSongs } from '../../actions/songActions';
-import Table from '../common/table';
-import mediaTableData from './mediaTableData';
-import Spinner from 'react-spinner';
-import PageSelector from '../common/pageSelector';
-import Paging from '../common/paging';
-
+import MediaTable from './mediaTable';
 
 class Media extends React.Component {
 
@@ -22,22 +17,26 @@ class Media extends React.Component {
             pageSize: 25,
             songSearchTerm: '',
             selectSongFilter: 'name',
-        }
+        };
+
+        this.changePageSize = this.changePageSize.bind(this);
+        this.changePageNumber = this.changePageNumber.bind(this);
     }
 
     changePageSize(newPageSize) {
+        let thiss = this;
         this.setState({
             pageSize: newPageSize
         }, function() {
-            props.getMediaRecordingsByCriteria(state.pageSize,
-                state.page,
-                state.songSearchTerm,
-                state.selectSongFilter);
+            thiss.props.getMediaRecordingsByCriteria(thiss.state.pageSize,
+                thiss.state.page,
+                thiss.state.songSearchTerm,
+                thiss.state.selectSongFilter);
         });
     }
 
     changePageNumber(newPageNumber) {
-        var thiss = this;
+        let thiss = this;
         this.setState({
             page: newPageNumber
         }, function() {
@@ -48,29 +47,17 @@ class Media extends React.Component {
         });
     }
 
-    renderMediaTable() {
-        if (!this.props.isFetching) {
-            return (
-                <div>
-                    <PageSelector visible={!this.props.isFetching}
-                                  change={newPageSize => this.changePageSize(newPageSize)} />
-                    <Table tableData={mediaTableData} objects={this.props.mediaEnvelope.objects} />
-                    <Paging visible={!this.props.isFetching}
-                            currentPage={this.props.currentPage}
-                            maximumPage={this.props.maximumPage}
-                            changePage={newPageNumber => this.changePageNumber(newPageNumber)} />
-                </div>
-            )
-        }
-    }
-
     getNewSongs(e) {
-        if (e.keyCode === 13) {
+        if (this.hitReturn(e.keyCode)) {
             this.props.getMediaRecordingsByCriteria(this.state.pageSize,
                 this.state.page,
                 this.state.songSearchTerm,
                 this.state.selectSongFilter);
         }
+    }
+
+    hitReturn(code) {
+        return code === 13;
     }
 
     render() {
@@ -100,15 +87,18 @@ class Media extends React.Component {
                         </select>
                     </div>
                 </div>
-                <Spinner className={this.props.isFetching ? '' : 'hidden'} />
-                { this.renderMediaTable() }
+                <MediaTable isFetching={this.props.isFetching}
+                            objects={this.props.mediaEnvelope.objects}
+                            currentPage={this.props.currentPage}
+                            maximumPage={this.props.maximumPage}
+                            changePageSize={this.changePageSize}
+                            changePageNumber={this.changePageNumber} />
             </div>
         );
     }
 }
 
 function mapStateToProps(state) {
-    debugger;
     return {
         isFetching: state.songs.isFetching,
         mediaEnvelope: state.songs.mediaRecordingEnvelope,
