@@ -26,7 +26,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
             var projects = _projectMasterRepository.GetMany(
                 pm =>
-                    !pm.removed.Value &&
+                    !pm.removed &&
                     (pm.mainartist.StartsWith(query) || pm.projectname.StartsWith(query) ||
                      pm.createdby.StartsWith(query))).Select(p => new ProjectDto
             {
@@ -41,6 +41,21 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             var totalNumber = projects.Count();
 
             return EnvelopeCreator.CreateEnvelope(projects.Skip((pageNumber - 1) * pageSize).Take(pageSize), pageSize, pageNumber, totalNumber);
+        }
+
+        public bool MarkProjectAsDeleted(int projectId)
+        {
+            var projectToDeleted = _projectMasterRepository.GetById(projectId);
+
+            if (projectToDeleted != null)
+            {
+                projectToDeleted.removed = true;
+                _unitOfWork.Commit();
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

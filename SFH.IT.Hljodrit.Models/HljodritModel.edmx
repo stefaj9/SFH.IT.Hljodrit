@@ -908,7 +908,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="createdby" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
           <Property Name="statuscode" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="removed" Type="bit" />
+          <Property Name="removed" Type="bit" Nullable="false" />
           <Property Name="reviewedby" Type="nvarchar" MaxLength="20" />
           <Property Name="reviewedon" Type="datetime" />
           <Property Name="reviewedcomment" Type="nvarchar" MaxLength="1000" />
@@ -3146,7 +3146,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="statuscode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="removed" Type="Boolean" />
+          <Property Name="removed" Type="Boolean" Nullable="false" />
           <Property Name="reviewedby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="reviewedon" Type="DateTime" Precision="3" />
           <Property Name="reviewedcomment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />

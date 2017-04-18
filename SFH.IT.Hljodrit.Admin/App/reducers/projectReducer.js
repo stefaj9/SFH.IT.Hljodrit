@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import * as actionType from '../actions/actionTypes';
 
 let initialState = {
     selectedProject: {
@@ -79,6 +80,12 @@ export default function (state = initialState, action) {
         case 'CREATE_PROJECT': return Object.assign({}, state, {
 
         });
+        case actionType.REMOVE_PROJECT_BY_ID: 
+            let projectEnvelope = _.cloneDeep(state.projectEnvelope);
+            _.remove(projectEnvelope.objects, (project) => { return project.id === action.payload });
+            return Object.assign({}, state, {
+                projectEnvelope: projectEnvelope
+            });
         default: return state;
     }
 }

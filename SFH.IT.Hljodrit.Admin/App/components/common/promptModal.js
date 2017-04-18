@@ -14,7 +14,7 @@ const PromptModal = ({ isOpen, title, content, confirmBtnText, confirmBtnCallbac
                         <h4>{title}</h4>
                     </div>
                     <div className="modal-body">
-                        <p>{content}</p>
+                        <div>{content}</div>
                     </div>
                     <div className="modal-footer">
                         <div className="btn-group pull-right">
@@ -35,7 +35,10 @@ const PromptModal = ({ isOpen, title, content, confirmBtnText, confirmBtnCallbac
 PromptModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
+    content: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]).isRequired,
     confirmBtnText: PropTypes.string.isRequired,
     confirmBtnCallback: PropTypes.func.isRequired,
     discardBtnText: PropTypes.string.isRequired,

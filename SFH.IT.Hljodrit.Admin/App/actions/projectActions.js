@@ -1,4 +1,6 @@
 import fetch from 'isomorphic-fetch';
+import * as actionType from './actionTypes';
+import { toastr } from 'react-redux-toastr';
 
 export function getAllProjects(pageSize, pageNumber, filters, searchString) {
     return (dispatch) => {
@@ -18,14 +20,27 @@ export function getAllProjects(pageSize, pageNumber, filters, searchString) {
     }
 }
 
-export function selectProjectWithActionById(id, action) {
-    let selectedProject = {
-        id: id,
-        action: action
-    };
+export function removeProjectById(projectId) {
+    return dispatch => {
+        dispatch(isFetchingProjects());
+        return fetch(`/api/projects/${projectId}`, {
+            method: 'DELETE'
+        }).then(resp => {
+            dispatch(hasStoppedFetchingProjects());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að eyða verkefninu.');
+                dispatch(removeProjectByIdSuccess(projectId));
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að eyða verkefninu.');
+            }
+        });
+    }
+}
+
+function removeProjectByIdSuccess(projectId) {
     return {
-        type: 'SELECT_PROJECT_WITH_ACTION',
-        payload: selectedProject
+        type: actionType.REMOVE_PROJECT_BY_ID,
+        payload: projectId
     };
 };
 

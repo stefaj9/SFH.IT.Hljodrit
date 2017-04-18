@@ -16,13 +16,14 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
     {
         private Mock<IProjectMasterRepository> _projectMasterRepository;
 
-        private IUnitOfWork _unitOfWork;
+        private Mock<IUnitOfWork> _unitOfWork;
 
 
         [TestInitialize]
         public void TestInitialize()
         {
             _projectMasterRepository = new Mock<IProjectMasterRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
         }
 
 	    #region GetAllProjects tests
@@ -32,7 +33,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 	    public void TestIllegalPageSizeThrowsException()
 	    {
 			// Arrange
-			var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork);
+			var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object);
 			// Act
 		    projectService.GetAllProjects(1000, 1, true, true, true, "");
 	    }
@@ -49,7 +50,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>()))
                 .Returns(masterProjects);
 
-            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork);
+            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object);
 
             // Act
             var projects = projectService.GetAllProjects(pageSize, pageNumber, true, true, true, "");
@@ -65,7 +66,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
 			_projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>())).Returns(masterProjects);
 
-			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork);
+			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork.Object);
 
 			const int pageSize = 50;
 			const int expectedResultCount = 50;
@@ -84,7 +85,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
 			_projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>())).Returns(masterProjects);
 
-			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork);
+			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork.Object);
 
 			const int pageSize = 100;
 			const int expectedResultCount = 100;
@@ -96,6 +97,22 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			Assert.AreEqual(expectedResultCount, projects.Objects.Count());
 		}
 
-		#endregion
-	}
+        #endregion
+
+        #region MarkProjectAsDeleted
+        [TestMethod]
+        public void MarkProjectAsDeleted_Success()
+        {
+            _projectMasterRepository.Setup(pm => pm.GetById(1)).Returns(new project_master
+            {
+                id = 1,
+                removed = false
+            });
+            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object);
+
+            Assert.AreEqual(true, projectService.MarkProjectAsDeleted(1));
+        }
+
+        #endregion
+    }
 }

@@ -20,5 +20,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             // TODO: Introduce a filter for the data as well as a search input
             return Ok(_projectService.GetAllProjects(pageSize, pageNumber, pending, resent, approved, query ?? ""));
         }
+
+        [HttpDelete]
+        [Route("{projectId:int}")]
+        public IHttpActionResult MarkProjectAsDeleted(int projectId)
+        {
+            return Ok(_projectService.MarkProjectAsDeleted(projectId));
+        }
     }
 }
