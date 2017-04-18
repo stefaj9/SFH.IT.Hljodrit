@@ -70,7 +70,6 @@
     <Compile Include="Dto\PersonDto.cs" />
     <Compile Include="Dto\PersonExtendedDto.cs" />
     <Compile Include="Dto\ProjectDto.cs" />
-    <Compile Include="Dto\ProjectEnvelope.cs" />
     <Compile Include="Dto\PublisherDto.cs" />
     <Compile Include="Dto\PublisherLabelDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />

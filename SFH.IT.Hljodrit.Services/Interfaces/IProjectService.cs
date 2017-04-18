@@ -4,6 +4,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
 {
     public interface IProjectService
     {
-        ProjectEnvelope GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved, string query);
+        Envelope<ProjectDto> GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved, string query);
     }
 }

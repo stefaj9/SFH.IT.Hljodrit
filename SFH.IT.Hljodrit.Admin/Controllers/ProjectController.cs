@@ -17,7 +17,6 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         [Route("")]
         public IHttpActionResult GetAllProjects([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] bool pending, [FromUri] bool resent, [FromUri] bool approved, [FromUri] string query)
         {
-            // TODO: Use paging to get the data
             // TODO: Introduce a filter for the data as well as a search input
             return Ok(_projectService.GetAllProjects(pageSize, pageNumber, pending, resent, approved, query ?? ""));
         }

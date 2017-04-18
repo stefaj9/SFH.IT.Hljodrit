@@ -55,7 +55,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             var projects = projectService.GetAllProjects(pageSize, pageNumber, true, true, true, "");
 
             // Assert
-            Assert.AreEqual(expectedPageSize, projects.Projects.Count());
+            Assert.AreEqual(expectedPageSize, projects.Objects.Count());
         }
 
 		[TestMethod]
@@ -74,7 +74,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, "");
 
 			// Assert
-			Assert.AreEqual(expectedResultCount, projects.Projects.Count());
+			Assert.AreEqual(expectedResultCount, projects.Objects.Count());
 		}
 
 		[TestMethod]
@@ -93,7 +93,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, "");
 
 			// Assert
-			Assert.AreEqual(expectedResultCount, projects.Projects.Count());
+			Assert.AreEqual(expectedResultCount, projects.Objects.Count());
 		}
 
 		#endregion

@@ -16,8 +16,9 @@ let initialState = {
         songs: [],
         publisher: {}
     },
+    reviewProject: {},
     projectEnvelope: {
-        projects: [],
+        objects: [],
         currentPage: -1,
         maximumPage: -1
     },
@@ -30,7 +31,7 @@ export default function (state = initialState, action) {
             projectEnvelope: action.payload
         });
         case 'SELECT_PROJECT_WITH_ACTION': return Object.assign({}, state, {
-            selectedProject: action.payload
+            reviewProject: action.payload
         });
         case 'IS_FETCHING_PROJECTS': return Object.assign({}, state, {
             isFetchingProjects: true
