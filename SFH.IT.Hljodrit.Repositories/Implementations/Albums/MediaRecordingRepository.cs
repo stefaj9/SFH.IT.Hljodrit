@@ -28,10 +28,13 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                 TotalMusicians = (from x in DbContext.recording_party
                     where x.recordingid == media.id
                     select x).GroupBy(x => x.partyrealid).Count()
-            }).Where(expr).OrderBy(media => media.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            }).Where(expr).OrderBy(media => media.Title);
 
             var totalSongs = mediaList.Count();
-            var result = EnvelopeCreator.CreateEnvelope(mediaList, pageSize, pageNumber, totalSongs);
+            var result = EnvelopeCreator.CreateEnvelope(mediaList.Skip((pageNumber - 1) * pageSize).Take(pageSize), 
+                pageSize, 
+                pageNumber, 
+                totalSongs);
 
             return result;
         }
