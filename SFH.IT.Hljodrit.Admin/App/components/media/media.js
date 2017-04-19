@@ -24,14 +24,8 @@ class Media extends React.Component {
     }
 
     changePageSize(newPageSize) {
-        let thiss = this;
         this.setState({
             pageSize: newPageSize
-        }, function() {
-            thiss.props.getMediaRecordingsByCriteria(thiss.state.pageSize,
-                thiss.state.page,
-                thiss.state.songSearchTerm,
-                thiss.state.selectSongFilter);
         });
     }
 
