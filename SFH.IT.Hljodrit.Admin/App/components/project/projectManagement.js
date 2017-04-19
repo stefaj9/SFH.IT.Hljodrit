@@ -7,6 +7,7 @@ import Filter from '../common/filter';
 import ProjectListView from './projectListView';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
+import AsideFlag from '../common/asideFlag';
 import _ from 'lodash';
 
 class ProjectManagement extends React.Component {
@@ -94,6 +95,26 @@ class ProjectManagement extends React.Component {
     render() {
         return (
             <div className="projects">
+                <AsideFlag
+                    content={<div className="color-info-box-wrapper">
+                                <div className="color-info-box">
+                                    <div className="color" style={{ backgroundColor: 'rgba(244, 67, 54, 0.3)' }}></div>
+                                    <div className="color-info-text">Í vinnslu</div>
+                                </div>
+                                <div className="color-info-box">
+                                    <div className="color" style={{ backgroundColor: 'rgba(255, 152, 0, 0.3)' }}></div>
+                                    <div className="color-info-text">Hljóðritun lokið</div>
+                                </div>
+                                <div className="color-info-box">
+                                    <div className="color" style={{ backgroundColor: 'rgba(3, 169, 244, 0.3)' }}></div>
+                                    <div className="color-info-text">Tilbúið til útgáfu</div>
+                                </div>
+                                <div className="color-info-box">
+                                    <div className="color" style={{ backgroundColor: 'rgba(76, 175, 80, 0.3)' }}></div>
+                                    <div className="color-info-text">Útgefið</div>
+                                </div>
+                            </div>}
+                    type='info' />
                 <h2>Verkefnastýring</h2>
                 <div className="add-project space-20 text-right">
                     <Link to='projects/createproject'><i className="fa fa-2x fa-plus"></i></Link>
