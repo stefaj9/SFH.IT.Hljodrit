@@ -60,6 +60,8 @@
     <Compile Include="Dto\MediaWithRoleDto.cs" />
     <Compile Include="Dto\MusicianCreditsDto.cs" />
     <Compile Include="Dto\MusicianDto.cs" />
+    <Compile Include="Dto\MusicianLiteDto.cs" />
+    <Compile Include="Dto\ProjectExtendedDto.cs" />
     <Compile Include="Dto\RegistrationDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\ExceptionDto.cs" />
@@ -74,9 +76,11 @@
     <Compile Include="Dto\PublisherLabelDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\SongDto.cs" />
+    <Compile Include="Dto\SongWithPerformersDto.cs" />
     <Compile Include="Dto\ZipCodeDto.cs" />
     <Compile Include="Dto\Envelope.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
+    <Compile Include="ProjectStatusEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticHelperClasses\EnvelopeCreator.cs" />
     <Compile Include="ViewModels\MusicianInfoModifyModel.cs" />

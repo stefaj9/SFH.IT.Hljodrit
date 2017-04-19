@@ -4,7 +4,7 @@ import moment from 'moment';
 const ProjectItem = ({ project, approveProjectCallback, commentProjectCallback, changeProjectCallback, removeProjectCallback }) => {
     moment.locale('is');
     return (
-        <div className="list well row">
+        <div className={`list well row project-item-${project.projectStatus.toLowerCase()}`}>
             <div className="list-info col-md-6 col-xs-12">
                 <div className="list-item">
                     <div className="title">Plötuheiti:</div>

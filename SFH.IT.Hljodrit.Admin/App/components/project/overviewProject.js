@@ -6,13 +6,16 @@ import _ from 'lodash';
 class OverviewProject extends React.Component {
     renderPerformers(performers) {
         return performers.map((performer) => {
-            const { id, name, instruments, role } = performer;
+            const { id, name, instruments, roles } = performer;
             let renderInstrument = _.join(instruments, ', ');
+            let renderRoles = roles.map((role, idx) => {
+                return roles.length - 1 === idx ? role.name : `${role.name}, `;
+            });
             return (
-                <tr key={`${name}-${id}-${role}`}>
+                <tr key={`${name}-${id}-${roles.code}`}>
                     <td>{name}</td>
                     <td>{renderInstrument}</td>
-                    <td>{role.name}</td>
+                    <td>{renderRoles}</td>
                 </tr>
             );
         });

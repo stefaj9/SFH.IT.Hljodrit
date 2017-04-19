@@ -37,6 +37,7 @@ body {
 .ReactModal__Overlay {
     -webkit-perspective: 0;
     perspective: 0;
+    overflow: hidden !important;
 }
 
 .ReactModal__Overlay--after-open {
@@ -363,7 +364,7 @@ label {
 .react-spinner {
     width: 100px !important;
     height: 100px !important;
-    top: 100px !important;
+    margin-top: 100px !important;
     .react-spinner_bar {
         background-color: black;
     }
@@ -412,6 +413,18 @@ label {
     .project-search-bar {
         margin-top: 40px;
     }
+    .project-item-active {
+        background-color: rgba(244, 67, 54, 0.3);
+    }
+    .project-item-recorded {
+        background-color: rgba(255, 152, 0, 0.3);
+    }
+    .project-item-closed {
+        background-color: rgba(3, 169, 244, 0.3);
+    }
+    .project-item-published {
+        background-color: rgba(76, 175, 80, 0.3);
+    }
 }
 
 .search-bar {
@@ -428,17 +441,17 @@ label {
     padding: 20px 90px;
 }
 
-.song-wrapper {
-    .panel-group {
-        .panel-heading {
-            h4 {
-                text-align: left !important;   
-                margin-bottom: 0 !important; 
-            }
-            
+
+.panel-group {
+    .panel-heading {
+        h4 {
+            text-align: left !important;   
+            margin-bottom: 0 !important; 
         }
+        
     }
 }
+
 
 .modal-steps-wrapper {
     text-align: center;
