@@ -30,9 +30,11 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                     MainArtist = media.party_mainartist.artistname,
                     Duration = media.duration,
                     ReleaseDate = media.recordingdate,
-                    TotalMusicians = (from x in DbContext.recording_party
-                                      where x.recordingid == media.id
-                                      select x).GroupBy(x => x.partyrealid).Count()
+                    TotalMusicians = 0 
+                    // This subquery slows it down significantly...
+                    /*(from x in DbContext.recording_party
+                                       where x.recordingid == media.id
+                                       select x).GroupBy(x => x.partyrealid).Count()*/
                 });
 
             var totalSongs = DbContext.media_recording.Where(expr).Count();
