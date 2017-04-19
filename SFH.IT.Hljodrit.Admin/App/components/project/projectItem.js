@@ -26,25 +26,25 @@ const ProjectItem = ({ project, approveProjectCallback, commentProjectCallback, 
             <hr className="visible-sm visible-xs list-divider" />
             <div className="list-actions col-md-6 col-xs-12">
                 <div
-                    className="list-action"
+                    className={'list-action' + (project.projectStatus === 'CLOSED' ? '' : ' hidden')}
                     onClick={() => approveProjectCallback(project.id)}>
                     <i className="fa fa-2x fa-check"></i>
                     <div>Samþykkja</div>
                 </div>
                 <div
-                    className="list-action"
+                    className={'list-action' + (project.projectStatus === 'PUBLISHED' ? ' hidden' : '')}
                     onClick={() => commentProjectCallback(project.id)}>
                     <i className="fa fa-2x fa-paper-plane"></i>
                     <div>Athugasemd</div>
                 </div>
                 <div
-                    className="list-action"
+                    className={'list-action' + (project.projectStatus === 'PUBLISHED' ? ' hidden' : '')}
                     onClick={() => changeProjectCallback(project.id)}>
                     <i className="fa fa-2x fa-pencil"></i>
                     <div>Breyta</div>
                 </div>
                 <div
-                    className="list-action"
+                    className={'list-action' + (project.projectStatus === 'PUBLISHED' ? ' hidden' : '')}
                     onClick={() => removeProjectCallback(project.id)}>
                     <i className="fa fa-2x fa-times"></i>
                     <div>Eyða</div>
