@@ -36,7 +36,8 @@ let initialState = {
         maximumPage: -1
     },
     isFetchingProjects: true,
-    isFetchingSingleProject: true
+    isFetchingSingleProject: true,
+    isFetchingSingleProjectTracks: true
 };
 
 export default function (state = initialState, action) {
@@ -107,6 +108,15 @@ export default function (state = initialState, action) {
         });
         case actionType.GET_TRACKS_ON_PROJECT: return Object.assign({}, state, {
             reviewProjectTracks: action.payload
+        });
+        case actionType.IS_FETCHING_SINGLE_PROJECT_TRACKS: return Object.assign({}, state, {
+            isFetchingSingleProjectTracks: true
+        });
+        case actionType.HAS_STOPPED_FETCHING_SINGLE_PROJECT_TRACKS: return Object.assign({}, state, {
+            isFetchingSingleProjectTracks: false
+        });
+        case actionType.CLEAR_TRACKS_ON_PROJECT: return Object.assign({}, state, {
+            reviewProjectTracks: []
         });
         default: return state;
     }

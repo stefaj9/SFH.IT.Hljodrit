@@ -65,59 +65,60 @@ class SongWithMusiciansAccordion extends React.Component {
         toastr.success('Tókst!', 'Það tókst að fjarlægja flytjanda af laginu');
     }
     renderSongs() {
-        return this.props.songs.map((song, idx) => {
-            let displayPerformers = song.performers.map((performer) => {
-                let instruments = performer.instruments.map((instrument, idx) => {
-                    if (instrument !== null) {
-                        return idx === performer.instruments.length - 1 ? instrument : `${instrument}, `;
-                    }
+        if (this.props.songs.length > 0) {
+            return this.props.songs.map((song, idx) => {
+                let displayPerformers = song.performers.map((performer) => {
+                    let instruments = performer.instruments.map((instrument, idx) => {
+                        if (instrument !== null) {
+                            return idx === performer.instruments.length - 1 ? instrument : `${instrument}, `;
+                        }
+                    });
+                    let roles = performer.roles.map((role, idx) => {
+                        return idx === performer.roles.length - 1 ? role.name : `${role.name}, `;
+                    });
+                    return (
+                        <tr key={`${song.number}-${performer.id}-${performer.roles.code}`}>
+                            <td>{performer.name}</td>
+                            <td>{instruments}</td>
+                            <td>{roles}</td>
+                            <td className={this.props.functionDisabled ? 'hidden' : ''}>
+                                <a href="#" onClick={(e) => this.removePerformerFromSong(e, song.number, performer.id)}>
+                                    <i className="fa fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    );
                 });
-                let roles = performer.roles.map((role, idx) => {
-                    console.log(role);
-                    return idx === performer.roles.length - 1 ? role.name : `${role.name}, `;
-                });
+                let containsPerformers = song.performers.length > 0;
                 return (
-                    <tr key={`${song.number}-${performer.id}-${performer.roles.code}`}>
-                        <td>{performer.name}</td>
-                        <td>{instruments}</td>
-                        <td>{roles}</td>
-                        <td className={this.props.functionDisabled ? 'hidden' : ''}>
-                            <a href="#" onClick={(e) => this.removePerformerFromSong(e, song.number, performer.id)}>
-                                <i className="fa fa-times"></i>
-                            </a>
-                        </td>
-                    </tr>
+                    <Panel 
+                        key={`${song.name}-${song.number}`}
+                        header={`${song.number}. ${song.name} (${song.length})`}
+                        eventKey={idx + 1}
+                        bsStyle={containsPerformers ? 'default' : 'danger'}>
+                        <div className="add-performer pull-right">
+                            <button 
+                                onClick={() => this.openAddPerformerModal(song.number)} 
+                                className={'btn btn-default' + (this.props.functionDisabled ? ' hidden' : '')}>Bæta við flytjanda <i className="fa fa-fw fa-plus"></i></button>
+                        </div>
+                        <table className={'table table-striped table-responsive' + (containsPerformers ? '' : ' hidden')}>
+                            <thead>
+                                <tr>
+                                    <th>Nafn</th>
+                                    <th>Hljóðfæri</th>
+                                    <th>Hlutverk</th>
+                                    <th className={this.props.functionDisabled ? 'hidden' : ''}></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {displayPerformers}
+                            </tbody>
+                        </table>
+                        <h5 className={containsPerformers ? 'hidden' : ''}><br /><br />Það er enginn flytjandi skráður á lagið.</h5>
+                    </Panel>
                 );
             });
-            let containsPerformers = song.performers.length > 0;
-            return (
-                <Panel 
-                    key={`${song.name}-${song.number}`}
-                    header={`${song.number}. ${song.name} (${song.length})`}
-                    eventKey={idx + 1}
-                    bsStyle={containsPerformers ? 'default' : 'danger'}>
-                    <div className="add-performer pull-right">
-                        <button 
-                            onClick={() => this.openAddPerformerModal(song.number)} 
-                            className={'btn btn-default' + (this.props.functionDisabled ? ' hidden' : '')}>Bæta við flytjanda <i className="fa fa-fw fa-plus"></i></button>
-                    </div>
-                    <table className={'table table-striped table-responsive' + (containsPerformers ? '' : ' hidden')}>
-                        <thead>
-                            <tr>
-                                <th>Nafn</th>
-                                <th>Hljóðfæri</th>
-                                <th>Hlutverk</th>
-                                <th className={this.props.functionDisabled ? 'hidden' : ''}></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {displayPerformers}
-                        </tbody>
-                    </table>
-                    <h5 className={containsPerformers ? 'hidden' : ''}><br /><br />Það er enginn flytjandi skráður á lagið.</h5>
-                </Panel>
-            );
-        });
+        }
     }
     render() {
         return (
@@ -125,6 +126,7 @@ class SongWithMusiciansAccordion extends React.Component {
                 <PanelGroup defaultActiveKey="1" accordion>
                     {this.renderSongs()}
                 </PanelGroup>
+                <p className={this.props.songs.length === 0 ? '' : 'hidden'}>Engin lög skráð.</p>
                 <PerformerListModal 
                     isOpen={this.state.addPerformerModalIsOpen} 
                     update={(performer) => this.addPerformer(performer, this.state.selectedSong)}
