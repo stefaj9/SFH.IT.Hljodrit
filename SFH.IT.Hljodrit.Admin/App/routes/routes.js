@@ -5,7 +5,9 @@ import Settings from '../components/settings/settings';
 import Calculations from '../components/calculations/calculations';
 import AlbumContainer from '../components/albums/albumContainer';
 import Albums from '../components/albums/albums';
-import Users from '../components/users/users';
+import MusiciansContainer from '../components/musicians/musiciansContainer';
+import Musicians from '../components/musicians/musicians';
+import MusicianDetails from '../components/musicians/musicianDetails';
 import NotFound from '../components/common/notFound';
 import Projects from '../components/project/projects';
 import ProjectManagement from '../components/project/projectManagement';
@@ -34,7 +36,10 @@ export default (
                 <Route path="songs/:songId" component={SongDetails} />
             </Route>
         </Route>
-        <Route path="users" component={Users} />
+        <Route path="musicians" component={MusiciansContainer}>
+            <IndexRoute component={Musicians} />
+            <Route path=":musicianId" component={MusicianDetails} />
+        </Route>
         <Route path="settings" component={Settings} />
         <Route path="media" component={MediaContainer}>
             <IndexRoute component={Media}/>

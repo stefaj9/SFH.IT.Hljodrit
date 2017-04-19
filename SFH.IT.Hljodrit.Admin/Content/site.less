@@ -4,6 +4,23 @@ body {
     font-family: @baseFont, sans-serif !important;
 }
 
+.hover-cursor {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.fa-greyed-out {
+    color: rgba(155, 155, 155, 0.5);
+    &:hover {
+        cursor: not-allowed;
+    }
+}
+
+.fa-green {
+    color: green;
+}
+
 .react-date-field {
     width: 100% !important;
     border-radius: 4px;
@@ -16,8 +33,6 @@ body {
         font-size: 14px;
     }
 }
-
-
 
 .ReactModal__Overlay {
     -webkit-perspective: 0;
@@ -52,6 +67,10 @@ body {
 
 .no-padding {
     padding: 0 !important;
+}
+
+.spacer {
+    margin-top: 20px;
 }
 
 .space-20 {
@@ -204,7 +223,6 @@ body {
 }
 .modal-dialog .modal-content {
   border-radius: 0;
-  min-height: 400px;
   max-height: 600px;
   overflow-y: auto;
 }

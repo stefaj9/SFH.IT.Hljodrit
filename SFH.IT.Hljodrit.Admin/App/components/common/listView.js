@@ -10,7 +10,8 @@ export default class ListView extends React.Component {
                 return <ListItem
                             key={item.id}
                             item={item}
-                            add={(item) => this.props.add(item)} />
+                            add={(item) => this.props.add(item)}
+                            rowClass={this.props.rowClass} />
             });
         }
     }

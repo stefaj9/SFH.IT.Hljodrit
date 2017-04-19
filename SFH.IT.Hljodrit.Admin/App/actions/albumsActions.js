@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import * as types from './actionTypes';
+import { toastr } from 'react-redux-toastr';
 
 export function getAllAlbums(pageSize, pageNumber, searchString, searchType) {
     if(isNaN(searchString) && searchType === 'releaseYear') {
@@ -25,6 +26,7 @@ export function getAllAlbums(pageSize, pageNumber, searchString, searchType) {
 
 export function getSongsByAlbumId(albumId) {
     return (dispatch) => {
+        dispatch(clearCurrentAlbum());
         dispatch(isFetchingSongsByAlbumId());
         return fetch(`/api/albums/${albumId}/songs`, {
             method: 'GET'
@@ -41,6 +43,26 @@ export function getSongsByAlbumId(albumId) {
     };
 }
 
+export function removeSongsFromAlbum(albumId, songIds) {
+    return (dispatch) => {
+        return fetch(`/api/albums/${albumId}/songs`, {
+            method: 'DELETE',
+            body: JSON.stringify(songIds),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að eyða völdum lögum af plötunni.');
+                dispatch(getSongsByAlbumId(albumId));
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að eyða völdum lögum af plötunni.');
+            }
+        });
+    }
+}
+
+
 export function getAlbumById(albumId) {
     return (dispatch) => {
         dispatch(isFetchingAlbumById());
@@ -56,6 +78,13 @@ export function getAlbumById(albumId) {
             dispatch(getAlbumByIdSuccess(data));
             dispatch(hasStoppedFetchingAlbums());
         });
+    };
+}
+
+function clearCurrentAlbum() {
+    return {
+        type: types.CLEAR_CURRENT_ALBUM,
+        payload: []
     };
 }
 

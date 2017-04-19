@@ -33,7 +33,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                             ReleaseDate = song.releasedate,
                             RecordingId = song.recordingid,
                             TotalMusicians = (from x in DbContext.recording_party
-                                              where x.recordingid == song.recordingid
+                                              where x.recordingid == song.recordingid && !x.party_real.isdeleted
                                               select x).GroupBy(x => x.partyrealid).Count(),
                             MainArtistId = mainArtist.id,
                             MainArtist = mainArtist.artistname,
@@ -70,7 +70,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                              ReleaseDate = song.releasedate,
                              RecordingId = song.recordingid,
                              TotalMusicians = (from x in DbContext.recording_party
-                                               where x.recordingid == song.recordingid
+                                               where x.recordingid == song.recordingid && !x.party_real.isdeleted
                                                select x).GroupBy(x => x.partyrealid).Count(),
                              MainArtistId = mainArtist.id,
                              MainArtist = mainArtist.artistname,

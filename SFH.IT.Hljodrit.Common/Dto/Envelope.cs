@@ -8,6 +8,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
 	/// </summary>
 	public class Envelope<T>
 	{
+        [JsonProperty(PropertyName = "totalNumber")]
+        public int TotalNumber { get; set; }
 		[JsonProperty(PropertyName = "currentPage")]
 		public int CurrentPage { get; set; }
 		[JsonProperty(PropertyName = "maximumPage")]

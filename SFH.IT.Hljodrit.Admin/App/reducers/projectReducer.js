@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import * as actionType from '../actions/actionTypes';
 
 let initialState = {
     selectedProject: {
@@ -16,8 +17,9 @@ let initialState = {
         songs: [],
         publisher: {}
     },
+    reviewProject: {},
     projectEnvelope: {
-        projects: [],
+        objects: [],
         currentPage: -1,
         maximumPage: -1
     },
@@ -30,7 +32,7 @@ export default function (state = initialState, action) {
             projectEnvelope: action.payload
         });
         case 'SELECT_PROJECT_WITH_ACTION': return Object.assign({}, state, {
-            selectedProject: action.payload
+            reviewProject: action.payload
         });
         case 'IS_FETCHING_PROJECTS': return Object.assign({}, state, {
             isFetchingProjects: true
@@ -78,6 +80,12 @@ export default function (state = initialState, action) {
         case 'CREATE_PROJECT': return Object.assign({}, state, {
 
         });
+        case actionType.REMOVE_PROJECT_BY_ID: 
+            let projectEnvelope = _.cloneDeep(state.projectEnvelope);
+            _.remove(projectEnvelope.objects, (project) => { return project.id === action.payload });
+            return Object.assign({}, state, {
+                projectEnvelope: projectEnvelope
+            });
         default: return state;
     }
 }

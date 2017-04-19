@@ -11,7 +11,7 @@
     [createdby]        NVARCHAR (20)   NOT NULL,
     [createdon]        DATETIME        NOT NULL,
     [statuscode]       NVARCHAR (10)   NOT NULL,
-    [removed]          BIT             NULL,
+    [removed]          BIT             CONSTRAINT [DF_project_master_removed] DEFAULT ((0)) NOT NULL,
     [reviewedby]       NVARCHAR (20)   NULL,
     [reviewedon]       DATETIME        NULL,
     [reviewedcomment]  NVARCHAR (1000) NULL,
@@ -25,4 +25,6 @@
     CONSTRAINT [FK_project_master_partyReal] FOREIGN KEY ([mainmanagerid]) REFERENCES [dbo].[party_real] ([id]),
     CONSTRAINT [FK_project_master_statur] FOREIGN KEY ([statuscode]) REFERENCES [dbo].[project_status] ([statuscode])
 );
+
+
 

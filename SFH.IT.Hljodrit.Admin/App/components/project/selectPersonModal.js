@@ -182,17 +182,17 @@ class SelectPersonModal extends React.Component {
                         <form action="">
                             <div className="form-group">
                                 <label htmlFor="">Nafn</label>
-                                <input 
+                                <input
                                     value={registerUser.name}
-                                    type="text" 
+                                    type="text"
                                     className="form-control"
                                     onChange={(e) => this.onNameChange(e)} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Kennitala</label>
-                                <input 
+                                <input
                                     value={registerUser.ssn}
-                                    type="text" 
+                                    type="text"
                                     className="form-control"
                                     onChange={(e) => this.onSsnChange(e)} />
                             </div>
@@ -219,11 +219,11 @@ class SelectPersonModal extends React.Component {
                             <div className="btn-group pull-right">
                                 <button className="btn btn-default" onClick={(e) => this.backToList(e)}>Hætta við</button>
                                 <div className="spinner-btn-wrapper">
-                                    <button 
+                                    <button
                                         disabled={this.props.isRegistering || !this.isValidRegisterForm()}
-                                        className="btn btn-default btn-primary" 
+                                        className="btn btn-default btn-primary"
                                         onClick={(e) => this.register(e)}>
-                                            <Spinner 
+                                            <Spinner
                                                 className={this.props.isRegistering ? 'spinner-btn' : 'hidden'} />
                                             <span className={this.props.isRegistering ? 'non-visible' : ''}>Áfram</span>
                                     </button>

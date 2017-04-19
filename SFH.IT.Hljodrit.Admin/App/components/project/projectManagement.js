@@ -97,10 +97,9 @@ class ProjectManagement extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        projects: state.project.projectEnvelope.projects,
+        projects: state.project.projectEnvelope.objects,
         currentPage: state.project.projectEnvelope.currentPage,
         maximumPage: state.project.projectEnvelope.maximumPage,
-        selectedProject: state.project.selectedProject,
         isFetchingProjects: state.project.isFetchingProjects
     };
 }

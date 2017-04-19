@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
+using Microsoft.Ajax.Utilities;
+using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.Helpers;
 using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
@@ -48,6 +50,39 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult GetPersonById(int personId)
         {
             return Ok(_personService.GetPersonById(personId));
+        }
+
+        [HttpPut]
+        [Route("persons/{personId:int}")]
+        public IHttpActionResult UpdatePersonInfo(int personId, [FromBody] PersonExtendedDto person)
+        {
+            if (!ModelState.IsValid && !person.Email.IsNullOrWhiteSpace())
+            {
+                return BadRequest(ValidationHelper.GenerateErrorMessage(ModelState.Values));
+            }
+            return Ok(_personService.UpdatePersonInfo(personId, person));
+        }
+
+        [HttpDelete]
+        [Route("persons/{personId:int}")]
+        public IHttpActionResult DeletePersonById(int personId)
+        {
+            _personService.DeletePersonById(personId);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("persons/{personId:int}/medias")]
+        public IHttpActionResult GetAllMediaForPerson(int personId)
+        {
+            return Ok(_personService.GetAllMediaAssociatedWithMusician(personId));
+        }
+
+        [HttpGet]
+        [Route("persons/{personId:int}/albums")]
+        public IHttpActionResult GetAllAlbumsForPerson(int personId)
+        {
+            return Ok(_personService.GetAllAlbumsAssociatedWithMusician(personId));
         }
 
         [HttpGet]

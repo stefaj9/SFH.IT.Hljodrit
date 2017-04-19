@@ -15,5 +15,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public string SubmissionUser { get; set; }
         [JsonProperty(PropertyName = "lastModificationDate")]
         public DateTime LastModificationDate { get; set; }
+        [JsonProperty(PropertyName = "projectStatus")]
+        public string ProjectStatus { get; set; }
     }
 }

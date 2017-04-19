@@ -13,6 +13,7 @@ let initialState = {
         objects: []
     },
     isFetching: true,
+    isFetchingMusicians: true,
     selectedSong: {},
     musiciansOnSelectedSong: []
 };
@@ -35,15 +36,18 @@ export default function(state = initialState, action) {
                     id: musician.partyRealId,
                     musicianId: musician.musicianId,
                     name: musician.fullName,
-                    role: musician.highestRoleName,
+                    role: musician.credits.map((credit) => {
+                        return { code: credit.roleCode, name: credit.roleName };
+                    }),
                     instruments: musician.credits.map((credit) => {
-                        return credit.instrumentName;
+                        return { code: credit.instrumentCode, name: credit.instrumentName};
                     })
                 });
             });
 
             return Object.assign({}, state, {
-                musiciansOnSelectedSong: musicians
+                musiciansOnSelectedSong: musicians,
+                isFetchingMusicians: false
             });
         case actionType.GET_MEDIA: return Object.assign({}, state, {
             mediaRecordingEnvelope: action.payload
@@ -53,6 +57,12 @@ export default function(state = initialState, action) {
         });
         case actionType.HAS_STOPPED_FETCHING_SONGS: return Object.assign({}, state, {
             isFetching: false
+        });
+        case actionType.IS_FETCHING_MUSICIANS: return Object.assign({}, state, {
+            isFetchingMusicians: true
+        });
+        case actionType.HAS_STOPPED_FETCHING_MUSICIANS: return Object.assign({}, state, {
+            isFetchingMusicians: false
         });
         case actionType.CLEAR_SONGS: return Object.assign({}, state, {
             songEnvelope: {
@@ -70,6 +80,9 @@ export default function(state = initialState, action) {
         });
         case actionType.CLEAR_SONG_SELECTION: return Object.assign({}, state, {
             selectedSong: {}
+        });
+        case actionType.CLEAR_MUSICIANS_ON_SONG: return Object.assign({}, state, {
+            musiciansOnSelectedSong: []
         });
         default: return state;
     }

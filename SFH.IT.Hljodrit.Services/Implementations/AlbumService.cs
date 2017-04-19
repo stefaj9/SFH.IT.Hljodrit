@@ -32,7 +32,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             searchTerm = string.IsNullOrEmpty(searchTerm) ? "": searchTerm.Trim();
             var mainArtistSearchName = "";
 
-            //The default search is to search by the albums title
+            // The default search is to search by the albums title
             Expression <Func<media_product_package, bool>> filter = album => album.albumtitle.Trim().StartsWith(searchTerm);
 
             switch (searchFilter)

@@ -379,6 +379,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.Difference' does not have a primar
           <Property Name="updatedon" Type="datetime" Nullable="false" />
           <Property Name="createdby" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
+          <Property Name="is_deleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="media_product_package">
           <Key>
@@ -889,6 +890,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="website" Type="nvarchar" MaxLength="200" />
           <Property Name="deceased" Type="bit" />
           <Property Name="importid" Type="int" />
+          <Property Name="isdeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="project_master">
           <Key>
@@ -906,7 +908,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="createdby" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
           <Property Name="statuscode" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="removed" Type="bit" />
+          <Property Name="removed" Type="bit" Nullable="false" />
           <Property Name="reviewedby" Type="nvarchar" MaxLength="20" />
           <Property Name="reviewedon" Type="datetime" />
           <Property Name="reviewedcomment" Type="nvarchar" MaxLength="1000" />
@@ -2715,6 +2717,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <NavigationProperty Name="media_recording" Relationship="Self.release_to_recording" FromRole="media_product" ToRole="media_recording" />
           <NavigationProperty Name="media_producttype" Relationship="Self.release_to_releasetype" FromRole="media_product" ToRole="media_producttype" />
           <NavigationProperty Name="media_product_package" Relationship="Self.track_to_package" FromRole="media_product" ToRole="media_product_package" />
+          <Property Name="is_deleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="media_product_package">
           <Key>
@@ -3125,6 +3128,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <NavigationProperty Name="project_master" Relationship="Self.FK_project_master_partyReal" FromRole="party_real" ToRole="project_master" />
           <NavigationProperty Name="project_track_artist" Relationship="Self.FK_project_track_artist_party_real" FromRole="party_real" ToRole="project_track_artist" />
           <NavigationProperty Name="recording_party" Relationship="Self.FK_recording_party_party_real" FromRole="party_real" ToRole="recording_party" />
+          <Property Name="isdeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="project_master">
           <Key>
@@ -3142,7 +3146,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="statuscode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="removed" Type="Boolean" />
+          <Property Name="removed" Type="Boolean" Nullable="false" />
           <Property Name="reviewedby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="reviewedon" Type="DateTime" Precision="3" />
           <Property Name="reviewedcomment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -5025,6 +5029,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <EntitySetMapping Name="media_product">
             <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_product">
               <MappingFragment StoreEntitySet="media_product">
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="isrc" ColumnName="isrc" />
                 <ScalarProperty Name="globalproductid" ColumnName="globalproductid" />
@@ -5384,6 +5389,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <EntitySetMapping Name="party_real">
             <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_real">
               <MappingFragment StoreEntitySet="party_real">
+                <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="uniqueidentifier" ColumnName="uniqueidentifier" />
                 <ScalarProperty Name="firstname" ColumnName="firstname" />

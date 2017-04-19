@@ -33,7 +33,7 @@ namespace SFH.IT.Hljodrit.Models
         public string createdby { get; set; }
         public System.DateTime createdon { get; set; }
         public string statuscode { get; set; }
-        public Nullable<bool> removed { get; set; }
+        public bool removed { get; set; }
         public string reviewedby { get; set; }
         public Nullable<System.DateTime> reviewedon { get; set; }
         public string reviewedcomment { get; set; }
