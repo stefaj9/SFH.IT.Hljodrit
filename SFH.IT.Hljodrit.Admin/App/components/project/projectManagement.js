@@ -7,10 +7,11 @@ import Filter from '../common/filter';
 import ProjectListView from './projectListView';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
+import _ from 'lodash';
 
 class ProjectManagement extends React.Component {
     componentWillMount() {
-        this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters, this.state.searchString);
+        this.props.getAllProjects(this.state.pageSize, this.state.page, { inWorkingStage: true, recordingFinished: true, readyForPublish: true, published: true }, this.state.searchString);
     }
     constructor(props, context) {
         super(props, context);
@@ -20,22 +21,27 @@ class ProjectManagement extends React.Component {
             pageSize: 25,
             filterProperties: [
                 {
-                    action: 'pending',
-                    display: 'Í bið'
+                    action: 'inWorkingStage',
+                    display: 'Í vinnslu'
                 }, 
                 {
-                    action: 'resent',
-                    display: 'Endursent'
+                    action: 'recordingFinished',
+                    display: 'Hljóðritun lokið'
                 },
                 {
-                    action: 'approved',
-                    display: 'Samþykkt'
+                    action: 'readyForPublish',
+                    display: 'Tilbúið til útgáfu'
+                },
+                {
+                    action: 'published',
+                    display: 'Útgefið'
                 }
             ],
             filters: {
-                pending: false,
-                resent: false,
-                approved: false
+                inWorkingStage: false,
+                recordingFinished: false,
+                readyForPublish: false,
+                published: false
             },
             searchString: ''
         };
@@ -54,17 +60,29 @@ class ProjectManagement extends React.Component {
 
         this.props.getAllProjects(this.state.pageSize, newPageNumber, this.state.filters, this.state.searchString);
     }
+    setFilter(filterKey) {
+        let filters = _.cloneDeep(this.state.filters);
+        filters[filterKey] = !filters[filterKey];
+
+        this.setState({ filters: filters });
+
+        return filters;
+    }
     filterBy(filteredData) {
-        let filters = this.state.filters;
+        let filters = {};
         switch (filteredData) {
-            case 0: this.setState({ filters: { pending: !this.state.pending } }); filters.pending = !this.state.pending;
+            case '0': filters = this.setFilter('inWorkingStage');
                 break;
-            case 1: this.setState({ filters: { resent: !this.state.resent } }); filters.resent = !this.state.resent;
+            case '1': filters = this.setFilter('recordingFinished');
                 break;
-            case 2: this.setState({ filters: { approved: !this.state.approved } }); filters.approved = !this.state.approved;
+            case '2': filters = this.setFilter('readyForPublish');
+                break;
+            case '3': filters = this.setFilter('published');
                 break;
         }
-
+        if (_.every(filters, filter => { return filter === false })) {
+            filters = { inWorkingStage: true, recordingFinished: true, readyForPublish: true, published: true };
+        }
         this.props.getAllProjects(this.state.pageSize, this.state.page, filters, this.state.searchString);
     }
     searchBy(searchString) {

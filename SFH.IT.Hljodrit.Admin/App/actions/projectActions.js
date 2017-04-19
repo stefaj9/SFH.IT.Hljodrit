@@ -5,7 +5,7 @@ import { toastr } from 'react-redux-toastr';
 export function getAllProjects(pageSize, pageNumber, filters, searchString) {
     return (dispatch) => {
         dispatch(isFetchingProjects());
-        return fetch(`/api/projects?pageSize=${pageSize}&pageNumber=${pageNumber}&pending=${filters.pending}&resent=${filters.resent}&approved=${filters.approved}&query=${searchString}`, {
+        return fetch(`/api/projects?pageSize=${pageSize}&pageNumber=${pageNumber}&inWorkingState=${filters.inWorkingStage}&recordingFinished=${filters.recordingFinished}&readyForPublish=${filters.readyForPublish}&published=${filters.published}&query=${searchString}`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {

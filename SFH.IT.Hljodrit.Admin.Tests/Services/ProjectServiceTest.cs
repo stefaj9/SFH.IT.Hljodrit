@@ -36,7 +36,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			// Arrange
 			var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
 			// Act
-		    projectService.GetAllProjects(1000, 1, true, true, true, "");
+		    projectService.GetAllProjects(1000, 1, true, true, true, true, "");
 	    }
 
         [TestMethod]
@@ -54,7 +54,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
 
             // Act
-            var projects = projectService.GetAllProjects(pageSize, pageNumber, true, true, true, "");
+            var projects = projectService.GetAllProjects(pageSize, pageNumber, true, true, true, true, "");
 
             // Assert
             Assert.AreEqual(expectedPageSize, projects.Objects.Count());
@@ -73,7 +73,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int expectedResultCount = 50;
 
 			// Act
-			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, "");
+			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, true, "");
 
 			// Assert
 			Assert.AreEqual(expectedResultCount, projects.Objects.Count());
@@ -92,7 +92,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			const int expectedResultCount = 100;
 
 			// Act
-			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, "");
+			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, true, "");
 
 			// Assert
 			Assert.AreEqual(expectedResultCount, projects.Objects.Count());

@@ -54,7 +54,7 @@ class ProjectListView extends React.Component {
         this.assignPromptModalContent({
             isModalOpen: true,
             title: 'Senda athugasemd',
-            content: <textarea className="form-control"></textarea>,
+            content: <textarea placeholder="Skrifaðu athugasemd.." className="form-control"></textarea>,
             confirmBtnText: 'Senda',
             confirmBtnCallback: () => { console.log('Comment!') },
             discardBtnText: 'Hætta við',

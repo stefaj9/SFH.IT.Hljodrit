@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinner';
 import SongWithMusiciansAccordion from '../common/songWithMusiciansAccordion';
+import moment from 'moment';
 import _ from 'lodash';
 import { getProjectById, getTracksOnProjectById } from '../../actions/projectActions';
 
@@ -9,6 +10,7 @@ class ProjectPreviewWindow extends React.Component {
     componentWillMount() {
         this.props.getProjectById(this.props.projectId);
         this.props.getTracksOnProjectById(this.props.projectId);
+        moment.locale('is');
     }
     componentWillReceiveProps(newProps) {
         if (_.keys(newProps.project).length > 0) {
@@ -39,6 +41,9 @@ class ProjectPreviewWindow extends React.Component {
     renderForm() {
         const { isEditable } = this.props;
         const { projectName, projectStartDate, projectEndDate, projectStatus, submissionUser, createdOn, mainArtist, reviewBy, reviewComment, reviewDate } = this.state.project;
+
+        let projectEndDateChecked = moment(projectEndDate).year() === 1 ? '-' : moment(projectEndDate).format('LL');
+        let reviewDateChecked = moment(reviewDate).year() === 1 ? '-' : moment(reviewDate).format('LL');
         return (
             <div>
                 <form action="">
@@ -50,11 +55,11 @@ class ProjectPreviewWindow extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Byrjunardagsetning</label>
-                                <input disabled={ !isEditable } value={projectStartDate} type="text" className="form-control"/>
+                                <input disabled={ !isEditable } value={moment(projectStartDate).format('LL')} type="text" className="form-control"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Lokadagsetning</label>
-                                <input disabled={ !isEditable } value={projectEndDate} type="text" className="form-control"/>
+                                <input disabled={ !isEditable } value={projectEndDateChecked} type="text" className="form-control"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Aðalflytjandi</label>
@@ -70,7 +75,7 @@ class ProjectPreviewWindow extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Dagsetning innsendingar</label>
-                                <input disabled={true} value={createdOn} type="text" className="form-control"/>
+                                <input disabled={true} value={moment(createdOn).format('LL')} type="text" className="form-control"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Yfirfarið af</label>
@@ -78,11 +83,11 @@ class ProjectPreviewWindow extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Dagsetning yfirferðar</label>
-                                <input disabled={true} value={reviewDate} type="text" className="form-control"/>
+                                <input disabled={true} value={reviewDateChecked} type="text" className="form-control"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Athugasemd við yfirferð</label>
-                                <input disabled={ !isEditable } value={reviewComment} type="text" className="form-control"/>
+                                <textarea value={reviewComment} type="text" className="form-control"></textarea>
                             </div>
                         </div>
                     </div>

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SFH.IT.Hljodrit.Common;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.StaticHelperClasses;
+using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Services.Interfaces;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
@@ -22,12 +24,15 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _projectTrackRepository = projectTrackRepository;
         }
 
-        public Envelope<ProjectDto> GetAllProjects(int pageSize, int pageNumber, bool pending, bool resent, bool approved, string query)
+        public Envelope<ProjectDto> GetAllProjects(int pageSize, int pageNumber, bool inWorkingState, bool recordingFinished, bool readyForPublish, bool published, string query)
         {
 			if (pageSize < 25 || pageSize > 100) throw new ArgumentException("Invalid argument");
 
+            var status = CreateStatusList(inWorkingState, recordingFinished, readyForPublish, published);
+
             var projects = _projectMasterRepository.GetMany(
                 pm =>
+                    status.Contains(pm.statuscode) &&
                     !pm.removed &&
                     (pm.mainartist.StartsWith(query) || pm.projectname.StartsWith(query) ||
                      pm.createdby.StartsWith(query))).Select(p => new ProjectDto(p)).OrderByDescending(p => p.Id);
@@ -35,6 +40,17 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             var totalNumber = projects.Count();
 
             return EnvelopeCreator.CreateEnvelope(projects.Skip((pageNumber - 1) * pageSize).Take(pageSize), pageSize, pageNumber, totalNumber);
+        }
+
+        private List<string> CreateStatusList(bool inWorkingState, bool recordingFinished, bool readyForPublish, bool published)
+        {
+            var statusList = new List<string>();
+            if (inWorkingState) { statusList.Add(ProjectStatusEnum.ACTIVE.ToString()); }
+            if (recordingFinished) { statusList.Add(ProjectStatusEnum.RECORDED.ToString()); }
+            if (readyForPublish) { statusList.Add(ProjectStatusEnum.CLOSED.ToString()); }
+            if (published) { statusList.Add(ProjectStatusEnum.PUBLISHED.ToString()); }
+
+            return statusList;
         }
 
         public bool MarkProjectAsDeleted(int projectId)

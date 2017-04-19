@@ -15,10 +15,10 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpGet]
         [Route("")]
-        public IHttpActionResult GetAllProjects([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] bool pending, [FromUri] bool resent, [FromUri] bool approved, [FromUri] string query)
+        public IHttpActionResult GetAllProjects([FromUri] int pageSize, [FromUri] int pageNumber, [FromUri] bool inWorkingState, [FromUri] bool recordingFinished, [FromUri] bool readyForPublish, [FromUri] bool published, [FromUri] string query)
         {
             // TODO: Introduce a filter for the data as well as a search input
-            return Ok(_projectService.GetAllProjects(pageSize, pageNumber, pending, resent, approved, query ?? ""));
+            return Ok(_projectService.GetAllProjects(pageSize, pageNumber, inWorkingState, recordingFinished, readyForPublish, published, query ?? ""));
         }
 
         [HttpGet]
