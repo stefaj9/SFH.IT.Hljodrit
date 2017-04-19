@@ -16,7 +16,10 @@ const MediaTable = ({isFetching, objects, currentPage, maximumPage, changePageSi
                                   change={newPageSize => changePageSize(newPageSize)} />
                     <Table tableData={mediaTableData}
                            objects={objects}
-                           onClickCallback={(row) => browserHistory.push(`/media/${row.mediaId}`)} />
+                           onClickCallback={(row) => browserHistory.push(`/media/${row.mediaId}`)}
+                           refCallback={ref => { return ref; }}
+                           isRemote={false}
+                           pagination={false} />
                     <Paging visible={!isFetching}
                             currentPage={currentPage}
                             maximumPage={maximumPage}
