@@ -18,10 +18,12 @@ let initialState = {
         publisher: {}
     },
     reviewProject: {
+        organization: '',
         projectName: '',
         projectStartDate: '',
         projectEndDate: '',
         projectStatus: '',
+        projectStatusName: '',
         submissionUser: '',
         createdOn : '',
         mainArtist : '',

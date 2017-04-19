@@ -27,64 +27,54 @@ class ProjectPreviewWindow extends React.Component {
                 projectName: '',
                 projectStartDate: '',
                 projectEndDate: '',
-                projectStatus: '',
+                projectStatusName: '',
                 submissionUser: '',
                 createdOn : '',
                 mainArtist : '',
                 reviewBy : '',
                 reviewComment : '',
-                reviewDate : ''
+                reviewDate : '',
+                organization: ''
             },
             projectTracks: []
         };
     }
+    renderFormGroup(label, disabled, value) {
+        return (
+            <div key={label} className="form-group">
+                <label htmlFor="">{label}</label>
+                <input disabled={disabled} value={value} type="text" className="form-control"/>
+            </div>
+        );
+    }
     renderForm() {
         const { isEditable } = this.props;
-        const { projectName, projectStartDate, projectEndDate, projectStatus, submissionUser, createdOn, mainArtist, reviewBy, reviewComment, reviewDate } = this.state.project;
+        const { projectName, projectStartDate, projectEndDate, projectStatusName, submissionUser, createdOn, mainArtist, reviewBy, reviewComment, reviewDate, organization } = this.state.project;
 
-        let projectEndDateChecked = moment(projectEndDate).year() === 1 ? '-' : moment(projectEndDate).format('LL');
-        let reviewDateChecked = moment(reviewDate).year() === 1 ? '-' : moment(reviewDate).format('LL');
+        let renderObject = {
+            projectName: { display: 'Nafn', value: projectName },
+            projectStartDate: { display: 'Byrjunardagsetning', value: projectStartDate },
+            projectEndDate: { display: 'Lokadagsetning', value: moment(projectEndDate).year() === 1 ? '-' : moment(projectEndDate).format('LL') },
+            projectStatusName: { display: 'Staða verkefnis', value: projectStatusName },
+            mainArtist: { display: 'Aðalflytjandi', value: mainArtist },
+            organization: { display: 'Útgefandi', value: organization },
+            submissionUser: { display: 'Innsent af', value: submissionUser },
+            createdOn: { display: 'Dagsetning innsendingar', value: createdOn },
+            reviewBy: { display: 'Yfirfarið af', value: reviewBy },
+            reviewDate: { display: 'Dagsetning yfirferðar', value: moment(reviewDate).year() === 1 ? '-' : moment(reviewDate).format('LL') }
+        };
+
+        let formGroups = Object.keys(renderObject).map((key) => {
+            let value = renderObject[key];
+            return this.renderFormGroup(value.display, !isEditable, value.value);
+        });
+
         return (
             <div>
                 <form action="">
                     <div className="row">
                         <div className="col-xs-12">
-                            <div className="form-group">
-                                <label htmlFor="">Nafn</label>
-                                <input disabled={ !isEditable } value={projectName} type="text" className="form-control"/>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="">Byrjunardagsetning</label>
-                                <input disabled={ !isEditable } value={moment(projectStartDate).format('LL')} type="text" className="form-control"/>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="">Lokadagsetning</label>
-                                <input disabled={ !isEditable } value={projectEndDateChecked} type="text" className="form-control"/>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="">Aðalflytjandi</label>
-                                <input disabled={ !isEditable } value={mainArtist} type="text" className="form-control"/>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="">Staða verkefnis</label>
-                                <input disabled={true} value={projectStatus} type="text" className="form-control"/>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="">Innsent af</label>
-                                <input disabled={true} value={submissionUser} type="text" className="form-control"/>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="">Dagsetning innsendingar</label>
-                                <input disabled={true} value={moment(createdOn).format('LL')} type="text" className="form-control"/>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="">Yfirfarið af</label>
-                                <input disabled={true} value={reviewBy} type="text" className="form-control"/>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="">Dagsetning yfirferðar</label>
-                                <input disabled={true} value={reviewDateChecked} type="text" className="form-control"/>
-                            </div>
+                            {formGroups}
                             <div className="form-group">
                                 <label htmlFor="">Athugasemd við yfirferð</label>
                                 <textarea value={reviewComment} type="text" className="form-control"></textarea>

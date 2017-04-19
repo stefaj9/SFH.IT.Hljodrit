@@ -109,13 +109,12 @@ export function removeMusiciansFromSong(albumId, songId, musicianIds) {
                 'Content-Type': 'application/json'
             }
         }).then((resp) => {
+            dispatch(hasStoppedFetchingMusicians());
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að eyða völdum flytjendum af lagi.');
                 dispatch(getAllMusiciansOnSong(albumId, songId));
-                dispatch(hasStoppedFetchingMusicians());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að eyða völdum flytjendum af lagi.');
-                dispatch(hasStoppedFetchingMusicians());
             }
         });
     }

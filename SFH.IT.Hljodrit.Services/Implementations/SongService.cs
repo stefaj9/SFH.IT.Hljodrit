@@ -121,7 +121,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         {
             var musicianToUpdate = _recordingPartyRepository.GetById(musicianId);
 
-            musicianToUpdate.instrumentcode = model.Instruments;
+            musicianToUpdate.instrumentcode = model.Instruments == "" ? null : model.Instruments;
             musicianToUpdate.rolecode = model.Role;
 
             _recordingPartyRepository.Update(musicianToUpdate);

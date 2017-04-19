@@ -16,6 +16,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
             SubmissionUser = project.createdby ?? "";
             LastModificationDate = project.updatedon;
             ProjectStatus = project.statuscode;
+            ProjectStatusName = project.project_status.statusname;
         }
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
@@ -29,5 +30,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public DateTime LastModificationDate { get; set; }
         [JsonProperty(PropertyName = "projectStatus")]
         public string ProjectStatus { get; set; }
+        [JsonProperty(PropertyName = "projectStatusName")]
+        public string ProjectStatusName { get; set; }
     }
 }
