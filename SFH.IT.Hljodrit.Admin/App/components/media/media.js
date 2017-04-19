@@ -99,7 +99,6 @@ class Media extends React.Component {
 }
 
 function mapStateToProps(state) {
-    debugger;
     return {
         isFetching: state.songs.isFetching,
         mediaEnvelope: state.songs.mediaRecordingEnvelope,

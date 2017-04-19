@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import Table from '../common/table';
+import {browserHistory} from 'react-router';
 import mediaTableData from './mediaTableData';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
@@ -13,7 +14,9 @@ const MediaTable = ({isFetching, objects, currentPage, maximumPage, changePageSi
                 <div>
                     <PageSelector visible={!isFetching}
                                   change={newPageSize => changePageSize(newPageSize)} />
-                    <Table tableData={mediaTableData} objects={objects} />
+                    <Table tableData={mediaTableData}
+                           objects={objects}
+                           onClickCallback={(row) => browserHistory.push(`/media/${row.mediaId}`)} />
                     <Paging visible={!isFetching}
                             currentPage={currentPage}
                             maximumPage={maximumPage}
