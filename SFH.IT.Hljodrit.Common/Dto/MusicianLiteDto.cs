@@ -8,10 +8,10 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
         [JsonProperty(PropertyName = "instruments")]
-        public IEnumerable<string> Instruments { get; set; }
+        public List<string> Instruments { get; set; }
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
         [JsonProperty(PropertyName = "roles")]
-        public IEnumerable<RoleDto> Roles { get; set; }
+        public List<RoleDto> Roles { get; set; }
     }
 }

@@ -86,9 +86,11 @@ class ProjectPreviewWindow extends React.Component {
             <div>
                 <Spinner className={this.props.isLoading ? '' : 'hidden'} />
                 {this.renderForm()}
+                <h4>Lög verkefnis</h4>
                 <SongWithMusiciansAccordion
                     songs={this.state.projectTracks}
-                    updateState={(newState) => this.setState(newState)} />
+                    updateState={(newState) => this.setState(newState)}
+                    functionDisabled={true} />
             </div>
         );
     }

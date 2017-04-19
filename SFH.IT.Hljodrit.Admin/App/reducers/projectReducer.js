@@ -17,7 +17,18 @@ let initialState = {
         songs: [],
         publisher: {}
     },
-    reviewProject: {},
+    reviewProject: {
+        projectName: '',
+        projectStartDate: '',
+        projectEndDate: '',
+        projectStatus: '',
+        submissionUser: '',
+        createdOn : '',
+        mainArtist : '',
+        reviewBy : '',
+        reviewComment : '',
+        reviewDate : ''
+    },
     reviewProjectTracks: [],
     projectEnvelope: {
         objects: [],

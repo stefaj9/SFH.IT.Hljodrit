@@ -27,8 +27,8 @@ export default class AddPerformers extends React.Component {
         let containsError = false;
         songNumbers.map((number) => {
             let song = _.find(songs, (song) => { return song.number === number });
-            let songContainsMainArtist = _.find(song.performers, (performer) => { return performer.role.code === 'MA' });
-            let groupContainsMainArtist = _.find(group, (member) => { return member.role.code === 'MA' });
+            let songContainsMainArtist = _.find(song.performers, (performer) => { return performer.roles.code === 'MA' });
+            let groupContainsMainArtist = _.find(group, (member) => { return member.roles.code === 'MA' });
             if (songContainsMainArtist && groupContainsMainArtist) {
                 if (!containsError) {
                     // Only want to toast the error once.
@@ -64,7 +64,8 @@ export default class AddPerformers extends React.Component {
                         <p>Gerð er krafa um að það sé að lágmarki einn flytjandi skráður á hvert lag. Lög hér að neðanverðu eru röðuð eftir númer lags á verkefninu.</p>
                         <SongWithMusiciansAccordion
                             songs={this.state.songs}
-                            updateState={(newState) => this.setState(newState)} />
+                            updateState={(newState) => this.setState(newState)}
+                            functionDisabled={false} />
                     </div>
                 </div>
                 <div className="btn-group pull-right">

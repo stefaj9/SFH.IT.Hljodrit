@@ -32,14 +32,14 @@ class SongWithMusiciansAccordion extends React.Component {
 
         if (song) {
             // The song has already been added
-            song.performers = _.concat(song.performers, { id: performer.id, name: performer.name, instruments: performer.instruments, role: { code: performer.role.code, name: performer.role.name } });
+            song.performers = _.concat(song.performers, { id: performer.id, name: performer.name, instruments: performer.instruments, roles: [{ code: performer.roles.code, name: performer.roles.name }] });
         } else {
             songsCopy = _.concat(songsCopy, {
                 number: number,
                 name: song.name,
                 length: song.length,
                 isrc: song.isrc,
-                performers: [ { id: performer.id, name: performer.name, instruments: performer.instruments, role: { code: performer.role.code, name: performer.role.name } } ]
+                performers: [ { id: performer.id, name: performer.name, instruments: performer.instruments, roles: [{ code: performer.roles.code, name: performer.roles.name }] } ]
             });
         }
 
@@ -67,13 +67,21 @@ class SongWithMusiciansAccordion extends React.Component {
     renderSongs() {
         return this.props.songs.map((song, idx) => {
             let displayPerformers = song.performers.map((performer) => {
-                let instruments = _.join(performer.instruments, ', ');
+                let instruments = performer.instruments.map((instrument, idx) => {
+                    if (instrument !== null) {
+                        return idx === performer.instruments.length - 1 ? instrument : `${instrument}, `;
+                    }
+                });
+                let roles = performer.roles.map((role, idx) => {
+                    console.log(role);
+                    return idx === performer.roles.length - 1 ? role.name : `${role.name}, `;
+                });
                 return (
-                    <tr key={`${song.number}-${performer.id}-${performer.role.code}`}>
+                    <tr key={`${song.number}-${performer.id}-${performer.roles.code}`}>
                         <td>{performer.name}</td>
                         <td>{instruments}</td>
-                        <td>{performer.role.name}</td>
-                        <td>
+                        <td>{roles}</td>
+                        <td className={this.props.functionDisabled ? 'hidden' : ''}>
                             <a href="#" onClick={(e) => this.removePerformerFromSong(e, song.number, performer.id)}>
                                 <i className="fa fa-times"></i>
                             </a>
@@ -89,7 +97,9 @@ class SongWithMusiciansAccordion extends React.Component {
                     eventKey={idx + 1}
                     bsStyle={containsPerformers ? 'default' : 'danger'}>
                     <div className="add-performer pull-right">
-                        <button onClick={() => this.openAddPerformerModal(song.number)} className="btn btn-default">Bæta við flytjanda <i className="fa fa-fw fa-plus"></i></button>
+                        <button 
+                            onClick={() => this.openAddPerformerModal(song.number)} 
+                            className={'btn btn-default' + (this.props.functionDisabled ? ' hidden' : '')}>Bæta við flytjanda <i className="fa fa-fw fa-plus"></i></button>
                     </div>
                     <table className={'table table-striped table-responsive' + (containsPerformers ? '' : ' hidden')}>
                         <thead>
@@ -97,7 +107,7 @@ class SongWithMusiciansAccordion extends React.Component {
                                 <th>Nafn</th>
                                 <th>Hljóðfæri</th>
                                 <th>Hlutverk</th>
-                                <th></th>
+                                <th className={this.props.functionDisabled ? 'hidden' : ''}></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -126,7 +136,8 @@ class SongWithMusiciansAccordion extends React.Component {
 
 SongWithMusiciansAccordion.propTypes = {
     songs: PropTypes.array.isRequired,
-    updateState: PropTypes.func.isRequired
+    updateState: PropTypes.func.isRequired,
+    functionDisabled: PropTypes.bool.isRequired
 };
 
 export default SongWithMusiciansAccordion;

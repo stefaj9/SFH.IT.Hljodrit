@@ -46,8 +46,8 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Project
                     };
                     foreach (var group in groups)
                     {
-                        var performer = song.Performers.FirstOrDefault(p => p.Id == group.partyReal.id);
-                        if (performer == null)
+                        var performerIndex = song.Performers.FindIndex(p => p.Id == group.partyReal.id);
+                        if (performerIndex == -1)
                         {
                             song.Performers.Add(new MusicianLiteDto
                             {
@@ -63,8 +63,8 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Project
                         }
                         else
                         {
-                            performer.Instruments.ToList().Add(group.name_is);
-                            performer.Roles.ToList().Add(new RoleDto { RoleCode = group.rolecode, RoleName = group.rolename_is });
+                            song.Performers[performerIndex].Instruments.Add(group.name_is);
+                            song.Performers[performerIndex].Roles.Add(new RoleDto { RoleCode = group.rolecode, RoleName = group.rolename_is });
                         }
                     }
                     projectTracks.Add(song);
