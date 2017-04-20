@@ -75,7 +75,7 @@ class OverviewProject extends React.Component {
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 confirmation-item-title">Útgefandi</div>
-                        <div className="col-xs-12 confirmation-item-text">{`${publisher.name} - ${publisher.labelPrettyName}`}</div>
+                        <div className="col-xs-12 confirmation-item-text">{`${publisher.name} - ${publisher.isrcSeriesPrettyName}`}</div>
                     </div>
                 </div>
                 <div className="btn-group pull-right">

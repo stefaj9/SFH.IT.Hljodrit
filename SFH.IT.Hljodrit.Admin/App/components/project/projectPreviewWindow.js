@@ -53,13 +53,13 @@ class ProjectPreviewWindow extends React.Component {
 
         let renderObject = {
             projectName: { display: 'Nafn', value: projectName },
-            projectStartDate: { display: 'Byrjunardagsetning', value: projectStartDate },
+            projectStartDate: { display: 'Byrjunardagsetning', value: moment(projectStartDate).format('LL') },
             projectEndDate: { display: 'Lokadagsetning', value: moment(projectEndDate).year() === 1 ? '-' : moment(projectEndDate).format('LL') },
             projectStatusName: { display: 'Staða verkefnis', value: projectStatusName },
             mainArtist: { display: 'Aðalflytjandi', value: mainArtist },
             organization: { display: 'Útgefandi', value: organization },
             submissionUser: { display: 'Innsent af', value: submissionUser },
-            createdOn: { display: 'Dagsetning innsendingar', value: createdOn },
+            createdOn: { display: 'Dagsetning innsendingar', value: moment(createdOn).format('LL') },
             reviewBy: { display: 'Yfirfarið af', value: reviewBy },
             reviewDate: { display: 'Dagsetning yfirferðar', value: moment(reviewDate).year() === 1 ? '-' : moment(reviewDate).format('LL') }
         };
@@ -68,6 +68,12 @@ class ProjectPreviewWindow extends React.Component {
             let value = renderObject[key];
             return this.renderFormGroup(value.display, !isEditable, value.value);
         });
+
+        let label
+
+        if (this.props.action === 'approve') {
+
+        }
 
         return (
             <div>
@@ -104,7 +110,8 @@ class ProjectPreviewWindow extends React.Component {
 
 ProjectPreviewWindow.propTypes = {
     projectId: PropTypes.number.isRequired,
-    isEditable: PropTypes.bool.isRequired
+    isEditable: PropTypes.bool.isRequired,
+    action: PropTypes.string
 };
 
 function mapStateToProps(state) {

@@ -17,9 +17,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _organizationRepository = organizationRepository;
         }
 
-        public IEnumerable<PublisherLabelDto> GetPublisherLabelsById(int publisherId)
+        public IEnumerable<PublisherIsrcSeriesDto> GetPublisherIsrcSeriesById(int publisherId)
         {
-            return _organizationRepository.GetPublisherLabelsById(publisherId);
+            return _organizationRepository.GetPublisherIsrcSeriesById(publisherId);
         }
 
         public Envelope<PublisherDto> GetAllPublishers(int pageSize, int pageNumber, string searchTerm)

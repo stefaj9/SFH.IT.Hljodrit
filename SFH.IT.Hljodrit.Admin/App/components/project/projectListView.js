@@ -42,7 +42,8 @@ class ProjectListView extends React.Component {
             title: 'Samþykkja verkefni',
             content: <ProjectPreviewWindow 
                         projectId={projectId}
-                        isEditable={false} />,
+                        isEditable={false}
+                        action="approve" />,
             confirmBtnText: 'Samþykkja',
             confirmBtnCallback: () => { console.log('Approve!') },
             discardBtnText: 'Hætta við',
@@ -62,11 +63,13 @@ class ProjectListView extends React.Component {
         });
     }
     changeProjectCallback(projectId) {
-        console.log(projectId);
         this.assignPromptModalContent({
             isModalOpen: true,
             title: 'Breyta verkefni',
-            content: '',
+            content: <ProjectPreviewWindow 
+                        projectId={projectId}
+                        isEditable={true}
+                        action="modify" />,
             confirmBtnText: 'Breyta',
             confirmBtnCallback: () => { console.log('Change!') },
             discardBtnText: 'Hætta við',

@@ -2,7 +2,7 @@
 
 namespace SFH.IT.Hljodrit.Common.Dto
 {
-    public class PublisherLabelDto
+    public class PublisherIsrcSeriesDto
     {
         [JsonProperty(PropertyName = "isrcSeriesId")]
         public int IsrcSeriesId { get; set; }
