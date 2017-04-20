@@ -42,7 +42,7 @@ const Table = ({tableData, objects, onClickCallback, selectRow, selectRowMode, s
               options={{onRowClick: onClickCallback}}
               selectRow={selectRowOptions}
               trClassName={tableRowClassName}
-              striped 
+              striped
               hover>
                 <TableHeaderColumn
                   isKey={true}

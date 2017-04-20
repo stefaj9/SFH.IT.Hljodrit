@@ -56,9 +56,9 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 
         [HttpDelete]
         [Route("{albumId:int}/songs")]
-        public IHttpActionResult RemoveSongsFromAlbum(int albumId, [FromBody] IEnumerable<int> songIds)
+        public IHttpActionResult RemoveSongsFromAlbum( int albumId, [FromBody] IEnumerable<int> songIds)
         {
-            _songService.RemoveSongsFromAlbum(albumId, songIds);
+            _songService.RemoveSongsFromAlbum(songIds);
             return Ok();
         }
 

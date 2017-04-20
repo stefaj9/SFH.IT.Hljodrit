@@ -3,13 +3,16 @@ import Table from '../common/table';
 import albumTableData from './albumTableData';
 
 const SongsOnAlbumTable = ({songs, callback, removeSongsFromAlbum, addToListOfSelectedSongs, isRemoveButtonActive}) => {
+    console.log('herna!');
     return (
         <div className="row">
             <Table
+                selectRow={false}
                 selectRow={true}
                 selectRowMode="checkbox"
                 onClickCallback={callback}
                 tableData={albumTableData}
+                tableRowClassName="album-song-selection-row"
                 selectRowCallback={(row, status) => addToListOfSelectedSongs([row], status)}
                 selectRowCallBackAll={(status, rows) => addToListOfSelectedSongs(rows, status)}
                 objects={songs}
@@ -18,7 +21,7 @@ const SongsOnAlbumTable = ({songs, callback, removeSongsFromAlbum, addToListOfSe
                 <div className="btn-group">
                     <button className="btn btn-default btn-primary"
                         disabled={!isRemoveButtonActive}
-                        onClick={() => removeSongsFromAlbum()}>
+                        onClick={() => removeSongsFromAlbum() }>
                         <i className="fa fa-times"></i> Eyða völdum lögum
                     </button>
                     <button

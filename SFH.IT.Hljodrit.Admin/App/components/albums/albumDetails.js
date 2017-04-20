@@ -22,8 +22,12 @@ class AlbumDetails extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        console.log(newProps);
+        console.log('newprops ', newProps);
+        console.log('validation: ', (_.keys(newProps.selectedAlbum).length > 0 && !this.state.hasFetched && !newProps.isFetching));
+        console.log('hasFetched: ', this.state.hasFetched);
+        console.log('keys length: ', (_.keys(newProps.selectedAlbum).length));
         if(_.keys(newProps.selectedAlbum).length > 0 && !this.state.hasFetched && !newProps.isFetching) {
+
             this.validateAlbum(newProps.selectedAlbum);
 
             this.setState({
@@ -39,7 +43,8 @@ class AlbumDetails extends React.Component {
                     mainArtistName: newProps.selectedAlbum.mainArtistName,
                     mainArtistId: newProps.selectedAlbum.mainArtistId,
                     publisher: newProps.selectedAlbum.publisher,
-                    releaseDate: newProps.selectedAlbum.releaseDate
+                    releaseDate: newProps.selectedAlbum.releaseDate,
+                    selectedSongsForDeletion: []
                 },
                 hasFetched: true
             });
@@ -154,7 +159,9 @@ class AlbumDetails extends React.Component {
     }
 
     removeSongsFromAlbum() {
+        //this.addToListOfSelectedSongs(this.state.selectedSongsForDeletion, false);
         this.props.removeSongsFromAlbum(this.props.params.albumId, this.state.selectedSongsForDeletion);
+
         this.setState({ selectedSongsForDeletion: [] });
     }
 
@@ -192,8 +199,8 @@ class AlbumDetails extends React.Component {
     render() {
         return (
             <div>
-                <Spinner className={(this.props.isFetching || this.props.songsOnSelectedAlbum.length === 0) ? '' : 'hidden'} />
-                <div className={(this.props.songsOnSelectedAlbum.length === 0 || !this.state.hasFetched) ? 'hidden' : ''} >
+                <Spinner className={(this.props.isFetching) ? '' : 'hidden'} />
+                <div className={(!this.state.hasFetched) ? 'hidden' : ''} >
                     <h2>{this.props.selectedAlbum.albumTitle}</h2>
                     { this.renderForm() }
                     <div>

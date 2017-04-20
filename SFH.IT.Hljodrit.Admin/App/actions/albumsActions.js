@@ -45,6 +45,7 @@ export function getSongsByAlbumId(albumId) {
 
 export function removeSongsFromAlbum(albumId, songIds) {
     return (dispatch) => {
+        dispatch(isFetchingSongsByAlbumId());
         return fetch(`/api/albums/${albumId}/songs`, {
             method: 'DELETE',
             body: JSON.stringify(songIds),
@@ -55,9 +56,11 @@ export function removeSongsFromAlbum(albumId, songIds) {
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að eyða völdum lögum af plötunni.');
                 dispatch(getSongsByAlbumId(albumId));
+                dispatch(clearCurrentAlbum());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að eyða völdum lögum af plötunni.');
             }
+            dispatch(hasStoppedFetchingAlbums());
         });
     }
 }

@@ -379,6 +379,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.Difference' does not have a primar
           <Property Name="updatedon" Type="datetime" Nullable="false" />
           <Property Name="createdby" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
+          <Property Name="is_deleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="media_product_package">
           <Key>
@@ -2715,6 +2716,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <NavigationProperty Name="media_recording" Relationship="Self.release_to_recording" FromRole="media_product" ToRole="media_recording" />
           <NavigationProperty Name="media_producttype" Relationship="Self.release_to_releasetype" FromRole="media_product" ToRole="media_producttype" />
           <NavigationProperty Name="media_product_package" Relationship="Self.track_to_package" FromRole="media_product" ToRole="media_product_package" />
+          <Property Name="is_deleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="media_product_package">
           <Key>
@@ -5025,6 +5027,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <EntitySetMapping Name="media_product">
             <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_product">
               <MappingFragment StoreEntitySet="media_product">
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="isrc" ColumnName="isrc" />
                 <ScalarProperty Name="globalproductid" ColumnName="globalproductid" />

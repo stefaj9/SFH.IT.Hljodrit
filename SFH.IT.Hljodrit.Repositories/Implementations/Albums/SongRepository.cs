@@ -20,7 +20,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
             var songs = from song in DbContext.media_product
                         join recording in DbContext.media_recording on song.recordingid equals recording.id
                         join mainArtist in DbContext.party_mainartist on recording.mainartist equals mainArtist.id
-                        where song.packageid.Value == albumId
+                        where song.packageid.Value == albumId && song.is_deleted == false
 
                         select new SongDto
                         {
