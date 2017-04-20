@@ -20,7 +20,7 @@ class Albums extends React.Component {
             page: 1,
             pageSize: 25,
             searchString: '',
-            currentSearchType: Object.keys(AlbumSelectorData)[0] //'albumTitle'
+            currentSearchType: Object.keys(AlbumSelectorData)[0]
         }
     }
 

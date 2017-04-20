@@ -5,11 +5,23 @@ import mediaTableData from './mediaTableData';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
 import Spinner from 'react-spinner';
+import moment from 'moment';
 
 const MediaTable = ({isFetching, objects, currentPage, maximumPage, changePageSize, changePageNumber}) => {
 
+    moment.locale('is');
+
+    const formatDate = () => {
+        if (objects && objects !== null) {
+            Object.keys(objects).map((key) => {
+                objects[key].releaseDate = moment(objects[key].releaseDate).format('ll');
+            });
+        }
+    };
+
     const renderMediaTable = () => {
         if (!isFetching) {
+            formatDate();
             return (
                 <div>
                     <PageSelector visible={!isFetching}
