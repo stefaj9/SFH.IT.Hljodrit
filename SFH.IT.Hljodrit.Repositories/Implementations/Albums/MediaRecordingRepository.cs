@@ -27,7 +27,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                     Id = media.id,
                     Title = media.recordingtitle,
                     Isrc = media.isrc,
-                    MainArtist = media.party_mainartist.artistname,
+                    MainArtist = media.party_mainartist == null ? "" : media.party_mainartist.artistname,
                     Duration = media.duration,
                     ReleaseDate = media.recordingdate,
                     TotalMusicians = 0 

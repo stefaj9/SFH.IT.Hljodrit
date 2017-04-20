@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getMediaRecordingsByCriteria, hasStoppedFetchingSongs } from '../../actions/songActions';
 import MediaTable from './mediaTable';
+import SearchBar from '../common/searchBar';
+import SearchTypeSelector from '../common/SearchTypeSelector';
+import MediaSelectorData from './mediaSelectorData';
 
 class Media extends React.Component {
 
@@ -15,8 +18,8 @@ class Media extends React.Component {
         this.state = {
             page: 1,
             pageSize: 25,
-            songSearchTerm: '',
-            selectSongFilter: 'name',
+            searchString: '',
+            currentSearchType: Object.keys(MediaSelectorData)[0]
         };
 
         this.changePageSize = this.changePageSize.bind(this);
@@ -36,8 +39,8 @@ class Media extends React.Component {
         }, function() {
             thiss.props.getMediaRecordingsByCriteria(thiss.state.pageSize,
                 thiss.state.page,
-                thiss.state.songSearchTerm,
-                thiss.state.selectSongFilter);
+                thiss.state.searchString,
+                thiss.state.currentSearchType);
         });
     }
 
@@ -45,8 +48,8 @@ class Media extends React.Component {
         if (this.hitReturn(e.keyCode)) {
             this.props.getMediaRecordingsByCriteria(this.state.pageSize,
                 this.state.page,
-                this.state.songSearchTerm,
-                this.state.selectSongFilter);
+                this.state.searchString,
+                this.state.currentSearchType);
         }
     }
 
@@ -54,39 +57,43 @@ class Media extends React.Component {
         return code === 13;
     }
 
+    searchBy(search) {
+        if (!search) {
+            this.setState({currentSearchType: Object.keys(MediaSelectorData)[0]});
+        }
+        this.setState({searchString: search.trim()}, () => {
+            this.props.getMediaRecordingsByCriteria(this.state.pageSize,
+                this.state.page,
+                this.state.searchString,
+                this.state.currentSearchType);
+        });
+    }
+
     render() {
         return (
             <div>
                 <h1>Hljóðrit</h1>
-                <div className="row song-search-bar">
-                    <div className="col-xs-8">
-                        <input
-                            onKeyDown={(e) => this.getNewSongs(e)}
-                            onChange={(e) => this.setState({ songSearchTerm: e.target.value })}
-                            value={this.state.songSearchTerm}
-                            type="text"
-                            placeholder="Leita.."
-                            className="form-control no-border-radius" />
+                <div className="row space-20">
+                    <div className="col-xs-12 col-sm-8 no-padding">
+                        <SearchBar
+                            visible={true}
+                            searchBy={(search) => this.searchBy(search)}
+                            searchTerm={this.state.searchString}
+                            iconOn={false} />
                     </div>
-                    <div className="col-xs-4">
-                        <select
-                            name="song-search-by"
-                            id="song-search-by"
-                            className="form-control no-border-radius"
-                            value={this.state.selectSongFilter}
-                            onChange={(e) => this.setState({ selectSongFilter: e.target.value })}>
-                            <option value="name">Nafn lags</option>
-                            <option value="mainArtist">Aðalflytjandi</option>
-                            <option value="publishYear">Útgáfuár</option>
-                        </select>
+                    <div className="col-xs-12 col-sm-4 no-padding">
+                        <SearchTypeSelector onSelect = { newSearchType => this.setState({currentSearchType: newSearchType}) }
+                                            searchOptions={MediaSelectorData} />
                     </div>
                 </div>
-                <MediaTable isFetching={this.props.isFetching}
-                            objects={this.props.mediaEnvelope.objects}
-                            currentPage={this.props.currentPage}
-                            maximumPage={this.props.maximumPage}
-                            changePageSize={this.changePageSize}
-                            changePageNumber={this.changePageNumber} />
+                <div className="row">
+                    <MediaTable isFetching={this.props.isFetching}
+                                objects={this.props.mediaEnvelope.objects}
+                                currentPage={this.props.currentPage}
+                                maximumPage={this.props.maximumPage}
+                                changePageSize={this.changePageSize}
+                                changePageNumber={this.changePageNumber} />
+                </div>
             </div>
         );
     }

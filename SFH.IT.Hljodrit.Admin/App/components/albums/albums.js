@@ -5,7 +5,7 @@ import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
 import AlbumList from './albumListView';
 import SearchBar from '../common/searchBar';
-import SearchTypeSelector from '../common/searchTypeSelector';
+import SearchTypeSelector from '../common/SearchTypeSelector';
 import AlbumSelectorData from './albumSelectorData';
 
 class Albums extends React.Component {
