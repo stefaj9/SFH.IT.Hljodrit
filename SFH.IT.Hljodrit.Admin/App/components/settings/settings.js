@@ -1,5 +1,5 @@
 import React from 'react';
-import Tabs from '../common/Tabs';
+import Tabs from '../common/tabs';
 import TabItems from './tabData';
 import Content from './content';
 

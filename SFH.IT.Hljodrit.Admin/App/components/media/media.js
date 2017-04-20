@@ -45,7 +45,7 @@ class Media extends React.Component {
     }
 
     getNewSongs(e) {
-        if (this.hitReturn(e.keyCode)) {
+        if (Media.hitReturn(e.keyCode)) {
             this.props.getMediaRecordingsByCriteria(this.state.pageSize,
                 this.state.page,
                 this.state.searchString,
@@ -53,7 +53,7 @@ class Media extends React.Component {
         }
     }
 
-    hitReturn(code) {
+    static hitReturn(code) {
         return code === 13;
     }
 
