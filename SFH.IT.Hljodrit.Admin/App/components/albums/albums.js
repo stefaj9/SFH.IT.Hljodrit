@@ -5,13 +5,14 @@ import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
 import AlbumList from './albumListView';
 import SearchBar from '../common/searchBar';
-import SearchTypeSelector from './searchTypeSelector';
+import SearchTypeSelector from '../common/searchTypeSelector';
+import AlbumSelectorData from './albumSelectorData';
 
 class Albums extends React.Component {
 
     componentWillMount() {
         this.props.getAllAlbums(this.state.pageSize, this.state.page, this.state.searchString,
-                                this.state.searchTypes[this.state.currentSearchType]);
+                                this.state.currentSearchType);
     }
     constructor(props, context) {
         super(props, context);
@@ -19,19 +20,8 @@ class Albums extends React.Component {
             page: 1,
             pageSize: 25,
             searchString: '',
-            currentSearchType: 0,
-            searchTypes: [
-                'albumTitle',
-                'mainArtistName',
-                'releaseYear'
-            ]
+            currentSearchType: Object.keys(AlbumSelectorData)[0] //'albumTitle'
         }
-    }
-
-    changeSearchType(idx) {
-        this.setState({
-            currentSearchType: parseInt(idx)
-        });
     }
 
     changePageSize(newPageSize) {
@@ -40,7 +30,7 @@ class Albums extends React.Component {
         });
 
         this.props.getAllAlbums(newPageSize, this.state.page, this.state.searchString,
-                                this.state.searchTypes[this.state.currentSearchType]);
+                                this.state.currentSearchType);
     }
 
     changePageNumber(newPageNumber) {
@@ -49,16 +39,16 @@ class Albums extends React.Component {
         });
 
         this.props.getAllAlbums(this.state.pageSize, newPageNumber, this.state.searchString,
-                                this.state.searchTypes[this.state.currentSearchType]);
+                                this.state.currentSearchType);
     }
 
     searchBy(search) {
         if (!search) {
-            this.setState({currentSearchType: 0});
+            this.setState({currentSearchType: Object.keys(AlbumSelectorData)[0]});
         }
         this.setState({searchString: search.trim()}, () => {
             this.props.getAllAlbums(this.state.pageSize, this.state.page, this.state.searchString,
-                                    this.state.searchTypes[this.state.currentSearchType]);
+                                    this.state.currentSearchType);
         });
     }
 
@@ -75,7 +65,8 @@ class Albums extends React.Component {
                             iconOn={false} />
                     </div>
                     <div className="col-xs-12 col-sm-4 no-padding">
-                        <SearchTypeSelector onSelect = {idx => this.changeSearchType(idx)} />
+                        <SearchTypeSelector onSelect = { newSearchType => this.setState({currentSearchType: newSearchType}) }
+                                            searchOptions={AlbumSelectorData} />
                     </div>
                 </div>
                 <PageSelector change={newPageSize => this.changePageSize(newPageSize)} />

@@ -14,12 +14,14 @@ const MediaTable = ({isFetching, objects, currentPage, maximumPage, changePageSi
                 <div>
                     <PageSelector visible={!isFetching}
                                   change={newPageSize => changePageSize(newPageSize)} />
-                    <Table tableData={mediaTableData}
-                           objects={objects}
-                           onClickCallback={(row) => browserHistory.push(`/media/${row.mediaId}`)}
-                           refCallback={ref => { return ref; }}
-                           isRemote={false}
-                           pagination={false} />
+                    <div className="row">
+                        <Table tableData={mediaTableData}
+                               objects={objects}
+                               onClickCallback={(row) => browserHistory.push(`/media/${row.mediaId}`)}
+                               refCallback={ref => { return ref; }}
+                               isRemote={false}
+                               pagination={false} />
+                    </div>
                     <Paging visible={!isFetching}
                             currentPage={currentPage}
                             maximumPage={maximumPage}
