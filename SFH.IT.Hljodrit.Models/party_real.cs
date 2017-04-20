@@ -44,6 +44,7 @@ namespace SFH.IT.Hljodrit.Models
         public string website { get; set; }
         public Nullable<bool> deceased { get; set; }
         public Nullable<int> importid { get; set; }
+        public bool isdeleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<common_cache_recordingparty_detail> common_cache_recordingparty_detail { get; set; }

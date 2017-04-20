@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Services.Implementations

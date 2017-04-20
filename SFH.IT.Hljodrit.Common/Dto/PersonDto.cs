@@ -11,10 +11,10 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public PersonDto(party_real person)
         {
             Id = person.id;
-            Fullname = person.fullname;
-            PostalAddressLine1 = person.postaladdressline1;
-            ZipCode = person.zipcode;
-            Area = person.area;
+            Fullname = person.fullname?.Trim() ?? "";
+            PostalAddressLine1 = person.postaladdressline1 ?? "";
+            ZipCode = person.zipcode?.Trim() ?? "";
+            Area = person.area ?? "";
         }
 
         [JsonProperty(PropertyName = "id")]

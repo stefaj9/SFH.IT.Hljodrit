@@ -9,7 +9,9 @@ using Moq;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
@@ -20,8 +22,11 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 	{
 		private Mock<IPartyRealRepository> _partyRealRepository;
 	    private Mock<IPartyRoleRepository> _partyRoleRepository;
+	    private Mock<IPartyContactMediumRepository> _partyContactMediumRepository;
 	    private Mock<IZipCodeRepository> _zipCodeRepository;
 	    private Mock<ICountryRepository> _countryRepository;
+	    private Mock<IRecordingPartyRepository> _recordingPartyRepository;
+	    private Mock<IAlbumRepository> _albumRepository;
 	    private Mock<IUnitOfWork> _unitOfWork;
 	    private IPersonService _personService;
 
@@ -32,10 +37,14 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 		{
 			_partyRealRepository = new Mock<IPartyRealRepository>();
             _partyRoleRepository = new Mock<IPartyRoleRepository>();
+            _partyContactMediumRepository = new Mock<IPartyContactMediumRepository>();
             _countryRepository = new Mock<ICountryRepository>();
             _zipCodeRepository = new Mock<IZipCodeRepository>();
+            _recordingPartyRepository = new Mock<IRecordingPartyRepository>();
+            _albumRepository = new Mock<IAlbumRepository>();
+
             _unitOfWork = new Mock<IUnitOfWork>();
-            _personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object);
+            _personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object, _partyContactMediumRepository.Object, _recordingPartyRepository.Object, _albumRepository.Object);
         }
 
 		#region GetAllPerformers

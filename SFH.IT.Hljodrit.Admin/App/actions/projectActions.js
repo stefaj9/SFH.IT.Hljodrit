@@ -1,9 +1,11 @@
 import fetch from 'isomorphic-fetch';
+import * as actionType from './actionTypes';
+import { toastr } from 'react-redux-toastr';
 
 export function getAllProjects(pageSize, pageNumber, filters, searchString) {
     return (dispatch) => {
         dispatch(isFetchingProjects());
-        return fetch(`/api/projects?pageSize=${pageSize}&pageNumber=${pageNumber}&pending=${filters.pending}&resent=${filters.resent}&approved=${filters.approved}&query=${searchString}`, {
+        return fetch(`/api/projects?pageSize=${pageSize}&pageNumber=${pageNumber}&inWorkingState=${filters.inWorkingStage}&recordingFinished=${filters.recordingFinished}&readyForPublish=${filters.readyForPublish}&published=${filters.published}&query=${searchString}`, {
             method: 'GET'
         }).then((resp) => {
             if (resp.ok) {
@@ -18,14 +20,74 @@ export function getAllProjects(pageSize, pageNumber, filters, searchString) {
     }
 }
 
-export function selectProjectWithActionById(id, action) {
-    let selectedProject = {
-        id: id,
-        action: action
-    };
+export function getProjectById(projectId) {
+    return dispatch => {
+        dispatch(isFetchingSingleProject());
+        return fetch(`/api/projects/${projectId}`, {
+            method: 'GET'
+        }).then(resp => {
+            dispatch(hasStoppedFetchingSingleProject());
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(data => {
+            dispatch(getProjectByIdSuccess(data));
+        });
+    }
+}
+
+function getProjectByIdSuccess(project) {
     return {
-        type: 'SELECT_PROJECT_WITH_ACTION',
-        payload: selectedProject
+        type: actionType.GET_PROJECT_BY_ID,
+        payload: project
+    };
+};
+
+export function getTracksOnProjectById(projectId) {
+    return dispatch => {
+        dispatch(clearProjectTracks());
+        dispatch(isFetchingSingleProjectTracks());
+        return fetch(`/api/projects/${projectId}/tracks`, {
+            method: 'GET'
+        }).then(resp => {
+            dispatch(hasStoppedFetchingSingleProjectTracks());
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(data => {
+            dispatch(getTracksOnProjectByIdSuccess(data));
+        });
+    }
+}
+
+function getTracksOnProjectByIdSuccess(tracks) {
+    return {
+        type: actionType.GET_TRACKS_ON_PROJECT,
+        payload: tracks
+    };
+};
+
+export function removeProjectById(projectId) {
+    return dispatch => {
+        dispatch(isFetchingProjects());
+        return fetch(`/api/projects/${projectId}`, {
+            method: 'DELETE'
+        }).then(resp => {
+            dispatch(hasStoppedFetchingProjects());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að eyða verkefninu.');
+                dispatch(removeProjectByIdSuccess(projectId));
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að eyða verkefninu.');
+            }
+        });
+    }
+}
+
+function removeProjectByIdSuccess(projectId) {
+    return {
+        type: actionType.REMOVE_PROJECT_BY_ID,
+        payload: projectId
     };
 };
 
@@ -81,6 +143,41 @@ function isFetchingProjects() {
 function hasStoppedFetchingProjects() {
     return {
         type: 'HAS_STOPPED_FETCHING_PROJECTS',
+        payload: {}
+    };
+};
+
+function isFetchingSingleProject() {
+    return {
+        type: actionType.IS_FETCHING_SINGLE_PROJECT,
+        payload: {}
+    };
+};
+
+function hasStoppedFetchingSingleProject() {
+    return {
+        type: actionType.HAS_STOPPED_FETCHING_SINGLE_PROJECT,
+        payload: {}
+    };
+};
+
+function isFetchingSingleProjectTracks() {
+    return {
+        type: actionType.IS_FETCHING_SINGLE_PROJECT_TRACKS,
+        payload: {}
+    };
+};
+
+function hasStoppedFetchingSingleProjectTracks() {
+    return {
+        type: actionType.HAS_STOPPED_FETCHING_SINGLE_PROJECT_TRACKS,
+        payload: {}
+    };
+};
+
+function clearProjectTracks() {
+    return {
+        type: actionType.CLEAR_TRACKS_ON_PROJECT,
         payload: {}
     };
 };

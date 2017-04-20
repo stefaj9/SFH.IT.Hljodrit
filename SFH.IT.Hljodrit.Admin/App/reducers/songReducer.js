@@ -46,7 +46,8 @@ export default function(state = initialState, action) {
             });
 
             return Object.assign({}, state, {
-                musiciansOnSelectedSong: musicians
+                musiciansOnSelectedSong: musicians,
+                isFetchingMusicians: false
             });
         case actionType.GET_MEDIA: return Object.assign({}, state, {
             mediaRecordingEnvelope: action.payload

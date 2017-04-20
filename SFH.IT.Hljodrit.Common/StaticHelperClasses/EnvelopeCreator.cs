@@ -14,6 +14,7 @@ namespace SFH.IT.Hljodrit.Common.StaticHelperClasses
 
             return new Envelope<T>
             {
+                TotalNumber = totalElements,
                 CurrentPage = pageNumber,
                 MaximumPage = maximumPages,
                 Objects = elementList

@@ -12,5 +12,9 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         PersonExtendedDto GetPersonById(int personId);
         IEnumerable<RoleDto> GetPersonRoles();
         int AddPerson(PersonRegisterViewModel person);
+        PersonExtendedDto UpdatePersonInfo(int personId, PersonExtendedDto updateModel);
+        IEnumerable<MediaWithRoleDto> GetAllMediaAssociatedWithMusician(int partyRealId);
+        IEnumerable<AlbumDto> GetAllAlbumsAssociatedWithMusician(int partyRealId);
+        void DeletePersonById(int partyRealId);
     }
 }

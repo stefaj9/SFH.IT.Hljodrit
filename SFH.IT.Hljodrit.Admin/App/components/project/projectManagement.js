@@ -7,10 +7,12 @@ import Filter from '../common/filter';
 import ProjectListView from './projectListView';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
+import AsideFlag from '../common/asideFlag';
+import _ from 'lodash';
 
 class ProjectManagement extends React.Component {
     componentWillMount() {
-        this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters, this.state.searchString);
+        this.props.getAllProjects(this.state.pageSize, this.state.page, { inWorkingStage: true, recordingFinished: true, readyForPublish: true, published: true }, this.state.searchString);
     }
     constructor(props, context) {
         super(props, context);
@@ -20,22 +22,27 @@ class ProjectManagement extends React.Component {
             pageSize: 25,
             filterProperties: [
                 {
-                    action: 'pending',
-                    display: 'Í bið'
+                    action: 'inWorkingStage',
+                    display: 'Í vinnslu'
                 }, 
                 {
-                    action: 'resent',
-                    display: 'Endursent'
+                    action: 'recordingFinished',
+                    display: 'Hljóðritun lokið'
                 },
                 {
-                    action: 'approved',
-                    display: 'Samþykkt'
+                    action: 'readyForPublish',
+                    display: 'Tilbúið til útgáfu'
+                },
+                {
+                    action: 'published',
+                    display: 'Útgefið'
                 }
             ],
             filters: {
-                pending: false,
-                resent: false,
-                approved: false
+                inWorkingStage: false,
+                recordingFinished: false,
+                readyForPublish: false,
+                published: false
             },
             searchString: ''
         };
@@ -54,17 +61,29 @@ class ProjectManagement extends React.Component {
 
         this.props.getAllProjects(this.state.pageSize, newPageNumber, this.state.filters, this.state.searchString);
     }
+    setFilter(filterKey) {
+        let filters = _.cloneDeep(this.state.filters);
+        filters[filterKey] = !filters[filterKey];
+
+        this.setState({ filters: filters });
+
+        return filters;
+    }
     filterBy(filteredData) {
-        let filters = this.state.filters;
+        let filters = {};
         switch (filteredData) {
-            case 0: this.setState({ filters: { pending: !this.state.pending } }); filters.pending = !this.state.pending;
+            case '0': filters = this.setFilter('inWorkingStage');
                 break;
-            case 1: this.setState({ filters: { resent: !this.state.resent } }); filters.resent = !this.state.resent;
+            case '1': filters = this.setFilter('recordingFinished');
                 break;
-            case 2: this.setState({ filters: { approved: !this.state.approved } }); filters.approved = !this.state.approved;
+            case '2': filters = this.setFilter('readyForPublish');
+                break;
+            case '3': filters = this.setFilter('published');
                 break;
         }
-
+        if (_.every(filters, filter => { return filter === false })) {
+            filters = { inWorkingStage: true, recordingFinished: true, readyForPublish: true, published: true };
+        }
         this.props.getAllProjects(this.state.pageSize, this.state.page, filters, this.state.searchString);
     }
     searchBy(searchString) {
@@ -76,6 +95,26 @@ class ProjectManagement extends React.Component {
     render() {
         return (
             <div className="projects">
+                <AsideFlag
+                    content={<div className="color-info-box-wrapper">
+                                <div className="color-info-box">
+                                    <div className="color" style={{ backgroundColor: 'rgba(244, 67, 54, 0.3)' }}></div>
+                                    <div className="color-info-text">Í vinnslu</div>
+                                </div>
+                                <div className="color-info-box">
+                                    <div className="color" style={{ backgroundColor: 'rgba(255, 152, 0, 0.3)' }}></div>
+                                    <div className="color-info-text">Hljóðritun lokið</div>
+                                </div>
+                                <div className="color-info-box">
+                                    <div className="color" style={{ backgroundColor: 'rgba(3, 169, 244, 0.3)' }}></div>
+                                    <div className="color-info-text">Tilbúið til útgáfu</div>
+                                </div>
+                                <div className="color-info-box">
+                                    <div className="color" style={{ backgroundColor: 'rgba(76, 175, 80, 0.3)' }}></div>
+                                    <div className="color-info-text">Útgefið</div>
+                                </div>
+                            </div>}
+                    type='info' />
                 <h2>Verkefnastýring</h2>
                 <div className="add-project space-20 text-right">
                     <Link to='projects/createproject'><i className="fa fa-2x fa-plus"></i></Link>
@@ -97,10 +136,9 @@ class ProjectManagement extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        projects: state.project.projectEnvelope.projects,
+        projects: state.project.projectEnvelope.objects,
         currentPage: state.project.projectEnvelope.currentPage,
         maximumPage: state.project.projectEnvelope.maximumPage,
-        selectedProject: state.project.selectedProject,
         isFetchingProjects: state.project.isFetchingProjects
     };
 }

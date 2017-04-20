@@ -2,14 +2,15 @@ import React, {PropTypes} from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import _ from 'lodash';
 
-const Table = ({tableData, objects, onClickCallback, selectRow, selectRowMode, selectRowCallback, selectRowCallBackAll, tableRowClassName }) => {
-
-    const createTableHeader = () => {
+class Table extends React.Component {
+    createTableHeader() {
+        let tableData = this.props.tableData;
         return Object.keys(tableData).map((header) => {
             let formatter = tableData[header].formatter;
             let sortable = tableData[header].sortable;
             let width = tableData[header].width;
             let dataAlign = tableData[header].dataAlign;
+            let sortFunc = tableData[header].sortFunc;
             return (
                 <TableHeaderColumn
                    dataField={header}
@@ -17,44 +18,61 @@ const Table = ({tableData, objects, onClickCallback, selectRow, selectRowMode, s
                    dataSort={sortable}
                    dataFormat={formatter}
                    dataAlign={dataAlign}
-                   width={width}>
+                   width={width}
+                   sortFunc={sortFunc}>
                    { tableData[header].value }
                </TableHeaderColumn>
             );
         });
-    };
-    let selectRowOptions;
-    if (selectRow) {
-        selectRowOptions = {
-            mode: selectRowMode,
-            onSelect: selectRowCallback,
-            onSelectAll: selectRowCallBackAll
-        };
     }
-    let indexedObjects = _.cloneDeep(objects);
-    indexedObjects.map((idxObj, idx) => {
-        return idxObj.idx = idx;
-    });
-    return (
-        <div className="col-xs-12">
-            <BootstrapTable
-              data={indexedObjects}
-              options={{onRowClick: onClickCallback}}
-              selectRow={selectRowOptions}
-              trClassName={tableRowClassName}
-              striped
-              hover>
-                <TableHeaderColumn
-                  isKey={true}
-                  dataField="idx"
-                  key="idx"
-                  dataSort={true}
-                  hidden></TableHeaderColumn>
-                {createTableHeader()}
-            </BootstrapTable>
-        </div>
-    );
-};
+    render() {
+        const { objects, onClickCallback, selectRow, selectRowMode, selectRowCallback, selectRowCallBackAll, tableRowClassName, refCallback, hidePageSize, pagination, paginationCallback, paginationTotalElements, paginationCurrentPage, isRemote, onSortChange } = this.props;
+        let selectRowOptions;
+        if (selectRow) {
+            selectRowOptions = {
+                mode: selectRowMode,
+                onSelect: selectRowCallback,
+                onSelectAll: selectRowCallBackAll
+            };
+        }
+        let options = {
+            onRowClick: onClickCallback,
+            hideSizePerPage: hidePageSize,
+            onPageChange: paginationCallback,
+            page: paginationCurrentPage,
+            onSortChange: onSortChange,
+            noDataText: 'Engin gögn í boði.'
+        }
+        let indexedObjects = _.cloneDeep(objects);
+        indexedObjects.map((idxObj, idx) => {
+            return idxObj.idx = idx;
+        });
+        return (
+            <div className="col-xs-12">
+                <BootstrapTable
+                  data={indexedObjects}
+                  options={options}
+                  selectRow={selectRowOptions}
+                  trClassName={tableRowClassName}
+                  striped
+                  ref={(ref) => refCallback(ref)}
+                  hover
+                  pagination={pagination}
+                  ignoreSinglePage
+                  remote={isRemote}
+                  fetchInfo={{dataTotalSize: paginationTotalElements}}>
+                    <TableHeaderColumn
+                      isKey={true}
+                      dataField="idx"
+                      key="idx"
+                      dataSort={true}
+                      hidden></TableHeaderColumn>
+                    {this.createTableHeader()}
+                </BootstrapTable>
+            </div>
+        );
+    }
+}
 
 Table.propTypes = {
     tableData: PropTypes.object.isRequired,
@@ -64,7 +82,15 @@ Table.propTypes = {
     selectRowMode: PropTypes.string,
     selectRowCallback: PropTypes.func,
     selectRowCallBackAll: PropTypes.func,
-    tableRowClassName: PropTypes.string
+    tableRowClassName: PropTypes.string,
+    refCallback: PropTypes.func.isRequired,
+    hidePageSize: PropTypes.bool,
+    isRemote: PropTypes.bool.isRequired,
+    pagination: PropTypes.bool.isRequired,
+    paginationCallback: PropTypes.func,
+    paginationTotalElements: PropTypes.number,
+    paginationCurrentPage: PropTypes.number,
+    onSortChange: PropTypes.func
 };
 
 export default Table;

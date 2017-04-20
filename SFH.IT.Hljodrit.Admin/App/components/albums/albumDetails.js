@@ -22,10 +22,6 @@ class AlbumDetails extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        console.log('newprops ', newProps);
-        console.log('validation: ', (_.keys(newProps.selectedAlbum).length > 0 && !this.state.hasFetched && !newProps.isFetching));
-        console.log('hasFetched: ', this.state.hasFetched);
-        console.log('keys length: ', (_.keys(newProps.selectedAlbum).length));
         if(_.keys(newProps.selectedAlbum).length > 0 && !this.state.hasFetched && !newProps.isFetching) {
 
             this.validateAlbum(newProps.selectedAlbum);
@@ -159,7 +155,7 @@ class AlbumDetails extends React.Component {
     }
 
     removeSongsFromAlbum() {
-        //this.addToListOfSelectedSongs(this.state.selectedSongsForDeletion, false);
+        this.addToListOfSelectedSongs(this.state.selectedSongsForDeletion, false);
         this.props.removeSongsFromAlbum(this.props.params.albumId, this.state.selectedSongsForDeletion);
 
         this.setState({ selectedSongsForDeletion: [] });

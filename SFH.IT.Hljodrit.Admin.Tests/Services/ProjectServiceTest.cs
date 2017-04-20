@@ -15,14 +15,16 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
     public class ProjectServiceTest
     {
         private Mock<IProjectMasterRepository> _projectMasterRepository;
-
-        private IUnitOfWork _unitOfWork;
+        private Mock<IProjectTrackRepository> _projectTrackRepository;
+        private Mock<IUnitOfWork> _unitOfWork;
 
 
         [TestInitialize]
         public void TestInitialize()
         {
             _projectMasterRepository = new Mock<IProjectMasterRepository>();
+            _projectTrackRepository = new Mock<IProjectTrackRepository>();
+            _unitOfWork = new Mock<IUnitOfWork>();
         }
 
 	    #region GetAllProjects tests
@@ -32,9 +34,9 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 	    public void TestIllegalPageSizeThrowsException()
 	    {
 			// Arrange
-			var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork);
+			var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
 			// Act
-		    projectService.GetAllProjects(1000, 1, true, true, true, "");
+		    projectService.GetAllProjects(1000, 1, true, true, true, true, "");
 	    }
 
         [TestMethod]
@@ -49,13 +51,13 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>()))
                 .Returns(masterProjects);
 
-            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork);
+            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
 
             // Act
-            var projects = projectService.GetAllProjects(pageSize, pageNumber, true, true, true, "");
+            var projects = projectService.GetAllProjects(pageSize, pageNumber, true, true, true, true, "");
 
             // Assert
-            Assert.AreEqual(expectedPageSize, projects.Projects.Count());
+            Assert.AreEqual(expectedPageSize, projects.Objects.Count());
         }
 
 		[TestMethod]
@@ -65,16 +67,16 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
 			_projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>())).Returns(masterProjects);
 
-			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork);
+			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
 
 			const int pageSize = 50;
 			const int expectedResultCount = 50;
 
 			// Act
-			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, "");
+			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, true, "");
 
 			// Assert
-			Assert.AreEqual(expectedResultCount, projects.Projects.Count());
+			Assert.AreEqual(expectedResultCount, projects.Objects.Count());
 		}
 
 		[TestMethod]
@@ -84,18 +86,61 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
 			_projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>())).Returns(masterProjects);
 
-			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork);
+			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
 
 			const int pageSize = 100;
 			const int expectedResultCount = 100;
 
 			// Act
-			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, "");
+			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, true, "");
 
 			// Assert
-			Assert.AreEqual(expectedResultCount, projects.Projects.Count());
+			Assert.AreEqual(expectedResultCount, projects.Objects.Count());
 		}
 
-		#endregion
-	}
+        #endregion
+
+        #region MarkProjectAsDeleted
+        [TestMethod]
+        public void MarkProjectAsDeleted_Success()
+        {
+            _projectMasterRepository.Setup(pm => pm.GetById(1)).Returns(new project_master
+            {
+                id = 1,
+                removed = false
+            });
+            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
+
+            Assert.AreEqual(true, projectService.MarkProjectAsDeleted(1));
+        }
+
+        #endregion
+
+        #region GetProjectById
+
+        [TestMethod]
+        public void GetProjectById_GivenCorrectId()
+        {
+            _projectMasterRepository.Setup(pm => pm.GetById(1)).Returns(new project_master
+            {
+                id = 1
+            });
+
+            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
+
+            Assert.IsNotNull(projectService.GetProjectById(1));
+        }
+
+        [TestMethod]
+        public void GetProjectById_GivenIncorrectId()
+        {
+            _projectMasterRepository.Setup(pm => pm.GetById(2)).Returns((project_master)null);
+
+            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
+
+            Assert.IsNull(projectService.GetProjectById(2));
+        }
+
+        #endregion
+    }
 }

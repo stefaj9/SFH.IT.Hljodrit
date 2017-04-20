@@ -1,15 +1,16 @@
 import React from 'react';
-//import Filter from '../common/filter';
 import ListView from '../common/listView';
 import { getPersonsByCriteria } from '../../actions/personActions';
+import { browserHistory } from 'react-router';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import SearchBar from '../common/searchBar';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
+import Spinner from 'react-spinner';
 import { connect } from 'react-redux';
 import Filter from '../common/filter';
 
-export class Users extends React.Component {
+class Musicians extends React.Component {
 
     constructor() {
         super();
@@ -53,7 +54,6 @@ export class Users extends React.Component {
     }
 
     search(term) {
-        console.log(term);
         const { pageSize } = this.state;
         this.props.getPersonsByCriteria(pageSize, 1, term, this.props.isFetchingList, this.props.hasStoppedFetchingList);
         this.setState({
@@ -105,11 +105,10 @@ export class Users extends React.Component {
                 break;
         }
     }
-
-    render() {
+    renderData() {
         let containsData = !this.props.isFetchingPersons && this.props.persons.length !== 0;
         return (
-            <div>
+            <div className={this.props.isFetchingPersons ? 'hidden' : ''}>
                 <h2>Aðilar</h2>
                 <SearchBar
                     searchTerm={this.state.searchQuery}
@@ -120,6 +119,8 @@ export class Users extends React.Component {
                 <ListView
                     items={this.props.persons}
                     isFetching={this.props.isFetchingPersons}
+                    rowClass="hover-cursor"
+                    add={(item) => browserHistory.push(`/musicians/${item.id}`)}
                     />
                 <Paging
                     visible={!this.props.isFetchingPersons}
@@ -130,15 +131,24 @@ export class Users extends React.Component {
             </div>
         );
     }
+
+    render() {
+        return (
+            <div>
+                <Spinner className={this.props.isFetchingPersons ? '' : 'hidden'} />
+                {this.renderData()}
+            </div>
+        );
+    }
 }
 
 function mapStateToProps(state) {
     return {
         persons: state.person.personEnvelope.objects,
-        isFetchingPersons: state.person.isFetching,
+        isFetchingPersons: state.flow.isFetchingList,
         currentPage: state.person.personEnvelope.currentPage,
         maximumPage: state.person.personEnvelope.maximumPage,
     };
 };
 
-export default connect(mapStateToProps, { getPersonsByCriteria, isFetchingList, hasStoppedFetchingList })(Users);
+export default connect(mapStateToProps, { getPersonsByCriteria, isFetchingList, hasStoppedFetchingList })(Musicians);

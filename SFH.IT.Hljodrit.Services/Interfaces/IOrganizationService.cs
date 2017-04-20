@@ -6,7 +6,7 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
 {
     public interface IOrganizationService
     {
-        IEnumerable<PublisherLabelDto> GetPublisherLabelsById(int publisherId);
+        IEnumerable<PublisherIsrcSeriesDto> GetPublisherIsrcSeriesById(int publisherId);
 
         IEnumerable<LabelDto> GetLabelsByPublisherId(int publisherId );
         Envelope<PublisherDto> GetAllPublishers(int pageSize, int pageNumber, string searchTerm);

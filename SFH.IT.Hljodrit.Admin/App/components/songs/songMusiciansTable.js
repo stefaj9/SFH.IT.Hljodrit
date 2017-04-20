@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import SongTableData from './songTableData';
 import Table from '../common/table';
 import { createPromise } from '../../helpers/promiseWrapper';
@@ -18,8 +19,9 @@ class SongMusiciansTable extends React.Component {
         this.state = {
             selectedMusicians: [],
             rowsToUpdate: [],
-            musicians: []
-        }
+            musicians: [],
+            bootstrapTableRef: null
+        };
     }
     addToListOfSelectedMusicians(musicians, status) {
         let selectedMusicians = _.cloneDeep(this.state.selectedMusicians);
@@ -35,6 +37,7 @@ class SongMusiciansTable extends React.Component {
     }
     removeMusiciansFromSong() {
         this.props.removeMusiciansFromSong(this.props.albumId, this.props.songId, this.state.selectedMusicians.map((m) => { return m.musicianId } ));
+        this.state.bootstrapTableRef.reset();
         this.setState({ selectedMusicians: [] });
     }
     renderRoles() {
@@ -64,13 +67,17 @@ class SongMusiciansTable extends React.Component {
         let musicians = _.cloneDeep(this.state.musicians);
         let musician = _.find(musicians, (m) => { return m.musicianId === musicianId });
 
-        musician.instruments = <select value={ e.target.value } onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musicianId)} className="form-control" >{this.renderInstruments()}</select>;
+        musician.instruments = <select value={ e.target.value } onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musicianId)} className="form-control" ><option value="">Ekki valið</option>{this.renderInstruments()}</select>;
 
         let promise = createPromise(() => this.markRowAsChanged(rowNumber, () => this.updateAction(rowNumber, musician)));
         promise.then(() => this.setState({ musicians: musicians }));
     }
     updateAction(rowNumber, musician) {
-        musician.action = <i title="Breyta" className={'fa fa-check fa-fw hover-cursor' + (this.isRowActionDisabled(rowNumber) ? ' fa-greyed-out' : ' fa-green')} onClick={() => this.updateMusician(musician.musicianId, !this.isRowActionDisabled(rowNumber), rowNumber)}></i>;
+        musician.action = 
+            <button 
+                disabled={this.isRowActionDisabled(rowNumber)} 
+                className="btn btn-default btn-primary"
+                onClick={() => this.updateMusician(musician.musicianId, !this.isRowActionDisabled(rowNumber), rowNumber)}>Breyta</button>;
     }
     markRowAsChanged(rowNumber, callback) {
         let rowsToUpdate = _.cloneDeep(this.state.rowsToUpdate);
@@ -108,9 +115,11 @@ class SongMusiciansTable extends React.Component {
         _.forEach(musicians, (musician, idx) => {
             let rowNumber = idx + 1;
 
+            musician.name = <Link to={`/musicians/${musician.id}`}>{musician.name}</Link>;
+
             musician.role = <select value={musician.role[0].code} className="form-control" onChange={(e) => this.updateMusicianRole(e, rowNumber, musician.musicianId)}>{this.renderRoles()}</select>;
 
-            musician.instruments = <select value={musician.instruments[0].code} onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musician.musicianId)} className="form-control" >{this.renderInstruments()}</select>;
+            musician.instruments = <select value={musician.instruments[0].code} onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musician.musicianId)} className="form-control" ><option value="">Ekki valið</option>{this.renderInstruments()}</select>;
 
             this.updateAction(rowNumber, musician);
         });
@@ -124,6 +133,9 @@ class SongMusiciansTable extends React.Component {
                 <Table
                     tableData={SongTableData}
                     objects={this.state.musicians}
+                    refCallback={(ref) => { if (this.state.bootstrapTableRef === null && ref !== null) { this.setState({ bootstrapTableRef: ref }); } }}
+                    pagination={false}
+                    isRemote={false}
                     selectRow={true}
                     selectRowMode="checkbox"
                     selectRowCallback={(row, status) => this.addToListOfSelectedMusicians([row], status)}
@@ -134,7 +146,7 @@ class SongMusiciansTable extends React.Component {
                             disabled={this.state.selectedMusicians.length === 0}
                             className="btn btn-default btn-primary"
                             onClick={() => this.removeMusiciansFromSong()}>
-                            <i className="fa fa-times"></i> Eyða völdum flytjendum
+                            <i className="fa fa-minus"></i> Eyða völdum flytjendum
                         </button>
                         <button 
                             className="btn btn-default btn-primary"

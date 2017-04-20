@@ -46,6 +46,7 @@ class SongDetails extends React.Component {
         this.props.updateSongDetailsById(this.props.routeParams.songId, currentSong);
     }
     renderFormGroup(label, id, value, onChangeFunc) {
+        if (this.props.isFetching) { return; }
         return (
             <div className="form-group">
                 <label htmlFor={id}>{label}</label>
@@ -66,28 +67,30 @@ class SongDetails extends React.Component {
         );
     }
     renderReleaseDatePicker() {
-        return (
-            <div className="form-group">
-                <label>Útgáfudagur lags</label>
-                <div>
-                    <DateField
-                        dateFormat="DD.MM.YYYY"
-                        forceValidDate={true}
-                        updateOnDateClick={true}
-                        defaultValue={moment(this.state.currentSong.releaseDate).format('DD.MM.YYYY')}>
-                        <DatePicker
-                            navigation={true}
-                            locale="is"
+        if (this.state.currentSong.releaseDate) {
+            return (
+                <div className="form-group">
+                    <label>Útgáfudagur lags</label>
+                    <div>
+                        <DateField
+                            dateFormat="DD.MM.YYYY"
                             forceValidDate={true}
-                            highlightWeekends={true}
-                            highlightToday={true}
-                            weekNumbers={true}
-                            weekStartDay={1}
-                            onChange={this.updateSongReleaseDate.bind(this)} />
-                    </DateField>
+                            updateOnDateClick={true}
+                            defaultValue={moment(this.state.currentSong.releaseDate).format('DD.MM.YYYY')}>
+                            <DatePicker
+                                navigation={true}
+                                locale="is"
+                                forceValidDate={true}
+                                highlightWeekends={true}
+                                highlightToday={true}
+                                weekNumbers={true}
+                                weekStartDay={1}
+                                onChange={this.updateSongReleaseDate.bind(this)} />
+                        </DateField>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
     updateSongTitle(e) {
         let song = _.cloneDeep(this.state.currentSong);
@@ -116,49 +119,48 @@ class SongDetails extends React.Component {
         this.setState({ isAddingPerformer: false });
     }
     renderSongInfo() {
-        if (!this.props.isFetching && !this.props.isFetchingMusicians) {
-            return (
-                <div>
-                    <div className="row text-left">
-                        <div className="col-xs-12">
-                            <Link to={`/albums/${this.props.params.albumId}`}><i className="fa fa-arrow-left fa-fw"></i> Til baka á plötu</Link>
-                        </div>
+        let canBeRendered = !this.props.isFetching && !this.props.isFetchingMusicians;
+        return (
+            <div className={canBeRendered ? '' : 'hidden'}>
+                <div className="row text-left">
+                    <div className="col-xs-12">
+                        <Link to={`/albums/${this.props.params.albumId}`}><i className="fa fa-arrow-left fa-fw"></i> Til baka á plötu</Link>
                     </div>
-                    <h2>{this.props.song.songTitle}</h2>
-                    <div className="row">
-                        <div className="col-xs-12 col-sm-6">
-                            {this.renderFormGroup('Titill lags', 'song-title', this.state.currentSong.songTitle, this.updateSongTitle)}
-                            {this.renderFormGroup('ISRC kóði', 'song-isrc', this.state.currentSong.isrc, this.updateSongIsrc)}
-                        </div>
-                        <div className="col-xs-12 col-sm-6">
-                            {this.renderSongLengthPicker()}
-                            {this.renderReleaseDatePicker()}
-                        </div>
-                        <div className="col-xs-12 text-right">
-                            <button 
-                                disabled={!this.state.dirtyForm} 
-                                className="btn btn-default btn-primary"
-                                onClick={(e) => this.changeSongDetails(e)}>Vista</button>
-                        </div>
-                    </div>
-                    <h4>Flytjendur á laginu</h4>
-                    <SongMusiciansTable 
-                        albumId={this.props.params.albumId}
-                        songId={this.props.routeParams.songId}
-                        musicians={this.props.musicians}
-                        addMusicianToSong={() => this.setState({ isAddingPerformer: true })} />
-                    <PerformerListModal
-                        isOpen={this.state.isAddingPerformer}
-                        update={(performer) => this.addPerformerToAlbum(performer)}
-                        close={() => this.setState({ isAddingPerformer: false })} />
                 </div>
-            );
-        }
+                <h2>{this.props.song.songTitle}</h2>
+                <div className="row">
+                    <div className="col-xs-12 col-sm-6">
+                        {this.renderFormGroup('Titill lags', 'song-title', this.state.currentSong.songTitle, this.updateSongTitle)}
+                        {this.renderFormGroup('ISRC kóði', 'song-isrc', this.state.currentSong.isrc, this.updateSongIsrc)}
+                    </div>
+                    <div className="col-xs-12 col-sm-6">
+                        {this.renderSongLengthPicker()}
+                        {this.renderReleaseDatePicker()}
+                    </div>
+                    <div className="col-xs-12 text-right">
+                        <button 
+                            disabled={!this.state.dirtyForm} 
+                            className="btn btn-default btn-primary"
+                            onClick={(e) => this.changeSongDetails(e)}>Vista</button>
+                    </div>
+                </div>
+                <h4>Flytjendur á laginu</h4>
+                <SongMusiciansTable 
+                    albumId={this.props.params.albumId}
+                    songId={this.props.routeParams.songId}
+                    musicians={this.props.musicians}
+                    addMusicianToSong={() => this.setState({ isAddingPerformer: true })} />
+                <PerformerListModal
+                    isOpen={this.state.isAddingPerformer}
+                    update={(performer) => this.addPerformerToAlbum(performer)}
+                    close={() => this.setState({ isAddingPerformer: false })} />
+            </div>
+        );
     }
     render() {
         return (
             <div>
-                <Spinner className={this.props.isFetching || this.props.isFetchingMusicians ? '' : 'hidden'} />
+                <Spinner className={!(!this.props.isFetchingMusicians && !this.props.isFetching) ? '' : 'hidden'} />
                 {this.renderSongInfo()}
             </div>
         );

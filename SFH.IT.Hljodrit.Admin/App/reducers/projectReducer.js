@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import * as actionType from '../actions/actionTypes';
 
 let initialState = {
     selectedProject: {
@@ -16,21 +17,35 @@ let initialState = {
         songs: [],
         publisher: {}
     },
+    reviewProject: {
+        organization: '',
+        projectName: '',
+        projectStartDate: '',
+        projectEndDate: '',
+        projectStatus: '',
+        projectStatusName: '',
+        submissionUser: '',
+        createdOn : '',
+        mainArtist : '',
+        reviewBy : '',
+        reviewComment : '',
+        reviewDate : ''
+    },
+    reviewProjectTracks: [],
     projectEnvelope: {
-        projects: [],
+        objects: [],
         currentPage: -1,
         maximumPage: -1
     },
-    isFetchingProjects: true
+    isFetchingProjects: true,
+    isFetchingSingleProject: true,
+    isFetchingSingleProjectTracks: true
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case 'GET_ALL_PROJECTS': return Object.assign({}, state, {
             projectEnvelope: action.payload
-        });
-        case 'SELECT_PROJECT_WITH_ACTION': return Object.assign({}, state, {
-            selectedProject: action.payload
         });
         case 'IS_FETCHING_PROJECTS': return Object.assign({}, state, {
             isFetchingProjects: true
@@ -77,6 +92,33 @@ export default function (state = initialState, action) {
         });
         case 'CREATE_PROJECT': return Object.assign({}, state, {
 
+        });
+        case actionType.GET_PROJECT_BY_ID: return Object.assign({}, state, {
+            reviewProject: action.payload
+        });
+        case actionType.REMOVE_PROJECT_BY_ID: 
+            let projectEnvelope = _.cloneDeep(state.projectEnvelope);
+            _.remove(projectEnvelope.objects, (project) => { return project.id === action.payload });
+            return Object.assign({}, state, {
+                projectEnvelope: projectEnvelope
+            });
+        case actionType.IS_FETCHING_SINGLE_PROJECT: return Object.assign({}, state, {
+            isFetchingSingleProject: true
+        });
+        case actionType.HAS_STOPPED_FETCHING_SINGLE_PROJECT: return Object.assign({}, state, {
+            isFetchingSingleProject: false
+        });
+        case actionType.GET_TRACKS_ON_PROJECT: return Object.assign({}, state, {
+            reviewProjectTracks: action.payload
+        });
+        case actionType.IS_FETCHING_SINGLE_PROJECT_TRACKS: return Object.assign({}, state, {
+            isFetchingSingleProjectTracks: true
+        });
+        case actionType.HAS_STOPPED_FETCHING_SINGLE_PROJECT_TRACKS: return Object.assign({}, state, {
+            isFetchingSingleProjectTracks: false
+        });
+        case actionType.CLEAR_TRACKS_ON_PROJECT: return Object.assign({}, state, {
+            reviewProjectTracks: []
         });
         default: return state;
     }

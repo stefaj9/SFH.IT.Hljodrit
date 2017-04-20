@@ -3,7 +3,6 @@ import Table from '../common/table';
 import albumTableData from './albumTableData';
 
 const SongsOnAlbumTable = ({songs, callback, removeSongsFromAlbum, addToListOfSelectedSongs, isRemoveButtonActive}) => {
-    console.log('herna!');
     return (
         <div className="row">
             <Table
@@ -11,7 +10,10 @@ const SongsOnAlbumTable = ({songs, callback, removeSongsFromAlbum, addToListOfSe
                 selectRow={true}
                 selectRowMode="checkbox"
                 onClickCallback={callback}
+                isRemote={false}
+                pagination={false}
                 tableData={albumTableData}
+                refCallback={(ref) => { return ref; }}
                 tableRowClassName="album-song-selection-row"
                 selectRowCallback={(row, status) => addToListOfSelectedSongs([row], status)}
                 selectRowCallBackAll={(status, rows) => addToListOfSelectedSongs(rows, status)}

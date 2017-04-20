@@ -17,9 +17,12 @@
     [website]            NVARCHAR (200) NULL,
     [deceased]           BIT            NULL,
     [importid]           INT            NULL,
+    [isdeleted]          BIT            CONSTRAINT [DF_party_real_isdeleted] DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_party.real] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_party_real_party_real] FOREIGN KEY ([id]) REFERENCES [dbo].[party_real] ([id])
 );
+
+
 
 
 
