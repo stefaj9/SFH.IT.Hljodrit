@@ -49,7 +49,6 @@ const MediaTable = ({isFetching, objects, currentPage, maximumPage, changePageSi
             {renderMediaTable()}
         </div>
     );
-
 };
 
 MediaTable.propTypes = {
