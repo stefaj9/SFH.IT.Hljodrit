@@ -1,11 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import { Link } from 'react-router';
 import {getAllAlbums} from '../../actions/AlbumsActions';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
 import AlbumList from './albumListView';
 import SearchBar from '../common/searchBar';
 import SearchTypeSelector from './searchTypeSelector';
+import { browserHistory } from 'react-router';
 
 class Albums extends React.Component {
 
@@ -67,10 +69,16 @@ class Albums extends React.Component {
             <div>
                 <h2>Plötur</h2>
                 <div className="row space-20">
+                <div className="add-project space-20 text-right">
+                    <button className="btn btn-default"
+                        onClick={ () => browserHistory.push('/projects/createproject') }>
+                        Búa til plötu <i className="fa fa-fw fa-plus" />
+                    </button>
+                </div>
                     <div className="col-xs-12 col-sm-8 no-padding">
-                        <SearchBar 
-                            visible={true} 
-                            searchBy={(search) => this.searchBy(search)} 
+                        <SearchBar
+                            visible={true}
+                            searchBy={(search) => this.searchBy(search)}
                             searchTerm={this.state.searchString}
                             iconOn={false} />
                     </div>
