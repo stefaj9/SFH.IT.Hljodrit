@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ProjectItem from './projectItem';
 import Spinner from 'react-spinner';
 import PromptModal from '../common/promptModal';
+import ProjectPreviewWindow from './projectPreviewWindow';
 import { removeProjectById } from '../../actions/projectActions';
 
 class ProjectListView extends React.Component {
@@ -36,11 +37,13 @@ class ProjectListView extends React.Component {
         });
     }
     approveProjectCallback(projectId) {
-        console.log(projectId);
         this.assignPromptModalContent({
             isModalOpen: true,
             title: 'Samþykkja verkefni',
-            content: '',
+            content: <ProjectPreviewWindow 
+                        projectId={projectId}
+                        isEditable={false}
+                        action="approve" />,
             confirmBtnText: 'Samþykkja',
             confirmBtnCallback: () => { console.log('Approve!') },
             discardBtnText: 'Hætta við',
@@ -52,7 +55,7 @@ class ProjectListView extends React.Component {
         this.assignPromptModalContent({
             isModalOpen: true,
             title: 'Senda athugasemd',
-            content: <textarea className="form-control"></textarea>,
+            content: <textarea placeholder="Skrifaðu athugasemd.." className="form-control"></textarea>,
             confirmBtnText: 'Senda',
             confirmBtnCallback: () => { console.log('Comment!') },
             discardBtnText: 'Hætta við',
@@ -60,11 +63,13 @@ class ProjectListView extends React.Component {
         });
     }
     changeProjectCallback(projectId) {
-        console.log(projectId);
         this.assignPromptModalContent({
             isModalOpen: true,
             title: 'Breyta verkefni',
-            content: '',
+            content: <ProjectPreviewWindow 
+                        projectId={projectId}
+                        isEditable={true}
+                        action="modify" />,
             confirmBtnText: 'Breyta',
             confirmBtnCallback: () => { console.log('Change!') },
             discardBtnText: 'Hætta við',

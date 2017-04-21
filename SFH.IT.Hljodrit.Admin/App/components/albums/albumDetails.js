@@ -23,6 +23,7 @@ class AlbumDetails extends React.Component {
 
     componentWillReceiveProps(newProps) {
         if(_.keys(newProps.selectedAlbum).length > 0 && !this.state.hasFetched && !newProps.isFetching) {
+
             this.validateAlbum(newProps.selectedAlbum);
 
             this.setState({
@@ -139,25 +140,6 @@ class AlbumDetails extends React.Component {
         });
     }
 
-    addToListOfSelectedSongs(songs, status) {
-        let selectedSongs = _.cloneDeep(this.state.selectedSongsForDeletion);
-        if (!status) {
-            _.forEach(songs, (song) => {
-                _.remove(selectedSongs, (s) => { return s === song.songId });
-            });
-        } else {
-            selectedSongs = _.concat(selectedSongs, songs.map((s) => { return s.songId }));
-        }
-        this.setState({
-            selectedSongsForDeletion: selectedSongs
-        });
-    }
-
-    removeSongsFromAlbum() {
-        this.props.removeSongsFromAlbum(this.props.params.albumId, this.state.selectedSongsForDeletion);
-        this.setState({ selectedSongsForDeletion: [] });
-    }
-
     validateAlbum(album) {
         let invalid = 'Ekki skráð'
         for (var key in album) {
@@ -192,17 +174,15 @@ class AlbumDetails extends React.Component {
     render() {
         return (
             <div>
-                <Spinner className={(this.props.isFetching || this.props.songsOnSelectedAlbum.length === 0) ? '' : 'hidden'} />
-                <div className={(this.props.songsOnSelectedAlbum.length === 0 || !this.state.hasFetched) ? 'hidden' : ''} >
+                <Spinner className={(this.props.isFetching || this.props.isFetchingSongs) ? '' : 'hidden'} />
+                <div className={(this.props.isFetching || this.props.isFetchingSongs) ? 'hidden' : ''} >
                     <h2>{this.props.selectedAlbum.albumTitle}</h2>
                     { this.renderForm() }
                     <div>
                         <h2>Lög</h2>
                         <SongsOnAlbumTable callback={(row) => browserHistory.push(`/albums/${row.albumId}/songs/${row.songId}`)}
                             songs={this.props.songsOnSelectedAlbum}
-                            addToListOfSelectedSongs={this.addToListOfSelectedSongs.bind(this)}
-                            removeSongsFromAlbum={this.removeSongsFromAlbum.bind(this)}
-                            isRemoveButtonActive={this.state.selectedSongsForDeletion.length > 0} />
+                            albumId={this.props.selectedAlbum.albumId}/>
                     </div>
                     <SelectPersonModal
                          isOpen={this.state.isModalOpen}
@@ -229,7 +209,8 @@ function mapStateToProps(state) {
         countries: state.common.countries,
         songsOnSelectedAlbum: state.albums.songsOnSelectedAlbum,
         selectedAlbum: state.albums.selectedAlbum,
-        isFetching: state.albums.isFetching
+        isFetching: state.albums.isFetching,
+        isFetchingSongs: state.albums.isFetchingSongs
     };
 };
 

@@ -54,7 +54,7 @@ class Table extends React.Component {
                   options={options}
                   selectRow={selectRowOptions}
                   trClassName={tableRowClassName}
-                  striped 
+                  striped
                   ref={(ref) => refCallback(ref)}
                   hover
                   pagination={pagination}

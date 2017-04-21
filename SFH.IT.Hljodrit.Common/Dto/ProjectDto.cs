@@ -1,10 +1,23 @@
 ﻿using System;
 using Newtonsoft.Json;
+using SFH.IT.Hljodrit.Models;
 
 namespace SFH.IT.Hljodrit.Common.Dto
 {
     public class ProjectDto
     {
+        public ProjectDto() { }
+
+        public ProjectDto(project_master project)
+        {
+            Id = project.id;
+            ProjectName = project.projectname ?? "";
+            MainArtist = project.mainartist ?? "";
+            SubmissionUser = project.createdby ?? "";
+            LastModificationDate = project.updatedon;
+            ProjectStatus = project.statuscode;
+            ProjectStatusName = project.project_status.statusname;
+        }
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
         [JsonProperty(PropertyName = "projectName")]
@@ -17,5 +30,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public DateTime LastModificationDate { get; set; }
         [JsonProperty(PropertyName = "projectStatus")]
         public string ProjectStatus { get; set; }
+        [JsonProperty(PropertyName = "projectStatusName")]
+        public string ProjectStatusName { get; set; }
     }
 }

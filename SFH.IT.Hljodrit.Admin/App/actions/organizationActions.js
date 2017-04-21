@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import * as actionType from './actionTypes';
 
 export function getPublishersByCriteria(pageSize, pageNumber, searchQuery, isFetchingList, hasStoppedFetchingList) {
     return (dispatch) => {
@@ -20,12 +21,27 @@ export function getPublishersByCriteria(pageSize, pageNumber, searchQuery, isFet
 
 function getAllPublishersSuccess(data) {
     return {
-        type: 'GET_ALL_PUBLISHERS',
+        type: actionType.GET_ALL_PUBLISHERS,
         payload: data
     };
 };
 
-export function getPublisherLabelsById(publisherId) {
+export function getPublisherIsrcSeriesById(publisherId) {
+    return (dispatch) => {
+        return fetch(`/api/organizations/${publisherId}/isrc-series`, {
+            method: 'GET'
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then((data) => {
+            dispatch(getPublisherIsrcSeriesByIdSuccess(data));
+        });
+    }
+}
+
+
+export function getLabelsByPublisherId(publisherId) {
     return (dispatch) => {
         return fetch(`/api/organizations/${publisherId}/labels`, {
             method: 'GET'
@@ -39,26 +55,16 @@ export function getPublisherLabelsById(publisherId) {
     }
 }
 
-//bjoggi
-export function getLabelsByPublisherId(publisherId) {
-    return (dispatch) => {
-        return fetch(`/api/organizations/bla/${publisherId}/labels`, {
-            method: 'GET'
-        }).then((resp) => {
-            if (resp.ok) {
-                return resp.json();
-            }
-        }).then((data) => {
-            dispatch(getPublisherLabelsByIdSuccess(data));
-        });
-    }
-}
-
-
-
 function getPublisherLabelsByIdSuccess(labels) {
     return {
-        type: 'GET_PUBLISHER_LABELS',
+        type: actionType.GET_PUBLISHER_LABELS_BY_ID,
         payload: labels
+    };
+};
+
+function getPublisherIsrcSeriesByIdSuccess(isrcSeries) {
+    return {
+        type: actionType.GET_PUBLISHER_ISRC_SERIES_BY_ID,
+        payload: isrcSeries
     };
 };

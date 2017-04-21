@@ -34,17 +34,18 @@ export function getSongsByAlbumId(albumId) {
             if (resp.ok) {
                 return resp.json();
             } else {
-                dispatch(hasStoppedFetchingAlbums());
+                dispatch(hasStoppedFetchingSongsOnAlbum());
             }
         }).then((data) => {
             dispatch(getSongsByAlbumIdSuccess(data));
-            dispatch(hasStoppedFetchingAlbums());
+            dispatch(hasStoppedFetchingSongsOnAlbum());
         });
     };
 }
 
 export function removeSongsFromAlbum(albumId, songIds) {
     return (dispatch) => {
+        dispatch(isFetchingSongsByAlbumId());
         return fetch(`/api/albums/${albumId}/songs`, {
             method: 'DELETE',
             body: JSON.stringify(songIds),
@@ -54,14 +55,22 @@ export function removeSongsFromAlbum(albumId, songIds) {
         }).then((resp) => {
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að eyða völdum lögum af plötunni.');
-                dispatch(getSongsByAlbumId(albumId));
+                dispatch(removeSongsFromAlbumSuccess(songIds));
+                dispatch(hasStoppedFetchingSongsOnAlbum());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að eyða völdum lögum af plötunni.');
             }
         });
+        dispatch(hasStoppedFetchingSongsOnAlbum());
     }
 }
 
+function removeSongsFromAlbumSuccess(songIds) {
+    return {
+        type: types.REMOVE_SONGS_FROM_ALBUM,
+        payload: songIds
+    };
+};
 
 export function getAlbumById(albumId) {
     return (dispatch) => {
@@ -119,6 +128,13 @@ function isFetchingAlbumById() {
 function isFetchingSongsByAlbumId() {
     return {
         type: types.IS_FETCHING_SONGS_BY_ALBUM_ID,
+        payload: {}
+    };
+}
+
+function hasStoppedFetchingSongsOnAlbum() {
+    return {
+        type: types.HAS_STOPPED_FETCHING_SONGS_ON_ALBUM,
         payload: {}
     };
 }

@@ -67,7 +67,7 @@ class SongMusiciansTable extends React.Component {
         let musicians = _.cloneDeep(this.state.musicians);
         let musician = _.find(musicians, (m) => { return m.musicianId === musicianId });
 
-        musician.instruments = <select value={ e.target.value } onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musicianId)} className="form-control" >{this.renderInstruments()}</select>;
+        musician.instruments = <select value={ e.target.value } onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musicianId)} className="form-control" ><option value="">Ekki valið</option>{this.renderInstruments()}</select>;
 
         let promise = createPromise(() => this.markRowAsChanged(rowNumber, () => this.updateAction(rowNumber, musician)));
         promise.then(() => this.setState({ musicians: musicians }));
@@ -119,7 +119,7 @@ class SongMusiciansTable extends React.Component {
 
             musician.role = <select value={musician.role[0].code} className="form-control" onChange={(e) => this.updateMusicianRole(e, rowNumber, musician.musicianId)}>{this.renderRoles()}</select>;
 
-            musician.instruments = <select value={musician.instruments[0].code} onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musician.musicianId)} className="form-control" >{this.renderInstruments()}</select>;
+            musician.instruments = <select value={musician.instruments[0].code} onChange={(e) => this.updateMusicianInstrument(e, rowNumber, musician.musicianId)} className="form-control" ><option value="">Ekki valið</option>{this.renderInstruments()}</select>;
 
             this.updateAction(rowNumber, musician);
         });

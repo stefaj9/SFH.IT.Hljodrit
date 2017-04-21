@@ -33,8 +33,7 @@ class PerformerGroup extends React.Component {
         let group = _.cloneDeep(this.state.group);
         let selectedPerformer = _.find(group, (member) => { return member.id === performerId });
         let index = e.target.selectedIndex;
-        selectedPerformer.role.code = e.target.value;
-        selectedPerformer.role.name = e.target.options[index].text;
+        selectedPerformer.roles = _.concat(selectedPerformer.roles, { code: e.target.value, name: e.target.options[index].text });
 
         this.props.saveGroupToCookie(group);
     }
@@ -43,11 +42,10 @@ class PerformerGroup extends React.Component {
         this.setState({ isAddingPerson: true });
     }
     addPerformerToGroup(performer) {
+        performer.roles = [];
         if (this.props.roles.length > 0) {
             let firstRole = this.props.roles[0];
-            performer.role = { code: firstRole.code, name: firstRole.name }
-        } else {
-            performer.role = {};
+            performer.roles = _.concat(performer.roles, { code: firstRole.code, name: firstRole.name });
         }
         
         performer.instruments = [];
@@ -111,6 +109,7 @@ class PerformerGroup extends React.Component {
         }
         if (this.state.group.length > 0) {
             return this.state.group.map((member) => {
+                let firstRole = member.roles.length > 0 ? member.roles[0] : { code: '', name: ''};
                 return (
                     <div key={`${member.id}-${member.name}`} className="group text-center">
                         <h4>{member.name}</h4>
@@ -120,7 +119,7 @@ class PerformerGroup extends React.Component {
                             id={`group-member-role-${member.id}`} 
                             className="form-control group-member-role"
                             onChange={(e) => this.addRoleToUser(e, member.id)}
-                            value={member.role.code}>
+                            value={firstRole}>
                             {this.renderPerformerRoles()}
                         </select>
                         <label>Hljóðfæri</label>
@@ -164,11 +163,6 @@ class PerformerGroup extends React.Component {
     }
     transferGroupToSongs() {
         const { selectedSongs, group } = this.state;
-        let mainArtists = _.takeWhile(group, (member) => { return member.role.code === 'MA' });
-        if (mainArtists.length > 1) {
-            toastr.error('Villa!', 'Ekki er hægt að skrá meira en einn aðalflytjanda á hvert lag.');
-            return;
-        }
         this.props.transfer(group, _.map(selectedSongs, 'number'));
         this.setState({ selectedSongs: [] });
     }

@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import ModalSteps from '../common/modalSteps';
 import SelectPersonModal from './selectPersonModal';
 import _ from 'lodash';
-import { getPublishersByCriteria, getPublisherLabelsById } from '../../actions/organizationActions';
+import { getPublishersByCriteria, getPublisherIsrcSeriesById } from '../../actions/organizationActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import { toastr } from 'react-redux-toastr';
 
 class AddPublisher extends React.Component {
     componentWillReceiveProps(newProps) {
-        if (newProps.labels.length > 0) {
+        if (newProps.isrcSeries.length > 0) {
             let publisher = _.cloneDeep(this.state.publisher);
-            let firstLabel = newProps.labels[0];
-            publisher.label = firstLabel.isrcSeriesId;
-            publisher.labelName = firstLabel.isrcOrganizationPart;
-            publisher.lastUsedIsrc = firstLabel.lastIsrcNumber;
-            publisher.labelPrettyName = `${firstLabel.purposeLabel} (${firstLabel.isrcOrganizationPart})`;
+            let firstIsrcSeries = newProps.isrcSeries[0];
+            publisher.isrcSeriesId = firstIsrcSeries.isrcSeriesId;
+            publisher.isrcOrganizationPart = firstIsrcSeries.isrcOrganizationPart;
+            publisher.lastUsedIsrc = firstIsrcSeries.lastIsrcNumber;
+            publisher.isrcSeriesPrettyName = `${firstIsrcSeries.purposeLabel} (${firstIsrcSeries.isrcOrganizationPart})`;
             this.setState({
                 publisher: publisher
             });
@@ -29,9 +29,9 @@ class AddPublisher extends React.Component {
             publisher: {
                 id: -1,
                 name: '',
-                label: '',
-                labelName: '',
-                labelPrettyName: '',
+                isrcSeriesId: '',
+                isrcOrganizationPart: '',
+                isrcSeriesPrettyName: '',
                 lastUsedIsrc: -1
             }
         };
@@ -41,15 +41,15 @@ class AddPublisher extends React.Component {
             isAddPublisherModelOpen: true
         });
     }
-    renderLabels() {
-        return this.props.labels.map((label) => {
+    renderIsrcSeries() {
+        return this.props.isrcSeries.map((serie) => {
             return (
                 <option 
-                    key={label.isrcSeriesId} 
-                    data-organization-part={label.isrcOrganizationPart} 
-                    data-last-used-isrc={label.lastIsrcNumber} 
-                    value={label.isrcSeriesId}>
-                        {`${label.purposeLabel} (${label.isrcOrganizationPart})`}
+                    key={serie.isrcSeriesId} 
+                    data-organization-part={serie.isrcOrganizationPart} 
+                    data-last-used-isrc={serie.lastIsrcNumber} 
+                    value={serie.isrcSeriesId}>
+                        {`${serie.purposeLabel} (${serie.isrcOrganizationPart})`}
                 </option>
             );
         });
@@ -60,8 +60,8 @@ class AddPublisher extends React.Component {
         });
         toastr.success('Tókst!', 'Það tókst að bæta við útgefanda');
 
-        // Fetch labels for this publisher
-        this.props.getPublisherLabelsById(publisher.id);
+        // Fetch isrc series for this publisher
+        this.props.getPublisherIsrcSeriesById(publisher.id);
     }
     removePublisher(e) {
         e.preventDefault();
@@ -69,9 +69,9 @@ class AddPublisher extends React.Component {
             publisher: {
                 id: -1,
                 name: '',
-                label: '',
-                labelName: '',
-                labelPrettyName: '',
+                isrcSeriesId: '',
+                isrcOrganizationPart: '',
+                isrcSeriesPrettyName: '',
                 lastUsedIsrc: -1
             }
         });
@@ -90,11 +90,12 @@ class AddPublisher extends React.Component {
             </tr>
         );
     }
-    updateLabel(e) {
+    updateIsrcSeries(e) {
         let publisher = _.cloneDeep(this.state.publisher);
-        publisher.label = e.target.value;
-        publisher.labelPrettyName = e.target.options[e.target.selectedIndex].text;
-        publisher.labelName = e.target.options[e.target.selectedIndex].getAttribute('data-organization-part');
+
+        publisher.isrcSeriesId = e.target.value;
+        publisher.isrcSeriesPrettyName = e.target.options[e.target.selectedIndex].text;
+        publisher.isrcOrganizationPart = e.target.options[e.target.selectedIndex].getAttribute('data-organization-part');
         publisher.lastUsedIsrc = e.target.options[e.target.selectedIndex].getAttribute('data-last-used-isrc');
         this.setState({ publisher: publisher });
     }
@@ -122,9 +123,9 @@ class AddPublisher extends React.Component {
                     </tbody>
                 </table>
                 <div className={'form-group' + (this.state.publisher.id === -1 ? ' hidden' : '')}>
-                    <label htmlFor="organization-label">Label</label>
-                    <select value={this.state.label} name="organization-label" id="organization-label" className="form-control" onChange={(e) => this.updateLabel(e)}>
-                        {this.renderLabels()}
+                    <label htmlFor="organization-isrc-series">Label</label>
+                    <select value={this.state.isrcSeriesId} name="organization-isrc-series" id="organization-isrc-series" className="form-control" onChange={(e) => this.updateIsrcSeries(e)}>
+                        {this.renderIsrcSeries()}
                     </select>
                 </div>
                 <p className={publisher.id === -1 ? '' : 'hidden'}> <br/>
@@ -157,9 +158,9 @@ class AddPublisher extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        labels: state.organization.selectedOrganizationLabels,
+        isrcSeries: state.organization.selectedOrganizationIsrcSeries,
         organizationEnvelope: state.organization.organizationEnvelope
     };
 };
 
-export default connect(mapStateToProps, { getPublishersByCriteria, getPublisherLabelsById, isFetchingList, hasStoppedFetchingList })(AddPublisher);
+export default connect(mapStateToProps, { getPublishersByCriteria, getPublisherIsrcSeriesById, isFetchingList, hasStoppedFetchingList })(AddPublisher);

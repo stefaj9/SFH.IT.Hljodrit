@@ -37,6 +37,7 @@ body {
 .ReactModal__Overlay {
     -webkit-perspective: 0;
     perspective: 0;
+    overflow: hidden !important;
 }
 
 .ReactModal__Overlay--after-open {
@@ -363,7 +364,7 @@ label {
 .react-spinner {
     width: 100px !important;
     height: 100px !important;
-    top: 100px !important;
+    margin-top: 100px !important;
     .react-spinner_bar {
         background-color: black;
     }
@@ -408,9 +409,54 @@ label {
     margin-top: 10px;
 }
 
+.color-info-box-wrapper {
+    .color-info-box {
+        margin-bottom: 10px;
+        .color {
+            width: 25px;
+            height: 25px;
+        }
+        .color-info-text {
+            font-weight: bold;
+            font-family: 'Raleway';
+            margin-top: 10px;
+        }
+    }
+}
+
+.aside-flag {
+    position: fixed;
+    top: 25%;
+    left: 0;
+    padding: 20px;
+    z-index: 9999;
+    box-shadow: 10px 10px 30px rgba(200, 200, 200, 0.2);
+    &.aside-flag-info {
+        background-color: white;
+    }
+    &.aside-flag-danger {
+        background-color: rgba(244, 67, 54, 0.3);
+    }
+    &.aside-flag-warning {
+        background-color: rgba(255, 152, 0, 0.3);
+    }
+}
+
 .projects {
     .project-search-bar {
         margin-top: 40px;
+    }
+    .project-item-active {
+        background-color: rgba(244, 67, 54, 0.3);
+    }
+    .project-item-recorded {
+        background-color: rgba(255, 152, 0, 0.3);
+    }
+    .project-item-closed {
+        background-color: rgba(3, 169, 244, 0.3);
+    }
+    .project-item-published {
+        background-color: rgba(76, 175, 80, 0.3);
     }
 }
 
@@ -428,17 +474,17 @@ label {
     padding: 20px 90px;
 }
 
-.song-wrapper {
-    .panel-group {
-        .panel-heading {
-            h4 {
-                text-align: left !important;   
-                margin-bottom: 0 !important; 
-            }
-            
+
+.panel-group {
+    .panel-heading {
+        h4 {
+            text-align: left !important;   
+            margin-bottom: 0 !important; 
         }
+        
     }
 }
+
 
 .modal-steps-wrapper {
     text-align: center;

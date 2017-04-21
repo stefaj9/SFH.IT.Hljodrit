@@ -11,19 +11,19 @@ class SelectRoleModal extends React.Component {
     constructor() {
         super();
         this.state = {
-            role: { code: 'MA', name: 'Aðal flytjandi' }
+            roles: { code: 'MA', name: 'Aðal flytjandi' }
         };
     }
     updateRole() {
         let performer = _.cloneDeep(this.props.currentPerformer);
-        performer.role = this.state.role;
+        performer.roles = this.state.roles;
         this.props.update(performer);
         this.props.next(performer);
     }
     onSelect(e) {
         let index = e.target.selectedIndex;
         this.setState({
-            role: { code: e.target.value, name: e.target.options[index].text }
+            roles: { code: e.target.value, name: e.target.options[index].text }
         });
     }
     renderOptions() {
@@ -52,7 +52,7 @@ class SelectRoleModal extends React.Component {
                         </div>
                         <div className="modal-body">
                             <h4>Hlutverk flytjanda</h4>
-                            <select value={this.state.role.code} name="select-role" id="select-role" className="form-control" onChange={this.onSelect.bind(this)}>
+                            <select value={this.state.roles.code} name="select-role" id="select-role" className="form-control" onChange={this.onSelect.bind(this)}>
                                 {this.renderOptions()}
                             </select>
                         </div>

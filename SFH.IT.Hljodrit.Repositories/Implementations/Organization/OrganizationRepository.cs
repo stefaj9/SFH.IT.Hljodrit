@@ -13,11 +13,11 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Organization
         {
         }
 
-        public IEnumerable<PublisherLabelDto> GetPublisherLabelsById(int publisherId)
+        public IEnumerable<PublisherIsrcSeriesDto> GetPublisherIsrcSeriesById(int publisherId)
         {
             return DbContext.organization_master.Where(o => o.id == publisherId)
                 .Join(DbContext.organization_isrc_series, master => master.id, series => series.organizationid,
-                    (master, series) => new PublisherLabelDto
+                    (master, series) => new PublisherIsrcSeriesDto
                     {
                         IsrcSeriesId = series.id,
                         IsrcOrganizationPart = series.isrc_organizationpart,

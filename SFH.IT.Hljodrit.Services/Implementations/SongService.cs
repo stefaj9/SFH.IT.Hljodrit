@@ -85,20 +85,18 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             var songEntity = _songRepository.GetById(songId);
             var mediaRecording = _mediaRecordingRepository.GetById(songEntity.recordingid);
 
-            if (songEntity != null && mediaRecording != null)
-            {
-                songEntity.title = song.Title;
-                mediaRecording.recordingtitle = song.Title;
-                mediaRecording.duration = song.Duration;
-                songEntity.isrc = song.Isrc;
-                mediaRecording.isrc = song.Isrc;
-                songEntity.releasedate = song.ReleaseDate;
+            if (songEntity == null || mediaRecording == null) return song;
+            songEntity.title = song.Title;
+            mediaRecording.recordingtitle = song.Title;
+            mediaRecording.duration = song.Duration;
+            songEntity.isrc = song.Isrc;
+            mediaRecording.isrc = song.Isrc;
+            songEntity.releasedate = song.ReleaseDate;
 
-                _mediaRecordingRepository.Update(mediaRecording);
-                _songRepository.Update(songEntity);
+            _mediaRecordingRepository.Update(mediaRecording);
+            _songRepository.Update(songEntity);
 
-                _unitOfWork.Commit();
-            }
+            _unitOfWork.Commit();
 
             return song;
         }
@@ -111,9 +109,14 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         }
 
 
-        public void RemoveSongsFromAlbum(int albumId, IEnumerable<int> songIds)
+        public void RemoveSongsFromAlbum(IEnumerable<int> songIds)
         {
-            songIds.ToList().ForEach(songId => _songRepository.Delete(s => s.id == songId));
+            var enumerable = songIds as IList<int> ?? songIds.ToList();
+            foreach (var songId in enumerable.ToList())
+            {
+                var songEntity = _songRepository.GetById(songId);
+                songEntity.is_deleted = true;
+            }
             _unitOfWork.Commit();
         }
 
@@ -121,7 +124,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         {
             var musicianToUpdate = _recordingPartyRepository.GetById(musicianId);
 
-            musicianToUpdate.instrumentcode = model.Instruments;
+            musicianToUpdate.instrumentcode = model.Instruments == "" ? null : model.Instruments;
             musicianToUpdate.rolecode = model.Role;
 
             _recordingPartyRepository.Update(musicianToUpdate);
