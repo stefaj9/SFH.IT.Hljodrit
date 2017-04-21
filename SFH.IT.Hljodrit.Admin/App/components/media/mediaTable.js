@@ -11,17 +11,17 @@ const MediaTable = ({isFetching, objects, currentPage, maximumPage, changePageSi
 
     moment.locale('is');
 
-    const formatDate = () => {
+    /*const formatDate = () => {
         if (objects && objects !== null) {
             Object.keys(objects).map((key) => {
                 objects[key].releaseDate = moment(objects[key].releaseDate).format('ll');
             });
         }
-    };
+    };*/
 
     const renderMediaTable = () => {
         if (!isFetching) {
-            formatDate();
+            //formatDate();
             return (
                 <div>
                     <PageSelector visible={!isFetching}
