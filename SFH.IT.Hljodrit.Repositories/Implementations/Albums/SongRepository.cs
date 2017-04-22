@@ -20,7 +20,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
             var songs = from song in DbContext.media_product
                         join recording in DbContext.media_recording on song.recordingid equals recording.id
                         join mainArtist in DbContext.party_mainartist on recording.mainartist equals mainArtist.id
-                        where song.packageid.Value == albumId
+                        where song.packageid.Value == albumId && song.is_deleted == false
 
                         select new SongDto
                         {
@@ -33,7 +33,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                             ReleaseDate = song.releasedate,
                             RecordingId = song.recordingid,
                             TotalMusicians = (from x in DbContext.recording_party
-                                              where x.recordingid == song.recordingid && !x.party_real.isdeleted
+                                              where x.recordingid == song.recordingid
                                               select x).GroupBy(x => x.partyrealid).Count(),
                             MainArtistId = mainArtist.id,
                             MainArtist = mainArtist.artistname,
@@ -70,7 +70,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                              ReleaseDate = song.releasedate,
                              RecordingId = song.recordingid,
                              TotalMusicians = (from x in DbContext.recording_party
-                                               where x.recordingid == song.recordingid && !x.party_real.isdeleted
+                                               where x.recordingid == song.recordingid
                                                select x).GroupBy(x => x.partyrealid).Count(),
                              MainArtistId = mainArtist.id,
                              MainArtist = mainArtist.artistname,
@@ -98,7 +98,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                 MainArtist = song.media_recording.party_mainartist.artistname,
                 Isrc = song.isrc,
                 Duration = song.media_recording.duration
-            }).Where(expr).OrderBy(song => song.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                }).Where(expr).OrderBy(song => song.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             var totalSongs = DbContext.media_product.Count(song => song.title.StartsWith(searchTerm));
             var result = EnvelopeCreator.CreateEnvelope(songs, pageSize, pageNumber, totalSongs);

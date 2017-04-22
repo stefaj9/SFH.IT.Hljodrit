@@ -19,5 +19,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public DateTime? ReleaseDate { get; set; }
         [JsonProperty("isrc")]
         public string Isrc { get; set; }
+        [JsonProperty("totalMusicians")]
+        public int TotalMusicians { get; set; }
     }
 }

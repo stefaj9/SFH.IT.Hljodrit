@@ -42,7 +42,7 @@ class Table extends React.Component {
             page: paginationCurrentPage,
             onSortChange: onSortChange,
             noDataText: 'Engin gögn í boði.'
-        }
+        };
         let indexedObjects = _.cloneDeep(objects);
         indexedObjects.map((idxObj, idx) => {
             return idxObj.idx = idx;
@@ -54,7 +54,7 @@ class Table extends React.Component {
                   options={options}
                   selectRow={selectRowOptions}
                   trClassName={tableRowClassName}
-                  striped 
+                  striped
                   ref={(ref) => refCallback(ref)}
                   hover
                   pagination={pagination}
