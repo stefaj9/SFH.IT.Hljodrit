@@ -151,6 +151,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     var isrc = GenerateIsrcNumber(isrcSeries.isrc_countrypart, isrcSeries.isrc_organizationpart,
                         isrcSeries.isrc_lastusedyear, lastUsedNumber++);
 
+                    // Update track isrc as well.
+                    track.isrc = isrc;
+                    _projectTrackRepository.Update(track);
+
                     //   1.3. Create media_recording (s)
                     var recording = new media_recording
                     {
