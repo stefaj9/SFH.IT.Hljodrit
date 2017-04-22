@@ -90,7 +90,11 @@ class ProjectManagement extends React.Component {
         this.setState({
             searchString: searchString
         });
-        this.props.getAllProjects(this.state.pageSize, this.state.page, this.state.filters, searchString);
+        let filters  = this.state.filters;
+        if (_.every(filters, filter => { return filter === false })) {
+            filters = { inWorkingStage: true, recordingFinished: true, readyForPublish: true, published: true };
+        }
+        this.props.getAllProjects(this.state.pageSize, this.state.page, filters, searchString);
     }
     render() {
         return (
