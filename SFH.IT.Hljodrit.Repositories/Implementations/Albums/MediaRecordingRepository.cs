@@ -15,20 +15,34 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
         {
         }
 
-        public Envelope<MediaDto> GetAllMedia(int pageNumber, int pageSize, string searchTerm, Expression<Func<MediaDto, bool>> expr)
+        public Envelope<MediaDto> GetAllMedia(int pageNumber, int pageSize, string searchTerm, Expression<Func<media_recording, bool>> expr)
         {
-            var mediaList = DbContext.media_recording.Select(media => new MediaDto
-            {
-                Id = media.id,
-                Title = media.recordingtitle,
-                Isrc = media.isrc,
-                MainArtist = media.party_mainartist.artistname,
-                Duration = media.duration,
-                ReleaseDate = media.recordingdate
-            }).Where(expr).OrderBy(media => media.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            var mediaList = DbContext.media_recording
+                .Where(expr)
+                .ToList()
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(media => new MediaDto
+                {
+                    Id = media.id,
+                    Title = media.recordingtitle,
+                    Isrc = media.isrc,
+                    MainArtist = media.party_mainartist == null ? "" : media.party_mainartist.artistname,
+                    Duration = media.duration,
+                    ReleaseDate = media.recordingdate,
+                    TotalMusicians = 0 
+                    // This subquery slows it down significantly...
+                    /*(from x in DbContext.recording_party
+                                       where x.recordingid == media.id
+                                       select x).GroupBy(x => x.partyrealid).Count()*/
+                });
 
-            var totalSongs = mediaList.Count();
-            var result = EnvelopeCreator.CreateEnvelope(mediaList, pageSize, pageNumber, totalSongs);
+            var totalSongs = DbContext.media_recording.Where(expr).Count();
+
+            var result = EnvelopeCreator.CreateEnvelope(mediaList,
+                pageSize, 
+                pageNumber, 
+                totalSongs);
 
             return result;
         }

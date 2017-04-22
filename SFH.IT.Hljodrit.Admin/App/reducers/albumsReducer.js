@@ -1,7 +1,9 @@
 import * as types from '../actions/actionTypes';
+import _ from 'lodash';
 
 let initialState = {
     isFetching: true,
+    isFetchingSongs: true,
     envelope: {
         currentPage: -1,
         maximumPage: -1,
@@ -30,14 +32,28 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 selectedAlbum: action.payload
             });
+        case types.REMOVE_SONGS_FROM_ALBUM:
+            let currentSongs = _.cloneDeep(state.songsOnSelectedAlbum);
+            _.forEach(action.payload, id => {
+                _.remove(currentSongs, song => { return song.songId === id });
+            });
+            return Object.assign({}, state, {
+                songsOnSelectedAlbum: currentSongs
+            });
         case types.IS_FETCHING_ALBUM_BY_ID:
             return Object.assign({}, state, {
                 isFetching: true
             });
         case types.IS_FETCHING_SONGS_BY_ID_ALBUM:
             return Object.assign({}, state, {
-                isFetching: true
+                isFetchingSongs: true
             });
+
+        case types.HAS_STOPPED_FETCHING_SONGS_ON_ALBUM:
+            return Object.assign({}, state, {
+                isFetchingSongs: false
+            });
+
         case types.GET_SONGS_BY_ALBUM_ID:
             return Object.assign({}, state, {
                 songsOnSelectedAlbum: action.payload

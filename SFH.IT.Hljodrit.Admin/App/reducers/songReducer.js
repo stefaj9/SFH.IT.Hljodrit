@@ -1,5 +1,7 @@
 import * as actionType from '../actions/actionTypes';
 import _ from 'lodash';
+import moment from 'moment';
+
 
 let initialState = {
     songEnvelope: {
@@ -49,9 +51,16 @@ export default function(state = initialState, action) {
                 musiciansOnSelectedSong: musicians,
                 isFetchingMusicians: false
             });
-        case actionType.GET_MEDIA: return Object.assign({}, state, {
-            mediaRecordingEnvelope: action.payload
-        });
+        case actionType.GET_MEDIA:
+            let newMediaRecordingEnvelope = _.cloneDeep(action.payload);
+            newMediaRecordingEnvelope.objects = newMediaRecordingEnvelope.objects.map(o => {
+                return Object.assign({}, o, {
+                    releaseDate: moment(o.releaseDate).format('ll')
+                });
+            });
+            return Object.assign({}, state, {
+                mediaRecordingEnvelope: newMediaRecordingEnvelope
+            });
         case actionType.IS_FETCHING_SONGS: return Object.assign({}, state, {
             isFetching: true
         });

@@ -204,7 +204,7 @@ function isFetchingSongs() {
     };
 };
 
-function hasStoppedFetchingSongs() {
+export function hasStoppedFetchingSongs() {
     return {
         type: actionType.HAS_STOPPED_FETCHING_SONGS,
         payload: {}
