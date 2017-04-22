@@ -7,7 +7,11 @@ using Moq;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 using SFH.IT.Hljodrit.Models;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Organization;
 using SFH.IT.Hljodrit.Services.Implementations;
+using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Tests.Services
 {
@@ -16,7 +20,15 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
     {
         private Mock<IProjectMasterRepository> _projectMasterRepository;
         private Mock<IProjectTrackRepository> _projectTrackRepository;
+        private Mock<IProjectTrackArtistRepository> _projectTrackArtistRepository;
+        private Mock<IAlbumRepository> _albumRepository;
+        private Mock<IMediaRecordingRepository> _mediaRecordingRepository;
+        private Mock<ISongRepository> _songRepository;
+        private Mock<IRecordingPartyRepository> _recordingPartyRepository;
+        private Mock<IOrganizationIsrcSeriesRepository> _organizationIsrcSeriesRepository;
+        private Mock<IOrganizationLabelRepository> _organizationLabelRepository;
         private Mock<IUnitOfWork> _unitOfWork;
+        private IProjectService _projectService;
 
 
         [TestInitialize]
@@ -24,7 +36,15 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
         {
             _projectMasterRepository = new Mock<IProjectMasterRepository>();
             _projectTrackRepository = new Mock<IProjectTrackRepository>();
+            _projectTrackArtistRepository = new Mock<IProjectTrackArtistRepository>();
+            _albumRepository = new Mock<IAlbumRepository>();
+            _mediaRecordingRepository = new Mock<IMediaRecordingRepository>();
+            _songRepository = new Mock<ISongRepository>();
+            _recordingPartyRepository = new Mock<IRecordingPartyRepository>();
+            _organizationIsrcSeriesRepository = new Mock<IOrganizationIsrcSeriesRepository>();
+            _organizationLabelRepository = new Mock<IOrganizationLabelRepository>();
             _unitOfWork = new Mock<IUnitOfWork>();
+            _projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object, _albumRepository.Object, _mediaRecordingRepository.Object, _songRepository.Object, _recordingPartyRepository.Object, _organizationLabelRepository.Object, _organizationIsrcSeriesRepository.Object, _projectTrackArtistRepository.Object);
         }
 
 	    #region GetAllProjects tests
@@ -33,10 +53,8 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 		[ExpectedException(typeof(ArgumentException), "Invalid argument")]
 	    public void TestIllegalPageSizeThrowsException()
 	    {
-			// Arrange
-			var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
 			// Act
-		    projectService.GetAllProjects(1000, 1, true, true, true, true, "");
+		    _projectService.GetAllProjects(1000, 1, true, true, true, true, "");
 	    }
 
         [TestMethod]
@@ -51,10 +69,8 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>()))
                 .Returns(masterProjects);
 
-            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
-
             // Act
-            var projects = projectService.GetAllProjects(pageSize, pageNumber, true, true, true, true, "");
+            var projects = _projectService.GetAllProjects(pageSize, pageNumber, true, true, true, true, "");
 
             // Assert
             Assert.AreEqual(expectedPageSize, projects.Objects.Count());
@@ -67,13 +83,11 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
 			_projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>())).Returns(masterProjects);
 
-			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
-
 			const int pageSize = 50;
 			const int expectedResultCount = 50;
 
 			// Act
-			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, true, "");
+			var projects = _projectService.GetAllProjects(pageSize, 1, true, true, true, true, "");
 
 			// Assert
 			Assert.AreEqual(expectedResultCount, projects.Objects.Count());
@@ -86,13 +100,11 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 			var masterProjects = Builder<project_master>.CreateListOfSize(100).Build();
 			_projectMasterRepository.Setup(p => p.GetMany(It.IsAny<Expression<Func<project_master, bool>>>())).Returns(masterProjects);
 
-			var projectService = new ProjectService( _projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
-
 			const int pageSize = 100;
 			const int expectedResultCount = 100;
 
 			// Act
-			var projects = projectService.GetAllProjects(pageSize, 1, true, true, true, true, "");
+			var projects = _projectService.GetAllProjects(pageSize, 1, true, true, true, true, "");
 
 			// Assert
 			Assert.AreEqual(expectedResultCount, projects.Objects.Count());
@@ -109,9 +121,8 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
                 id = 1,
                 removed = false
             });
-            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
 
-            Assert.AreEqual(true, projectService.MarkProjectAsDeleted(1));
+            Assert.AreEqual(true, _projectService.MarkProjectAsDeleted(1));
         }
 
         #endregion
@@ -126,9 +137,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
                 id = 1
             });
 
-            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
-
-            Assert.IsNotNull(projectService.GetProjectById(1));
+            Assert.IsNotNull(_projectService.GetProjectById(1));
         }
 
         [TestMethod]
@@ -136,9 +145,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
         {
             _projectMasterRepository.Setup(pm => pm.GetById(2)).Returns((project_master)null);
 
-            var projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object);
-
-            Assert.IsNull(projectService.GetProjectById(2));
+            Assert.IsNull(_projectService.GetProjectById(2));
         }
 
         #endregion

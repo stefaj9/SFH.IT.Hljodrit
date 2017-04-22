@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
@@ -40,6 +41,14 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult MarkProjectAsDeleted(int projectId)
         {
             return Ok(_projectService.MarkProjectAsDeleted(projectId));
+        }
+
+        [HttpPut]
+        [Route("{projectId:int}/publish")]
+        public IHttpActionResult PublishProjectById(int projectId, [FromBody] ProjectReviewViewModel reviewModel)
+        {
+            var albumId = _projectService.PublishProjectById(projectId, reviewModel);
+            return Ok(albumId);
         }
     }
 }

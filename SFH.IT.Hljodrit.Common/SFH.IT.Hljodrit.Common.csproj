@@ -86,6 +86,7 @@
     <Compile Include="ViewModels\MusicianInfoModifyModel.cs" />
     <Compile Include="ViewModels\MusicianRegisterViewModel.cs" />
     <Compile Include="ViewModels\PersonRegisterViewModel.cs" />
+    <Compile Include="ViewModels\ProjectReviewViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

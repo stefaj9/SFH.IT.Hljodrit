@@ -1,4 +1,5 @@
 import * as actionType from '../actions/actionTypes';
+import _ from 'lodash';
 
 let initialState = {
     organizationEnvelope: {
@@ -7,7 +8,8 @@ let initialState = {
         objects: []
     },
     selectedOrganizationIsrcSeries: [],
-    selectedOrganizationLabels: []
+    selectedOrganizationLabels: [],
+    isCreatingLabel: false
 };
 
 export default function (state = initialState, action) {
@@ -20,6 +22,18 @@ export default function (state = initialState, action) {
         });
         case actionType.GET_PUBLISHER_ISRC_SERIES_BY_ID: return Object.assign({}, state, {
             selectedOrganizationIsrcSeries: action.payload
+        });
+        case actionType.ADD_LABEL_TO_PUBLISHER_BY_ID:
+            let labels = _.cloneDeep(state.selectedOrganizationLabels);
+            labels = _.concat(labels, action.payload);
+            return Object.assign({}, state, {
+                selectedOrganizationLabels: labels
+            });
+        case actionType.IS_CREATING_LABEL: return Object.assign({}, state, {
+            isCreatingLabel: true
+        });
+        case actionType.HAS_STOPPED_CREATING_LABEL: return Object.assign({}, state, {
+            isCreatingLabel: false
         });
     }
     return state;

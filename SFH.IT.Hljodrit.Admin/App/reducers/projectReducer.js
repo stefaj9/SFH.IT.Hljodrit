@@ -18,6 +18,7 @@ let initialState = {
         publisher: {}
     },
     reviewProject: {
+        organizationId: -1,
         organization: '',
         projectName: '',
         projectStartDate: '',
@@ -39,7 +40,8 @@ let initialState = {
     },
     isFetchingProjects: true,
     isFetchingSingleProject: true,
-    isFetchingSingleProjectTracks: true
+    isFetchingSingleProjectTracks: true,
+    isPublishingProject: false
 };
 
 export default function (state = initialState, action) {
@@ -119,6 +121,12 @@ export default function (state = initialState, action) {
         });
         case actionType.CLEAR_TRACKS_ON_PROJECT: return Object.assign({}, state, {
             reviewProjectTracks: []
+        });
+        case actionType.IS_PUBLISHING_PROJECT: return Object.assign({}, state, {
+            isPublishingProject: true
+        });
+        case actionType.HAS_STOPPED_PUBLISHING_PROJECT: return Object.assign({}, state, {
+            isPublishingProject: false
         });
         default: return state;
     }
