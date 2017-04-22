@@ -52,7 +52,7 @@ class ProjectPreviewWindow extends React.Component {
         this.setState({ selectedLabelId: e.target.value });
         let value = e.target.value;
         const { organizationId, reviewComment } = this.state.project;
-        this.props.assignConfirmBtnCallback(() => this.props.publishProjectById(organizationId, { labelId: value, reviewComment: reviewComment }));
+        this.props.assignConfirmBtnCallback(() => this.props.publishProjectById(this.props.projectId, { labelId: value, isrcSeriesId: 24, organizationId: organizationId, reviewComment: reviewComment }));
     }
     addLabel() {
         let labelName = this.state.newLabelName;

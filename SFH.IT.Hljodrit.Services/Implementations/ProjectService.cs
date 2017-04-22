@@ -123,6 +123,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 var productPackage = new media_product_package
                 {
                     albumtitle = projectToUpdate.projectname,
+                    albumid = 0,
+                    physicallocation = "",
                     labelid = reviewModel.LabelId,
                     cataloguenumber = "",
                     releasetypecode = "0",
@@ -131,7 +133,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     releasedate = currentDate,
                     packagestatusid = 4,
                     numberoftracks = _projectTrackRepository.GetMany(pt => pt.projectid == projectId).Count(),
-                    formattypeid = 1,
+                    formattypeid = 2,
                     comment = reviewModel.ReviewComment,
                     updatedby = "User",
                     updatedon = currentDate,
@@ -140,6 +142,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     mainartistid = projectToUpdate.mainartistid
                 };
                 _albumRepository.Add(productPackage);
+
+                _unitOfWork.Commit();
 
                 albumId = productPackage.id;
                 
@@ -175,6 +179,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     };
 
                     _mediaRecordingRepository.Add(recording);
+
+                    _unitOfWork.Commit();
 
                     //   1.4. Create media_product (s)
                     _songRepository.Add(new media_product
@@ -215,6 +221,13 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                         status = 2
                     }));
                 }
+
+                isrcSeries.updatedon = currentDate;
+                isrcSeries.updatedby = "User";
+                isrcSeries.isrc_lastusednumber += 100;
+                isrcSeries.isrc_lastusedyear = DateTime.Now.Year;
+
+                _organizationIsrcSeriesRepository.Update(isrcSeries);
 
                 //   1.6. Commit changes
                 _unitOfWork.Commit();

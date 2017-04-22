@@ -9,7 +9,7 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Albums
 {
     public interface IAlbumRepository : IRepository<media_product_package>
     {
-        Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm, Expression<Func<media_product_package, bool>> expression, string mainArtistSearchName);
+        Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm, Expression<Func<media_product_package, bool>> expression);
         AlbumExtendedDto GetAlbumById(int id);
        // MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId);
         ICollection<MusiciansOnSongDto> GetMusiciansOnSong(int albumId, int songId);

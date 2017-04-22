@@ -19,7 +19,8 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
         {
             var songs = from song in DbContext.media_product
                         join recording in DbContext.media_recording on song.recordingid equals recording.id
-                        join mainArtist in DbContext.party_mainartist on recording.mainartist equals mainArtist.id
+                        join mainArtist in DbContext.party_mainartist on recording.mainartist equals mainArtist.id into mainArtistNullCheck
+                        from ma in mainArtistNullCheck.DefaultIfEmpty()
                         where song.packageid.Value == albumId && song.is_deleted == false
 
                         select new SongDto
@@ -35,8 +36,8 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                             TotalMusicians = (from x in DbContext.recording_party
                                               where x.recordingid == song.recordingid
                                               select x).GroupBy(x => x.partyrealid).Count(),
-                            MainArtistId = mainArtist.id,
-                            MainArtist = mainArtist.artistname,
+                            MainArtistId = recording.mainartist ?? 0,
+                            MainArtist = ma.artistname ?? "",
                             Registration = new RegistrationDto
                             {
                                 Comment = song.comment,
@@ -55,7 +56,8 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
 
             var result = from song in DbContext.media_product
                          join recording in DbContext.media_recording on song.recordingid equals recording.id
-                         join mainArtist in DbContext.party_mainartist on recording.mainartist equals mainArtist.id
+                         join mainArtist in DbContext.party_mainartist on recording.mainartist equals mainArtist.id into mainArtistNullCheck
+                         from ma in mainArtistNullCheck.DefaultIfEmpty()
                          where song.packageid.Value == albumId && song.id == songId
 
                          select new SongDto
@@ -72,8 +74,8 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                              TotalMusicians = (from x in DbContext.recording_party
                                                where x.recordingid == song.recordingid
                                                select x).GroupBy(x => x.partyrealid).Count(),
-                             MainArtistId = mainArtist.id,
-                             MainArtist = mainArtist.artistname,
+                             MainArtistId = recording.mainartist ?? 0,
+                             MainArtist = ma.artistname,
                              Registration = new RegistrationDto
                              {
                                  Comment = song.comment,
@@ -95,7 +97,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                 Title = song.title,
                 TrackNumber = song.tracknumber ?? -1,
                 ReleaseDate = song.releasedate,
-                MainArtist = song.media_recording.party_mainartist.artistname,
+                MainArtist = song.media_recording.party_mainartist != null ? song.media_recording.party_mainartist.artistname : "",
                 Isrc = song.isrc,
                 Duration = song.media_recording.duration
                 }).Where(expr).OrderBy(song => song.Title).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
