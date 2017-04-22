@@ -4,7 +4,8 @@ import Spinner from 'react-spinner';
 import SongWithMusiciansAccordion from '../common/songWithMusiciansAccordion';
 import moment from 'moment';
 import _ from 'lodash';
-import { getProjectById, getTracksOnProjectById } from '../../actions/projectActions';
+import { getProjectById, getTracksOnProjectById, publishProjectById } from '../../actions/projectActions';
+import { getLabelsByPublisherId, addLabelToOrganizationById } from '../../actions/organizationActions';
 
 class ProjectPreviewWindow extends React.Component {
     componentWillMount() {
@@ -15,6 +16,10 @@ class ProjectPreviewWindow extends React.Component {
     componentWillReceiveProps(newProps) {
         if (_.keys(newProps.project).length > 0) {
             this.setState({ project: newProps.project });
+            if (newProps.project.organizationId !== -1 && !this.state.hasFetchedLabels) {
+                this.props.getLabelsByPublisherId(newProps.project.organizationId);
+                this.setState({ hasFetchedLabels: true });
+            }
         }
         if (_.keys(newProps.projectTracks).length > 0) {
             this.setState({ projectTracks: newProps.projectTracks });
@@ -34,16 +39,38 @@ class ProjectPreviewWindow extends React.Component {
                 reviewBy : '',
                 reviewComment : '',
                 reviewDate : '',
-                organization: ''
+                organization: '',
+                organizationId: -1
             },
-            projectTracks: []
+            projectTracks: [],
+            selectedLabelId: -1,
+            newLabelName: '',
+            hasFetchedLabels: false
         };
+    }
+    selectLabel(e) {
+        this.setState({ selectedLabelId: e.target.value });
+        let value = e.target.value;
+        const { organizationId, reviewComment } = this.state.project;
+        this.props.assignConfirmBtnCallback(() => this.props.publishProjectById(organizationId, { labelId: e.target.value, reviewComment: reviewComment }));
+    }
+    addLabel() {
+        let labelName = this.state.newLabelName;
+        if (labelName.length === 0) {
+            return;
+        }
+        let organizationId = this.state.project.organizationId;
+        this.props.addLabelToOrganizationById(organizationId, { 
+            organizationId: organizationId,
+            labelName: labelName
+        });
+        this.setState({ newLabelName: '' });
     }
     renderFormGroup(label, disabled, value) {
         return (
             <div key={label} className="form-group">
                 <label htmlFor="">{label}</label>
-                <input disabled={disabled} value={value} type="text" className="form-control"/>
+                <input readOnly={disabled} value={value} type="text" className="form-control"/>
             </div>
         );
     }
@@ -69,12 +96,6 @@ class ProjectPreviewWindow extends React.Component {
             return this.renderFormGroup(value.display, !isEditable, value.value);
         });
 
-        let label
-
-        if (this.props.action === 'approve') {
-
-        }
-
         return (
             <div>
                 <form action="">
@@ -92,6 +113,27 @@ class ProjectPreviewWindow extends React.Component {
         );
     }
     render() {
+        let labels = '';
+
+        if (this.props.action === 'approve') {
+            let options = this.props.organizationLabels.map(label => {
+                return <option value={label.labelId} key={label.labelId}>{label.labelName}</option>;
+            });
+            labels = <div>
+                        <h4>Label</h4>
+                        <select className="form-control" onChange={(e) => this.selectLabel(e)} value={this.state.selectedLabelId}>
+                            <option value="-1">Ekkert valið</option>
+                            {options}
+                        </select>
+                        <div className="input-group no-border-radius spacer">
+                            <input placeholder={`${this.state.project.organization} [label]`} type="text" value={this.state.newLabelName} onChange={(e) => this.setState({ newLabelName: e.target.value })} className="form-control" />
+                            <span onClick={() => this.addLabel()} className={'input-group-addon' + (this.state.newLabelName.length > 0 ? ' background-primary hover-cursor' : '')}>
+                                <span className={this.props.isCreatingLabel ? 'visibility-hidden' : ''}><i className="fa fa-fw fa-plus"></i> Bæta við label</span>
+                                <Spinner className={this.props.isCreatingLabel ? 'spinner-small' : 'hidden'} />
+                            </span>
+                        </div>
+                     </div>;
+        }
         return (
             <div>
                 <Spinner className={this.props.isLoading ? '' : 'hidden'} />
@@ -102,6 +144,7 @@ class ProjectPreviewWindow extends React.Component {
                         songs={this.state.projectTracks}
                         updateState={(newState) => this.setState(newState)}
                         functionDisabled={true} />
+                    {labels}
                 </div>
             </div>
         );
@@ -111,15 +154,18 @@ class ProjectPreviewWindow extends React.Component {
 ProjectPreviewWindow.propTypes = {
     projectId: PropTypes.number.isRequired,
     isEditable: PropTypes.bool.isRequired,
-    action: PropTypes.string
+    action: PropTypes.string,
+    assignConfirmBtnCallback: PropTypes.func
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.project.isFetchingSingleProject || state.project.isFetchingSingleProjectTracks,
+        isCreatingLabel: state.organization.isCreatingLabel,
         project: state.project.reviewProject,
-        projectTracks: state.project.reviewProjectTracks
+        projectTracks: state.project.reviewProjectTracks,
+        organizationLabels: state.organization.selectedOrganizationLabels
     };
 };
 
-export default connect(mapStateToProps, { getProjectById, getTracksOnProjectById })(ProjectPreviewWindow);
+export default connect(mapStateToProps, { getProjectById, getTracksOnProjectById, publishProjectById, getLabelsByPublisherId, addLabelToOrganizationById })(ProjectPreviewWindow);

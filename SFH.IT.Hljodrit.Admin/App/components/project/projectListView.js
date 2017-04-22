@@ -14,6 +14,7 @@ class ProjectListView extends React.Component {
             title: '',
             content: '',
             confirmBtnText: '',
+            confirmBtnDisabled: true,
             confirmBtnCallback: () => { return -1 },
             discardBtnText: '',
             discardBtnCallback: () => { return -1 }
@@ -43,9 +44,10 @@ class ProjectListView extends React.Component {
             content: <ProjectPreviewWindow 
                         projectId={projectId}
                         isEditable={false}
-                        action="approve" />,
+                        action="approve"
+                        assignConfirmBtnCallback={(cb) => this.setState({ confirmBtnCallback: cb, confirmBtnDisabled: false })} />,
             confirmBtnText: 'Samþykkja',
-            confirmBtnCallback: () => { console.log('Approve!') },
+            confirmBtnDisabled: this.state.confirmBtnDisabled,
             discardBtnText: 'Hætta við',
             discardBtnCallback: () => { this.toggleModal(false) }
         });
@@ -92,7 +94,7 @@ class ProjectListView extends React.Component {
         }
     }
     render() {
-        const { isModalOpen, title, content, confirmBtnText, confirmBtnCallback, discardBtnText, discardBtnCallback } = this.state;
+        const { isModalOpen, title, content, confirmBtnText, confirmBtnCallback, confirmBtnDisabled, discardBtnText, discardBtnCallback } = this.state;
         return (
             <div>
                 <Spinner className={this.props.isFetching ? '' : 'hidden'} />
@@ -103,11 +105,19 @@ class ProjectListView extends React.Component {
                     content={content}
                     confirmBtnText={confirmBtnText}
                     confirmBtnCallback={confirmBtnCallback}
+                    confirmBtnDisabled={confirmBtnDisabled}
                     discardBtnText={discardBtnText}
-                    discardBtnCallback={discardBtnCallback} />
+                    discardBtnCallback={discardBtnCallback}
+                    showConfirmSpinner={this.props.isPublishing} />
             </div>
         );
     }
 }
 
-export default connect(null, { removeProjectById })(ProjectListView);
+function mapStateToProps(state) {
+    return {
+        isPublishing: state.project.isPublishingProject,
+    };
+};
+
+export default connect(mapStateToProps, { removeProjectById })(ProjectListView);

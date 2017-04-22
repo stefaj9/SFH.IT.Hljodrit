@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
 import Modal from 'react-modal';
+import Spinner from 'react-spinner';
 
-const PromptModal = ({ isOpen, title, content, confirmBtnText, confirmBtnCallback, discardBtnText, discardBtnCallback }) => {
+const PromptModal = ({ isOpen, title, content, confirmBtnText, confirmBtnCallback, confirmBtnDisabled, discardBtnText, discardBtnCallback, showConfirmSpinner }) => {
     return (
         <Modal
             isOpen={isOpen}
@@ -27,8 +28,12 @@ const PromptModal = ({ isOpen, title, content, confirmBtnText, confirmBtnCallbac
                                 className="btn btn-default" 
                                 onClick={() => discardBtnCallback()}>{discardBtnText}</button>
                             <button
+                                disabled={confirmBtnDisabled}
                                 className="btn btn-default btn-primary" 
-                                onClick={() => confirmBtnCallback()}>{confirmBtnText}</button>
+                                onClick={() => confirmBtnCallback()}>
+                                <span className={showConfirmSpinner ? 'visibility-hidden' : ''}>{confirmBtnText}</span>
+                                <Spinner className={showConfirmSpinner ? 'spinner-small' : 'hidden'} />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -47,7 +52,9 @@ PromptModal.propTypes = {
     confirmBtnText: PropTypes.string.isRequired,
     confirmBtnCallback: PropTypes.func.isRequired,
     discardBtnText: PropTypes.string.isRequired,
-    discardBtnCallback: PropTypes.func.isRequired
+    discardBtnCallback: PropTypes.func.isRequired,
+    showConfirmSpinner: PropTypes.bool,
+    confirmBtnDisabled: PropTypes.bool
 };
 
 export default PromptModal;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.ViewModels;
 
 namespace SFH.IT.Hljodrit.Services.Interfaces
 {
@@ -9,5 +10,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         bool MarkProjectAsDeleted(int projectId);
         ProjectExtendedDto GetProjectById(int projectId);
         IEnumerable<SongWithPerformersDto> GetProjectTracksById(int projectId);
+        int PublishProjectById(int projectId, ProjectReviewViewModel reviewModel);
     }
 }

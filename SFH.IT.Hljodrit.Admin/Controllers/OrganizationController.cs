@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
@@ -33,6 +34,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult GetLabelsByPublisherId(int publisherId)
         {
             return Ok(_organizationService.GetLabelsByPublisherId(publisherId));
+        }
+
+        [HttpPost]
+        [Route("{publisherId:int}/labels")]
+        public IHttpActionResult AddLabelsByPublisherId(int publisherId, [FromBody] LabelDto label)
+        {
+            return Ok(_organizationService.AddLabelByPublisherId(publisherId, label));
         }
     }
 }

@@ -67,6 +67,8 @@
     <Compile Include="Implementations\Common\ZipCodeRepository.cs" />
     <Compile Include="Implementations\Instruments\InstrumentRepository.cs" />
     <Compile Include="Implementations\Media\RecordingPartyRepository.cs" />
+    <Compile Include="Implementations\Organization\OrganizationIsrcSeriesRepository.cs" />
+    <Compile Include="Implementations\Organization\OrganizationLabelRepository.cs" />
     <Compile Include="Implementations\Organization\OrganizationRepository.cs" />
     <Compile Include="Implementations\Persons\PartyContactMediumRepository.cs" />
     <Compile Include="Implementations\Persons\PartyMainArtistRepository.cs" />
@@ -79,6 +81,8 @@
     <Compile Include="Interfaces\Common\IZipCodeRepository.cs" />
     <Compile Include="Interfaces\Instruments\IInstrumentRepository.cs" />
     <Compile Include="Interfaces\Media\IRecordingPartyRepository.cs" />
+    <Compile Include="Interfaces\Organization\IOrganizationIsrcSeriesRepository.cs" />
+    <Compile Include="Interfaces\Organization\IOrganizationLabelRepository.cs" />
     <Compile Include="Interfaces\Organization\IOrganizationRepository.cs" />
     <Compile Include="Interfaces\Persons\IPartyContactMediumRepository.cs" />
     <Compile Include="Interfaces\Persons\IPartyMainArtistRepository.cs" />

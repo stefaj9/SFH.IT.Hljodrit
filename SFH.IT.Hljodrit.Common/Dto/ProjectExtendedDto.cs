@@ -16,8 +16,13 @@ namespace SFH.IT.Hljodrit.Common.Dto
             ReviewBy = project.reviewedby ?? "";
             ReviewDate = project.reviewedon ?? new DateTime();
             ReviewComment = project.reviewedcomment ?? "";
+
             Organization = project.organization_master != null ? project.organization_master.name ?? "Ekki skráð" : "Ekki skráð";
+            OrganizationId = project.organizationid ?? -1;
         }
+
+        [JsonProperty(PropertyName = "organizationId")]
+        public int OrganizationId { get; set; }
         [JsonProperty(PropertyName = "organization")]
         public string Organization { get; set; }
         [JsonProperty(PropertyName = "projectStartDate")]
