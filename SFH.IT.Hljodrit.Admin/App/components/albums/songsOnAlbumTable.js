@@ -4,7 +4,7 @@ import Table from '../common/table';
 import { removeSongsFromAlbum } from '../../actions/AlbumsActions';
 import albumTableData from './albumTableData';
 import _ from 'lodash';
-
+import AddSong from '../project/AddSong';
 class SongsOnAlbumTable extends React.Component {
     constructor() {
         super();
@@ -35,6 +35,11 @@ class SongsOnAlbumTable extends React.Component {
         this.state.bootstrapTableRef.reset();
     }
 
+    addSongToAlbum(event) {
+        console.log(event);
+        console.log('clicked!!!!');
+        return ( <AddSong /> );
+    }
 
     render() {
         return (
@@ -60,8 +65,9 @@ class SongsOnAlbumTable extends React.Component {
                             <i className="fa fa-times"></i> Eyða völdum lögum
                         </button>
                         <button
-                            className="btn btn-default btn-primary">
-                            <i className="fa fa-plus"></i> Bæta við lögum
+                            className="btn btn-default btn-primary"
+                            onClick={(e) => this.addSongToAlbum(e)}>
+                            <i className="fa fa-plus" /> Bæta við lögum
                         </button>
                     </div>
                 </div>

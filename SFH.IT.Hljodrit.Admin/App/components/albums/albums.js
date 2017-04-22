@@ -1,13 +1,12 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import {getAllAlbums} from '../../actions/AlbumsActions';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
 import AlbumList from './albumListView';
 import SearchBar from '../common/searchBar';
 import SearchTypeSelector from './searchTypeSelector';
-import { browserHistory } from 'react-router';
 
 class Albums extends React.Component {
 
