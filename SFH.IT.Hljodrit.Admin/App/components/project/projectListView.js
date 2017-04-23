@@ -60,6 +60,7 @@ class ProjectListView extends React.Component {
             content: <textarea placeholder="Skrifaðu athugasemd.." className="form-control"></textarea>,
             confirmBtnText: 'Senda',
             confirmBtnCallback: () => { console.log('Comment!') },
+            confirmBtnDisabled: false,
             discardBtnText: 'Hætta við',
             discardBtnCallback: () => { this.toggleModal(false) }
         });

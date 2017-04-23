@@ -51,6 +51,57 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="aspnet_Applications.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Membership.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Membership_GetPasswordWithFormat_Result.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Membership_GetPassword_Result.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Membership_GetUserByName_Result.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Membership_GetUserByUserId_Result.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Paths.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_PersonalizationAllUsers.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_PersonalizationPerUser.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Profile.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Profile_GetProperties_Result.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Roles.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_SchemaVersions.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Users.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_UsersInRoles.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_UsersInRoles_RemoveUsersFromRoles_Result.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_WebEvent_Events.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="common_airplay_attributes.cs">
       <DependentUpon>HljodritModel.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -99,6 +150,9 @@
       <DependentUpon>HljodritModel.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="database_firewall_rules.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Difference.cs">
       <DependentUpon>HljodritModel.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -114,6 +168,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Hljodrit.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="HljodritAuthModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HljodritAuthModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HljodritAuthModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HljodritAuthModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HljodritAuthModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="HljodritModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -310,6 +379,33 @@
       <DependentUpon>HljodritModel.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="vw_aspnet_Applications.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_aspnet_MembershipUsers.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_aspnet_Profiles.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_aspnet_Roles.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_aspnet_Users.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_aspnet_UsersInRoles.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_aspnet_WebPartState_Paths.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_aspnet_WebPartState_Shared.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_aspnet_WebPartState_User.cs">
+      <DependentUpon>HljodritAuthModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="HljodritModel.edmx">
@@ -320,6 +416,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <EntityDeploy Include="HljodritAuthModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HljodritAuthModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="HljodritAuthModel.edmx.diagram">
+      <DependentUpon>HljodritAuthModel.edmx</DependentUpon>
+    </None>
     <None Include="HljodritModel.edmx.diagram">
       <DependentUpon>HljodritModel.edmx</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -338,6 +441,16 @@
       <DependentUpon>HljodritModel.edmx</DependentUpon>
       <LastGenOutput>Hljodrit.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HljodritAuthModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HljodritAuthModel.edmx</DependentUpon>
+      <LastGenOutput>HljodritAuthModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="HljodritAuthModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HljodritAuthModel.edmx</DependentUpon>
+      <LastGenOutput>HljodritAuthModel.cs</LastGenOutput>
     </Content>
     <Content Include="HljodritModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
