@@ -1,20 +1,19 @@
-﻿using SFH.IT.Hljodrit.Models;
+﻿using System.Data.Entity;
 
 namespace SFH.IT.Hljodrit.Repositories.Base
 {
-    public class DbFactory : Disposable, IDbFactory
+    public class DbFactory<T> : Disposable, IDbFactory<T> where T : DbContext, new()
     {
-        private HljodritEntities _dbContext;
+        private T _dbContext;
 
-        public HljodritEntities Init()
+        public DbContext Init()
         {
-            return _dbContext ?? (_dbContext = new HljodritEntities());
+            return _dbContext ?? (_dbContext = new T());
         }
 
         protected override void DisposeCore()
         {
-            if (_dbContext != null)
-                _dbContext.Dispose();
+            _dbContext?.Dispose();
         }
     }
 }

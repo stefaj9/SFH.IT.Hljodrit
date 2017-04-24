@@ -13,14 +13,14 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 {
     public class AlbumService : IAlbumService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork<HljodritEntities> _unitOfWork;
         private readonly ISongRepository _songRepository;
         private readonly IAlbumRepository _albumRepository;
         private readonly ICountryRepository _countryRepository;
         private const string AlbumReleaseYearSearchFilter = "releaseYear";
         private const string AlbumMainArtistSearchFilter = "mainArtistName";
 
-        public AlbumService(ISongRepository songRepository, IAlbumRepository albumRepository, IUnitOfWork unitOfWork, ICountryRepository countryRepository)
+        public AlbumService(ISongRepository songRepository, IAlbumRepository albumRepository, IUnitOfWork<HljodritEntities> unitOfWork, ICountryRepository countryRepository)
         {
             _songRepository = songRepository;
             _albumRepository = albumRepository;

@@ -4,9 +4,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Organization;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Organization
 {
-    public class OrganizationIsrcSeriesRepository : RepositoryBase<organization_isrc_series>, IOrganizationIsrcSeriesRepository
+    public class OrganizationIsrcSeriesRepository : RepositoryBase<organization_isrc_series, HljodritEntities>, IOrganizationIsrcSeriesRepository
     {
-        public OrganizationIsrcSeriesRepository(IDbFactory dbFactory) : base(dbFactory)
+        public OrganizationIsrcSeriesRepository(IDbFactory<HljodritEntities> dbFactory) : base(dbFactory)
         {
         }
     }

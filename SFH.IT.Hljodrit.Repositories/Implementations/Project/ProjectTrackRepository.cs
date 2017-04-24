@@ -7,9 +7,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Project
 {
-    public class ProjectTrackRepository : RepositoryBase<project_track>, IProjectTrackRepository
+    public class ProjectTrackRepository : RepositoryBase<project_track, HljodritEntities>, IProjectTrackRepository
     {
-        public ProjectTrackRepository(IDbFactory dbFactory)
+        public ProjectTrackRepository(IDbFactory<HljodritEntities> dbFactory)
             : base(dbFactory) { }
 
         public IEnumerable<SongWithPerformersDto> GetProjectTracksById(int projectId)

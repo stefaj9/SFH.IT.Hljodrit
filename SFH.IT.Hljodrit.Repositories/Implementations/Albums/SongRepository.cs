@@ -10,9 +10,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
 { 
-    public class SongRepository : RepositoryBase<media_product>, ISongRepository
+    public class SongRepository : RepositoryBase<media_product, HljodritEntities>, ISongRepository
     {
-        public SongRepository(IDbFactory dbFactory)
+        public SongRepository(IDbFactory<HljodritEntities> dbFactory)
             : base(dbFactory) { }
 
         public IEnumerable<SongDto> GetSongsByAlbumId(int albumId)

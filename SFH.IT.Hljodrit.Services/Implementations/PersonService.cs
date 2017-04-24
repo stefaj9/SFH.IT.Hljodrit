@@ -22,10 +22,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly IZipCodeRepository _zipCodeRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IAlbumRepository _albumRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork<HljodritEntities> _unitOfWork;
         private const string ProducerRoleCode = "PRO";
 
-        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository, IUnitOfWork unitOfWork, ICountryRepository countryRepository, IZipCodeRepository zipCodeRepository, IPartyContactMediumRepository partyContactMediumRepository, IRecordingPartyRepository recordingPartyRepository, IAlbumRepository albumRepository)
+        public PersonService(IPartyRealRepository partyRealRepository, IPartyRoleRepository partyRoleRepository, IUnitOfWork<HljodritEntities> unitOfWork, ICountryRepository countryRepository, IZipCodeRepository zipCodeRepository, IPartyContactMediumRepository partyContactMediumRepository, IRecordingPartyRepository recordingPartyRepository, IAlbumRepository albumRepository)
         {
             _partyRoleRepository = partyRoleRepository;
             _unitOfWork = unitOfWork;

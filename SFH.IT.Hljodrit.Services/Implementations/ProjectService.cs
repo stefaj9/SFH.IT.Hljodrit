@@ -26,9 +26,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly IRecordingPartyRepository _recordingPartyRepository;
         private readonly IOrganizationIsrcSeriesRepository _organizationIsrcSeriesRepository;
         private readonly IOrganizationLabelRepository _organizationLabelRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork<HljodritEntities> _unitOfWork;
 
-        public ProjectService(IProjectMasterRepository projectMasterRepository, IUnitOfWork unitOfWork, IProjectTrackRepository projectTrackRepository, IAlbumRepository albumRepository, IMediaRecordingRepository mediaRecordingRepository, ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IOrganizationLabelRepository organizationLabelRepository, IOrganizationIsrcSeriesRepository organizationIsrcSeriesRepository, IProjectTrackArtistRepository projectTrackArtistRepository)
+        public ProjectService(IProjectMasterRepository projectMasterRepository, IUnitOfWork<HljodritEntities> unitOfWork, IProjectTrackRepository projectTrackRepository, IAlbumRepository albumRepository, IMediaRecordingRepository mediaRecordingRepository, ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IOrganizationLabelRepository organizationLabelRepository, IOrganizationIsrcSeriesRepository organizationIsrcSeriesRepository, IProjectTrackArtistRepository projectTrackArtistRepository)
         {
             _projectMasterRepository = projectMasterRepository;
             _unitOfWork = unitOfWork;

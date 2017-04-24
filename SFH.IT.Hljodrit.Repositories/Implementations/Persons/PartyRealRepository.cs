@@ -9,9 +9,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
 {
-    public class PartyRealRepository : RepositoryBase<party_real>, IPartyRealRepository
+    public class PartyRealRepository : RepositoryBase<party_real, HljodritEntities>, IPartyRealRepository
     {
-        public PartyRealRepository(IDbFactory dbFactory)
+        public PartyRealRepository(IDbFactory<HljodritEntities> dbFactory)
             : base(dbFactory) { }
 
         public IEnumerable<PersonDto> GetPersons(Expression<Func<project_track_artist, bool>> expression, string searchTerm)

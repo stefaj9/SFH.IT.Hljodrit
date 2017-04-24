@@ -8,10 +8,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     public class ProjectController : ApiController
     {
         private readonly IProjectService _projectService;
+        private readonly IUserService _userService;
 
-        public ProjectController(IProjectService projectService)
+        public ProjectController(IProjectService projectService, IUserService userService)
         {
             _projectService = projectService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -49,6 +51,14 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         {
             var albumId = _projectService.PublishProjectById(projectId, reviewModel);
             return Ok(albumId);
+        }
+
+        [HttpPost]
+        [Route("{projectId:int}/comment")]
+        public IHttpActionResult CommentProjectById(int projectId, [FromBody] ProjectCommentViewModel commentModel)
+        {
+            _userService.SendCommentToUser(commentModel.Username, commentModel.Comment);
+            return Ok();
         }
     }
 }

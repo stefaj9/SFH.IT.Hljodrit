@@ -10,9 +10,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
 {
-    public class AlbumRepository : RepositoryBase<media_product_package>, IAlbumRepository
+    public class AlbumRepository : RepositoryBase<media_product_package, HljodritEntities>, IAlbumRepository
     {
-        public AlbumRepository(IDbFactory dbFactory)
+        public AlbumRepository(IDbFactory<HljodritEntities> dbFactory)
                 : base(dbFactory) { }
 
         public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm, Expression<Func<media_product_package, bool>> expression)
@@ -74,12 +74,12 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                         CatalogueNumber = r.album.cataloguenumber,
                         CountryOfProduction = r.z.twoletterisocode,
                         CountryOfPublication = r.c.twoletterisocode,
-                        Label = r.x.labelname,
+                        Label = r.x != null ? r.x.labelname ?? "" : "",
                         LabelId = r.album.labelid,
-                        PublisherId = r.x.organizationid,
-                        Publisher = (from a in DbContext.organization_master
+                        PublisherId = r.x?.organizationid ?? -1,
+                        Publisher = r.x != null ? (from a in DbContext.organization_master
                                      where a.id == r.x.organizationid
-                                     select a.name).FirstOrDefault(),
+                                     select a.name).FirstOrDefault() : "",
                         Registration = new RegistrationDto()
                         {
                             Comment = r.album.comment,

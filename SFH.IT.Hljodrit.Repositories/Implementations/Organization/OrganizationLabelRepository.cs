@@ -4,9 +4,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Organization;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Organization
 {
-    public class OrganizationLabelRepository : RepositoryBase<organization_labels>, IOrganizationLabelRepository
+    public class OrganizationLabelRepository : RepositoryBase<organization_labels, HljodritEntities>, IOrganizationLabelRepository
     {
-        public OrganizationLabelRepository(IDbFactory dbFactory) : base(dbFactory)
+        public OrganizationLabelRepository(IDbFactory<HljodritEntities> dbFactory) : base(dbFactory)
         {
         }
     }

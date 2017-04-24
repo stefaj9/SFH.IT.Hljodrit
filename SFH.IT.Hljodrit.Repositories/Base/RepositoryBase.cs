@@ -3,27 +3,23 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using SFH.IT.Hljodrit.Models;
 
 namespace SFH.IT.Hljodrit.Repositories.Base
 {
-    public abstract class RepositoryBase<T> where T : class
+    public abstract class RepositoryBase<T, TB> where T : class where TB : DbContext
     {
         #region Properties
 
-        private HljodritEntities dataContext;
+        private TB dataContext;
         private readonly IDbSet<T> dbSet;
 
-        protected IDbFactory DbFactory { get; private set; }
+        protected IDbFactory<TB> DbFactory { get; }
 
-        protected HljodritEntities DbContext
-        {
-            get { return dataContext ?? (dataContext = DbFactory.Init()); }
-        }
+        protected TB DbContext => dataContext ?? (dataContext = DbFactory.Init() as TB);
 
         #endregion
 
-        protected RepositoryBase(IDbFactory dbFactory)
+        protected RepositoryBase(IDbFactory<TB> dbFactory)
         {
             DbFactory = dbFactory;
             dbSet = DbContext.Set<T>();

@@ -4,9 +4,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
 {
-    public class PartyMainArtistRepository : RepositoryBase<party_mainartist>, IPartyMainArtistRepository
+    public class PartyMainArtistRepository : RepositoryBase<party_mainartist, HljodritEntities>, IPartyMainArtistRepository
     {
-        public PartyMainArtistRepository(IDbFactory dbFactory) : base(dbFactory)
+        public PartyMainArtistRepository(IDbFactory<HljodritEntities> dbFactory) : base(dbFactory)
         {
         }
     }

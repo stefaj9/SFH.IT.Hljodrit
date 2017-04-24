@@ -9,9 +9,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
 {
-    public class MediaRecordingRepository : RepositoryBase<media_recording>, IMediaRecordingRepository
+    public class MediaRecordingRepository : RepositoryBase<media_recording, HljodritEntities>, IMediaRecordingRepository
     {
-        public MediaRecordingRepository(IDbFactory dbFactory) : base(dbFactory)
+        public MediaRecordingRepository(IDbFactory<HljodritEntities> dbFactory) : base(dbFactory)
         {
         }
 

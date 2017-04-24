@@ -7,9 +7,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Media
 {
-    public class RecordingPartyRepository : RepositoryBase<recording_party>, IRecordingPartyRepository
+    public class RecordingPartyRepository : RepositoryBase<recording_party, HljodritEntities>, IRecordingPartyRepository
     {
-        public RecordingPartyRepository(IDbFactory dbFactory) : base(dbFactory)
+        public RecordingPartyRepository(IDbFactory<HljodritEntities> dbFactory) : base(dbFactory)
         {
         }
 
