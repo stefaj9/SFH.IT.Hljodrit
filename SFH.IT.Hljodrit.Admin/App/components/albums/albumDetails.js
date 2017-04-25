@@ -8,7 +8,7 @@ import _ from 'lodash';
 import Spinner from 'react-spinner';
 import SelectPersonModal from '../project/selectPersonModal';
 import AlbumDetailsForm from './AlbumDetailsForm';
-import { getAlbumById, getSongsByAlbumId, removeSongsFromAlbum } from '../../actions/AlbumsActions';
+import { getAlbumById, getSongsByAlbumId, removeSongsFromAlbum } from '../../actions/albumsActions';
 import SongsOnAlbumTable from './SongsOnAlbumTable';
 
 class AlbumDetails extends React.Component {

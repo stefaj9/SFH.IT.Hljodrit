@@ -1,7 +1,7 @@
 import React from 'react';
-import ModalSteps from '../common/modalSteps';
+import ModalSteps from '../../common/modalSteps';
 import PerformerGroup from './performerGroup';
-import SongWithMusiciansAccordion from '../common/songWithMusiciansAccordion';
+import SongWithMusiciansAccordion from '../../common/songWithMusiciansAccordion';
 import _ from 'lodash';
 import { toastr } from 'react-redux-toastr';
 

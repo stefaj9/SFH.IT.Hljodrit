@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {getAllAlbums} from '../../actions/AlbumsActions';
+import {getAllAlbums} from '../../actions/albumsActions';
 import PageSelector from '../common/pageSelector';
 import Paging from '../common/paging';
 import AlbumList from './albumListView';

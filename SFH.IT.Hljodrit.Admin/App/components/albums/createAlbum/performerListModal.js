@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import SelectPersonModal from './selectPersonModal';
-import SelectInstrumentModal from './selectInstrumentModal';
-import SelectRoleModal from './selectRoleModal';
-import { getPersonsByCriteria } from '../../actions/personActions';
-import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
+import SelectPersonModal from '../../project/selectPersonModal';
+import SelectInstrumentModal from '../../project/selectInstrumentModal';
+import SelectRoleModal from '../../project/selectRoleModal';
+import { getPersonsByCriteria } from '../../../actions/personActions';
+import { isFetchingList, hasStoppedFetchingList } from '../../../actions/flowActions';
 
 class PerformerListModal extends React.Component {
     componentWillReceiveProps(newProps) {

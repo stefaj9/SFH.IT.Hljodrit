@@ -90,6 +90,41 @@ export function getAlbumById(albumId) {
     };
 }
 
+export function updateAlbumBasicInfo(basicInfo) {
+    return {
+        type: types.UPDATE_ALBUM_BASIC_INFO,
+        payload: basicInfo
+    };
+};
+
+export function updateAlbumSongs(songs) {
+    return {
+        type: types.UPDATE_ALBUM_SONGS,
+        payload: songs
+    };
+};
+
+export function updateAlbumPerformers(performers) {
+    return {
+        type: types.UPDATE_ALBUM_PERFORMERS,
+        payload: performers
+    };
+};
+
+export function updateAlbumProducers(producers) {
+    return {
+        type: types.UPDATE_ALBUM_PRODUCERS,
+        payload: producers
+    };
+};
+
+export function createAlbum(album) {
+    return {
+        type: types.CREATE_ALBUM,
+        payload: album
+    };
+};
+
 function clearCurrentAlbum() {
     return {
         type: types.CLEAR_CURRENT_ALBUM,

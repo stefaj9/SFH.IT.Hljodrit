@@ -1,11 +1,11 @@
 import React from 'react';
 import Chips from 'react-chips';
 import { connect } from 'react-redux';
-import { getPersonsByCriteria } from '../../actions/personActions';
-import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
-import { saveGroupToCookie } from '../../actions/cacheActions';
+import { getPersonsByCriteria } from '../../../actions/personActions';
+import { isFetchingList, hasStoppedFetchingList } from '../../../actions/flowActions';
+import { saveGroupToCookie } from '../../../actions/cacheActions';
 import _ from 'lodash';
-import SelectPersonModal from './selectPersonModal';
+import SelectPersonModal from '../../project/selectPersonModal';
 import { toastr } from 'react-redux-toastr';
 
 class PerformerGroup extends React.Component {

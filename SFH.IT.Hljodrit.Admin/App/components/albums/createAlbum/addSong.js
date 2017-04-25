@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getMediaRecordingsByCriteria } from '../../actions/songActions';
-import ModalSteps from '../common/modalSteps';
-import SortableTable from '../common/sortableTable';
+import { getMediaRecordingsByCriteria } from '../../../actions/songActions';
+import ModalSteps from '../../common/modalSteps';
+import SortableTable from '../../common/sortableTable';
 import MediaSuggestions from './mediaSuggestions';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import { toastr } from 'react-redux-toastr';
-import { padIsrcNumber } from '../../helpers/isrcHelper';
+import { padIsrcNumber } from '../../../helpers/isrcHelper';
 import { Tabs, Tab } from 'react-bootstrap';
 import _ from 'lodash';
 

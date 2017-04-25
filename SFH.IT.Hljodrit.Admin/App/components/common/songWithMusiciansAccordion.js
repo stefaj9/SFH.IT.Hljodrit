@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { PanelGroup, Panel } from 'react-bootstrap';
-import PerformerListModal from '../project/performerListModal';
+import PerformerListModal from '../albums/createAlbum/performerListModal';
 import _ from 'lodash';
 import { toastr } from 'react-redux-toastr';
 

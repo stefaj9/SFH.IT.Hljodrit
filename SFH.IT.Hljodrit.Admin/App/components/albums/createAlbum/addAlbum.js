@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject } from '../../actions/projectActions';
+import { updateAlbumBasicInfo, updateAlbumSongs, updateAlbumPerformers, updateAlbumProducers, createAlbum } from '../../../actions/albumsActions';
 import { browserHistory } from 'react-router';
-import ProjectBasicInfo from './projectBasicInfo';
+import AlbumBasicInfo from './albumBasicInfo';
 import AddSong from './addSong';
 import AddPerformers from './addPerformers';
 import AddPublisher from './addPublisher';
-import OverviewProject from './overviewProject';
+import AlbumOverview from './albumOverview';
 
-class AddProject extends React.Component {
+class AddAlbum extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -36,42 +36,42 @@ class AddProject extends React.Component {
         this.setState({
             currentStep: 1
         });
-        browserHistory.push('/projects');
+        browserHistory.push('/albums');
     }
     render() {
         return (
             <div>
-                <ProjectBasicInfo
+                <AlbumBasicInfo
                     isVisible={this.state.currentStep === 1}
                     steps={this.state.steps} 
                     close={() => this.exitWizard()}
-                    next={(info) => { this.props.updateProjectBasicInfo(info); this.increaseStep(); } } />
+                    next={(info) => { this.props.updateAlbumBasicInfo(info); this.increaseStep(); } } />
                 <AddPublisher
                     isVisible={this.state.currentStep === 2}
                     steps={this.state.steps} 
                     close={() => this.exitWizard()}
-                    next={(producers) => { this.props.updateProjectProducers(producers); this.increaseStep(); } }
+                    next={(producers) => { this.props.updateAlbumProducers(producers); this.increaseStep(); } }
                     back={() => this.decreaseStep()} />
                 <AddSong
                     isVisible={this.state.currentStep === 3}
                     steps={this.state.steps}
                     close={() => this.exitWizard()}
-                    isrcPrefix={`${this.props.project.basicInfo.projectCountryOfPublish.code}-${this.props.project.publisher.isrcOrganizationPart}-${this.props.project.basicInfo.projectYearOfPublish.toString().substring(2)}-`}
-                    lastUsedIsrc={this.props.project.publisher.lastUsedIsrc}
-                    next={(songs) => { this.props.updateProjectSongs(songs); this.increaseStep(); } }
+                    isrcPrefix={`${this.props.album.basicInfo.albumCountryOfPublish.code}-${this.props.album.publisher.isrcOrganizationPart}-${this.props.album.basicInfo.albumYearOfPublish.toString().substring(2)}-`}
+                    lastUsedIsrc={this.props.album.publisher.lastUsedIsrc}
+                    next={(songs) => { this.props.updateAlbumSongs(songs); this.increaseStep(); } }
                     back={() => this.decreaseStep()} />
                 <AddPerformers
                     isVisible={this.state.currentStep === 4}
                     steps={this.state.steps} 
                     close={() => this.exitWizard()}
-                    songs={this.props.project.songs}
-                    next={(performers) => { this.props.updateProjectPerformers(performers); this.increaseStep(); } }
+                    songs={this.props.album.songs}
+                    next={(performers) => { this.props.updateAlbumPerformers(performers); this.increaseStep(); } }
                     back={() => this.decreaseStep()} />
-                <OverviewProject
+                <AlbumOverview
                     isVisible={this.state.currentStep === 5}
                     steps={this.state.steps} 
                     close={() => this.exitWizard()}
-                    next={(project) => { this.props.createProject(project); this.exitWizard(); } }
+                    next={(album) => { this.props.createAlbum(album); this.exitWizard(); } }
                     back={() => this.decreaseStep()} />
             </div>
         );
@@ -80,8 +80,8 @@ class AddProject extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        project: state.project.selectedProject
+        album: state.albums.albumBeingCreated
     };
 };
 
-export default connect(mapStateToProps, { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject })(AddProject);
+export default connect(mapStateToProps, { updateAlbumBasicInfo, updateAlbumSongs, updateAlbumPerformers, updateAlbumProducers, createAlbum })(AddAlbum);

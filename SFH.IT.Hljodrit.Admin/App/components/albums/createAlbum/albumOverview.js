@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ModalSteps from '../common/modalSteps';
+import ModalSteps from '../../common/modalSteps';
 import _ from 'lodash';
 
-class OverviewProject extends React.Component {
+class AlbumOverview extends React.Component {
     renderPerformers(performers) {
         return performers.map((performer) => {
             const { id, name, instruments, roles } = performer;
@@ -43,7 +43,7 @@ class OverviewProject extends React.Component {
         });
     }
     render() {
-        const { basicInfo, publisher, songs } = this.props.project;
+        const { basicInfo, publisher, songs } = this.props.album;
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
                 <ModalSteps steps={this.props.steps} currentStep={5} />
@@ -51,23 +51,23 @@ class OverviewProject extends React.Component {
                 <div className="confirmation-wrapper">
                     <div className="confirmation-item row">
                         <div className="col-xs-12 col-sm-6 confirmation-item-title">Plötuheiti</div>
-                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectName}</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.albumName}</div>
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 col-sm-6 confirmation-item-title">Plötutegund</div>
-                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectType}</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.albumType}</div>
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 col-sm-6 confirmation-item-title">Aðalflytjandi</div>
-                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectMainArtist.name}</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.albumMainArtist.name}</div>
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 col-sm-6 confirmation-item-title">Útgáfuland</div>
-                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectCountryOfPublish.name}</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.albumCountryOfPublish.name}</div>
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 col-sm-6 confirmation-item-title">Útgáfuár</div>
-                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectYearOfPublish}</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.albumYearOfPublish}</div>
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 confirmation-item-title">Lög</div>
@@ -86,7 +86,7 @@ class OverviewProject extends React.Component {
                     </button>
                     <button 
                         className="btn btn-default btn-primary" 
-                        onClick={() => this.props.next(this.props.project)}>
+                        onClick={() => this.props.next(this.props.album)}>
                         Staðfesta
                     </button>
                 </div>
@@ -95,4 +95,4 @@ class OverviewProject extends React.Component {
     }
 }
 
-export default connect((state) => { return { project: state.project.selectedProject } }, null)(OverviewProject);
+export default connect((state) => { return { album: state.albums.albumBeingCreated } }, null)(AlbumOverview);

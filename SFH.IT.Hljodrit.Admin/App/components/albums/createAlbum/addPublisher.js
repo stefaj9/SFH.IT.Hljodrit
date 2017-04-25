@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ModalSteps from '../common/modalSteps';
-import SelectPersonModal from './selectPersonModal';
+import ModalSteps from '../../common/modalSteps';
+import SelectPersonModal from '../../project/selectPersonModal';
 import _ from 'lodash';
-import { getPublishersByCriteria, getPublisherIsrcSeriesById } from '../../actions/organizationActions';
-import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
+import { getPublishersByCriteria, getPublisherIsrcSeriesById } from '../../../actions/organizationActions';
+import { isFetchingList, hasStoppedFetchingList } from '../../../actions/flowActions';
 import { toastr } from 'react-redux-toastr';
 
 class AddPublisher extends React.Component {
