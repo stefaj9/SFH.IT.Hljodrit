@@ -17,6 +17,7 @@ let initialState = {
     isFetching: true,
     isFetchingMusicians: true,
     selectedSong: {},
+    selectedMedia: {},
     musiciansOnSelectedSong: []
 };
 
@@ -61,6 +62,9 @@ export default function(state = initialState, action) {
             return Object.assign({}, state, {
                 mediaRecordingEnvelope: newMediaRecordingEnvelope
             });
+        case actionType.GET_MEDIA_BY_ID: return Object.assign({}, state, {
+            selectedMedia: action.payload
+        });
         case actionType.IS_FETCHING_SONGS: return Object.assign({}, state, {
             isFetching: true
         });

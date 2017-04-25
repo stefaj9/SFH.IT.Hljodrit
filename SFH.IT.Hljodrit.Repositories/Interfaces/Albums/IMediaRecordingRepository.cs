@@ -10,5 +10,6 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Albums
     public interface IMediaRecordingRepository : IRepository<media_recording>
     {
         Envelope<MediaDto> GetAllMedia(int pageNumber, int pageSize, string searchTerm, Expression<Func<media_recording, bool>> expr);
+        MediaExtendedDto GetMediaById(int mediaId);
     }
 }

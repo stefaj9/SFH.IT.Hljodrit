@@ -37,5 +37,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
             return dto => dto.recordingtitle.Contains(searchTerm);
         }
+
+        public MediaExtendedDto GetMediaById(int mediaId)
+        {
+            return _mediaRecordingRepository.GetMediaById(mediaId);
+        }
     }
 }

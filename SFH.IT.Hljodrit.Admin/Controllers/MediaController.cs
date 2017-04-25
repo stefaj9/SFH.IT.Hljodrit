@@ -19,5 +19,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         {
             return Ok(_mediaService.GetAllMedia(pageNumber, pageSize, searchTerm ?? "", searchType));
         }
+
+        [HttpGet]
+        [Route("{mediaId:int}")]
+        public IHttpActionResult GetMediaById(int mediaId)
+        {
+            return Ok(_mediaService.GetMediaById(mediaId));
+        }
     }
 }
