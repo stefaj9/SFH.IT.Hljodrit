@@ -48,7 +48,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
             return _albumRepository.GetAlbums(pageSize, pageNumber, searchTerm, filter);
         }
-
+         
         public AlbumExtendedDto GetAlbumById(int albumId)
         {
             return _albumRepository.GetAlbumById(albumId);

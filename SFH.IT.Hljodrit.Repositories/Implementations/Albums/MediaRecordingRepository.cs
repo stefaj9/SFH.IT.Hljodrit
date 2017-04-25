@@ -60,8 +60,30 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
                     Duration = m.duration,
                     ReleaseDate = m.recordingdate,
                     TotalMusicians = (from x in DbContext.recording_party
-                        where x.recordingid == m.id
-                        select x).GroupBy(x => x.partyrealid).Count()
+                            where x.recordingid == m.id
+                            select x).GroupBy(x => x.partyrealid)
+                        .Count(),
+                    Publisher = (from x in DbContext.media_product
+                        where x.recordingid == mediaId
+                        join label in DbContext.organization_labels
+                        on x.labelid equals label.id
+                        join publisher in DbContext.organization_master
+                        on label.organizationid equals publisher.id
+                        select new PublisherDto
+                        {
+                            Id = publisher.id,
+                            Name = publisher.name
+                        }).FirstOrDefault(),
+                    Label = (from x in DbContext.media_product
+                        where x.recordingid == mediaId
+                        join label in DbContext.organization_labels
+                        on x.labelid equals label.id
+                        select new LabelDto
+                        {
+                            LabelId = label.id,
+                            LabelName = label.labelname,
+                            OrganizationId = label.organizationid
+                        }).FirstOrDefault()
                 }).SingleOrDefault();
 
             return media;

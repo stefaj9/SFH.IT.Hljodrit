@@ -14,5 +14,6 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public PublisherDto Publisher { get; set; }
         [JsonProperty("label")]
         public LabelDto Label { get; set; }
+
     }
 }
