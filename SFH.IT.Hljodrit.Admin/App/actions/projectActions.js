@@ -116,6 +116,24 @@ function removeProjectByIdSuccess(projectId) {
     };
 };
 
+export function sendCommentByProjectId(projectId, commentModel) {
+    return () => {
+        return fetch(`/api/projects/${projectId}/comment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(commentModel)
+        }).then(resp => {
+            if (resp.ok) {
+                toastr.success('Tókst!', `Það tókst að senda athugasemd á ${commentModel.username}.`);
+            } else {
+                toastr.error('Villa!', `Ekki tókst að senda athugasemd á ${commentModel.username}`);
+            }
+        });
+    }
+}
+
 export function updateProjectBasicInfo(basicInfo) {
     return {
         type: 'UPDATE_PROJECT_BASIC_INFO',

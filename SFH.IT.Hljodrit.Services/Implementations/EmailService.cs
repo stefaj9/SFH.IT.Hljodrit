@@ -7,7 +7,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     {
         public void SendEmail(string to, string subject, string body)
         {
-            throw new NotImplementedException();
+            return;
         }
     }
 }

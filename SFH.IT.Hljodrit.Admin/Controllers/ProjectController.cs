@@ -57,7 +57,8 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         [Route("{projectId:int}/comment")]
         public IHttpActionResult CommentProjectById(int projectId, [FromBody] ProjectCommentViewModel commentModel)
         {
-            _userService.SendCommentToUser(commentModel.Username, commentModel.Comment);
+            var project = _projectService.GetProjectById(projectId);
+            _userService.SendCommentToUser(project.SubmissionUser, $"Athugasemd vegna {project.ProjectName} - Hljóðrit.is", commentModel.Comment);
             return Ok();
         }
     }

@@ -2,6 +2,7 @@
 {
     public interface IUserService
     {
-        void SendCommentToUser(string username, string message);
+        void SendCommentToUser(string username, string subject, string message);
+        string GetEmailFromUsername(string username);
     }
 }

@@ -13,10 +13,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     public class PersonController : ApiController
     {
         private readonly IPersonService _personService;
+        private readonly IUserService _userService;
 
-        public PersonController(IPersonService personService)
+        public PersonController(IPersonService personService, IUserService userService)
         {
             _personService = personService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -90,6 +92,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult GetRoles()
         {
             return Ok(_personService.GetPersonRoles());
+        }
+
+        [HttpGet]
+        [Route("users/{username}")]
+        public IHttpActionResult GetEmailFromUsername(string username)
+        {
+            return Ok(_userService.GetEmailFromUsername(username));
         }
     }
 }

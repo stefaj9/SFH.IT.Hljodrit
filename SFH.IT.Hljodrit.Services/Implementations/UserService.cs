@@ -15,14 +15,20 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _emailService = emailService;
         }
 
-        public void SendCommentToUser(string username, string message)
+        public void SendCommentToUser(string username, string subject, string message)
+        {
+            var email = GetEmailFromUsername(username);
+            _emailService.SendEmail(email, subject, message);
+        }
+
+        public string GetEmailFromUsername(string username)
         {
             var email = _userLookupRepository.GetEmailByUsername(username);
             if (string.IsNullOrEmpty(email))
             {
                 throw new NullReferenceException("Email was not found.");
             }
-            _emailService.SendEmail(email, "Athugasemd frá Hljóðrit.is", message);
+            return _userLookupRepository.GetEmailByUsername(username);
         }
     }
 }
