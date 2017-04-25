@@ -119,6 +119,7 @@ export function updateAlbumProducers(producers) {
 };
 
 export function createAlbum(album) {
+    console.log(album);
     return {
         type: types.CREATE_ALBUM,
         payload: album

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
@@ -88,6 +89,17 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork.Commit();
 
             return GetAlbumById(albumId);
+        }
+
+        public void CreateAlbum(AlbumCreationViewModel album)
+        {
+            // TODO:
+            // 1. Add album to media_product_package
+            // 2. Add songs to media_recording
+            // 3. Add songs to media_product
+            // 4. Add performers to recording_party
+            // 5. Update ISRC-series
+            // 6. Commit changes
         }
 
         //public MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId)

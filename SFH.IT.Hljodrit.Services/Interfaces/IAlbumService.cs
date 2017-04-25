@@ -13,5 +13,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         SongDto GetSongOnAlbum(int albumId, int songId);
         //MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId);
         ICollection<MusiciansOnSongDto> GetMusiciansOnSong(int albumId, int songId);
+        void CreateAlbum(AlbumCreationViewModel album);
     }
 }

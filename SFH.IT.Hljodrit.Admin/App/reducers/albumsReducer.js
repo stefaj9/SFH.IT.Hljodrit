@@ -85,7 +85,21 @@ export default function (state = initialState, action) {
             }
         });
         case types.CREATE_ALBUM: return Object.assign({}, state, {
-
+            albumBeingCreated: {
+                basicInfo: {
+                    albumMainArtist: {
+                        id: -1,
+                        name: ''
+                    },
+                    albumCountryOfPublish: {
+                        code: '',
+                        name: ''
+                    },
+                    albumYearOfPublish: 1337
+                },
+                songs: [],
+                publisher: {}
+            }
         });
         case types.REMOVE_SONGS_FROM_ALBUM:
             let currentSongs = _.cloneDeep(state.songsOnSelectedAlbum);
