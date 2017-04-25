@@ -1,6 +1,8 @@
-﻿namespace SFH.IT.Hljodrit.Repositories.Base
+﻿using System.Data.Entity;
+
+namespace SFH.IT.Hljodrit.Repositories.Base
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork<T> where T : DbContext
     {
         void Commit();
     }

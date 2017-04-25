@@ -1,21 +1,18 @@
-﻿using SFH.IT.Hljodrit.Models;
+﻿using System.Data.Entity;
 
 namespace SFH.IT.Hljodrit.Repositories.Base
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork<T> : IUnitOfWork<T> where T : DbContext
     {
-        private readonly IDbFactory _dbFactory;
-        private HljodritEntities _dbContext;
+        private readonly IDbFactory<T> _dbFactory;
+        private T _dbContext;
 
-        public UnitOfWork(IDbFactory dbFactory)
+        public UnitOfWork(IDbFactory<T> dbFactory)
         {
             this._dbFactory = dbFactory;
         }
 
-        public HljodritEntities DbContext
-        {
-            get { return _dbContext ?? (_dbContext = _dbFactory.Init()); }
-        }
+        public T DbContext => _dbContext ?? (_dbContext = _dbFactory.Init() as T);
 
         public void Commit()
         {

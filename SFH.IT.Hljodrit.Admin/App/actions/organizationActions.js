@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import * as actionType from './actionTypes';
+import { toastr } from 'react-redux-toastr';
 
 export function getPublishersByCriteria(pageSize, pageNumber, searchQuery, isFetchingList, hasStoppedFetchingList) {
     return (dispatch) => {
@@ -40,6 +41,12 @@ export function getPublisherIsrcSeriesById(publisherId) {
     }
 }
 
+function getPublisherIsrcSeriesByIdSuccess(isrcSeries) {
+    return {
+        type: actionType.GET_PUBLISHER_ISRC_SERIES_BY_ID,
+        payload: isrcSeries
+    };
+};
 
 export function getLabelsByPublisherId(publisherId) {
     return (dispatch) => {
@@ -62,9 +69,46 @@ function getPublisherLabelsByIdSuccess(labels) {
     };
 };
 
-function getPublisherIsrcSeriesByIdSuccess(isrcSeries) {
+export function addLabelToOrganizationById(organizationId, label) {
+    return (dispatch) => {
+        dispatch(isCreatingLabel());
+        return fetch(`/api/organizations/${organizationId}/labels`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(label)
+        }).then(resp => {
+            dispatch(hasStoppedCreatingLabel());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að bæta við label á útgefanda.');
+                return resp.json();
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að bæta við label á útgefanda.');
+            }
+        }).then(data => {
+            dispatch(addLabelToOrganizationByIdSuccess(data));
+        });
+    }
+}
+
+function addLabelToOrganizationByIdSuccess(label) {
     return {
-        type: actionType.GET_PUBLISHER_ISRC_SERIES_BY_ID,
-        payload: isrcSeries
+        type: actionType.ADD_LABEL_TO_PUBLISHER_BY_ID,
+        payload: label
+    };
+};
+
+function isCreatingLabel() {
+    return {
+        type: actionType.IS_CREATING_LABEL,
+        payload: {}
+    };
+};
+
+function hasStoppedCreatingLabel() {
+    return {
+        type: actionType.HAS_STOPPED_CREATING_LABEL,
+        payload: {}
     };
 };

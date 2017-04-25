@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0d59d82d128b4da294ea0e2c4acab42d" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.aspnet_Applications" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_Membership" Width="1.5" PointX="8.25" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_Paths" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_PersonalizationAllUsers" Width="1.5" PointX="5.25" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_PersonalizationPerUser" Width="1.5" PointX="5.25" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_Profile" Width="1.5" PointX="5.25" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_Roles" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_SchemaVersions" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_Users" Width="1.5" PointX="3" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_UsersInRoles" Width="1.5" PointX="8.25" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.aspnet_WebEvent_Events" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.vw_aspnet_Applications" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.vw_aspnet_MembershipUsers" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.vw_aspnet_Profiles" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.vw_aspnet_Roles" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.vw_aspnet_Users" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.vw_aspnet_UsersInRoles" Width="1.5" PointX="6.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.vw_aspnet_WebPartState_Paths" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.vw_aspnet_WebPartState_Shared" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.vw_aspnet_WebPartState_User" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.database_firewall_rules" Width="1.5" PointX="8.75" PointY="9.75" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK__aspnet_Me__Appli__09A971A2" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Me__Appli__0C85DE4D" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Pa__Appli__0D7A0286" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Pa__Appli__0E6E26BF" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Ro__Appli__17036CC0" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Ro__Appli__17F790F9" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Us__Appli__18EBB532" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Us__Appli__19DFD96B" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Me__UserI__0A9D95DB" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Me__UserI__0B91BA14" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Pe__PathI__0F624AF8" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Pe__PathI__10566F31" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Pe__PathI__114A936A" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Pe__PathI__123EB7A3" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Pe__UserI__1332DBDC" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Pe__UserI__14270015" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Pr__UserI__151B244E" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Pr__UserI__160F4887" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Us__RoleI__1AD3FDA4" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Us__RoleI__1DB06A4F" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Us__UserI__1BC821DD" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__aspnet_Us__UserI__1CBC4616" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

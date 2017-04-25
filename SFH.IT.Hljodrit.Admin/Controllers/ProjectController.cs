@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
@@ -7,10 +8,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     public class ProjectController : ApiController
     {
         private readonly IProjectService _projectService;
+        private readonly IUserService _userService;
 
-        public ProjectController(IProjectService projectService)
+        public ProjectController(IProjectService projectService, IUserService userService)
         {
             _projectService = projectService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -40,6 +43,23 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult MarkProjectAsDeleted(int projectId)
         {
             return Ok(_projectService.MarkProjectAsDeleted(projectId));
+        }
+
+        [HttpPut]
+        [Route("{projectId:int}/publish")]
+        public IHttpActionResult PublishProjectById(int projectId, [FromBody] ProjectReviewViewModel reviewModel)
+        {
+            var albumId = _projectService.PublishProjectById(projectId, reviewModel);
+            return Ok(albumId);
+        }
+
+        [HttpPost]
+        [Route("{projectId:int}/comment")]
+        public IHttpActionResult CommentProjectById(int projectId, [FromBody] ProjectCommentViewModel commentModel)
+        {
+            var project = _projectService.GetProjectById(projectId);
+            _userService.SendCommentToUser(project.SubmissionUser, $"Athugasemd vegna {project.ProjectName} - Hljóðrit.is", commentModel.Comment);
+            return Ok();
         }
     }
 }

@@ -7,9 +7,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Organization;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Organization
 {
-    public class OrganizationRepository : RepositoryBase<organization_master>, IOrganizationRepository
+    public class OrganizationRepository : RepositoryBase<organization_master, HljodritEntities>, IOrganizationRepository
     {
-        public OrganizationRepository(IDbFactory dbFactory) : base(dbFactory)
+        public OrganizationRepository(IDbFactory<HljodritEntities> dbFactory) : base(dbFactory)
         {
         }
 

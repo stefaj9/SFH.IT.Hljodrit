@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import { browserHistory } from 'react-router';
 import * as actionType from './actionTypes';
 import { toastr } from 'react-redux-toastr';
 
@@ -42,6 +43,30 @@ function getProjectByIdSuccess(project) {
         payload: project
     };
 };
+
+export function publishProjectById(projectId, review) {
+    return dispatch => {
+        dispatch(isPublishingProject());
+        return fetch(`/api/projects/${projectId}/publish`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(review)
+        }).then(resp => {
+            dispatch(hasStoppedPublishingProject());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að samþykkja verkefnið.');
+                return resp.json();
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að samþykkja verkefnið.');
+            }
+        }).then(data => {
+            // Reroute to newly published album
+            browserHistory.push(`/albums/${data}`);
+        });
+    }
+}
 
 export function getTracksOnProjectById(projectId) {
     return dispatch => {
@@ -90,6 +115,24 @@ function removeProjectByIdSuccess(projectId) {
         payload: projectId
     };
 };
+
+export function sendCommentByProjectId(projectId, commentModel) {
+    return () => {
+        return fetch(`/api/projects/${projectId}/comment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(commentModel)
+        }).then(resp => {
+            if (resp.ok) {
+                toastr.success('Tókst!', `Það tókst að senda athugasemd á ${commentModel.username}.`);
+            } else {
+                toastr.error('Villa!', `Ekki tókst að senda athugasemd á ${commentModel.username}`);
+            }
+        });
+    }
+}
 
 export function updateProjectBasicInfo(basicInfo) {
     return {
@@ -171,6 +214,20 @@ function isFetchingSingleProjectTracks() {
 function hasStoppedFetchingSingleProjectTracks() {
     return {
         type: actionType.HAS_STOPPED_FETCHING_SINGLE_PROJECT_TRACKS,
+        payload: {}
+    };
+};
+
+function isPublishingProject() {
+    return {
+        type: actionType.IS_PUBLISHING_PROJECT,
+        payload: {}
+    };
+};
+
+function hasStoppedPublishingProject() {
+    return {
+        type: actionType.HAS_STOPPED_PUBLISHING_PROJECT,
         payload: {}
     };
 };

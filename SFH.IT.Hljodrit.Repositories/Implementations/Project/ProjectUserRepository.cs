@@ -4,9 +4,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Project
 {
-    public class ProjectUserRepository : RepositoryBase<project_user>, IProjectUserRepository
+    public class ProjectUserRepository : RepositoryBase<project_user, HljodritEntities>, IProjectUserRepository
     {
-        public ProjectUserRepository(IDbFactory dbFactory)
+        public ProjectUserRepository(IDbFactory<HljodritEntities> dbFactory)
             : base(dbFactory) { }
     }
 }

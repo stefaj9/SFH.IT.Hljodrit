@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Models;
@@ -12,14 +13,14 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 {
     public class AlbumService : IAlbumService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork<HljodritEntities> _unitOfWork;
         private readonly ISongRepository _songRepository;
         private readonly IAlbumRepository _albumRepository;
         private readonly ICountryRepository _countryRepository;
         private const string AlbumReleaseYearSearchFilter = "releaseYear";
         private const string AlbumMainArtistSearchFilter = "mainArtistName";
 
-        public AlbumService(ISongRepository songRepository, IAlbumRepository albumRepository, IUnitOfWork unitOfWork, ICountryRepository countryRepository)
+        public AlbumService(ISongRepository songRepository, IAlbumRepository albumRepository, IUnitOfWork<HljodritEntities> unitOfWork, ICountryRepository countryRepository)
         {
             _songRepository = songRepository;
             _albumRepository = albumRepository;
@@ -30,7 +31,6 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm, string searchFilter)
         {
             searchTerm = string.IsNullOrEmpty(searchTerm) ? "": searchTerm.Trim();
-            var mainArtistSearchName = "";
 
             // The default search is to search by the albums title
             Expression <Func<media_product_package, bool>> filter = album => album.albumtitle.Trim().StartsWith(searchTerm);
@@ -38,8 +38,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             switch (searchFilter)
             {
                 case AlbumMainArtistSearchFilter:
-                    mainArtistSearchName = searchTerm;
-                    filter = album => album.albumtitle.StartsWith("");
+                    filter = album => album.party_mainartist == null || album.party_mainartist.artistname.StartsWith(searchTerm);
                     break;
                 case AlbumReleaseYearSearchFilter:
                     var releaseYear = Convert.ToInt32(searchTerm.Trim());
@@ -47,7 +46,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     break;
             }
 
-            return _albumRepository.GetAlbums(pageSize, pageNumber, searchTerm, filter, mainArtistSearchName);
+            return _albumRepository.GetAlbums(pageSize, pageNumber, searchTerm, filter);
         }
 
         public AlbumExtendedDto GetAlbumById(int albumId)
@@ -57,7 +56,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public IEnumerable<SongDto> GetSongsByAlbumId(int albumId)
         {
-            var songs = _songRepository.GetSongsByAlbumId(albumId);
+            var songs = _songRepository.GetSongsByAlbumId(albumId).ToList();
             return songs;
         }
 

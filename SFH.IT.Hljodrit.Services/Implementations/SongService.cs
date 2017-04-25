@@ -19,9 +19,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly IMediaRecordingRepository _mediaRecordingRepository;
         private readonly IRecordingPartyRepository _recordingPartyRepository;
         private readonly IInstrumentRepository _instrumentRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork<HljodritEntities> _unitOfWork;
 
-        public SongService(ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IUnitOfWork unitOfWork, IInstrumentRepository instrumentRepository, IMediaRecordingRepository mediaRecordingRepository)
+        public SongService(ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IUnitOfWork<HljodritEntities> unitOfWork, IInstrumentRepository instrumentRepository, IMediaRecordingRepository mediaRecordingRepository)
         {
             _songRepository = songRepository;
             _recordingPartyRepository = recordingPartyRepository;
