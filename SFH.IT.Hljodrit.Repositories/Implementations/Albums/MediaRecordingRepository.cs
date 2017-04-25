@@ -46,5 +46,25 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
 
             return result;
         }
+
+        public MediaExtendedDto GetMediaById(int mediaId)
+        {
+            var media = DbContext.media_recording
+                .Where(x => x.id == mediaId)
+                .Select(m => new MediaExtendedDto
+                {
+                    Id = m.id,
+                    Title = m.recordingtitle,
+                    Isrc = m.isrc,
+                    MainArtist = m.party_mainartist == null ? "" : m.party_mainartist.artistname,
+                    Duration = m.duration,
+                    ReleaseDate = m.recordingdate,
+                    TotalMusicians = (from x in DbContext.recording_party
+                        where x.recordingid == m.id
+                        select x).GroupBy(x => x.partyrealid).Count()
+                }).SingleOrDefault();
+
+            return media;
+        }
     }
 }

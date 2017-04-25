@@ -141,7 +141,7 @@ class AlbumDetails extends React.Component {
     }
 
     validateAlbum(album) {
-        let invalid = 'Ekki skráð'
+        let invalid = 'Ekki skráð';
         for (var key in album) {
             if (album[key] === null || album[key] === undefined) {
                 album[key] = invalid;

@@ -31,7 +31,7 @@ function updateSongDetailsByIdSuccess(updatedSong) {
         type: actionType.UPDATE_SONG_BY_ID,
         payload: updatedSong
     };
-};
+}
 
 export function getSongDetailsById(songId) {
     return (dispatch) => {
@@ -57,7 +57,7 @@ function getSongDetailsByIdSuccess(song) {
         type: actionType.GET_SONG_BY_ID,
         payload: song
     };
-};
+}
 
 export function addMusicianToSong(albumId, songId, musician) {
     return (dispatch) => {
@@ -143,7 +143,7 @@ function getAllMusiciansOnSongSuccess(musicians) {
         type: actionType.GET_ALL_MUSICIANS_ON_SONG,
         payload: musicians
     };
-};
+}
 
 export function getSongsByCriteria(pageSize, pageNumber, searchString, searchType) {
     return (dispatch) => {
@@ -162,14 +162,14 @@ export function getSongsByCriteria(pageSize, pageNumber, searchString, searchTyp
             dispatch(hasStoppedFetchingSongs());
         });
     };
-};
+}
 
 function getSongsbyCriteriaSuccess(data) {
     return {
         type: actionType.GET_SONGS,
         payload: data
     };
-};
+}
 
 export function getMediaRecordingsByCriteria(pageSize, pageNumber, searchString, searchType) {
     return (dispatch) => {
@@ -190,65 +190,90 @@ export function getMediaRecordingsByCriteria(pageSize, pageNumber, searchString,
     };
 }
 
+export function getMediaById(mediaId) {
+    return (dispatch) => {
+        dispatch(isFetchingSongs());
+        return fetch(`/api/media/${mediaId}`, {
+            method: 'GET'
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                dispatch(hasStoppedFetchingSongs());
+            }
+        }).then((data) => {
+            dispatch(getMediaByIdSuccess(data));
+            dispatch(hasStoppedFetchingSongs());
+        });
+    };
+}
+
+function getMediaByIdSuccess(data) {
+    return {
+        type: actionType.GET_MEDIA_BY_ID,
+        payload: data
+    }
+}
+
 function getMediaRecordingsByCriteriaSuccess(data) {
     return {
         type: actionType.GET_MEDIA,
         payload: data
     };
-};
+}
 
 function isFetchingSongs() {
     return {
         type: actionType.IS_FETCHING_SONGS,
         payload: {}
     };
-};
+}
 
 export function hasStoppedFetchingSongs() {
     return {
         type: actionType.HAS_STOPPED_FETCHING_SONGS,
         payload: {}
     };
-};
+}
 
 function isFetchingMusicians() {
     return {
         type: actionType.IS_FETCHING_MUSICIANS,
         payload: {}
     };
-};
+}
 
 function hasStoppedFetchingMusicians() {
     return {
         type: actionType.HAS_STOPPED_FETCHING_MUSICIANS,
         payload: {}
     };
-};
+}
 
 function clearSongList() {
     return {
         type: actionType.CLEAR_SONGS,
         payload: {}
     };
-};
+}
 
 function clearMediaRecordingList() {
     return {
         type: actionType.CLEAR_MEDIA,
         payload: {}
     };
-};
+}
 
 function clearSongSelection() {
     return {
         type: actionType.CLEAR_SONG_SELECTION,
         payload: {}
     };
-};
+}
 
 function clearMusiciansOnSong() {
     return {
         type: actionType.CLEAR_MUSICIANS_ON_SONG,
         payload: {}
     };
-};
+}
