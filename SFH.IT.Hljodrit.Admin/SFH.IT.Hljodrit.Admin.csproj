@@ -298,6 +298,7 @@
     <Content Include="fonts\fontello.woff" />
     <Content Include="fonts\fontello.woff2" />
     <Content Include="Content\variables.less" />
+    <Content Include="ConnectionStrings.config" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
