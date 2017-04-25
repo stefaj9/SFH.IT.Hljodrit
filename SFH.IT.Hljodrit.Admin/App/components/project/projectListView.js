@@ -34,6 +34,7 @@ class ProjectListView extends React.Component {
             content: 'Ertu viss um að þú viljir eyða verkefni?',
             confirmBtnText: 'Staðfesta',
             confirmBtnCallback: () => { this.toggleModal(false); this.props.removeProjectById(projectId); },
+            confirmBtnDisabled: false,
             discardBtnText: 'Hætta við',
             discardBtnCallback: () => { this.toggleModal(false) }
         });
