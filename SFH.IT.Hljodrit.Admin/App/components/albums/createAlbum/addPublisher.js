@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ModalSteps from '../../common/modalSteps';
 import SelectPersonModal from '../../project/selectPersonModal';
 import _ from 'lodash';
-import { getPublishersByCriteria, getPublisherIsrcSeriesById } from '../../../actions/organizationActions';
+import { getPublishersByCriteria, getPublisherIsrcSeriesById, getLabelsByPublisherId } from '../../../actions/organizationActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../../actions/flowActions';
 import { toastr } from 'react-redux-toastr';
 
@@ -20,6 +20,15 @@ class AddPublisher extends React.Component {
                 publisher: publisher
             });
         }
+        if (newProps.labels.length > 0) {
+            let publisher = _.cloneDeep(this.state.publisher);
+            let firstLabel = newProps.labels[0];
+            publisher.labelId = firstLabel.labelId;
+            publisher.labelName = firstLabel.labelName;
+            this.setState({
+                publisher: publisher
+            });
+        }
     }
     constructor() {
         super();
@@ -32,7 +41,9 @@ class AddPublisher extends React.Component {
                 isrcSeriesId: '',
                 isrcOrganizationPart: '',
                 isrcSeriesPrettyName: '',
-                lastUsedIsrc: -1
+                lastUsedIsrc: -1,
+                labelId: -1,
+                labelName: ''
             }
         };
     }
@@ -54,14 +65,22 @@ class AddPublisher extends React.Component {
             );
         });
     }
+    renderLabels() {
+        return this.props.labels.map(label => {
+            return (
+                <option key={label.labelId} value={label.labelId}>{label.labelName}</option>
+            );
+        });
+    }
     addPublisher(publisher) {
         this.setState({
             publisher: publisher
         });
         toastr.success('Tókst!', 'Það tókst að bæta við útgefanda');
 
-        // Fetch isrc series for this publisher
+        // Fetch isrc series and labels for this publisher
         this.props.getPublisherIsrcSeriesById(publisher.id);
+        this.props.getLabelsByPublisherId(publisher.id);
     }
     removePublisher(e) {
         e.preventDefault();
@@ -72,7 +91,9 @@ class AddPublisher extends React.Component {
                 isrcSeriesId: '',
                 isrcOrganizationPart: '',
                 isrcSeriesPrettyName: '',
-                lastUsedIsrc: -1
+                lastUsedIsrc: -1,
+                labelId: -1,
+                labelName: ''
             }
         });
         toastr.success('Tókst!', 'Það tókst að fjarlægja útgefanda');
@@ -89,6 +110,15 @@ class AddPublisher extends React.Component {
                 </td>
             </tr>
         );
+    }
+    updateLabel(e) {
+        let index = e.target.selectedIndex;
+        this.setState({ 
+            publisher: Object.assign({}, this.state.publisher, {
+                labelId: e.target.value,
+                labelName: e.target.options[index].text
+            })
+        });
     }
     updateIsrcSeries(e) {
         let publisher = _.cloneDeep(this.state.publisher);
@@ -123,9 +153,15 @@ class AddPublisher extends React.Component {
                     </tbody>
                 </table>
                 <div className={'form-group' + (this.state.publisher.id === -1 ? ' hidden' : '')}>
-                    <label htmlFor="organization-isrc-series">Label</label>
-                    <select value={this.state.isrcSeriesId} name="organization-isrc-series" id="organization-isrc-series" className="form-control" onChange={(e) => this.updateIsrcSeries(e)}>
+                    <label htmlFor="organization-isrc-series">Isrc-runa</label>
+                    <select value={publisher.isrcSeriesId} name="organization-isrc-series" id="organization-isrc-series" className="form-control" onChange={(e) => this.updateIsrcSeries(e)}>
                         {this.renderIsrcSeries()}
+                    </select>
+                </div>
+                <div className={'form-group' + (this.state.publisher.id === -1 ? ' hidden' : '')}>
+                    <label htmlFor="organization-labels">Labels</label>
+                    <select value={publisher.labelId} name="organization-label" id="organization-label" className="form-control" onChange={(e) => this.updateLabel(e)}>
+                        {this.renderLabels()}
                     </select>
                 </div>
                 <p className={publisher.id === -1 ? '' : 'hidden'}> <br/>
@@ -159,8 +195,9 @@ class AddPublisher extends React.Component {
 function mapStateToProps(state) {
     return {
         isrcSeries: state.organization.selectedOrganizationIsrcSeries,
+        labels: state.organization.selectedOrganizationLabels,
         organizationEnvelope: state.organization.organizationEnvelope
     };
 };
 
-export default connect(mapStateToProps, { getPublishersByCriteria, getPublisherIsrcSeriesById, isFetchingList, hasStoppedFetchingList })(AddPublisher);
+export default connect(mapStateToProps, { getPublishersByCriteria, getPublisherIsrcSeriesById, getLabelsByPublisherId, isFetchingList, hasStoppedFetchingList })(AddPublisher);

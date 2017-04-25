@@ -119,10 +119,28 @@ export function updateAlbumProducers(producers) {
 };
 
 export function createAlbum(album) {
-    console.log(album);
+    return (dispatch) => {
+        return fetch('/api/albums', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(album)
+        }).then(resp => {
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að búa til nýja plötu.');
+                dispatch(createAlbumSuccess());
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að búa til nýja plötu.');
+            }
+        });
+    }
+};
+
+function createAlbumSuccess() {
     return {
         type: types.CREATE_ALBUM,
-        payload: album
+        payload: {}
     };
 };
 

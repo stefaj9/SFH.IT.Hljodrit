@@ -8,6 +8,9 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty(PropertyName = "albumId")]
         public int AlbumId { get; set; }
 
+        [JsonProperty(PropertyName = "albumType")]
+        public int AlbumType { get; set; }
+
         [JsonProperty(PropertyName = "albumTitle")]
         public string AlbumTitle { get; set; }
 

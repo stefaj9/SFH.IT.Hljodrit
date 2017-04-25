@@ -9,8 +9,10 @@ namespace SFH.IT.Hljodrit.Common.ViewModels
         [JsonProperty(PropertyName = "basicInfo")]
         public AlbumExtendedDto BasicInfo { get; set; }
         [JsonProperty(PropertyName = "publisher")]
-        public PublisherDto Publisher { get; set; }
+        public PublisherIsrcSeriesDto Publisher { get; set; }
+        [JsonProperty(PropertyName = "publisherLabelId")]
+        public int PublisherLabelId { get; set; }
         [JsonProperty(PropertyName = "songs")]
-        public IEnumerable<SongDto> Songs { get; set; }
+        public IEnumerable<SongWithPerformersDto> Songs { get; set; }
     }
 }

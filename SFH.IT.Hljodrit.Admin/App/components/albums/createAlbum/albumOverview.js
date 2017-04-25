@@ -77,6 +77,10 @@ class AlbumOverview extends React.Component {
                         <div className="col-xs-12 confirmation-item-title">Útgefandi</div>
                         <div className="col-xs-12 confirmation-item-text">{`${publisher.name} - ${publisher.isrcSeriesPrettyName}`}</div>
                     </div>
+                    <div className="confirmation-item row">
+                        <div className="col-xs-12 confirmation-item-title">Label</div>
+                        <div className="col-xs-12 confirmation-item-text">{publisher.labelName}</div>
+                    </div>
                 </div>
                 <div className="btn-group pull-right">
                     <button 

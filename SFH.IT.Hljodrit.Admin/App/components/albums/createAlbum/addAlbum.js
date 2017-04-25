@@ -7,6 +7,7 @@ import AddSong from './addSong';
 import AddPerformers from './addPerformers';
 import AddPublisher from './addPublisher';
 import AlbumOverview from './albumOverview';
+import _ from 'lodash';
 
 class AddAlbum extends React.Component {
     constructor() {
@@ -37,6 +38,28 @@ class AddAlbum extends React.Component {
             currentStep: 1
         });
         browserHistory.push('/albums');
+    }
+    createAlbum(album) {
+        let formattedAlbum = _.cloneDeep(album);
+        const { basicInfo, publisher, songs } = formattedAlbum;
+        formattedAlbum.basicInfo = {
+            albumTitle: basicInfo.albumName,
+            releaseYear: basicInfo.albumYearOfPublish,
+            numberOfTracks: songs.length,
+            mainArtistId: basicInfo.albumMainArtist.id,
+            mainArtist: basicInfo.albumMainArtist.name,
+            countryOfPublication: basicInfo.albumCountryOfPublish.code
+        };
+        formattedAlbum.publisher = {
+            organizationId: publisher.id,
+            isrcOrganizationPart: publisher.isrcOrganizationPart,
+            isrcSeriesId: publisher.isrcSeriesId,
+            lastUsedIsrc: publisher.lastUsedIsrc
+        };
+        formattedAlbum.publisherLabelId = publisher.labelId;
+        
+        this.props.createAlbum(formattedAlbum);
+        this.exitWizard();
     }
     render() {
         return (
@@ -71,7 +94,7 @@ class AddAlbum extends React.Component {
                     isVisible={this.state.currentStep === 5}
                     steps={this.state.steps} 
                     close={() => this.exitWizard()}
-                    next={(album) => { this.props.createAlbum(album); this.exitWizard(); } }
+                    next={(album) => { this.createAlbum(album); } }
                     back={() => this.decreaseStep()} />
             </div>
         );
