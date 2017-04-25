@@ -117,6 +117,7 @@ function removeProjectByIdSuccess(projectId) {
 };
 
 export function sendCommentByProjectId(projectId, commentModel) {
+    console.log(commentModel);
     return () => {
         return fetch(`/api/projects/${projectId}/comment`, {
             method: 'POST',
@@ -126,9 +127,9 @@ export function sendCommentByProjectId(projectId, commentModel) {
             body: JSON.stringify(commentModel)
         }).then(resp => {
             if (resp.ok) {
-                toastr.success('Tókst!', `Það tókst að senda athugasemd á ${commentModel.username}.`);
+                toastr.success('Tókst!', 'Það tókst að senda athugasemd.');
             } else {
-                toastr.error('Villa!', `Ekki tókst að senda athugasemd á ${commentModel.username}`);
+                toastr.error('Villa!', 'Ekki tókst að senda athugasemd.');
             }
         });
     }
