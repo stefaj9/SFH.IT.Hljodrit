@@ -57,17 +57,9 @@ class ProjectListView extends React.Component {
         this.assignPromptModalContent({
             isModalOpen: true,
             title: 'Senda athugasemd',
-            content: <textarea onChange={(e) => {
-                    let value = e.target.value;
-                    this.setState({ 
-                        confirmBtnCallback: () => { 
-                            this.props.sendCommentByProjectId(projectId, { comment: value }); 
-                            this.setState({ reviewComment: '', isModalOpen: false }); 
-                        }
-                    })} 
-                }
-                placeholder="Skrifaðu athugasemd.." 
-                className="form-control">
+            content: <textarea onChange={(e) => { let value = e.target.value; this.setState({ confirmBtnCallback: () => { this.props.sendCommentByProjectId(projectId, { comment: value }); this.setState({ reviewComment: '', isModalOpen: false } ); } }) }}
+            placeholder="Skrifaðu athugasemd.." 
+            className="form-control">
             </textarea>,
             confirmBtnText: 'Senda', 
             confirmBtnDisabled: false,
