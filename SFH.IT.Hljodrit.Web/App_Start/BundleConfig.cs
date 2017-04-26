@@ -26,6 +26,10 @@ namespace SFH.IT.Hljodrit.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new LessBundle("~/Content/less").Include(
+                      "~/Content/*.less"
+            ));
         }
     }
 }
