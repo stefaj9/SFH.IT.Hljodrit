@@ -13,7 +13,8 @@ import Projects from '../components/project/projects';
 import ProjectManagement from '../components/project/projectManagement';
 import Intro from '../components/common/intro';
 import AddProject from '../components/project/addProject';
-//import Songs from '../components/songs/songs';
+import PublishersContainer from '../components/publishers/publishersContainer';
+import Publishers from '../components/publishers/publishers';
 import MediaContainer from '../components/media/mediaContainer';
 import Media from '../components/media/media';
 import MediaDetails from '../components/media/mediaDetails';
@@ -44,6 +45,9 @@ export default (
         <Route path="media" component={MediaContainer}>
             <IndexRoute component={Media}/>
             <Route path=":mediaId" component={MediaDetails} />
+        </Route>
+        <Route path="publishers" component={PublishersContainer}>
+            <IndexRoute component={Publishers}/>
         </Route>
         <Route path="*" component={NotFound} />
     </Route>
