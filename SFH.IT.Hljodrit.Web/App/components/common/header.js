@@ -24,7 +24,7 @@ export default class Header extends React.Component {
                         </Link>
                     </div>
                     <div className="collapse navbar-collapse" id="navbar-collapse">
-                        <ul className="nav navbar-nav pull-right">
+                        <ul className="nav navbar-nav">
                             <li className={this.state.selectedItem === 'projects' ? 'active' : ''}>
                                 <Link to="/projects" onClick={() => this.setState({ selectedItem: 'projects' })}>
                                     Verkefni

@@ -5,6 +5,11 @@ import ProjectReducer from './projectReducer';
 import CommonReducer from './commonReducer';
 import MainArtistReducer from './mainArtistReducer';
 import FlowReducer from './flowReducer';
+import OrganizationReducer from './organizationReducer';
+import SongReducer from './songReducer';
+import CacheReducer from './cacheReducer';
+import PersonReducer from './personReducer';
+import InstrumentReducer from './instrumentReducer';
 
 export default combineReducers({
     routing: routerReducer,
@@ -12,5 +17,10 @@ export default combineReducers({
     project: ProjectReducer,
     common: CommonReducer,
     mainArtist: MainArtistReducer,
-    flow: FlowReducer
+    flow: FlowReducer,
+    organization: OrganizationReducer,
+    songs: SongReducer,
+    cache: CacheReducer,
+    person: PersonReducer,
+    instrument: InstrumentReducer
 });
