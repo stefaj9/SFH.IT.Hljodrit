@@ -11,6 +11,7 @@ using SFH.IT.Hljodrit.Admin.Handlers;
 using SFH.IT.Hljodrit.Admin.Loggers;
 using SimpleInjector;
 using SimpleInjector.Integration.WebApi;
+using SimpleInjector.Lifestyles;
 
 namespace SFH.IT.Hljodrit.Admin
 {
@@ -28,7 +29,7 @@ namespace SFH.IT.Hljodrit.Admin
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             var container = new Container();
-            container.Options.DefaultScopedLifestyle = new WebApiRequestLifestyle();
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
 

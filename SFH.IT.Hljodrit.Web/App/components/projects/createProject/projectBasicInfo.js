@@ -78,7 +78,7 @@ class ProjectBasicInfo extends React.Component {
         });
         toastr.success('Tókst!', 'Það tókst að fjarlægja aðalflytjanda');
     }
-    selectAlbumType(e) {
+    selectProjectType(e) {
         let index = e.target.selectedIndex;
         this.setState({
             projectType: {
@@ -91,7 +91,7 @@ class ProjectBasicInfo extends React.Component {
         const { projectType, projectName, projectMainArtist, mainArtistModalIsOpen, projectYearOfPublish, projectCountryOfPublish } = this.state;
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
-                <ModalSteps steps={this.props.steps} currentStep={1} />
+                <Steps steps={this.props.steps} currentStep={1} />
                 <h4>Grunnupplýsingar</h4>
                 <form>
                     <div className="form-group">
@@ -112,7 +112,7 @@ class ProjectBasicInfo extends React.Component {
                             name="project-type" 
                             id="project-type" 
                             value={projectType.id} 
-                            onChange={(e) => this.selectAlbumType(e) }>
+                            onChange={(e) => this.selectProjectType(e) }>
                                 {this.populateOptions()}
                         </select>
                     </div>

@@ -13,12 +13,13 @@ namespace SFH.IT.Hljodrit.Web
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             var container = new Container();
-            container.Options.DefaultLifestyle = new AsyncScopedLifestyle();
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
 

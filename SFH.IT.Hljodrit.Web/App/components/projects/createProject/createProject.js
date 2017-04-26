@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Steps from '../../common/steps';
+import ProjectBasicInfo from './projectBasicInfo';
 import { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject } from '../../../actions/projectActions';
 
 class CreateProject extends React.Component {
@@ -9,7 +9,7 @@ class CreateProject extends React.Component {
         this.state = {
             currentStep: 1,
             steps: [
-                { name: 'Skrá plötuheiti', class: 'fa fa-pencil' },
+                { name: 'Skrá verkefni', class: 'fa fa-pencil' },
                 { name: 'Skrá útgefanda', class: 'fa fa-user' },
                 { name: 'Skrá lög', class: 'fa fa-music' },
                 { name: 'Skrá flytjendur', class: 'fa fa-microphone' },
@@ -37,9 +37,6 @@ class CreateProject extends React.Component {
         return (
             <div>
                 <h2>Búa til nýtt verkefni</h2>
-                <Steps
-                    steps={this.state.steps}
-                    currentStep={this.state.currentStep} />
                 <div>
                     <ProjectBasicInfo
                         isVisible={this.state.currentStep === 1}
