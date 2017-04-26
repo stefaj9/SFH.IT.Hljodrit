@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getMediaById } from '../../actions/songActions';
 import Spinner from 'react-spinner';
+import MediaDetailsForm from './mediaDetailsForm';
 
 class MediaDetails extends React.Component {
     componentWillMount() {
@@ -11,24 +12,27 @@ class MediaDetails extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = {
+        /*this.state = {
             currentMedia: {},
             hasFetched: false
-        }
+        }*/
     }
 
     renderContent() {
-        if (!this.props.isFetching) {
-            debugger;
+        if (Object.keys(this.props.media).length > 0) {
+            const currentMedia = this.props.media;
             return (
                 <div>
-                    <h2>{ this.props.media.mediaTitle }</h2>
-                    <h4>{'Flytjandi: ' + this.props.media.mainArtist }</h4>
+                    <MediaDetailsForm title={currentMedia.mediaTitle}
+                                      artist={currentMedia.mainArtist}
+                                      isrc={currentMedia.isrc}
+                                      duration={currentMedia.duration}
+                                      publisher={currentMedia.publisher}
+                                      label={currentMedia.label}
+                                      releaseYear={currentMedia.releaseDate} />
                 </div>
             );
         }
-
-
     }
 
     render() {
