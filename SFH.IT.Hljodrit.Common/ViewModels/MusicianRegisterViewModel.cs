@@ -8,8 +8,8 @@ namespace SFH.IT.Hljodrit.Common.ViewModels
     {
         [JsonProperty(PropertyName = "id")]
         public int PartyRealId { get; set; }
-        [JsonProperty(PropertyName = "instruments")]
-        public IEnumerable<string> Instruments { get; set; }
+        [JsonProperty(PropertyName = "instrument")]
+        public InstrumentDto Instrument { get; set; }
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
         [JsonProperty(PropertyName = "role")]

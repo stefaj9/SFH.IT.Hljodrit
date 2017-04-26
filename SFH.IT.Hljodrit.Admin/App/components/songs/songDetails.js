@@ -5,7 +5,7 @@ import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowAction
 import { getPersonsByCriteria } from '../../actions/personActions';
 import { Link } from 'react-router';
 import SongMusiciansTable from './songMusiciansTable';
-import PerformerListModal from '../project/performerListModal';
+import PerformerListModal from '../albums/createAlbum/performerListModal';
 import Spinner from 'react-spinner';
 import _ from 'lodash';
 import moment from 'moment';

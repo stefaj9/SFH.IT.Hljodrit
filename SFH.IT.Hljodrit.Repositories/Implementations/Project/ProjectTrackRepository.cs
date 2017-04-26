@@ -25,7 +25,7 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Project
                 from subinstruments in instrumentCheck.DefaultIfEmpty()
                 where projectTrack.projectid == projectId
                 group
-                new {projectTrack, partyRoleType.rolecode, partyRoleType.rolename_is, partyReal, subinstruments.name_is}
+                new {projectTrack, partyRoleType.rolecode, partyRoleType.rolename_is, partyReal, subinstruments.name_is, subinstruments.code}
                 by projectTrack.id;
 
             var projectTracks = new List<SongWithPerformersDto>();
@@ -46,26 +46,17 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Project
                     };
                     foreach (var group in groups)
                     {
-                        var performerIndex = song.Performers.FindIndex(p => p.Id == group.partyReal.id);
-                        if (performerIndex == -1)
+                        song.Performers.Add(new MusicianLiteDto
                         {
-                            song.Performers.Add(new MusicianLiteDto
+                            Id = group.partyReal.id,
+                            Name = group.partyReal.fullname,
+                            Instrument = new InstrumentDto
                             {
-                                Id = group.partyReal.id,
-                                Name = group.partyReal.fullname,
-                                Instruments = new List<string> {group.name_is},
-                                Roles =
-                                    new List<RoleDto>
-                                    {
-                                        new RoleDto {RoleCode = group.rolecode, RoleName = group.rolename_is}
-                                    }
-                            });
-                        }
-                        else
-                        {
-                            song.Performers[performerIndex].Instruments.Add(group.name_is);
-                            song.Performers[performerIndex].Roles.Add(new RoleDto { RoleCode = group.rolecode, RoleName = group.rolename_is });
-                        }
+                                IdCode = group.code,
+                                InstrumentNameIcelandic = group.name_is
+                            },
+                            Role = new RoleDto {RoleCode = group.rolecode, RoleName = group.rolename_is}
+                        });
                     }
                     projectTracks.Add(song);
                 }

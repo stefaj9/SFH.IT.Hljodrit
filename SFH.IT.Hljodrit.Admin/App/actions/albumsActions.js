@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import * as types from './actionTypes';
 import { toastr } from 'react-redux-toastr';
+import { browserHistory } from 'react-router';
 
 export function getAllAlbums(pageSize, pageNumber, searchString, searchType) {
     if(isNaN(searchString) && searchType === 'releaseYear') {
@@ -89,6 +90,81 @@ export function getAlbumById(albumId) {
         });
     };
 }
+
+export function updateAlbumBasicInfo(basicInfo) {
+    return {
+        type: types.UPDATE_ALBUM_BASIC_INFO,
+        payload: basicInfo
+    };
+};
+
+export function updateAlbumSongs(songs) {
+    return {
+        type: types.UPDATE_ALBUM_SONGS,
+        payload: songs
+    };
+};
+
+export function updateAlbumPerformers(performers) {
+    return {
+        type: types.UPDATE_ALBUM_PERFORMERS,
+        payload: performers
+    };
+};
+
+export function updateAlbumProducers(producers) {
+    return {
+        type: types.UPDATE_ALBUM_PRODUCERS,
+        payload: producers
+    };
+};
+
+export function createAlbum(album) {
+    return (dispatch) => {
+        dispatch(isCreatingAlbum());
+        return fetch('/api/albums', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(album)
+        }).then(resp => {
+            dispatch(hasStoppedCreatingAlbum());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að búa til nýja plötu.');
+                return resp.json();
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að búa til nýja plötu.');
+            }
+        }).then(data => {
+            if (data) {
+                browserHistory.push(`/albums/${data}`);
+            }
+            dispatch(createAlbumSuccess());
+        });
+    }
+};
+
+function createAlbumSuccess() {
+    return {
+        type: types.CREATE_ALBUM,
+        payload: {}
+    };
+};
+
+function isCreatingAlbum() {
+    return {
+        type: types.IS_CREATING_ALBUM,
+        payload: {}
+    };
+};
+
+function hasStoppedCreatingAlbum() {
+    return {
+        type: types.HAS_STOPPED_CREATING_ALBUM,
+        payload: {}
+    };
+};
 
 function clearCurrentAlbum() {
     return {

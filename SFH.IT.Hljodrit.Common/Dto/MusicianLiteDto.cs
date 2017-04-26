@@ -7,11 +7,11 @@ namespace SFH.IT.Hljodrit.Common.Dto
     {
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
-        [JsonProperty(PropertyName = "instruments")]
-        public List<string> Instruments { get; set; }
+        [JsonProperty(PropertyName = "instrument")]
+        public InstrumentDto Instrument { get; set; }
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
-        [JsonProperty(PropertyName = "roles")]
-        public List<RoleDto> Roles { get; set; }
+        [JsonProperty(PropertyName = "role")]
+        public RoleDto Role { get; set; }
     }
 }

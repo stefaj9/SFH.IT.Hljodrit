@@ -12,9 +12,10 @@ import NotFound from '../components/common/notFound';
 import Projects from '../components/project/projects';
 import ProjectManagement from '../components/project/projectManagement';
 import Intro from '../components/common/intro';
-import AddProject from '../components/project/addProject';
+//import AddProject from '../components/project/addProject';
 import PublishersContainer from '../components/publishers/publishersContainer';
 import Publishers from '../components/publishers/publishers';
+import AddAlbum from '../components/albums/createAlbum/addAlbum';
 import MediaContainer from '../components/media/mediaContainer';
 import Media from '../components/media/media';
 import MediaDetails from '../components/media/mediaDetails';
@@ -27,11 +28,11 @@ export default (
         <IndexRoute component={Intro} />
         <Route path="projects" component={Projects}>
             <IndexRoute component={ProjectManagement} />
-            <Route path="createproject" component={AddProject} />
         </Route>
         <Route path="calculations" component={Calculations} />
         <Route path="albums" component={AlbumContainer}>
             <IndexRoute component={Albums} />
+            <Route path="createalbum" component={AddAlbum} />
             <Route path=":albumId" component={AlbumDetailsContainer}>
                 <IndexRoute component={AlbumDetails} />
                 <Route path="songs/:songId" component={SongDetails} />

@@ -1,0 +1,32 @@
+﻿@import "variables.less";
+
+body {
+    font-family: @baseFont, sans-serif !important;
+}
+
+.not-found {
+    text-align: center;
+    .title {
+        font-size: 16em;
+        font-weight: bold;
+    }
+    .sub-title {
+        font-size: 1.5em;
+    }
+}
+
+.navbar .navbar-collapse .nav a {
+    line-height: 42px !important;
+}
+
+@media screen and (max-width: 767px) {
+    .navbar-brand img {
+        width: 50% !important;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .navbar-brand img {
+        width: 70% !important;
+    }
+}

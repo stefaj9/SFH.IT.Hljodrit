@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.Helpers;
+using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Media;
+using SFH.IT.Hljodrit.Repositories.Interfaces.Organization;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Services.Implementations
@@ -17,15 +22,23 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly ISongRepository _songRepository;
         private readonly IAlbumRepository _albumRepository;
         private readonly ICountryRepository _countryRepository;
+        private readonly IMediaRecordingRepository _mediaRecordingRepository;
+        private readonly IRecordingPartyRepository _recordingPartyRepository;
+        private readonly IOrganizationIsrcSeriesRepository _organizationIsrcSeriesRepository;
+        private readonly IOrganizationLabelRepository _organizationLabelRepository;
         private const string AlbumReleaseYearSearchFilter = "releaseYear";
         private const string AlbumMainArtistSearchFilter = "mainArtistName";
 
-        public AlbumService(ISongRepository songRepository, IAlbumRepository albumRepository, IUnitOfWork<HljodritEntities> unitOfWork, ICountryRepository countryRepository)
+        public AlbumService(ISongRepository songRepository, IAlbumRepository albumRepository, IUnitOfWork<HljodritEntities> unitOfWork, ICountryRepository countryRepository, IMediaRecordingRepository mediaRecordingRepository, IRecordingPartyRepository recordingPartyRepository, IOrganizationIsrcSeriesRepository organizationIsrcSeriesRepository, IOrganizationLabelRepository organizationLabelRepository)
         {
             _songRepository = songRepository;
             _albumRepository = albumRepository;
             _unitOfWork = unitOfWork;
             _countryRepository = countryRepository;
+            _mediaRecordingRepository = mediaRecordingRepository;
+            _recordingPartyRepository = recordingPartyRepository;
+            _organizationIsrcSeriesRepository = organizationIsrcSeriesRepository;
+            _organizationLabelRepository = organizationLabelRepository;
         }
 
         public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm, string searchFilter)
@@ -88,6 +101,129 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork.Commit();
 
             return GetAlbumById(albumId);
+        }
+
+        public int CreateAlbum(AlbumCreationViewModel album)
+        {
+
+            int albumId;
+
+            var label = _organizationLabelRepository.GetById(album.PublisherLabelId);
+            var isrcSeries = _organizationIsrcSeriesRepository.GetById(album.Publisher.IsrcSeriesId);
+            var currentDate = DateTime.Now;
+
+            var productPackage = new media_product_package
+            {
+                albumtitle = album.BasicInfo.AlbumTitle,
+                albumid = 0,
+                physicallocation = "",
+                labelid = album.PublisherLabelId,
+                cataloguenumber = "",
+                releasetypecode = "0",
+                countryofproduction = label.countrycode,
+                countryofpublication = label.countrycode,
+                releasedate = currentDate,
+                packagestatusid = 4,
+                numberoftracks = album.BasicInfo.NumberOfTracks,
+                formattypeid = 2,
+                comment = album.ReviewComment,
+                updatedby = "User",
+                updatedon = currentDate,
+                createdby = "User",
+                createdon = currentDate,
+                mainartistid = album.BasicInfo.MainArtistId
+            };
+            _albumRepository.Add(productPackage);
+
+            _unitOfWork.Commit();
+
+            albumId = productPackage.id;
+
+            foreach (var song in album.Songs)
+            {
+                // If newly created song has already been created with the same isrc.
+                if (song.Id == -1 && _mediaRecordingRepository.Get(m => m.isrc == song.Isrc) != null) { throw new DuplicateNameException("Isrc provided does already exist."); }
+
+                int recordingId;
+
+                if (song.Id == -1)
+                {
+                    //   1.3. Create media_recording (s)
+                    var recording = new media_recording
+                    {
+                        isrc = song.Isrc,
+                        recordingtitle = song.Name,
+                        workingtitle = song.Name,
+                        recordingcountrycode = label.countrycode,
+                        statusid = 4,
+                        updatedby = "User",
+                        updatedon = currentDate,
+                        createdby = "User",
+                        createdon = currentDate,
+                        recordingdate = song.RecordingDate,
+                        duration = song.Length,
+                        mainartist = album.BasicInfo.MainArtistId,
+                        markedfordeletion = false
+                    };
+
+                    _mediaRecordingRepository.Add(recording);
+                    _unitOfWork.Commit();
+
+                    recordingId = recording.id;
+                }
+                else
+                {
+                    recordingId = song.Id;
+                }
+
+                //   1.4. Create media_product (s)
+                _songRepository.Add(new media_product
+                {
+                    isrc = song.Isrc,
+                    recordingid = recordingId,
+                    title = song.Name,
+                    tracknumber = song.Number,
+                    sidenumber = 1,
+                    labelid = album.PublisherLabelId,
+                    cataloguenumber = "",
+                    mediaproducttypeid = 1,
+                    packageid = albumId,
+                    releasedate = currentDate,
+                    countryofproduction = label.countrycode,
+                    statusid = 4,
+                    updatedby = "User",
+                    updatedon = currentDate,
+                    createdby = "User",
+                    createdon = currentDate,
+                    is_deleted = false
+                });
+
+                //   1.5. Add to recording_party
+                song.Performers.ForEach(performer => _recordingPartyRepository.Add(new recording_party
+                {
+                    recordingid = recordingId,
+                    partyrealid = performer.Id,
+                    rolecode = performer.Role.RoleCode,
+                    instrumentcode = performer.Instrument.IdCode,
+                    updatedby = "User",
+                    updatedon = currentDate,
+                    createdby = "User",
+                    createdon = currentDate,
+                    status = 2
+                }));
+            }
+
+            isrcSeries.updatedon = currentDate;
+            isrcSeries.updatedby = "User";
+            isrcSeries.isrc_lastusednumber += 100;
+            isrcSeries.isrc_lastusedyear = DateTime.Now.Year;
+
+            _organizationIsrcSeriesRepository.Update(isrcSeries);
+
+            //   1.6. Commit changes
+            _unitOfWork.Commit();
+
+            return albumId;
         }
 
         //public MusicianExtendedDto GetMusicianOnAlbum(int albumId, int musicianId)

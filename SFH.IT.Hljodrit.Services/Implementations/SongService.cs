@@ -59,23 +59,19 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         public void AddMusicianToSong(int songId, MusicianRegisterViewModel musician)
         {
             var recordingId = _songRepository.Get(s => s.id == songId).recordingid;
-            int counter = 0;
-            foreach (var instrument in musician.Instruments)
+
+            _recordingPartyRepository.Add(new recording_party
             {
-                _recordingPartyRepository.Add(new recording_party
-                {
-                    recordingid = recordingId,
-                    partyrealid = musician.PartyRealId,
-                    rolecode = counter == 0 ? musician.Role.RoleCode : "N/A",
-                    instrumentcode = _instrumentRepository.Get(i => i.name_is == instrument.Replace(":", ",")).code,
-                    updatedby = "User", // Replace with user
-                    updatedon = DateTime.Now,
-                    createdby = "User",
-                    createdon = DateTime.Now,
-                    status = 2
-                });
-                counter++;
-            }
+                recordingid = recordingId,
+                partyrealid = musician.PartyRealId,
+                rolecode = musician.Role.RoleCode,
+                instrumentcode = musician.Instrument.IdCode,
+                updatedby = "User", // Replace with user
+                updatedon = DateTime.Now,
+                createdby = "User",
+                createdon = DateTime.Now,
+                status = 2
+            });
 
             _unitOfWork.Commit();
         }

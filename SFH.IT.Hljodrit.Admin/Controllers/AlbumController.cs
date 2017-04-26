@@ -26,6 +26,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok(_albumService.GetAlbums(pageSize, pageNumber, searchTerm ?? "", searchFilter));
         }
 
+        [HttpPost]
+        [Route("")]
+        public IHttpActionResult CreateAlbum([FromBody] AlbumCreationViewModel album)
+        {
+            return Ok(_albumService.CreateAlbum(album));
+        }
+
         [HttpGet]
         [Route("{albumId:int}")]
         public IHttpActionResult GetAlbumById(int albumId)

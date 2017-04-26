@@ -4,12 +4,32 @@ import _ from 'lodash';
 let initialState = {
     isFetching: true,
     isFetchingSongs: true,
+    isCreatingAlbum: false,
     envelope: {
         currentPage: -1,
         maximumPage: -1,
         objects: []
     },
     isModalOpen: false,
+    albumBeingCreated: {
+        basicInfo: {
+            albumMainArtist: {
+                id: -1,
+                name: ''
+            },
+            albumCountryOfPublish: {
+                code: '',
+                name: ''
+            },
+            albumType: {
+                id: -1,
+                value: ''
+            },
+            albumYearOfPublish: 1337
+        },
+        songs: [],
+        publisher: {}
+    },
     selectedAlbum: {},
     songsOnSelectedAlbum: []
 };
@@ -32,6 +52,66 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 selectedAlbum: action.payload
             });
+        case types.UPDATE_ALBUM_BASIC_INFO: return Object.assign({}, state, {
+            albumBeingCreated: {
+                basicInfo: action.payload,
+                songs: state.albumBeingCreated.songs,
+                publisher: state.albumBeingCreated.publisher
+            }
+        });
+        case types.UPDATE_ALBUM_SONGS: 
+            return Object.assign({}, state, {
+                albumBeingCreated: {
+                    basicInfo: state.albumBeingCreated.basicInfo,
+                    songs: action.payload,
+                    publisher: state.albumBeingCreated.publisher
+                }
+            });
+        case types.UPDATE_ALBUM_PERFORMERS: 
+            let newSongs = _.cloneDeep(state.albumBeingCreated.songs);
+            _.forEach(action.payload, (performers) => {
+                let song = _.find(newSongs, (s) => {
+                    return s.number === performers.number;
+                });
+                song.performers = performers.performers;
+            });
+            return Object.assign({}, state, {
+                albumBeingCreated: {
+                    basicInfo: state.albumBeingCreated.basicInfo,
+                    songs: newSongs,
+                    publisher: state.albumBeingCreated.publisher
+                }
+            });
+        case types.UPDATE_ALBUM_PRODUCERS: return Object.assign({}, state, {
+            albumBeingCreated: {
+                basicInfo: state.albumBeingCreated.basicInfo,
+                songs: state.albumBeingCreated.songs,
+                publisher: action.payload
+            }
+        });
+        case types.CREATE_ALBUM: return Object.assign({}, state, {
+            albumBeingCreated: {
+                basicInfo: {
+                    albumMainArtist: {
+                        id: -1,
+                        name: ''
+                    },
+                    albumCountryOfPublish: {
+                        code: '',
+                        name: ''
+                    },
+                    albumYearOfPublish: 1337
+                },
+                songs: [],
+                publisher: {}
+            }
+        });
+        case types.IS_CREATING_ALBUM: return Object.assign({}, state, {
+            isCreatingAlbum: true
+        });
+        case types.HAS_STOPPED_CREATING_ALBUM: return Object.assign({}, state, {
+            isCreatingAlbum: false
+        });
         case types.REMOVE_SONGS_FROM_ALBUM:
             let currentSongs = _.cloneDeep(state.songsOnSelectedAlbum);
             _.forEach(action.payload, id => {

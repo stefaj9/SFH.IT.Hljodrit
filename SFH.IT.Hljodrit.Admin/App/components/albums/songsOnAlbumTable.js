@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Table from '../common/table';
-import { removeSongsFromAlbum } from '../../actions/AlbumsActions';
+import { removeSongsFromAlbum } from '../../actions/albumsActions';
 import albumTableData from './albumTableData';
 import _ from 'lodash';
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SFH.IT.Hljodrit.Common;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.Helpers;
 using SFH.IT.Hljodrit.Common.StaticHelperClasses;
 using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Models;
@@ -152,7 +153,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
                 foreach (var track in projectTracks)
                 {
-                    var isrc = GenerateIsrcNumber(isrcSeries.isrc_countrypart, isrcSeries.isrc_organizationpart,
+                    var isrc = IsrcHelper.GenerateIsrcNumber(isrcSeries.isrc_countrypart, isrcSeries.isrc_organizationpart,
                         isrcSeries.isrc_lastusedyear, lastUsedNumber++);
 
                     // Update track isrc as well.
@@ -233,16 +234,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 _unitOfWork.Commit();
             }
 
-
             return albumId;
-        }
-
-        private string GenerateIsrcNumber(string countryPart, string organizationPart, int year, int lastUsedNumber)
-        {
-            var yearTruncate = year.ToString().Substring(year.ToString().Length - Math.Min(2, year.ToString().Length));
-            yearTruncate = yearTruncate.PadLeft(2, '0');
-            var lastUsedNumberPadded = lastUsedNumber.ToString().PadLeft(5, '0');
-            return $"{countryPart}-{organizationPart}-{yearTruncate}-{lastUsedNumberPadded}";
         }
     }
 }

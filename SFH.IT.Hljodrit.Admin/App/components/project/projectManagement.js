@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import SearchBar from '../common/searchBar';
 import { getAllProjects } from '../../actions/projectActions';
 import Filter from '../common/filter';
@@ -120,9 +119,6 @@ class ProjectManagement extends React.Component {
                             </div>}
                     type='info' />
                 <h2>Verkefnastýring</h2>
-                <div className="add-project space-20 text-right">
-                    <Link to='projects/createproject'><i className="fa fa-2x fa-plus"></i></Link>
-                </div>
                 <SearchBar visible={true} searchBy={(search) => this.searchBy(search)} searchTerm={this.state.searchString} />
                 <Filter filters={this.state.filterProperties} filterBy={(filter) => this.filterBy(filter)} />
                 <PageSelector change={(newPagesize) => this.changePagesize(newPagesize)} />
