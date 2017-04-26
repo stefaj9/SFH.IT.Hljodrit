@@ -30,3 +30,56 @@ body {
         width: 70% !important;
     }
 }
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+}
+
+.steps-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    margin-top: 20px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    .step {
+        position: relative;
+        &:after {
+            content: '';
+            border-bottom: solid 1px @fadedGray;
+            position: absolute;
+            width: 120px;
+            top: 10px;
+            left: 90px;
+        }
+        &.step-finished {
+            .icon {
+                color: @lightGreen;
+            }
+            .step-title {
+                color: @mediumGray;
+            }
+        }
+        &.step-current {
+            .icon {
+                font-size: 1.2em;
+            }
+        }
+        &.step-unfinished {
+            color: @mediumGray;
+        }
+        &:last-child {
+            &:after {
+                border: solid 0px black;
+            }
+        }
+        .icon {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.hidden {
+    display: none !important;
+}
