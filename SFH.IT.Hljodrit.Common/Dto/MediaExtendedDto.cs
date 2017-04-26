@@ -17,6 +17,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty("albumAppearances")]
         public IEnumerable<AlbumDto> AlbumAppearances { get; set; }
         [JsonProperty("musicians")]
-        public IEnumerable<MusicianCreditsDto> MusicianDtos { get; set; }
+        public IEnumerable<MusicianCreditsDto> Musicians { get; set; }
+        [JsonProperty("composers")]
+        public IEnumerable<MusicianCreditsDto> Composers { get; set; }
     }
 }
