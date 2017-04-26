@@ -81,6 +81,7 @@
     <Compile Include="Dto\SongWithPerformersDto.cs" />
     <Compile Include="Dto\ZipCodeDto.cs" />
     <Compile Include="Dto\Envelope.cs" />
+    <Compile Include="Helpers\IsrcHelper.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="ProjectStatusEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

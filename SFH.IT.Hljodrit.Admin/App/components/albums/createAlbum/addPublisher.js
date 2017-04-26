@@ -9,21 +9,15 @@ import { toastr } from 'react-redux-toastr';
 
 class AddPublisher extends React.Component {
     componentWillReceiveProps(newProps) {
-        if (newProps.isrcSeries.length > 0) {
+        if (newProps.isrcSeries.length > 0 && newProps.labels.length > 0) {
             let firstIsrcSeries = newProps.isrcSeries[0];
+            let firstLabel = newProps.labels[0];
             this.setState({
                 publisher: Object.assign({}, this.state.publisher, {
                     isrcSeriesId: firstIsrcSeries.isrcSeriesId,
                     isrcOrganizationPart: firstIsrcSeries.isrcOrganizationPart,
                     lastUsedIsrc: firstIsrcSeries.lastIsrcNumber,
-                    isrcSeriesPrettyName: `${firstIsrcSeries.purposeLabel} (${firstIsrcSeries.isrcOrganizationPart})`
-                })
-            });
-        }
-        if (newProps.labels.length > 0) {
-            let firstLabel = newProps.labels[0];
-            this.setState({
-                publisher: Object.assign({}, this.state.publisher, {
+                    isrcSeriesPrettyName: `${firstIsrcSeries.purposeLabel} (${firstIsrcSeries.isrcOrganizationPart})`,
                     labelId: firstLabel.labelId,
                     labelName: firstLabel.labelName
                 })

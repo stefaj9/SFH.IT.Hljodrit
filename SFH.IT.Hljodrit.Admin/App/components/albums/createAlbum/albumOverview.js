@@ -50,7 +50,7 @@ class AlbumOverview extends React.Component {
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 col-sm-6 confirmation-item-title">Plötutegund</div>
-                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.albumType}</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.albumType.value}</div>
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 col-sm-6 confirmation-item-title">Aðalflytjandi</div>

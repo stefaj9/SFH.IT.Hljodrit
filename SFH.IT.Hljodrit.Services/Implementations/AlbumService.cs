@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using SFH.IT.Hljodrit.Common.Dto;
@@ -104,13 +105,6 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public int CreateAlbum(AlbumCreationViewModel album)
         {
-            // TODO:
-            // 1. Add album to media_product_package
-            // 2. Add songs to media_recording
-            // 3. Add songs to media_product
-            // 4. Add performers to recording_party
-            // 5. Update ISRC-series
-            // 6. Commit changes
 
             int albumId;
 
@@ -145,12 +139,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
             albumId = productPackage.id;
 
-            var lastUsedNumber = isrcSeries.isrc_lastusednumber + 1;
-
             foreach (var song in album.Songs)
             {
-                var isrc = IsrcHelper.GenerateIsrcNumber(isrcSeries.isrc_countrypart, isrcSeries.isrc_organizationpart,
-                    isrcSeries.isrc_lastusedyear, lastUsedNumber++);
+                // If newly created song has already been created with the same isrc.
+                if (song.Id == -1 && _mediaRecordingRepository.Get(m => m.isrc == song.Isrc) != null) { throw new DuplicateNameException("Isrc provided does already exist."); }
 
                 int recordingId;
 
@@ -159,7 +151,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     //   1.3. Create media_recording (s)
                     var recording = new media_recording
                     {
-                        isrc = isrc,
+                        isrc = song.Isrc,
                         recordingtitle = song.Name,
                         workingtitle = song.Name,
                         recordingcountrycode = label.countrycode,
@@ -181,13 +173,13 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 }
                 else
                 {
-                    recordingId = _songRepository.GetById(song.Id).media_recording.id;
+                    recordingId = song.Id;
                 }
 
                 //   1.4. Create media_product (s)
                 _songRepository.Add(new media_product
                 {
-                    isrc = isrc,
+                    isrc = song.Isrc,
                     recordingid = recordingId,
                     title = song.Name,
                     tracknumber = song.Number,

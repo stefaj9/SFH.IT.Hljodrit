@@ -4,6 +4,7 @@ import _ from 'lodash';
 let initialState = {
     isFetching: true,
     isFetchingSongs: true,
+    isCreatingAlbum: false,
     envelope: {
         currentPage: -1,
         maximumPage: -1,
@@ -19,6 +20,10 @@ let initialState = {
             albumCountryOfPublish: {
                 code: '',
                 name: ''
+            },
+            albumType: {
+                id: -1,
+                value: ''
             },
             albumYearOfPublish: 1337
         },
@@ -100,6 +105,12 @@ export default function (state = initialState, action) {
                 songs: [],
                 publisher: {}
             }
+        });
+        case types.IS_CREATING_ALBUM: return Object.assign({}, state, {
+            isCreatingAlbum: true
+        });
+        case types.HAS_STOPPED_CREATING_ALBUM: return Object.assign({}, state, {
+            isCreatingAlbum: false
         });
         case types.REMOVE_SONGS_FROM_ALBUM:
             let currentSongs = _.cloneDeep(state.songsOnSelectedAlbum);

@@ -30,8 +30,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         [Route("")]
         public IHttpActionResult CreateAlbum([FromBody] AlbumCreationViewModel album)
         {
-            _albumService.CreateAlbum(album);
-            return Ok();
+            return Ok(_albumService.CreateAlbum(album));
         }
 
         [HttpGet]

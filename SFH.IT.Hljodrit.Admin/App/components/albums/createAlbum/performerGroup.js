@@ -21,16 +21,19 @@ class PerformerGroup extends React.Component {
             group: []
         }
     }
-    addInstrumentToUser(instrument, performerId) {
+    addInstrumentToUser(e, performerId, idx) {
         let group = _.cloneDeep(this.state.group);
-        let selectedPerformer = _.find(group, (member) => { return member.id === performerId });
-        selectedPerformer.instrument = instrument;
+        let selectedPerformer = group[idx];
+
+        let index = e.target.selectedIndex;
+
+        selectedPerformer.instrument = { idCode: e.target.value, instrumentNameIcelandic: e.target.options[index].text };
 
         this.props.saveGroupToCookie(group);
     }
-    addRoleToUser(e, performerId) {
+    addRoleToUser(e, performerId, idx) {
         let group = _.cloneDeep(this.state.group);
-        let selectedPerformer = _.find(group, (member) => { return member.id === performerId });
+        let selectedPerformer = group[idx];
         let index = e.target.selectedIndex;
         selectedPerformer.role = { code: e.target.value, name: e.target.options[index].text };
 
@@ -59,11 +62,11 @@ class PerformerGroup extends React.Component {
 
         this.props.saveGroupToCookie(group);
     }
-    removePerformerFromGroup(e, performerId) {
+    removePerformerFromGroup(e, performerId, idx) {
         e.preventDefault();
         let group = _.cloneDeep(this.state.group);
-        _.remove(group, (member) => {
-            return member.id === performerId;
+        _.remove(group, (member, index) => {
+            return idx === index;
         });
 
         toastr.success('Tókst!', 'Það tókst að fjarlægja flytjanda úr hópnum.');
@@ -113,7 +116,7 @@ class PerformerGroup extends React.Component {
                             name="group-member-role" 
                             id={`group-member-role-${member.id}`} 
                             className="form-control group-member-role"
-                            onChange={(e) => this.addRoleToUser(e, member.id)}
+                            onChange={(e) => this.addRoleToUser(e, member.id, idx)}
                             value={member.role.code}>
                             {this.renderPerformerRoles()}
                         </select>
@@ -122,13 +125,13 @@ class PerformerGroup extends React.Component {
                             name="group-member-instrument" 
                             id="group-member-instrument"
                             className="form-control group-member-role"
-                            onChange={(e) => this.addInstrumentToUser(e, member.id)}
+                            onChange={(e) => this.addInstrumentToUser(e, member.id, idx)}
                             value={member.instrument.idCode}>
                             {this.renderPerformerInstruments()}
                         </select>
                         <div className="remove-performer-group-btn">
                             <button 
-                                onClick={(e) => this.removePerformerFromGroup(e, member.id)}
+                                onClick={(e) => this.removePerformerFromGroup(e, member.id, idx)}
                                 className="btn btn-default">Fjarlægja úr hóp
                                 <i className="fa fa-times fa-fw"></i>
                             </button>

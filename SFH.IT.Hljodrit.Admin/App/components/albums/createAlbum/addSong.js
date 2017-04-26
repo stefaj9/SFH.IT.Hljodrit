@@ -46,7 +46,7 @@ class AddSong extends React.Component {
             selectedTab: 1
         };
     }
-    addSongToList(e, songId, songName, songLength, songIsrc, isrcPrefix) {
+    addSongToList(e, songId, songName, songLength, songIsrc, isrcPrefix, recordingDate) {
         e.preventDefault();
         const { songs, lastSongNumber } = this.state;
         let newSongList = _.concat(songs, { 
@@ -55,6 +55,7 @@ class AddSong extends React.Component {
             name: songName,
             length: songLength,
             isrc: `${isrcPrefix}${_.padStart(songIsrc, 5, '0')}`,
+            recordingDate: recordingDate,
             performers: []
         });
         this.setState({
@@ -103,7 +104,9 @@ class AddSong extends React.Component {
 
         newSongs = _.forEach(newSongs, (song, idx) => {
             song.number = idx + 1;
-            song.isrc = `${this.props.isrcPrefix}${padIsrcNumber(parseInt(this.props.lastUsedIsrc) + (idx + 1))}`;
+            if (song.isrc.indexOf(this.props.isrcPrefix) !== -1) {
+                song.isrc = `${this.props.isrcPrefix}${padIsrcNumber(parseInt(this.props.lastUsedIsrc) + (idx + 1))}`;
+            }
         });
 
         this.setState({
@@ -199,7 +202,7 @@ class AddSong extends React.Component {
                                 <button 
                                     tabIndex="5"
                                     className="btn btn-default" 
-                                    onClick={(e) => this.addSongToList(e, this.state.currentSongId, this.state.currentSongName, this.state.currentSongLength, this.state.currentSongIsrc, this.props.isrcPrefix)}
+                                    onClick={(e) => this.addSongToList(e, this.state.currentSongId, this.state.currentSongName, this.state.currentSongLength, this.state.currentSongIsrc, this.props.isrcPrefix, new Date())}
                                     disabled={!this.isAddSongValid()}>Bæta við</button>
                             </div>
                         </form>

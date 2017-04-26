@@ -12,7 +12,10 @@ class AlbumBasicInfo extends React.Component {
 
         this.state = {
             albumName: '',
-            albumType: 1,
+            albumType: {
+                id: 1,
+                value: 'Venjuleg plata'
+            },
             albumYearOfPublish: '',
             albumCountryOfPublish: {
                 code: 'IS',
@@ -26,10 +29,10 @@ class AlbumBasicInfo extends React.Component {
         };
     }
     populateOptions() {
-        let options = ['Venjuleg plata', 'Safnplata', 'Single'];
-        return options.map((option, idx) => {
+        let options = [{ id: 1, value: 'Venjuleg plata' }, { id: 2, value: 'Safnplata' }, { id: 3, value: 'Single' }];
+        return options.map((option) => {
             return (
-                <option key={`${option}-${idx + 1}`} value={idx + 1}>{option}</option>
+                <option key={option.id} value={option.id}>{option.value}</option>
             );
         });
     }
@@ -53,7 +56,7 @@ class AlbumBasicInfo extends React.Component {
     }
     isValid() {
         const { albumType, albumName, albumMainArtist, albumYearOfPublish } = this.state;
-        return albumType === 1 ? albumName.length > 0 && albumMainArtist.id !== -1 && albumYearOfPublish !== '' : albumName.length > 0 && albumYearOfPublish !== '';
+        return albumType.id === 1 ? albumName.length > 0 && albumMainArtist.id !== -1 && albumYearOfPublish !== '' : albumName.length > 0 && albumYearOfPublish !== '';
     }
     submitBasicInfo(e) {
         e.preventDefault();
@@ -74,6 +77,15 @@ class AlbumBasicInfo extends React.Component {
             }
         });
         toastr.success('Tókst!', 'Það tókst að fjarlægja aðalflytjanda');
+    }
+    selectAlbumType(e) {
+        let index = e.target.selectedIndex;
+        this.setState({
+            albumType: {
+                id: parseInt(e.target.value),
+                value: e.target.options[index].text
+            }
+        });
     }
     render() {
         const { albumType, albumName, albumMainArtist, mainArtistModalIsOpen, albumYearOfPublish, albumCountryOfPublish } = this.state;
@@ -99,8 +111,8 @@ class AlbumBasicInfo extends React.Component {
                             className="form-control" 
                             name="album-type" 
                             id="album-type" 
-                            value={albumType} 
-                            onChange={(e) => this.setState({ albumType: parseInt(e.target.value) })}>
+                            value={albumType.id} 
+                            onChange={(e) => this.selectAlbumType(e) }>
                                 {this.populateOptions()}
                         </select>
                     </div>
@@ -125,7 +137,7 @@ class AlbumBasicInfo extends React.Component {
                             {this.populateCountryOptions()}
                         </select>
                     </div>
-                    <div className={albumType === 1 ? 'form-group' : 'hidden'}>
+                    <div className={albumType.id === 1 ? 'form-group' : 'hidden'}>
                         <div className={albumMainArtist.id === -1 ? 'hidden' : ''}>
                             <table className="table table-default table-striped table-responsive">
                                 <thead>

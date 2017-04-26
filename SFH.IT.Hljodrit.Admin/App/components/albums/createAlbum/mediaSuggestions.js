@@ -1,6 +1,5 @@
 import React from 'react';
 import Spinner from 'react-spinner';
-import moment from 'moment';
 
 const MediaSuggestions = ({ media, isFetching, songs, addSongToList }) => {
     const renderMediaSuggestions = () => {
@@ -45,7 +44,7 @@ const MediaSuggestions = ({ media, isFetching, songs, addSongToList }) => {
                                                 <strong>Útgáfudagsetning:</strong>
                                             </div>
                                             <div className="col-xs-7">
-                                                {(media.releaseDate ? moment(media.releaseDate).format('LL') : 'N/A')}
+                                                {media.releaseDate ? media.releaseDate.pretty : 'N/A'}
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +62,7 @@ const MediaSuggestions = ({ media, isFetching, songs, addSongToList }) => {
                             </div>
                             <div 
                                 className="col-xs-1 text-center add-song-plus"
-                                onClick={(e) => addSongToList(e, media.mediaId, media.mediaTitle, media.duration, media.isrc, '')}>
+                                onClick={(e) => addSongToList(e, media.mediaId, media.mediaTitle, media.duration, media.isrc, '', media.releaseDate.raw)}>
                                 <i className="fa fa-plus fa-2x"></i>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import * as types from './actionTypes';
 import { toastr } from 'react-redux-toastr';
+import { browserHistory } from 'react-router';
 
 export function getAllAlbums(pageSize, pageNumber, searchString, searchType) {
     if(isNaN(searchString) && searchType === 'releaseYear') {
@@ -120,6 +121,7 @@ export function updateAlbumProducers(producers) {
 
 export function createAlbum(album) {
     return (dispatch) => {
+        dispatch(isCreatingAlbum());
         return fetch('/api/albums', {
             method: 'POST',
             headers: {
@@ -127,12 +129,18 @@ export function createAlbum(album) {
             },
             body: JSON.stringify(album)
         }).then(resp => {
+            dispatch(hasStoppedCreatingAlbum());
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að búa til nýja plötu.');
-                dispatch(createAlbumSuccess());
+                return resp.json();
             } else {
                 toastr.error('Villa!', 'Ekki tókst að búa til nýja plötu.');
             }
+        }).then(data => {
+            if (data) {
+                browserHistory.push(`/albums/${data}`);
+            }
+            dispatch(createAlbumSuccess());
         });
     }
 };
@@ -140,6 +148,20 @@ export function createAlbum(album) {
 function createAlbumSuccess() {
     return {
         type: types.CREATE_ALBUM,
+        payload: {}
+    };
+};
+
+function isCreatingAlbum() {
+    return {
+        type: types.IS_CREATING_ALBUM,
+        payload: {}
+    };
+};
+
+function hasStoppedCreatingAlbum() {
+    return {
+        type: types.HAS_STOPPED_CREATING_ALBUM,
         payload: {}
     };
 };

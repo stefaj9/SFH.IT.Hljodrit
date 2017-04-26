@@ -56,7 +56,7 @@ export default function(state = initialState, action) {
             let newMediaRecordingEnvelope = _.cloneDeep(action.payload);
             newMediaRecordingEnvelope.objects = newMediaRecordingEnvelope.objects.map(o => {
                 return Object.assign({}, o, {
-                    releaseDate: moment(o.releaseDate).format('ll')
+                    releaseDate: { pretty: moment(o.releaseDate).format('ll'), raw: o.releaseDate } 
                 });
             });
             return Object.assign({}, state, {
