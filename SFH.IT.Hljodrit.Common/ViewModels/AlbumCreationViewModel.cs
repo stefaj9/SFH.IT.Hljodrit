@@ -14,5 +14,7 @@ namespace SFH.IT.Hljodrit.Common.ViewModels
         public int PublisherLabelId { get; set; }
         [JsonProperty(PropertyName = "songs")]
         public IEnumerable<SongWithPerformersDto> Songs { get; set; }
+        [JsonProperty(PropertyName = "reviewComment")]
+        public string ReviewComment { get; set; }
     }
 }

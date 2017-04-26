@@ -27,27 +27,14 @@ export default class AddPerformers extends React.Component {
         let containsError = false;
         songNumbers.map((number) => {
             let song = _.find(songs, (song) => { return song.number === number });
-            let songContainsMainArtist = _.find(song.performers, (performer) => { return performer.roles.code === 'MA' });
-            let groupContainsMainArtist = _.find(group, (member) => { return member.roles.code === 'MA' });
-            if (songContainsMainArtist && groupContainsMainArtist) {
-                if (!containsError) {
-                    // Only want to toast the error once.
-                    toastr.error('Villa!', 'Ekki er hægt að bæta við meira en einum aðalflytjanda.');    
-                }
-                containsError = true;
-                return;
-            }
             group.map((g) => {
-                let exists = _.find(song.performers, (performer) => { return performer.id === g.id });
-                if (!exists) {
-                    song.performers = _.concat(song.performers, g);
-                }
+                song.performers = _.concat(song.performers, g);
             });
         });
         if (!containsError) {
             toastr.success('Tókst!', 'Það tókst að bæta við hópi á valin lög.');
             this.setState({ songs: songs });
-        }        
+        }
     }
     render() {
         return (

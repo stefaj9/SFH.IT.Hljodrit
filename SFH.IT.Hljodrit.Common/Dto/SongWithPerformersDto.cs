@@ -16,6 +16,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public string Name { get; set; }
         [JsonProperty(PropertyName = "number")]
         public int Number { get; set; }
+        [JsonProperty(PropertyName = "recordingDate")]
+        public DateTime RecordingDate { get; set; }
         [JsonProperty(PropertyName = "performers")]
         public List<MusicianLiteDto> Performers { get; set; }
     }

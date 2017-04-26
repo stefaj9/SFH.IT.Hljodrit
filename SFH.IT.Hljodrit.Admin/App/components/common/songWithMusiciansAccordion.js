@@ -25,21 +25,16 @@ class SongWithMusiciansAccordion extends React.Component {
             return item.number === number;
         });
 
-        if (_.find(song.performers, (p) => { return p.id === performer.id })) {
-            toastr.error('Villa!', 'Ekki er hægt að bæta við sama flytjanda oftar en einu sinni');
-            return;
-        }
-
         if (song) {
             // The song has already been added
-            song.performers = _.concat(song.performers, { id: performer.id, name: performer.name, instruments: performer.instruments, roles: [{ code: performer.roles.code, name: performer.roles.name }] });
+            song.performers = _.concat(song.performers, { id: performer.id, name: performer.name, instrument: { idCode: performer.instrument.idCode, instrumentNameIcelandic: performer.instrument.instrumentNameIcelandic }, role: { code: performer.role.code, name: performer.role.name } });
         } else {
             songsCopy = _.concat(songsCopy, {
                 number: number,
                 name: song.name,
                 length: song.length,
                 isrc: song.isrc,
-                performers: [ { id: performer.id, name: performer.name, instruments: performer.instruments, roles: [{ code: performer.roles.code, name: performer.roles.name }] } ]
+                performers: [ { id: performer.id, name: performer.name, instrument: { idCode: performer.instrument.idCode, instrumentNameIcelandic: performer.instrument.instrumentNameIcelandic }, role: { code: performer.role.code, name: performer.role.name } } ]
             });
         }
 
@@ -68,19 +63,11 @@ class SongWithMusiciansAccordion extends React.Component {
         if (this.props.songs.length > 0) {
             return this.props.songs.map((song, idx) => {
                 let displayPerformers = song.performers.map((performer) => {
-                    let instruments = performer.instruments.map((instrument, idx) => {
-                        if (instrument !== null) {
-                            return idx === performer.instruments.length - 1 ? instrument : `${instrument}, `;
-                        }
-                    });
-                    let roles = performer.roles.map((role, idx) => {
-                        return idx === performer.roles.length - 1 ? role.name : `${role.name}, `;
-                    });
                     return (
-                        <tr key={`${song.number}-${performer.id}-${performer.roles.code}`}>
+                        <tr key={`${song.number}-${performer.id}-${performer.role.code}`}>
                             <td>{performer.name}</td>
-                            <td>{instruments}</td>
-                            <td>{roles}</td>
+                            <td>{performer.instrument.instrumentNameIcelandic}</td>
+                            <td>{performer.role.name}</td>
                             <td className={this.props.functionDisabled ? 'hidden' : ''}>
                                 <a href="#" onClick={(e) => this.removePerformerFromSong(e, song.number, performer.id)}>
                                     <i className="fa fa-times"></i>

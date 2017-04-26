@@ -28,7 +28,7 @@ class PerformerListModal extends React.Component {
                 id: -1,
                 name: '',
                 role: '',
-                instruments: []
+                instrument: ''
             }
         };
     }

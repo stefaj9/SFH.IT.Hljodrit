@@ -1,21 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ModalSteps from '../../common/modalSteps';
-import _ from 'lodash';
 
 class AlbumOverview extends React.Component {
     renderPerformers(performers) {
         return performers.map((performer) => {
-            const { id, name, instruments, roles } = performer;
-            let renderInstrument = _.join(instruments, ', ');
-            let renderRoles = roles.map((role, idx) => {
-                return roles.length - 1 === idx ? role.name : `${role.name}, `;
-            });
+            const { id, name, instrument, role } = performer;
             return (
-                <tr key={`${name}-${id}-${roles.code}`}>
+                <tr key={`${name}-${id}-${role.code}`}>
                     <td>{name}</td>
-                    <td>{renderInstrument}</td>
-                    <td>{renderRoles}</td>
+                    <td>{instrument.instrumentNameIcelandic}</td>
+                    <td>{role.name}</td>
                 </tr>
             );
         });

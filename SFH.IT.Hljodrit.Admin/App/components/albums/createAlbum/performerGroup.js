@@ -1,5 +1,4 @@
 import React from 'react';
-import Chips from 'react-chips';
 import { connect } from 'react-redux';
 import { getPersonsByCriteria } from '../../../actions/personActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../../actions/flowActions';
@@ -22,10 +21,10 @@ class PerformerGroup extends React.Component {
             group: []
         }
     }
-    addInstrument(instruments, performerId) {
+    addInstrumentToUser(instrument, performerId) {
         let group = _.cloneDeep(this.state.group);
         let selectedPerformer = _.find(group, (member) => { return member.id === performerId });
-        selectedPerformer.instruments = instruments;
+        selectedPerformer.instrument = instrument;
 
         this.props.saveGroupToCookie(group);
     }
@@ -33,7 +32,7 @@ class PerformerGroup extends React.Component {
         let group = _.cloneDeep(this.state.group);
         let selectedPerformer = _.find(group, (member) => { return member.id === performerId });
         let index = e.target.selectedIndex;
-        selectedPerformer.roles = _.concat(selectedPerformer.roles, { code: e.target.value, name: e.target.options[index].text });
+        selectedPerformer.role = { code: e.target.value, name: e.target.options[index].text };
 
         this.props.saveGroupToCookie(group);
     }
@@ -42,20 +41,17 @@ class PerformerGroup extends React.Component {
         this.setState({ isAddingPerson: true });
     }
     addPerformerToGroup(performer) {
-        performer.roles = [];
-        if (this.props.roles.length > 0) {
-            let firstRole = this.props.roles[0];
-            performer.roles = _.concat(performer.roles, { code: firstRole.code, name: firstRole.name });
-        }
-        
-        performer.instruments = [];
         let group = _.cloneDeep(this.state.group);
 
-        // Prevent adding a performer which is already in the group.
-        if (_.find(group, (member) => { return member.id === performer.id })) {
-            toastr.error('Villa!', 'Ekki er hægt að bæta við flytjanda sem er nú þegar í hópnum.');
-            return;
-        }
+        performer.role = {
+            code: 'MA',
+            name: 'Aðal flytjandi'
+        };
+
+        performer.instrument = {
+            idCode: 'JWF',
+            instrumentNameIcelandic: 'Sjakúhatsjí (jap. langflauta); ýmsar þverflautur'
+        };
 
         group = _.concat(group, performer);
 
@@ -99,19 +95,18 @@ class PerformerGroup extends React.Component {
             );
         });
     }
+    renderPerformerInstruments() {
+        return this.props.instrumentSuggestions.map(instrument => {
+            return (
+                <option key={instrument.idCode} value={instrument.idCode}>{instrument.instrumentNameIcelandic}</option>
+            );
+        });
+    }
     renderGroup() {
-        let suggestions = this.props.instrumentSuggestions;
-        if (this.props.instrumentSuggestions.length > 0) {
-            suggestions = _.forEach(this.props.instrumentSuggestions, (item) => {
-                item.instrumentNameIcelandic = item.instrumentNameIcelandic.replace(',', ':');
-            });
-            suggestions = _.map(suggestions, 'instrumentNameIcelandic');
-        }
         if (this.state.group.length > 0) {
-            return this.state.group.map((member) => {
-                let firstRole = member.roles.length > 0 ? member.roles[0] : { code: '', name: ''};
+            return this.state.group.map((member, idx) => {
                 return (
-                    <div key={`${member.id}-${member.name}`} className="group text-center">
+                    <div key={`${member.id}-${member.name}-${idx}`} className="group text-center">
                         <h4>{member.name}</h4>
                         <label>Hlutverk</label>
                         <select 
@@ -119,14 +114,18 @@ class PerformerGroup extends React.Component {
                             id={`group-member-role-${member.id}`} 
                             className="form-control group-member-role"
                             onChange={(e) => this.addRoleToUser(e, member.id)}
-                            value={firstRole}>
+                            value={member.role.code}>
                             {this.renderPerformerRoles()}
                         </select>
                         <label>Hljóðfæri</label>
-                        <Chips
-                            value={member.instruments}
-                            onChange={(instruments) => this.addInstrument(instruments, member.id)}
-                            suggestions={suggestions} />
+                        <select 
+                            name="group-member-instrument" 
+                            id="group-member-instrument"
+                            className="form-control group-member-role"
+                            onChange={(e) => this.addInstrumentToUser(e, member.id)}
+                            value={member.instrument.idCode}>
+                            {this.renderPerformerInstruments()}
+                        </select>
                         <div className="remove-performer-group-btn">
                             <button 
                                 onClick={(e) => this.removePerformerFromGroup(e, member.id)}
