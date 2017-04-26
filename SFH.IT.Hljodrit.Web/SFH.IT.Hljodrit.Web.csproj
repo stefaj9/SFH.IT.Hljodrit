@@ -225,9 +225,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainArtistController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Filters\HttpExceptionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\HttpExceptionHandler.cs" />
+    <Compile Include="Loggers\HttpExceptionLogger.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
