@@ -8,7 +8,7 @@ export default class App extends React.Component {
                 <Header />
                 <div className="container">
                     <div className="row">
-                        <div className="col-xs-12">
+                        <div className="col-xs-10 col-xs-push-1">
                             {this.props.children}
                         </div>
                     </div>
