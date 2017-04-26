@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { getMediaById } from '../../actions/songActions';
 import Spinner from 'react-spinner';
 import MediaDetailsForm from './mediaDetailsForm';
+import Table from '../common/table';
+import MediaAppearsOnTableData from './mediaAppearsOnTableData';
+import MusiciansAppearsOnTableData from './musiciansAppearsOnTableData';
 
 class MediaDetails extends React.Component {
     componentWillMount() {
@@ -30,6 +33,22 @@ class MediaDetails extends React.Component {
                                       publisher={currentMedia.publisher}
                                       label={currentMedia.label}
                                       releaseYear={currentMedia.releaseDate} />
+                    <h3>Kemur fyrir á eftirfarandi plötum</h3>
+                    <div className="row">
+                        <Table tableData={MediaAppearsOnTableData}
+                               objects={currentMedia.albumAppearances}
+                               refCallback={ref => { return ref; }}
+                               isRemote={false}
+                               pagination={false} />
+                    </div>
+                    <h3>Flytjendur</h3>
+                    <div className="row">
+                        <Table tableData={MusiciansAppearsOnTableData}
+                               objects={currentMedia.musicians}
+                               refCallback={ref => { return ref; }}
+                               isRemote={false}
+                               pagination={false} />
+                    </div>
                 </div>
             );
         }
