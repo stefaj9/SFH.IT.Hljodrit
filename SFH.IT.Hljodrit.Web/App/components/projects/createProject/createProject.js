@@ -5,6 +5,7 @@ import AddPublisher from './addPublisher';
 import AddSong from './addSong';
 import AddPerformers from './addPerformers';
 import ProjectOverview from './projectOverview';
+import Spinner from 'react-spinner';
 import { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject } from '../../../actions/projectActions';
 import _ from 'lodash';
 
@@ -42,6 +43,7 @@ class CreateProject extends React.Component {
         let formattedProject = _.cloneDeep(project);
         const { basicInfo, publisher } = formattedProject;
         formattedProject.basicInfo = {
+            projectName: basicInfo.projectName,
             projectType: basicInfo.projectType.id,
             projectStatus: basicInfo.projectStatus.code,
             projectStatusName: basicInfo.projectStatus.name,
@@ -57,7 +59,7 @@ class CreateProject extends React.Component {
         return (
             <div>
                 <h2>Búa til nýtt verkefni</h2>
-                <div>
+                <div className={this.props.isCreatingProject ? 'hidden' : ''}>
                     <ProjectBasicInfo
                         isVisible={this.state.currentStep === 1}
                         steps={this.state.steps} 
@@ -89,6 +91,7 @@ class CreateProject extends React.Component {
                         next={(project) => { this.createProject(project); } }
                         back={() => this.decreaseStep()} />
                 </div>
+                <Spinner className={this.props.isCreatingProject ? '' : 'hidden'} />
             </div>
         );
     }

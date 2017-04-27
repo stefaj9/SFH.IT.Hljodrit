@@ -4,12 +4,9 @@ import _ from 'lodash';
 let initialState = {
     projectToCreate: {
         basicInfo: {
+            projectName: '',
             projectMainArtist: {
                 id: -1,
-                name: ''
-            },
-            projectCountryOfPublish: {
-                code: '',
                 name: ''
             },
             projectType: {
@@ -20,7 +17,8 @@ let initialState = {
                 code: '',
                 name: ''
             },
-            projectYearOfPublish: 1337
+            projectYearOfPublish: 1337,
+            isWorkingTitle: false
         },
         songs: [],
         publisher: {}
@@ -34,12 +32,9 @@ export default function(state = initialState, action) {
         case types.CREATE_PROJECT: return Object.assign({}, state, {
             projectToCreate: {
                 basicInfo: {
+                    projectName: '',
                     projectMainArtist: {
                         id: -1,
-                        name: ''
-                    },
-                    projectCountryOfPublish: {
-                        code: '',
                         name: ''
                     },
                     projectType: {
@@ -50,7 +45,8 @@ export default function(state = initialState, action) {
                         code: '',
                         name: ''
                     },
-                    projectYearOfPublish: 1337
+                    projectYearOfPublish: 1337,
+                    isWorkingTitle: false
                 },
                 songs: [],
                 publisher: {}

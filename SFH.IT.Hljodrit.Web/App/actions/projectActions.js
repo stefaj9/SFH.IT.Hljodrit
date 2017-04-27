@@ -65,15 +65,11 @@ export function createProject(project) {
             dispatch(hasStoppedCreatingProject());
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að búa til nýtt verkefni.');
-                return resp.json();
+                browserHistory.push('/projects');
+                dispatch(createProjectSuccess());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að búa til nýtt verkefni.');
             }
-        }).then(data => {
-            if (data) {
-                browserHistory.push(`/projects/${data}`);
-            }
-            dispatch(createProjectSuccess());
         });
     }
 };

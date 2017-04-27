@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using SFH.IT.Hljodrit.Common;
 using SFH.IT.Hljodrit.Common.Dto;
@@ -252,8 +253,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         {
             var projectToCreate = new project_master
             {
-                projectname = project.BasicInfo.ProjectName,
-                mainmanagerid = null, // Should be the party_real associated with the submission user, in order to retrieve his projects.
+                projectname = project.BasicInfo.ProjectName ?? "",
+                mainmanagerid = null,
+                // Should be the party_real associated with the submission user, in order to retrieve his projects.
                 projectstartdate = DateTime.Now,
                 isworkingtitle = project.BasicInfo.IsWorkingTitle,
                 updatedby = "User",
@@ -266,9 +268,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 mainartist = project.BasicInfo.MainArtist,
                 mainartistid = project.BasicInfo.MainArtistId
             };
+
             _projectMasterRepository.Add(projectToCreate);
             _unitOfWork.Commit();
-
             var projectId = projectToCreate.id;
 
             foreach (var song in project.Songs)
