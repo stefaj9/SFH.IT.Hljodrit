@@ -17,14 +17,15 @@ class ProjectBasicInfo extends React.Component {
                 value: 'Venjuleg plata'
             },
             projectYearOfPublish: '',
-            projectCountryOfPublish: {
-                code: 'IS',
-                name: 'Ísland'
+            projectStatus: {
+                code: 'ACTIVE',
+                name: 'Í vinnslu'
             },
             projectMainArtist: {
                 id: -1,
                 name: ''
             },
+            isWorkingTitle: false,
             mainArtistModalIsOpen: false
         };
     }
@@ -36,21 +37,19 @@ class ProjectBasicInfo extends React.Component {
             );
         });
     }
-    populateCountryOptions() {
-        return this.props.countries.map((country) => {
+    populateStatusOptions() {
+        return this.props.statusOptions.map(status => {
             return (
-                <option key={country.numericIsoCode} value={country.twoLetterCode}>{country.name}</option>
+                <option key={status.code} value={status.code}>{status.name}</option>
             );
         });
     }
-    updateCountry(e) {
-        let code = e.target.value;
-        let name = e.target.options[e.target.selectedIndex].text;
-
+    updateStatus(e) {
+        let index = e.target.selectedIndex;
         this.setState({
-            projectCountryOfPublish: {
-                code: code,
-                name: name
+            projectStatus: {
+                code: e.target.value,
+                name: e.target.options[index].text
             }
         });
     }
@@ -88,7 +87,7 @@ class ProjectBasicInfo extends React.Component {
         });
     }
     render() {
-        const { projectType, projectName, projectMainArtist, mainArtistModalIsOpen, projectYearOfPublish, projectCountryOfPublish } = this.state;
+        const { projectType, projectName, projectMainArtist, mainArtistModalIsOpen, projectYearOfPublish, projectStatus } = this.state;
         return (
             <div className={this.props.isVisible ? '' : 'hidden'}>
                 <Steps steps={this.props.steps} currentStep={1} />
@@ -104,6 +103,21 @@ class ProjectBasicInfo extends React.Component {
                             id="project-name" 
                             name="project-name" 
                             className="form-control" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="project-is-working-title">Skráð heiti er endanlegt útgáfuheiti:</label>
+                        <div className="radio">
+                            <label>
+                                <input checked={this.state.isWorkingTitle === false} onChange={(e) => this.setState({ isWorkingTitle: JSON.parse(e.target.value) })} type="radio" name="project-is-working-title" value={false} />
+                                Já
+                            </label>
+                        </div>
+                        <div className="radio">
+                            <label>
+                                <input checked={this.state.isWorkingTitle === true} onChange={(e) => this.setState({ isWorkingTitle: JSON.parse(e.target.value) })} type="radio" name="project-is-working-title" value={true} />
+                                Nei
+                            </label>
+                        </div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="project-type">Tegund plötu:</label>
@@ -127,14 +141,14 @@ class ProjectBasicInfo extends React.Component {
                             onChange={(e) =>  this.setState({ projectYearOfPublish: e.target.value })} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="project-publish-country">Útgáfuland:</label>
+                        <label htmlFor="project-publish-status">Staða verkefnis:</label>
                         <select 
-                            name="project-publish-country" 
-                            id="project-publish-country" 
+                            name="project-publish-status" 
+                            id="project-publish-status" 
                             className="form-control"
-                            value={projectCountryOfPublish.code}
-                            onChange={(e) => this.updateCountry(e)}>
-                            {this.populateCountryOptions()}
+                            value={projectStatus.code}
+                            onChange={(e) => this.updateStatus(e)}>
+                            {this.populateStatusOptions()}
                         </select>
                     </div>
                     <div className={projectType.id === 1 ? 'form-group' : 'hidden'}>
@@ -190,6 +204,7 @@ class ProjectBasicInfo extends React.Component {
 function mapStateToProps(state) {
     return {
         mainArtistEnvelope: state.mainArtist.mainArtistEnvelope,
+        statusOptions: state.project.statusOptions,
         countries: state.common.countries
     };
 };

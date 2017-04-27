@@ -24,6 +24,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public string ProjectName { get; set; }
         [JsonProperty(PropertyName = "mainArtist")]
         public string MainArtist { get; set; }
+        [JsonProperty(PropertyName = "mainArtistId")]
+        public int? MainArtistId { get; set; }
         [JsonProperty(PropertyName = "submissionUser")]
         public string SubmissionUser { get; set; }
         [JsonProperty(PropertyName = "lastModificationDate")]
@@ -32,5 +34,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public string ProjectStatus { get; set; }
         [JsonProperty(PropertyName = "projectStatusName")]
         public string ProjectStatusName { get; set; }
+        [JsonProperty(PropertyName = "isWorkingTitle")]
+        public bool IsWorkingTitle { get; set; }
     }
 }

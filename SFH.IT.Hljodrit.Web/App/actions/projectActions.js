@@ -3,6 +3,27 @@ import { toastr } from 'react-redux-toastr';
 import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 
+export function getProjectStatus() {
+    return dispatch => {
+        return fetch('/api/projects/status', {
+            method: 'GET'
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(data => {
+            dispatch(getProjectStatusSuccess(data));
+        });
+    }
+}
+
+function getProjectStatusSuccess(status) {
+    return {
+        type: types.GET_PROJECT_STATUS,
+        payload: status
+    };
+};
+
 export function updateProjectBasicInfo(basicInfo) {
     return {
         type: types.UPDATE_PROJECT_BASIC_INFO,

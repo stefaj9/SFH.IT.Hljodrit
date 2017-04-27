@@ -21,6 +21,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly IProjectMasterRepository _projectMasterRepository;
         private readonly IProjectTrackRepository _projectTrackRepository;
         private readonly IProjectTrackArtistRepository _projectTrackArtistRepository;
+        private readonly IProjectStatusRepository _projectStatusRepository;
         private readonly IAlbumRepository _albumRepository;
         private readonly IMediaRecordingRepository _mediaRecordingRepository;
         private readonly ISongRepository _songRepository;
@@ -29,7 +30,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly IOrganizationLabelRepository _organizationLabelRepository;
         private readonly IUnitOfWork<HljodritEntities> _unitOfWork;
 
-        public ProjectService(IProjectMasterRepository projectMasterRepository, IUnitOfWork<HljodritEntities> unitOfWork, IProjectTrackRepository projectTrackRepository, IAlbumRepository albumRepository, IMediaRecordingRepository mediaRecordingRepository, ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IOrganizationLabelRepository organizationLabelRepository, IOrganizationIsrcSeriesRepository organizationIsrcSeriesRepository, IProjectTrackArtistRepository projectTrackArtistRepository)
+        public ProjectService(IProjectMasterRepository projectMasterRepository, IUnitOfWork<HljodritEntities> unitOfWork, IProjectTrackRepository projectTrackRepository, IAlbumRepository albumRepository, IMediaRecordingRepository mediaRecordingRepository, ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IOrganizationLabelRepository organizationLabelRepository, IOrganizationIsrcSeriesRepository organizationIsrcSeriesRepository, IProjectTrackArtistRepository projectTrackArtistRepository, IProjectStatusRepository projectStatusRepository)
         {
             _projectMasterRepository = projectMasterRepository;
             _unitOfWork = unitOfWork;
@@ -41,6 +42,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _organizationLabelRepository = organizationLabelRepository;
             _organizationIsrcSeriesRepository = organizationIsrcSeriesRepository;
             _projectTrackArtistRepository = projectTrackArtistRepository;
+            _projectStatusRepository = projectStatusRepository;
         }
 
         public Envelope<ProjectDto> GetAllProjects(int pageSize, int pageNumber, bool inWorkingState, bool recordingFinished, bool readyForPublish, bool published, string query)
@@ -236,5 +238,73 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
             return albumId;
         }
+
+        public IEnumerable<ProjectStatusDto> GetProjectStatus()
+        {
+            return _projectStatusRepository.GetAll().Select(ps => new ProjectStatusDto
+            {
+                Code = ps.statuscode,
+                Name = ps.statusname
+            });
+        }
+
+        public void CreateProject(ProjectCreationViewModel project)
+        {
+            var projectToCreate = new project_master
+            {
+                projectname = project.BasicInfo.ProjectName,
+                mainmanagerid = null, // Should be the party_real associated with the submission user, in order to retrieve his projects.
+                projectstartdate = DateTime.Now,
+                isworkingtitle = project.BasicInfo.IsWorkingTitle,
+                updatedby = "User",
+                updatedon = DateTime.Now,
+                createdby = "User",
+                createdon = DateTime.Now,
+                statuscode = project.BasicInfo.ProjectStatus,
+                removed = false,
+                organizationid = project.PublisherId,
+                mainartist = project.BasicInfo.MainArtist,
+                mainartistid = project.BasicInfo.MainArtistId
+            };
+            _projectMasterRepository.Add(projectToCreate);
+            _unitOfWork.Commit();
+
+            var projectId = projectToCreate.id;
+
+            foreach (var song in project.Songs)
+            {
+                var songToCreate = new project_track
+                {
+                    projectid = projectId,
+                    trackname = song.Name,
+                    isworkingtitle = false,
+                    updatedby = "User",
+                    updatedon = DateTime.Now,
+                    createdby = "User",
+                    createdon = DateTime.Now,
+                    isrc = song.Isrc,
+                    duration = song.Length,
+                    donotpublish = false,
+                    trackorder = song.Number
+                };
+                _projectTrackRepository.Add(songToCreate);
+                _unitOfWork.Commit();
+                var songId = songToCreate.id;
+
+                song.Performers.ForEach(p => _projectTrackArtistRepository.Add(new project_track_artist
+                {
+                    projecttrackid = songId,
+                    partyrealid = p.Id,
+                    rolecode = p.Role.RoleCode,
+                    instrumentcode = string.IsNullOrEmpty(p.Instrument.IdCode) ? null : p.Instrument.IdCode,
+                    updatedby = "User",
+                    updatedon = DateTime.Now,
+                    createdby = "User",
+                    createdon = DateTime.Now
+                }));
+            }
+            _unitOfWork.Commit();
+        }
     }
 }
+

@@ -11,5 +11,7 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         ProjectExtendedDto GetProjectById(int projectId);
         IEnumerable<SongWithPerformersDto> GetProjectTracksById(int projectId);
         int PublishProjectById(int projectId, ProjectReviewViewModel reviewModel);
+        IEnumerable<ProjectStatusDto> GetProjectStatus();
+        void CreateProject(ProjectCreationViewModel project);
     }
 }

@@ -15,7 +15,6 @@ const SortableTable = ({ headers, items, remove, visible, onChange }) => {
                 <div className="list-group-data col-xs-2">{item.number}</div>
                 <div className="list-group-data col-xs-2">{item.name}</div>
                 <div className="list-group-data col-xs-2">{item.length}</div>
-                <div className="list-group-data col-xs-2">{item.isrc}</div>
                 <div className="list-group-data col-xs-2"><a tabIndex={(idx + 1) + 7} href="#"><i onClick={(e) => remove(e, item.number)} className="fa fa-times"></i></a></div>
             </li>
         );

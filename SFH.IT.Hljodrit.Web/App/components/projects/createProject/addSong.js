@@ -7,7 +7,6 @@ import MediaSuggestions from './mediaSuggestions';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import { toastr } from 'react-redux-toastr';
-import { padIsrcNumber } from '../../../helpers/isrcHelper';
 import { Tabs, Tab } from 'react-bootstrap';
 import _ from 'lodash';
 
@@ -23,7 +22,6 @@ class AddSong extends React.Component {
                 currentSongName: '',
                 currentSongLength: '',
                 currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
-                currentSongIsrc: '',
                 songSearchTerm: '',
                 selectSongFilter: 'name',
                 selectedTab: 1
@@ -40,21 +38,20 @@ class AddSong extends React.Component {
             currentSongName: '',
             currentSongLength: '',
             currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
-            currentSongIsrc: '',
             songSearchTerm: '',
             selectSongFilter: 'name',
             selectedTab: 1
         };
     }
-    addSongToList(e, songId, songName, songLength, songIsrc, isrcPrefix, recordingDate) {
+    addSongToList(e, songId, songName, songLength, songIsrc, recordingDate) {
         e.preventDefault();
         const { songs, lastSongNumber } = this.state;
         let newSongList = _.concat(songs, { 
             id: songId,
-            number: lastSongNumber + 1, 
+            number: lastSongNumber + 1,
+            isrc: songIsrc,
             name: songName,
             length: songLength,
-            isrc: `${isrcPrefix}${_.padStart(songIsrc, 5, '0')}`,
             recordingDate: recordingDate,
             performers: []
         });
@@ -63,7 +60,6 @@ class AddSong extends React.Component {
             currentSongName: '',
             currentSongLength: '',
             currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
-            currentSongIsrc: '',
             lastSongNumber: lastSongNumber + 1,
             songs: newSongList
         });
@@ -104,9 +100,6 @@ class AddSong extends React.Component {
 
         newSongs = _.forEach(newSongs, (song, idx) => {
             song.number = idx + 1;
-            if (song.isrc.indexOf(this.props.isrcPrefix) !== -1) {
-                song.isrc = `${this.props.isrcPrefix}${padIsrcNumber(parseInt(this.props.lastUsedIsrc) + (idx + 1))}`;
-            }
         });
 
         this.setState({
@@ -120,14 +113,6 @@ class AddSong extends React.Component {
                 currentFullSongLength: moment(value)
             });
         }
-    }
-    getNextIsrcNumber(e) {
-        e.preventDefault();
-        let nextIsrc = this.props.lastUsedIsrc;
-
-        this.setState({
-            currentSongIsrc: padIsrcNumber(parseInt(nextIsrc) + (this.state.songs.length + 1))
-        });
     }
     getNewSongs(e) {
         if (e.keyCode === 13) {
@@ -168,41 +153,11 @@ class AddSong extends React.Component {
                                         onChange={this.addSongLength.bind(this)} />
                                 </div>
                             </div>
-                            <div className="form-group isrc-wrapper">
-                                <div className="row">
-                                    <div className="col-xs-12">
-                                        <label htmlFor="song-isrc">ISRC-númer:</label>
-                                    </div>
-                                </div>
-                                <div className="col-xs-2 isrc-series">
-                                    <div className="isrc-prefix">{this.props.isrcPrefix}</div>
-                                </div>
-                                <div className="col-xs-9 isrc-series">
-                                    <input 
-                                        tabIndex="3"
-                                        id="song-isrc"
-                                        name="song-isrc"
-                                        value={this.state.currentSongIsrc}
-                                        type="text"
-                                        className="form-control no-border-radius"
-                                        onChange={(e) => this.setState({ currentSongIsrc: e.target.value })} />
-                                </div>
-                                <div className="col-xs-1 isrc-series">
-                                    <button 
-                                        onClick={(e) => this.getNextIsrcNumber(e)} 
-                                        className="btn btn-default no-border-radius" 
-                                        style={{width: '100%'}}
-                                        tabIndex="4"
-                                        title="Sækja næsta lausa ISRC-númer">
-                                        <i className="fa fa-refresh"></i>
-                                    </button>
-                                </div>
-                            </div>
                             <div className="form-group text-right">
                                 <button 
                                     tabIndex="5"
                                     className="btn btn-default" 
-                                    onClick={(e) => this.addSongToList(e, this.state.currentSongId, this.state.currentSongName, this.state.currentSongLength, this.state.currentSongIsrc, this.props.isrcPrefix, new Date())}
+                                    onClick={(e) => this.addSongToList(e, this.state.currentSongId, this.state.currentSongName, this.state.currentSongLength, '', new Date())}
                                     disabled={!this.isAddSongValid()}>Bæta við</button>
                             </div>
                         </form>
@@ -243,7 +198,7 @@ class AddSong extends React.Component {
                     items={this.state.songs}
                     remove={(e, item) => this.removeSongFromList(e, item)}
                     onChange={(songs) => this.sortTable(songs)}
-                    headers={['', 'Númer', 'Nafn', 'Lengd', 'ISRC', '']} />
+                    headers={['', 'Númer', 'Nafn', 'Lengd', '']} />
                 <p className={this.state.songs.length === 0 ? '' : 'hidden'}>Engin lög hafa verið skráð á þetta verkefni.</p>
                 <div className="btn-group pull-right">
                     <button 

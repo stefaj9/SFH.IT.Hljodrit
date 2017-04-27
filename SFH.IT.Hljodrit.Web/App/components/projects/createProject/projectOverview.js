@@ -54,11 +54,11 @@ class ProjectOverview extends React.Component {
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 col-sm-6 confirmation-item-title">Aðalflytjandi</div>
-                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectMainArtist.name}</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectMainArtist.name.length > 0 ? basicInfo.projectMainArtist.name : 'Enginn skráður'}</div>
                     </div>
                     <div className="confirmation-item row">
-                        <div className="col-xs-12 col-sm-6 confirmation-item-title">Útgáfuland</div>
-                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectCountryOfPublish.name}</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-title">Staða verkefnis</div>
+                        <div className="col-xs-12 col-sm-6 confirmation-item-text">{basicInfo.projectStatus.name}</div>
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 col-sm-6 confirmation-item-title">Útgáfuár</div>
@@ -70,11 +70,7 @@ class ProjectOverview extends React.Component {
                     </div>
                     <div className="confirmation-item row">
                         <div className="col-xs-12 confirmation-item-title">Útgefandi</div>
-                        <div className="col-xs-12 confirmation-item-text">{`${publisher.name} - ${publisher.isrcSeriesPrettyName}`}</div>
-                    </div>
-                    <div className="confirmation-item row">
-                        <div className="col-xs-12 confirmation-item-title">Label</div>
-                        <div className="col-xs-12 confirmation-item-text">{publisher.labelName}</div>
+                        <div className="col-xs-12 confirmation-item-text">{publisher.name}</div>
                     </div>
                 </div>
                 <div className="btn-group pull-right">

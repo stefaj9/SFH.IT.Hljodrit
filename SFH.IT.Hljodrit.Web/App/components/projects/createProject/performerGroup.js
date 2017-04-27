@@ -128,6 +128,7 @@ class PerformerGroup extends React.Component {
                             className="form-control group-member-role"
                             onChange={(e) => this.addInstrumentToUser(e, member.id, idx)}
                             value={member.instrument.idCode}>
+                            <option value="">Ekkert valið</option>
                             {this.renderPerformerInstruments()}
                         </select>
                         <div className="remove-performer-group-btn">

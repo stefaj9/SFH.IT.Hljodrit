@@ -16,12 +16,17 @@ let initialState = {
                 id: -1,
                 value: ''
             },
+            projectStatus: {
+                code: '',
+                name: ''
+            },
             projectYearOfPublish: 1337
         },
         songs: [],
         publisher: {}
     },
-    isCreatingProject: false
+    isCreatingProject: false,
+    statusOptions: []
 };
 
 export default function(state = initialState, action) {
@@ -41,11 +46,18 @@ export default function(state = initialState, action) {
                         id: -1,
                         value: ''
                     },
+                    projectStatus: {
+                        code: '',
+                        name: ''
+                    },
                     projectYearOfPublish: 1337
                 },
                 songs: [],
                 publisher: {}
             }
+        });
+        case types.GET_PROJECT_STATUS: return Object.assign({}, state, {
+            statusOptions: action.payload
         });
         case types.IS_CREATING_PROJECT: return Object.assign({}, state, {
             isCreatingProject: true

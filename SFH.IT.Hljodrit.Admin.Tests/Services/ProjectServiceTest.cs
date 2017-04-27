@@ -21,6 +21,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
         private Mock<IProjectMasterRepository> _projectMasterRepository;
         private Mock<IProjectTrackRepository> _projectTrackRepository;
         private Mock<IProjectTrackArtistRepository> _projectTrackArtistRepository;
+        private Mock<IProjectStatusRepository> _projectStatusRepository;
         private Mock<IAlbumRepository> _albumRepository;
         private Mock<IMediaRecordingRepository> _mediaRecordingRepository;
         private Mock<ISongRepository> _songRepository;
@@ -37,6 +38,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _projectMasterRepository = new Mock<IProjectMasterRepository>();
             _projectTrackRepository = new Mock<IProjectTrackRepository>();
             _projectTrackArtistRepository = new Mock<IProjectTrackArtistRepository>();
+            _projectStatusRepository = new Mock<IProjectStatusRepository>();
             _albumRepository = new Mock<IAlbumRepository>();
             _mediaRecordingRepository = new Mock<IMediaRecordingRepository>();
             _songRepository = new Mock<ISongRepository>();
@@ -44,7 +46,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _organizationIsrcSeriesRepository = new Mock<IOrganizationIsrcSeriesRepository>();
             _organizationLabelRepository = new Mock<IOrganizationLabelRepository>();
             _unitOfWork = new Mock<IUnitOfWork<HljodritEntities>>();
-            _projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object, _albumRepository.Object, _mediaRecordingRepository.Object, _songRepository.Object, _recordingPartyRepository.Object, _organizationLabelRepository.Object, _organizationIsrcSeriesRepository.Object, _projectTrackArtistRepository.Object);
+            _projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object, _albumRepository.Object, _mediaRecordingRepository.Object, _songRepository.Object, _recordingPartyRepository.Object, _organizationLabelRepository.Object, _organizationIsrcSeriesRepository.Object, _projectTrackArtistRepository.Object, _projectStatusRepository.Object);
         }
 
 	    #region GetAllProjects tests
