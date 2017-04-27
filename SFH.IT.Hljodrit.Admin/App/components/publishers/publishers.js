@@ -42,8 +42,11 @@ class Publishers extends React.Component {
     }
 
     search(search) {
-        this.setState({searchString: search.trim()}, () => {
-            this.props.getPublishersByCriteria(this.state.pageSize, this.state.pageNumber, this.state.searchString,
+        this.setState({
+            searchString: search.trim(),
+            pageNumber: 1
+        }, () => {
+            this.props.getPublishersByCriteria(this.state.pageSize, 1, this.state.searchString,
                 this.props.isFetchingList, this.props.hasStoppedFetchingList);
         });
     }

@@ -34,7 +34,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             var organizations = organizationsAll.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(o => new PublisherDto
             {
                 Id = o.id,
-                Name = o.name
+                Name = o.name,
+                Address = o.address1,
+                MainContactName = String.IsNullOrEmpty(o.maincontact) ? "Ekki skráð" :o.maincontact,
+                MainContactEmail = String.IsNullOrEmpty(o.maincontactemail) ? "Ekki skráð" : o.maincontactemail
             });
 
             return new Envelope<PublisherDto>
