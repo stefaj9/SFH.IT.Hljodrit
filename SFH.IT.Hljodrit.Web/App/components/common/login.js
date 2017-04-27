@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 class Login extends React.Component {
@@ -21,7 +22,7 @@ class Login extends React.Component {
                 <form action="" onSubmit={(e) => this.submitLogin()}>
                     <div className="form-group">
                         <label htmlFor="">Notandanafn</label>
-                        <input type="text" className="form-control" onChange={(e) => this.setState({ username: e.target.value })} value={username} />
+                        <input autoFocus={true} type="text" className="form-control" onChange={(e) => this.setState({ username: e.target.value })} value={username} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="">Lykilorð</label>
@@ -33,7 +34,7 @@ class Login extends React.Component {
                 </form>
                 <div className="col-xs-6 col-xs-push-3 text-center">
                     <p>Ef þú átt ekki aðgang, er hægt að stofna með því að smella á hlekk hér fyrir neðan</p>
-                    <a href="#">Nýskráning</a>
+                    <Link to="register">Nýskráning</Link>
                 </div>
             </div>
         );
