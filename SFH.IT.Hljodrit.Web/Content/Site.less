@@ -15,6 +15,17 @@ body {
     background-color: #337ab7 !important;
 }
 
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+    &:before {
+        font-family: "FontAwesome";
+        content: "\f071";
+        margin-right: 8px;
+    }
+}
+
 .fa-greyed-out {
     color: rgba(155, 155, 155, 0.5);
     &:hover {

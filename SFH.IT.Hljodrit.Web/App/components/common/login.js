@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import PropTypes from 'prop-types';
 
 class Login extends React.Component {
     constructor() {
@@ -10,16 +9,17 @@ class Login extends React.Component {
             password: ''
         };
     }
-    submitLogin(e) {
+    submitLogin() {
         const { username, password } = this.state;
         console.log(username, password);
+        // TODO: Issue login request and redirect user to /projects
     }
     render() {
         const { username, password } = this.state;
         return (
             <div>
                 <h2>Innskráning</h2>
-                <form action="" onSubmit={(e) => this.submitLogin()}>
+                <form action="" onSubmit={() => this.submitLogin()}>
                     <div className="form-group">
                         <label htmlFor="">Notandanafn</label>
                         <input autoFocus={true} type="text" className="form-control" onChange={(e) => this.setState({ username: e.target.value })} value={username} />
