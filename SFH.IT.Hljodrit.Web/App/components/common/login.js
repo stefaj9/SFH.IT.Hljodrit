@@ -1,0 +1,43 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+class Login extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            username: '',
+            password: ''
+        };
+    }
+    submitLogin(e) {
+        const { username, password } = this.state;
+        console.log(username, password);
+    }
+    render() {
+        const { username, password } = this.state;
+        return (
+            <div>
+                <h2>Innskráning</h2>
+                <form action="" onSubmit={(e) => this.submitLogin()}>
+                    <div className="form-group">
+                        <label htmlFor="">Notandanafn</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({ username: e.target.value })} value={username} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="">Lykilorð</label>
+                        <input type="password" className="form-control" onChange={(e) => this.setState({ password: e.target.value })} value={password} />
+                    </div>
+                    <div className="form-group text-right">
+                        <button className="btn btn-default btn-primary">Skrá inn</button>
+                    </div>
+                </form>
+                <div className="col-xs-6 col-xs-push-3 text-center">
+                    <p>Ef þú átt ekki aðgang, er hægt að stofna með því að smella á hlekk hér fyrir neðan</p>
+                    <a href="#">Nýskráning</a>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default Login;
