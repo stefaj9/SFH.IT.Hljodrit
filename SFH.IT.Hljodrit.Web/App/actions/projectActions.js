@@ -3,6 +3,27 @@ import { toastr } from 'react-redux-toastr';
 import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 
+export function getProjectStatus() {
+    return dispatch => {
+        return fetch('/api/projects/status', {
+            method: 'GET'
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(data => {
+            dispatch(getProjectStatusSuccess(data));
+        });
+    }
+}
+
+function getProjectStatusSuccess(status) {
+    return {
+        type: types.GET_PROJECT_STATUS,
+        payload: status
+    };
+};
+
 export function updateProjectBasicInfo(basicInfo) {
     return {
         type: types.UPDATE_PROJECT_BASIC_INFO,
@@ -44,15 +65,11 @@ export function createProject(project) {
             dispatch(hasStoppedCreatingProject());
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að búa til nýtt verkefni.');
-                return resp.json();
+                browserHistory.push('/projects');
+                dispatch(createProjectSuccess());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að búa til nýtt verkefni.');
             }
-        }).then(data => {
-            if (data) {
-                browserHistory.push(`/projects/${data}`);
-            }
-            dispatch(createProjectSuccess());
         });
     }
 };

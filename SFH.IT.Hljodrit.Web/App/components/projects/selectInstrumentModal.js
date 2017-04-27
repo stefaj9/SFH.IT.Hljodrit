@@ -8,23 +8,12 @@ class SelectInstrumentModal extends React.Component {
     componentWillMount() {
         this.props.getInstrumentSuggestions();
     }
-    componentWillReceiveProps(newProps) {
-        if (newProps.instrumentSuggestions.length > 0) {
-            let firstInstrument = newProps.instrumentSuggestions[0];
-            this.setState({
-                selectedInstrument: {
-                    idCode: firstInstrument.idCode,
-                    instrumentNameIcelandic: firstInstrument.instrumentNameIcelandic
-                }
-            });
-        }
-    }
     constructor() {
         super();
         this.state = {
             selectedInstrument: {
                 idCode: '',
-                instrumentNameIcelandic: ''
+                instrumentNameIcelandic: 'Ekkert valið'
             }
         };
     }
@@ -76,6 +65,7 @@ class SelectInstrumentModal extends React.Component {
                                     id="select-instrument" 
                                     className="form-control"
                                     onChange={(e) => this.selectInstrument(e)}>
+                                    <option value="">Ekkert valið</option>
                                     {this.renderInstrumentSuggestions()}
                                 </select>
                             </div>

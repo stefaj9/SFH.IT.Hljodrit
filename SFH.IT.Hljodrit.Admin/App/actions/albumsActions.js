@@ -54,15 +54,14 @@ export function removeSongsFromAlbum(albumId, songIds) {
                 'Content-Type': 'application/json'
             }
         }).then((resp) => {
+            dispatch(hasStoppedFetchingSongsOnAlbum());
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að eyða völdum lögum af plötunni.');
                 dispatch(removeSongsFromAlbumSuccess(songIds));
-                dispatch(hasStoppedFetchingSongsOnAlbum());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að eyða völdum lögum af plötunni.');
             }
         });
-        dispatch(hasStoppedFetchingSongsOnAlbum());
     }
 }
 

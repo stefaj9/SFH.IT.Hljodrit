@@ -5,7 +5,9 @@ import AddPublisher from './addPublisher';
 import AddSong from './addSong';
 import AddPerformers from './addPerformers';
 import ProjectOverview from './projectOverview';
+import Spinner from 'react-spinner';
 import { updateProjectBasicInfo, updateProjectSongs, updateProjectPerformers, updateProjectProducers, createProject } from '../../../actions/projectActions';
+import _ from 'lodash';
 
 class CreateProject extends React.Component {
     constructor() {
@@ -37,11 +39,27 @@ class CreateProject extends React.Component {
         });
         browserHistory.push('/projects');
     }
+    createProject(project) {
+        let formattedProject = _.cloneDeep(project);
+        const { basicInfo, publisher } = formattedProject;
+        formattedProject.basicInfo = {
+            projectName: basicInfo.projectName,
+            projectType: basicInfo.projectType.id,
+            projectStatus: basicInfo.projectStatus.code,
+            projectStatusName: basicInfo.projectStatus.name,
+            releaseYear: basicInfo.projectYearOfPublish,
+            mainArtistId: basicInfo.projectMainArtist.id === -1 ? null : basicInfo.projectMainArtist.id,
+            mainArtist: basicInfo.projectMainArtist.name
+        };
+        formattedProject.publisherId = publisher.id;
+
+        this.props.createProject(formattedProject);
+    }
     render() {
         return (
             <div>
                 <h2>Búa til nýtt verkefni</h2>
-                <div>
+                <div className={this.props.isCreatingProject ? 'hidden' : ''}>
                     <ProjectBasicInfo
                         isVisible={this.state.currentStep === 1}
                         steps={this.state.steps} 
@@ -57,8 +75,6 @@ class CreateProject extends React.Component {
                         isVisible={this.state.currentStep === 3}
                         steps={this.state.steps}
                         close={() => this.exitWizard()}
-                        isrcPrefix={`${this.props.project.basicInfo.projectCountryOfPublish.code}-${this.props.project.publisher.isrcOrganizationPart}-${this.props.project.basicInfo.projectYearOfPublish.toString().substring(2)}-`}
-                        lastUsedIsrc={this.props.project.publisher.lastUsedIsrc}
                         next={(songs) => { this.props.updateProjectSongs(songs); this.increaseStep(); } }
                         back={() => this.decreaseStep()} />
                     <AddPerformers
@@ -75,6 +91,7 @@ class CreateProject extends React.Component {
                         next={(project) => { this.createProject(project); } }
                         back={() => this.decreaseStep()} />
                 </div>
+                <Spinner className={this.props.isCreatingProject ? '' : 'hidden'} />
             </div>
         );
     }

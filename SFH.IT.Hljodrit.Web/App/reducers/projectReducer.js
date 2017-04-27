@@ -4,24 +4,27 @@ import _ from 'lodash';
 let initialState = {
     projectToCreate: {
         basicInfo: {
+            projectName: '',
             projectMainArtist: {
                 id: -1,
-                name: ''
-            },
-            projectCountryOfPublish: {
-                code: '',
                 name: ''
             },
             projectType: {
                 id: -1,
                 value: ''
             },
-            projectYearOfPublish: 1337
+            projectStatus: {
+                code: '',
+                name: ''
+            },
+            projectYearOfPublish: 1337,
+            isWorkingTitle: false
         },
         songs: [],
         publisher: {}
     },
-    isCreatingProject: false
+    isCreatingProject: false,
+    statusOptions: []
 };
 
 export default function(state = initialState, action) {
@@ -29,23 +32,28 @@ export default function(state = initialState, action) {
         case types.CREATE_PROJECT: return Object.assign({}, state, {
             projectToCreate: {
                 basicInfo: {
+                    projectName: '',
                     projectMainArtist: {
                         id: -1,
-                        name: ''
-                    },
-                    projectCountryOfPublish: {
-                        code: '',
                         name: ''
                     },
                     projectType: {
                         id: -1,
                         value: ''
                     },
-                    projectYearOfPublish: 1337
+                    projectStatus: {
+                        code: '',
+                        name: ''
+                    },
+                    projectYearOfPublish: 1337,
+                    isWorkingTitle: false
                 },
                 songs: [],
                 publisher: {}
             }
+        });
+        case types.GET_PROJECT_STATUS: return Object.assign({}, state, {
+            statusOptions: action.payload
         });
         case types.IS_CREATING_PROJECT: return Object.assign({}, state, {
             isCreatingProject: true

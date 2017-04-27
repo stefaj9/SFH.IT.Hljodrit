@@ -63,7 +63,7 @@ const MediaSuggestions = ({ media, isFetching, songs, addSongToList }) => {
                             </div>
                             <div 
                                 className="col-xs-1 text-center add-song-plus"
-                                onClick={(e) => addSongToList(e, media.mediaId, media.mediaTitle, media.duration, media.isrc, '', media.releaseDate.raw)}>
+                                onClick={(e) => addSongToList(e, media.mediaId, media.mediaTitle, media.duration, media.isrc, media.releaseDate.raw)}>
                                 <i className="fa fa-plus fa-2x"></i>
                             </div>
                         </div>

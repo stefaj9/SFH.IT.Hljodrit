@@ -37,5 +37,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public DateTime ReviewDate { get; set; }
         [JsonProperty(PropertyName = "reviewComment")]
         public string ReviewComment { get; set; }
+        [JsonProperty(PropertyName = "projectType")]
+        public int ProjectType { get; set; }
     }
 }
