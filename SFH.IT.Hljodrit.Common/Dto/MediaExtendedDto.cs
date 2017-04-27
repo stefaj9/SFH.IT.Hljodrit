@@ -14,5 +14,11 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public PublisherDto Publisher { get; set; }
         [JsonProperty("label")]
         public LabelDto Label { get; set; }
+        [JsonProperty("albumAppearances")]
+        public IEnumerable<AlbumDto> AlbumAppearances { get; set; }
+        [JsonProperty("musicians")]
+        public IEnumerable<MusicianCreditsDto> Musicians { get; set; }
+        [JsonProperty("composers")]
+        public IEnumerable<MusicianCreditsDto> Composers { get; set; }
     }
 }
