@@ -22,6 +22,7 @@ export function getPublishersByCriteria(pageSize, pageNumber, searchQuery, isFet
 
 export function getPublisherById(publisherId, isFetchingList, hasStoppedFetchingList) {
     return (dispatch) => {
+        dispatch(clearCurrentPublisher());
         dispatch(isFetchingList());
         return fetch(`/api/organizations/${publisherId}`, {
             method: 'GET'
@@ -38,6 +39,13 @@ export function getPublisherById(publisherId, isFetchingList, hasStoppedFetching
     }
 }
 
+function clearCurrentPublisher() {
+    return {
+        type: actionType.CLEAR_CURRENT_PUBLISHER,
+        payload: {}
+    };
+}
+
 function getPublisherByIdSuccess(data) {
     return {
         type: actionType.GET_PUBLISHER_BY_ID,
@@ -50,7 +58,7 @@ function getAllPublishersSuccess(data) {
         type: actionType.GET_ALL_PUBLISHERS,
         payload: data
     };
-};
+}
 
 export function getPublisherIsrcSeriesById(publisherId) {
     return (dispatch) => {
@@ -71,7 +79,7 @@ function getPublisherIsrcSeriesByIdSuccess(isrcSeries) {
         type: actionType.GET_PUBLISHER_ISRC_SERIES_BY_ID,
         payload: isrcSeries
     };
-};
+}
 
 export function getLabelsByPublisherId(publisherId) {
     return (dispatch) => {
@@ -92,7 +100,7 @@ function getPublisherLabelsByIdSuccess(labels) {
         type: actionType.GET_PUBLISHER_LABELS_BY_ID,
         payload: labels
     };
-};
+}
 
 export function addLabelToOrganizationById(organizationId, label) {
     return (dispatch) => {
@@ -122,18 +130,18 @@ function addLabelToOrganizationByIdSuccess(label) {
         type: actionType.ADD_LABEL_TO_PUBLISHER_BY_ID,
         payload: label
     };
-};
+}
 
 function isCreatingLabel() {
     return {
         type: actionType.IS_CREATING_LABEL,
         payload: {}
     };
-};
+}
 
 function hasStoppedCreatingLabel() {
     return {
         type: actionType.HAS_STOPPED_CREATING_LABEL,
         payload: {}
     };
-};
+}

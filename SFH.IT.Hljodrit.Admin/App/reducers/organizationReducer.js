@@ -47,6 +47,9 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 selectedOrganization: newOrganization
             });
+        case actionType.CLEAR_CURRENT_PUBLISHER: return Object.assign({}, state, {
+            selectedOrganization: {}
+        });
     }
     return state;
 }

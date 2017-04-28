@@ -65,13 +65,13 @@ class Publishers extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <PageSelector visible={!this.props.isFetching}
+                    <PageSelector visible={!this.props.isFetchingPublisher}
                                   change={newPageSize => this.changePageSize(newPageSize)} />
                 </div>
                 <PublisherList publishers={this.props.publishers}
-                           isFetching={this.props.isFetching} />
+                           isFetching={this.props.isFetchingPublisher} />
                 <div className="row">
-                    <Paging visible={!this.props.isFetching}
+                    <Paging visible={!this.props.isFetchingPublisher}
                             currentPage={this.props.currentPage}
                             maximumPage={this.props.maximumPage}
                             changePage={newPageNumber => this.changePageNumber(newPageNumber)} />
@@ -86,7 +86,7 @@ function mapStateToProps(state) {
         publishers: state.organization.organizationEnvelope.objects,
         currentPage: state.organization.organizationEnvelope.currentPage,
         maximumPage: state.organization.organizationEnvelope.maximumPage,
-        isFetching: state.flow.isFetchingList
+        isFetchingPublisher: state.flow.isFetchingList
     }
 }
 

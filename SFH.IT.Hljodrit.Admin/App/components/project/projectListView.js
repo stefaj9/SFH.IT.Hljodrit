@@ -83,7 +83,7 @@ class ProjectListView extends React.Component {
         });
     }
     renderProjectItems() {
-        if (!this.props.isFetching) {
+        if (!this.props.isFetchingPublisher) {
             return this.props.projects.map((item) => {
                 return (
                     <ProjectItem 
@@ -101,7 +101,7 @@ class ProjectListView extends React.Component {
         const { isModalOpen, title, content, confirmBtnText, confirmBtnCallback, confirmBtnDisabled, discardBtnText, discardBtnCallback } = this.state;
         return (
             <div>
-                <Spinner className={this.props.isFetching ? '' : 'hidden'} />
+                <Spinner className={this.props.isFetchingPublisher ? '' : 'hidden'} />
                 {this.renderProjectItems()}
                 <PromptModal
                     isOpen={isModalOpen}

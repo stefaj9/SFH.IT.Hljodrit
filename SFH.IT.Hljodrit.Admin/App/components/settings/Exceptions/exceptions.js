@@ -45,9 +45,9 @@ class Exceptions extends React.Component {
                 <h3 className="text-left">Exceptions</h3>
                 <PageSelector change={newPageSize => this.changePageSize(newPageSize)} />
                 <ExceptionList exceptions={this.props.exceptions}
-                               isFetching={this.props.isFetching} 
+                               isFetching={this.props.isFetchingPublisher}
                                onSelect={this.props.selectException} />
-                <Paging visible={!this.props.isFetching}
+                <Paging visible={!this.props.isFetchingPublisher}
                         currentPage={this.props.currentPage}
                         maximumPage={this.props.maximumPage}
                         changePage={newPageNumber => this.changePageNumber(newPageNumber)} />
@@ -64,7 +64,7 @@ function mapStateToProps(state) {
         exceptions: state.settings.envelope.objects,
         currentPage: state.settings.envelope.currentPage,
         maximumPage: state.settings.envelope.maximumPage,
-        isFetching: state.settings.isFetching,
+        isFetchingPublisher: state.settings.isFetchingPublisher,
         selectedException: state.settings.selectedException,
         isModalOpen: state.settings.isModalOpen
     }

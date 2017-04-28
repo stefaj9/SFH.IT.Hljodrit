@@ -5,7 +5,7 @@ import ListItem from './listItem';
 export default class ListView extends React.Component {
 
     renderList() {
-        if (!this.props.isFetching) {
+        if (!this.props.isFetchingPublisher) {
             return this.props.items.map((item) => {
                 return <ListItem
                             key={item.id}
@@ -18,8 +18,8 @@ export default class ListView extends React.Component {
 
     render() {
         return (
-            <div className={!this.props.isFetching && this.props.items.length === 0 ? 'hidden' : ''}>
-                <Spinner className={this.props.isFetching ? '' : 'hidden'} />
+            <div className={!this.props.isFetchingPublisher && this.props.items.length === 0 ? 'hidden' : ''}>
+                <Spinner className={this.props.isFetchingPublisher ? '' : 'hidden'} />
                 {this.renderList()}
             </div>
         );

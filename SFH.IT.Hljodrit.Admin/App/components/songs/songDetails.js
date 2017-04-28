@@ -46,7 +46,7 @@ class SongDetails extends React.Component {
         this.props.updateSongDetailsById(this.props.routeParams.songId, currentSong);
     }
     renderFormGroup(label, id, value, onChangeFunc) {
-        if (this.props.isFetching) { return; }
+        if (this.props.isFetchingPublisher) { return; }
         return (
             <div className="form-group">
                 <label htmlFor={id}>{label}</label>
@@ -119,7 +119,7 @@ class SongDetails extends React.Component {
         this.setState({ isAddingPerformer: false });
     }
     renderSongInfo() {
-        let canBeRendered = !this.props.isFetching && !this.props.isFetchingMusicians;
+        let canBeRendered = !this.props.isFetchingPublisher && !this.props.isFetchingMusicians;
         return (
             <div className={canBeRendered ? '' : 'hidden'}>
                 <div className="row text-left">
@@ -160,7 +160,7 @@ class SongDetails extends React.Component {
     render() {
         return (
             <div>
-                <Spinner className={!(!this.props.isFetchingMusicians && !this.props.isFetching) ? '' : 'hidden'} />
+                <Spinner className={!(!this.props.isFetchingMusicians && !this.props.isFetchingPublisher) ? '' : 'hidden'} />
                 {this.renderSongInfo()}
             </div>
         );
@@ -170,7 +170,7 @@ class SongDetails extends React.Component {
 function mapStateToProps(state) {
     return {
         song: state.songs.selectedSong,
-        isFetching: state.songs.isFetching,
+        isFetchingPublisher: state.songs.isFetchingPublisher,
         isFetchingMusicians: state.songs.isFetchingMusicians,
         musicians: state.songs.musiciansOnSelectedSong,
         personEnvelope: state.person.personEnvelope

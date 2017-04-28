@@ -157,7 +157,7 @@ class SelectPersonModal extends React.Component {
         return user.name && user.address;
     }
     renderRegisterForm() {
-        if (!this.props.isFetching && this.props.envelope.objects.length === 0 && this.props.registerPath !== undefined) {
+        if (!this.props.isFetchingPublisher && this.props.envelope.objects.length === 0 && this.props.registerPath !== undefined) {
             if (!this.state.registerFormShowing) {
                 return (
                     <div className="text-center no-person-to-show">
@@ -234,7 +234,7 @@ class SelectPersonModal extends React.Component {
                 );
             }
         } else {
-            if (!this.props.isFetching && this.props.envelope.objects.length === 0) {
+            if (!this.props.isFetchingPublisher && this.props.envelope.objects.length === 0) {
                 return (
                     <div className="text-center no-person-to-show">Einstaklingur sem leitað er að fannst ekki. Prófaðu að leita með öðrum skilyrðum.</div>
                 );
@@ -242,7 +242,7 @@ class SelectPersonModal extends React.Component {
         }
     }
     renderBody() {
-        let containsData = !this.props.isFetching && this.props.envelope.objects.length !== 0;
+        let containsData = !this.props.isFetchingPublisher && this.props.envelope.objects.length !== 0;
         return (
             <div>
                 <SearchBar
@@ -252,7 +252,7 @@ class SelectPersonModal extends React.Component {
                 <PageSelector visible={containsData} change={(newPagesize) => this.changePagesize(newPagesize)} />
                 <ListView
                     items={this.props.envelope.objects}
-                    isFetching={this.props.isFetching}
+                    isFetching={this.props.isFetchingPublisher}
                     add={(o) => { this.props.update(o); this.props.next(); } } />
                 {this.renderRegisterForm()}
                 <Paging
@@ -293,7 +293,7 @@ class SelectPersonModal extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        isFetching: state.flow.isFetchingList,
+        isFetchingPublisher: state.flow.isFetchingList,
         isRegistering: state.flow.isRegisteringIndividual,
         registerIndividualId: state.flow.registerIndividualId,
         zipCodes: state.common.zipCodes,
