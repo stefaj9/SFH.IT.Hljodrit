@@ -1,41 +1,44 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { registerUser } from '../../actions/authActions';
 
 class Register extends React.Component {
     constructor() {
         super();
         this.state = {
             name: '',
-            username: '',
+            email: '',
             password: '',
             passwordRepeat: '',
             showNameErrMsg: false,
-            showUsernameErrMsg: false,
+            showEmailErrMsg: false,
             showPasswordErrMsg: false,
             showPasswordRepeatErrMsg: false
         };
     }
     validateForm() {
-        const { passwordRepeat, password, username, name } = this.state;
+        const { passwordRepeat, password, email, name } = this.state;
         let regex = /(?=.{8,})/;
+        let emailRegex = /\w+@\w+\.\w+/;
 
         let match = password.match(regex) !== null;
         let isSame = (passwordRepeat === password) && password.length > 0;
         let nameIsNotEmpty = name.length > 0;
-        let usernameIsNotEmpty = username.length > 0;
+        let emailMatch = email.match(emailRegex) !== null;
 
         this.setState({
             showPasswordRepeatErrMsg: !isSame,
             showPasswordErrMsg: !match,
-            showUsernameErrMsg: !usernameIsNotEmpty,
+            showEmailErrMsg: !emailMatch,
             showNameErrMsg: !nameIsNotEmpty
         });
 
-        if (match && isSame && nameIsNotEmpty && usernameIsNotEmpty) { 
+        if (match && isSame && nameIsNotEmpty && emailMatch) { 
             this.setState({ 
                 showPasswordErrMsg: false, 
                 showPasswordRepeatErrMsg: false, 
                 showNameErrMsg: false, 
-                showUsernameErrMsg: false
+                showEmailErrMsg: false
             });
             return true;
         }
@@ -44,11 +47,11 @@ class Register extends React.Component {
     registerUser(e) {
         e.preventDefault();
         if (!this.validateForm()) { return; }
-        console.log(e);
-        // TODO: Issue register request with information and redirect user to site.
+        const { name, email, password, passwordRepeat } = this.state;
+        this.props.registerUser(name, email, password, passwordRepeat);
     }
     render() {
-        const { name, username, password, passwordRepeat, invalid, showNameErrMsg, showUsernameErrMsg, showPasswordErrMsg, showPasswordRepeatErrMsg } = this.state;
+        const { name, email, password, passwordRepeat, showNameErrMsg, showEmailErrMsg, showPasswordErrMsg, showPasswordRepeatErrMsg } = this.state;
         return (
             <div>
                 <h2>Nýskráning</h2>
@@ -59,9 +62,9 @@ class Register extends React.Component {
                         <p className={'error-message ' + (showNameErrMsg ? '' : 'hidden')}>Nafn má ekki vera tómt.</p>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="register-username">Notandanafn</label>
-                        <input type="text" id="register-username" name="register-username" className="form-control" onChange={(e) => this.setState({ username: e.target.value })} value={username} />
-                        <p className={'error-message ' + (showUsernameErrMsg ? '' : 'hidden')}>Notandanafn má ekki vera tómt.</p>
+                        <label htmlFor="register-email">Netfang</label>
+                        <input type="text" id="register-email" name="register-email" className="form-control" onChange={(e) => this.setState({ email: e.target.value })} value={email} />
+                        <p className={'error-message ' + (showEmailErrMsg ? '' : 'hidden')}>Netfang er ekki á réttu formi.</p>
                     </div>
                     <div className="form-group">
                         <label htmlFor="register-password">Lykilorð</label>
@@ -82,4 +85,4 @@ class Register extends React.Component {
     }
 }
 
-export default Register;
+export default connect(null, { registerUser })(Register);
