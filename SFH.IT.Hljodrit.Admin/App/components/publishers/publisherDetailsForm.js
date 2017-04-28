@@ -2,7 +2,7 @@ import React from 'react';
 
 const PublisherDetailsForm = ({name, ssn, zipCodes, address, zipCode, mainContactName,
 mainContactEmail, mainContactPhone, updatePublisherField, selectedPublisherHasChanged,
-updateSelectedPublisher}) => {
+updateSelectedPublisher, updateZipAndCity}) => {
     let zipCodeOptions = zipCodes.map((z) => {
         return (
             <option key={z.code} value={z.code} name={z.area}>{`${z.code} ${z.area}`}</option>
@@ -10,9 +10,17 @@ updateSelectedPublisher}) => {
     });
 
     const updateZipField = (e) => {
-        console.log(e.target);
-        updatePublisherField('zip', e.target.value);
-        updatePublisherField('city', e.target.name);
+        let chosenZipCode = e.target.value;
+        let newCity = "";
+
+        for (let i = 0; i < zipCodes.length; i++) {
+            if (zipCodes[i].code === chosenZipCode) {
+                newCity = zipCodes[i].area;
+                break;
+            }
+        }
+
+        updateZipAndCity(chosenZipCode, newCity);
     };
 
     return (
@@ -42,9 +50,9 @@ updateSelectedPublisher}) => {
                     </div>
                     <div className="col-xs-12 col-sm-6 form-group">
                         <label htmlFor="">Staður</label>
-                        <select value={zipCode} name="" id="" className="form-control"
+                        <select value={zipCode} className="form-control"
                                 onChange={e => updateZipField(e)} >
-                            <option value="-1"> Ekki skráð </option>
+                            <option value=""> Ekki skráð </option>
                             {zipCodeOptions}
                         </select>
                     </div>

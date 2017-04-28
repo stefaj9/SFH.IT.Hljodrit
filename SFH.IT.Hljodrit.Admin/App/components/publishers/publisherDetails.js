@@ -26,14 +26,15 @@ class PublisherDetails extends React.Component {
             });
         }
     }
-    
 
     constructor(props, context) {
         super(props, context);
         this.updatePublisherField = this.updatePublisherField.bind(this);
+        this.updateZipAndCityFields = this.updateZipAndCityFields.bind(this);
         this.state = {
             selectedPublisher: {},
-            selectedPublisherHasChanged: false
+            selectedPublisherHasChanged: false,
+            zipCode: ""
         };
     }
 
@@ -44,6 +45,16 @@ class PublisherDetails extends React.Component {
     updatePublisherField(field, newElement) {
         let updatedPublisher = _.cloneDeep(this.state.selectedPublisher);
         updatedPublisher[field]= newElement;
+        this.setState({
+            selectedPublisher: updatedPublisher,
+            selectedPublisherHasChanged: true
+        });
+    }
+
+    updateZipAndCityFields(newZip, newCity) {
+        let updatedPublisher = _.cloneDeep(this.state.selectedPublisher);
+        updatedPublisher['zipCode']= newZip;
+        updatedPublisher['city']= newCity;
         this.setState({
             selectedPublisher: updatedPublisher,
             selectedPublisherHasChanged: true
@@ -76,7 +87,8 @@ class PublisherDetails extends React.Component {
                                           mainContactPhone={publisher.mainContactPhoneNumber}
                                           updatePublisherField={this.updatePublisherField}
                                           selectedPublisherHasChanged={this.state.selectedPublisherHasChanged}
-                                          updateSelectedPublisher={this.updateSelectedPublisher} />
+                                          updateSelectedPublisher={this.updateSelectedPublisher}
+                                          updateZipAndCity={this.updateZipAndCityFields} />
                     <h3>Label</h3>
                     <div className="row">
                         <Table tableData={PublisherLabels}
