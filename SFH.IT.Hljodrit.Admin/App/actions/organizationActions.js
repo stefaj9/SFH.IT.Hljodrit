@@ -20,6 +20,31 @@ export function getPublishersByCriteria(pageSize, pageNumber, searchQuery, isFet
     }
 }
 
+export function getPublisherById(publisherId, isFetchingList, hasStoppedFetchingList) {
+    return (dispatch) => {
+        dispatch(isFetchingList());
+        return fetch(`/api/organizations/${publisherId}`, {
+            method: 'GET'
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                dispatch(hasStoppedFetchingList());
+            }
+        }).then(data => {
+            dispatch(getPublisherByIdSuccess(data));
+            dispatch(hasStoppedFetchingList());
+        });
+    }
+}
+
+function getPublisherByIdSuccess(data) {
+    return {
+        type: actionType.GET_PUBLISHER_BY_ID,
+        payload: data
+    }
+}
+
 function getAllPublishersSuccess(data) {
     return {
         type: actionType.GET_ALL_PUBLISHERS,

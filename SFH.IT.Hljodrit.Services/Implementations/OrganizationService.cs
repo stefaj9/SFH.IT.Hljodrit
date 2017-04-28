@@ -81,5 +81,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 OrganizationId = organizationLabel.organizationid
             };
         }
+
+        public PublisherExtendedDto GetPublisherById(int publisherId)
+        {
+            var publisher = _organizationRepository.GetPublisherById(publisherId);
+            return publisher;
+        }
     }
 }

@@ -29,6 +29,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         [HttpGet]
+        [Route("{publisherId:int}")]
+        public IHttpActionResult GetPublisherById(int publisherId)
+        {
+            return Ok(_organizationService.GetPublisherById(publisherId));
+        }
+
+        [HttpGet]
         [Route("{publisherId:int}/labels")]
 
         public IHttpActionResult GetLabelsByPublisherId(int publisherId)

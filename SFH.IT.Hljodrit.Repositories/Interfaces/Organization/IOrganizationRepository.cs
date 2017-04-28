@@ -9,5 +9,7 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Organization
     {
         IEnumerable<PublisherIsrcSeriesDto> GetPublisherIsrcSeriesById(int publisherId);
         IEnumerable<LabelDto> GetLabelsByPublisherId(int publisherId);
+        PublisherExtendedDto GetPublisherById(int publisherId);
+        IEnumerable<AlbumDto> GetAlbumsByLabelId(int labelId);
     }
 }

@@ -64,6 +64,7 @@
     <Compile Include="Dto\MusicianDto.cs" />
     <Compile Include="Dto\MusicianLiteDto.cs" />
     <Compile Include="Dto\ProjectExtendedDto.cs" />
+    <Compile Include="Dto\PublisherExtendedDto.cs" />
     <Compile Include="Dto\RegistrationDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\ExceptionDto.cs" />

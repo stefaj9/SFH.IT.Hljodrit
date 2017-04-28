@@ -11,5 +11,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         IEnumerable<LabelDto> GetLabelsByPublisherId(int publisherId );
         Envelope<PublisherDto> GetAllPublishers(int pageSize, int pageNumber, string searchTerm);
         LabelDto AddLabelByPublisherId(int publisherId, LabelDto label);
+        PublisherExtendedDto GetPublisherById(int publisherId);
     }
 }

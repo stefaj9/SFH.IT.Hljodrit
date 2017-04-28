@@ -9,6 +9,7 @@ let initialState = {
     },
     selectedOrganizationIsrcSeries: [],
     selectedOrganizationLabels: [],
+    selectedOrganization: {},
     isCreatingLabel: false
 };
 
@@ -35,6 +36,17 @@ export default function (state = initialState, action) {
         case actionType.HAS_STOPPED_CREATING_LABEL: return Object.assign({}, state, {
             isCreatingLabel: false
         });
+        case actionType.GET_PUBLISHER_BY_ID:
+            let newOrganization = _.cloneDeep(action.payload);
+            newOrganization.albums = newOrganization.albums.map(o => {
+                return Object.assign({}, o, {
+                    numberOfTracks: o.numberOfTracks !== -1 ? o.numberOfTracks : 'Ekki skráð'
+                });
+            });
+
+            return Object.assign({}, state, {
+                selectedOrganization: newOrganization
+            });
     }
     return state;
 }
