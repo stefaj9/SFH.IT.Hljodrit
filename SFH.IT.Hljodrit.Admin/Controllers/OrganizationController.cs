@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
@@ -33,6 +34,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult GetPublisherById(int publisherId)
         {
             return Ok(_organizationService.GetPublisherById(publisherId));
+        }
+
+        [HttpPut]
+        [Route("{publisherId:int}")]
+        public IHttpActionResult UpdatePublisherInfo(int publisherId, [FromBody] PublisherViewModel updatedPublisher)
+        {
+            return Ok(_organizationService.UpdatePublisherInfo(publisherId, updatedPublisher));
         }
 
         [HttpGet]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SFH.IT.Hljodrit.Common;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Models;
 using SFH.IT.Hljodrit.Repositories.Base;
 using SFH.IT.Hljodrit.Repositories.Interfaces.Organization;
@@ -86,6 +87,24 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         {
             var publisher = _organizationRepository.GetPublisherById(publisherId);
             return publisher;
+        }
+
+        public PublisherExtendedDto UpdatePublisherInfo(int publisherId, PublisherViewModel updatedPublisher)
+        {
+            var publisherEntity = _organizationRepository.Get(p => p.id == publisherId);
+            publisherEntity.address1 = updatedPublisher.Address;
+            publisherEntity.name = updatedPublisher.Name;
+            publisherEntity.uniqueidentifier = updatedPublisher.SSN;
+            publisherEntity.zipcode = updatedPublisher.ZipCode;
+            publisherEntity.maincontact = updatedPublisher.MainContactName;
+            publisherEntity.maincontactemail = updatedPublisher.MainContactEmail;
+            publisherEntity.maincontacttel = updatedPublisher.MainContactPhoneNumber;
+
+            _organizationRepository.Update(publisherEntity);
+
+            _unitOfWork.Commit();
+
+            return GetPublisherById(publisherId);
         }
     }
 }

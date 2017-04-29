@@ -11,7 +11,7 @@ updateSelectedPublisher, updateZipAndCity}) => {
 
     const updateZipField = (e) => {
         let chosenZipCode = e.target.value;
-        let newCity = "";
+        let newCity = '';
 
         for (let i = 0; i < zipCodes.length; i++) {
             if (zipCodes[i].code === chosenZipCode) {
@@ -77,7 +77,7 @@ updateSelectedPublisher, updateZipAndCity}) => {
                     <div className="col-xs-12 col-sm-4 form-group">
                         <label>Sími</label>
                         <input type="text" className="form-control"
-                               onChange={(e) => updatePublisherField('mainContactPhone', e.target.value)}
+                               onChange={(e) => updatePublisherField('mainContactPhoneNumber', e.target.value)}
                                value={mainContactPhone}>
                         </input>
                     </div>

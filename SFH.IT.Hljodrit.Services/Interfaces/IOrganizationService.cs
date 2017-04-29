@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SFH.IT.Hljodrit.Common;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.ViewModels;
 
 namespace SFH.IT.Hljodrit.Services.Interfaces
 {
@@ -12,5 +13,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         Envelope<PublisherDto> GetAllPublishers(int pageSize, int pageNumber, string searchTerm);
         LabelDto AddLabelByPublisherId(int publisherId, LabelDto label);
         PublisherExtendedDto GetPublisherById(int publisherId);
+        PublisherExtendedDto UpdatePublisherInfo(int publisherId, PublisherViewModel updatedPublisher);
     }
 }

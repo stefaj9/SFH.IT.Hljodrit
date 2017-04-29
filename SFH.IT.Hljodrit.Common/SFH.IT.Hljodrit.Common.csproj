@@ -93,6 +93,7 @@
     <Compile Include="ViewModels\PersonRegisterViewModel.cs" />
     <Compile Include="ViewModels\ProjectCommentViewModel.cs" />
     <Compile Include="ViewModels\ProjectReviewViewModel.cs" />
+    <Compile Include="ViewModels\PublisherViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

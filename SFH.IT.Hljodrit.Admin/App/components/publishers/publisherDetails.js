@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getPublisherById } from '../../actions/organizationActions';
-import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
+import { isFetchingList, hasStoppedFetchingList, update } from '../../actions/flowActions';
 import { getZipCodes } from '../../actions/commonActions';
 import { browserHistory} from 'react-router';
 import Spinner from 'react-spinner';
@@ -29,13 +29,16 @@ class PublisherDetails extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        this.updatePublisherField = this.updatePublisherField.bind(this);
-        this.updateZipAndCityFields = this.updateZipAndCityFields.bind(this);
+
         this.state = {
             selectedPublisher: {},
             selectedPublisherHasChanged: false,
-            zipCode: ""
+            zipCode: ''
         };
+
+        this.updatePublisherField = this.updatePublisherField.bind(this);
+        this.updateSelectedPublisher = this.updateSelectedPublisher.bind(this);
+        this.updateZipAndCityFields = this.updateZipAndCityFields.bind(this);
     }
 
     hasFetchedAll() {
@@ -63,12 +66,14 @@ class PublisherDetails extends React.Component {
 
     updateSelectedPublisher(e) {
         e.preventDefault();
-        /*const path = `/api/publishers/${this.state.selectedPublisher.publisherId}`;
-        this.props.update(this.state.selectedPublisher, path, 'Það tókst að uppfæra upplýsingar útgefandans', () => this.props.getPublisherById(this.props.params.publisherId));
+        const path = `/api/organizations/${this.state.selectedPublisher.id}`;
+        this.props.update(this.state.selectedPublisher, path,
+            'Það tókst að uppfæra upplýsingar útgefandans',
+            () => this.props.getPublisherById(this.props.params.publisherId, this.props.isFetchingList, this.props.hasStoppedFetchingList));
+
         this.setState({
             selectedPublisherHasChanged: false
-        })*/
-        console.log('I would like to update');
+        });
     }
 
     renderContent() {
@@ -125,9 +130,10 @@ function mapStateToProps(state) {
     return {
         organization: state.organization.selectedOrganization,
         isFetchingPublisher: state.flow.isFetchingList,
+        isUpdatingPublisher: state.flow.isUpdatingData,
         zipCodes: state.common.zipCodes,
         isFetchingZipCodes: state.common.isFetchingZipCodes
     }
 }
 
-export default connect(mapStateToProps, { getPublisherById, isFetchingList, hasStoppedFetchingList, getZipCodes }) (PublisherDetails);
+export default connect(mapStateToProps, { getPublisherById, isFetchingList, hasStoppedFetchingList, getZipCodes, update }) (PublisherDetails);
