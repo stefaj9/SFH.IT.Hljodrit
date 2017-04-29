@@ -7,18 +7,16 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     public class UserService : IUserService
     {
         private readonly IUserLookupRepository _userLookupRepository;
-        private readonly IEmailService _emailService;
 
-        public UserService(IUserLookupRepository userLookupRepository, IEmailService emailService)
+        public UserService(IUserLookupRepository userLookupRepository)
         {
             _userLookupRepository = userLookupRepository;
-            _emailService = emailService;
         }
 
         public void SendCommentToUser(string username, string subject, string message)
         {
             var email = GetEmailFromUsername(username);
-            _emailService.SendEmail(email, subject, message);
+            EmailService.Send(email, "noreply@hljodrit.is", subject, message);
         }
 
         public string GetEmailFromUsername(string username)

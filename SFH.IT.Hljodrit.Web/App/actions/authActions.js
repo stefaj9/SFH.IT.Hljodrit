@@ -20,3 +20,23 @@ export function registerUser(name, email, password, confirmPassword) {
         })
     }
 }
+
+export function loginUser(username, password) {
+    return () => {
+        return fetch('/token', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `grant_type=password&username=${username}&password=${password}`
+        }).then(resp => {
+            console.log(resp);
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(data => {
+            console.log(data);
+        });
+    }
+}

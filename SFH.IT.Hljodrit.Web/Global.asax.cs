@@ -5,6 +5,11 @@ using System.Web.Http.ExceptionHandling;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.DataHandler;
+using Microsoft.Owin.Security.DataHandler.Encoder;
+using Microsoft.Owin.Security.DataHandler.Serializer;
+using Microsoft.Owin.Security.DataProtection;
 using NLog;
 using SFH.IT.Hljodrit.Web.Filters;
 using SFH.IT.Hljodrit.Web.Handlers;
@@ -15,9 +20,9 @@ using SimpleInjector.Lifestyles;
 
 namespace SFH.IT.Hljodrit.Web
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
-        public static NLog.Logger Logger => LogManager.GetCurrentClassLogger();
+        public static Logger Logger => LogManager.GetCurrentClassLogger();
 
         protected void Application_Start()
         {
@@ -26,17 +31,6 @@ namespace SFH.IT.Hljodrit.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            var container = new Container();
-            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
-            container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
-
-            Services.Startup.RegisterComponents(container);
-
-            container.Verify();
-
-            GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
 
             // Add a global custom exception filter
             GlobalConfiguration.Configuration.Filters.Add(new HttpExceptionFilter());
@@ -52,24 +46,6 @@ namespace SFH.IT.Hljodrit.Web
             // Fatal error is relevant here.
             Logger.Fatal(Server.GetLastError());
             Server.ClearError();
-        }
-
-        protected void Application_EndRequest()
-        {
-            var context = new HttpContextWrapper(Context);
-            // If we're an ajax request, and doing a 302, then we actually need to do a 401
-            if (Context.Response.StatusCode == 302 && IsAjaxRequest(Context.Request))
-            {
-                Context.Response.Clear();
-                Context.Response.ClearContent();
-                Context.Response.StatusCode = 401;
-                context.Response.RedirectLocation = null;
-                Context.Response.End();
-            }
-        }
-        private static bool IsAjaxRequest(HttpRequest request)
-        {
-            return request.Path.Contains("/api");
         }
     }
 }

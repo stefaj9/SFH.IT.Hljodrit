@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { loginUser } from '../../actions/authActions';
 
 class Login extends React.Component {
     constructor() {
@@ -11,8 +13,7 @@ class Login extends React.Component {
     }
     submitLogin() {
         const { username, password } = this.state;
-        console.log(username, password);
-        // TODO: Issue login request and redirect user to /projects
+        this.props.loginUser(username, password);
     }
     render() {
         const { username, password } = this.state;
@@ -41,4 +42,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default connect(null, { loginUser })(Login);

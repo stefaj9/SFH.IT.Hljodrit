@@ -58,7 +58,6 @@
     <Compile Include="Interfaces\IAlbumService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
     <Compile Include="Implementations\SettingsService.cs" />
-    <Compile Include="Interfaces\IEmailService.cs" />
     <Compile Include="Interfaces\IInstrumentService.cs" />
     <Compile Include="Interfaces\IMainArtistService.cs" />
     <Compile Include="Interfaces\IMediaService.cs" />

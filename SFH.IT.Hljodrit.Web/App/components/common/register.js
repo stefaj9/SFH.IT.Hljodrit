@@ -58,7 +58,7 @@ class Register extends React.Component {
                 <form action="" onSubmit={e => this.registerUser(e)}>
                     <div className="form-group">
                         <label htmlFor="register-name">Nafn</label>
-                        <input id="register-name" name="register-name" type="text" className="form-control" onChange={(e) => this.setState({ name: e.target.value })} value={name} />
+                        <input autoFocus={true} id="register-name" name="register-name" type="text" className="form-control" onChange={(e) => this.setState({ name: e.target.value })} value={name} />
                         <p className={'error-message ' + (showNameErrMsg ? '' : 'hidden')}>Nafn má ekki vera tómt.</p>
                     </div>
                     <div className="form-group">
