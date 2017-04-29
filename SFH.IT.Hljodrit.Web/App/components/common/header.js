@@ -39,15 +39,15 @@ class Header extends React.Component {
                         </Link>
                     </div>
                     <div className="collapse navbar-collapse" id="navbar-collapse">
-                        <ul className={'nav navbar-nav' + (this.props.isLoggedIn ? ' hidden' : '')}>
+                        <ul className="nav navbar-nav">
+                            <li><a><strong>{this.props.userName}</strong></a></li>
+                        </ul>
+                        <ul className="nav navbar-nav">
                             <li className={this.state.selectedItem === 'info' ? 'active' : ''}>
                                 <Link to="/info" onClick={() => this.setState({ selectedItem: 'info' })}>
                                     Upplýsingar
                                 </Link>
                             </li>
-                        </ul>
-                        <ul className="nav navbar-nav">
-                            <li><a><strong>{this.props.userName}</strong></a></li>
                         </ul>
                         <ul className={'nav navbar-nav' + (!this.props.isLoggedIn ? ' hidden' : '')}>
                             <li className={this.state.selectedItem === 'projects' ? 'active' : ''}>

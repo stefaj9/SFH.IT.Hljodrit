@@ -9,6 +9,7 @@ import Intro from '../components/common/intro';
 import NotFound from '../components/common/notFound';
 import ProjectContainer from '../components/projects/projectContainer';
 import Project from '../components/projects/project';
+import ProjectDetails from '../components/projects/projectDetails';
 import CreateProject from '../components/projects/createProject/createProject';
 
 export default (
@@ -21,6 +22,7 @@ export default (
             <Route path="projects" component={ProjectContainer}>
                 <IndexRoute component={Project} />
                 <Route path="createproject" component={CreateProject} />
+                <Route path=":projectId" component={ProjectDetails} />
             </Route>
         </Route>
         <Route path="*" component={NotFound} />

@@ -15,6 +15,13 @@ namespace SFH.IT.Hljodrit.Web.Controllers
             _projectService = projectService;
         }
 
+        [HttpGet]
+        [Route("{projectId:int}")]
+        public IHttpActionResult GetProjectById(int projectId)
+        {
+            return Ok(_projectService.GetProjectById(projectId));
+        }
+
         [HttpPost]
         [Route("")]
         public IHttpActionResult CreateProject([FromBody] ProjectCreationViewModel project)

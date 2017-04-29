@@ -27,9 +27,11 @@ let initialState = {
         songs: [],
         publisher: {}
     },
+    selectedProject: {},
     userProjects: [],
     isCreatingProject: false,
     isFetchingUserProjects: true,
+    isFetchingProjectById: true,
     statusOptions: []
 };
 
@@ -58,6 +60,9 @@ export default function(state = initialState, action) {
                 publisher: {}
             }
         });
+        case types.GET_PROJECT_BY_ID: return Object.assign({}, state, {
+            selectedProject: action.payload
+        });
         case types.GET_PROJECT_FOR_USER: 
             let userProjects = _.cloneDeep(action.payload);
 
@@ -69,6 +74,12 @@ export default function(state = initialState, action) {
             return Object.assign({}, state, {
                 userProjects: userProjects
             });
+        case types.IS_FETCHING_PROJECT_BY_ID: return Object.assign({}, state, {
+            isFetchingProjectById: true
+        })
+        case types.HAS_STOPPED_FETCHING_PROJECT_BY_ID: return Object.assign({}, state, {
+            isFetchingProjectById: false
+        })
         case types.IS_FETCHING_USER_PROJECTS: return Object.assign({}, state, {
             isFetchingUserProjects: true
         });

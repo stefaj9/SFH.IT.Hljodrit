@@ -13,6 +13,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
             Id = project.id;
             ProjectName = project.projectname ?? "";
             MainArtist = project.mainartist ?? "";
+            MainArtistId = project.party_mainartist?.id ?? -1;
             SubmissionUser = project.createdby ?? "";
             LastModificationDate = project.updatedon;
             ProjectStatus = project.statuscode;

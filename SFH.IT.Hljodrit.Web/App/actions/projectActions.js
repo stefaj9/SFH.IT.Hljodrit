@@ -3,6 +3,34 @@ import { toastr } from 'react-redux-toastr';
 import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 
+export function getProjectById(projectId) {
+    return dispatch => {
+        dispatch(isFetchingProjectById());
+        return fetch(`/api/projects/${projectId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt')
+            }
+        }).then(resp => {
+            dispatch(hasStoppedFetchingProjectById());
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að sækja verkefni.');
+            }
+        }).then(project => {
+            dispatch(getProjectByIdSuccess(project));
+        });
+    };
+};
+
+function getProjectByIdSuccess(project) {
+    return {
+        type: types.GET_PROJECT_BY_ID,
+        payload: project
+    };
+};
+
 export function getProjectsForUser() {
     return dispatch => {
         dispatch(isFetchingUserProjects());
@@ -135,6 +163,20 @@ function isFetchingUserProjects() {
 function hasStoppedFetchingUserProjects() {
     return {
         type: types.HAS_STOPPED_FETCHING_USER_PROJECTS,
+        payload: {}
+    };
+};
+
+function isFetchingProjectById() {
+    return {
+        type: types.IS_FETCHING_PROJECT_BY_ID,
+        payload: {}
+    };
+};
+
+function hasStoppedFetchingProjectById() {
+    return {
+        type: types.HAS_STOPPED_FETCHING_PROJECT_BY_ID,
         payload: {}
     };
 };
