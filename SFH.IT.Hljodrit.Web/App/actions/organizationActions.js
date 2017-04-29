@@ -6,7 +6,10 @@ export function getPublishersByCriteria(pageSize, pageNumber, searchQuery, isFet
     return (dispatch) => {
         dispatch(isFetchingList());
         return fetch(`/api/organizations?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchQuery}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': sessionStorage.getItem('bt')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -30,7 +33,10 @@ function getAllPublishersSuccess(data) {
 export function getPublisherIsrcSeriesById(publisherId) {
     return (dispatch) => {
         return fetch(`/api/organizations/${publisherId}/isrc-series`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': sessionStorage.getItem('bt')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -51,7 +57,10 @@ function getPublisherIsrcSeriesByIdSuccess(isrcSeries) {
 export function getLabelsByPublisherId(publisherId) {
     return (dispatch) => {
         return fetch(`/api/organizations/${publisherId}/labels`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': sessionStorage.getItem('bt')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -75,7 +84,8 @@ export function addLabelToOrganizationById(organizationId, label) {
         return fetch(`/api/organizations/${organizationId}/labels`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.getItem('bt')
             },
             body: JSON.stringify(label)
         }).then(resp => {

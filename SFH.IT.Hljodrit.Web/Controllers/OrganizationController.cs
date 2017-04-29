@@ -4,6 +4,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Web.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/organizations")]
     public class OrganizationController : ApiController
     {

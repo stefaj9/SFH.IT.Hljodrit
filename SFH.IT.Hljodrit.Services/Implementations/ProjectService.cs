@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Linq;
 using SFH.IT.Hljodrit.Common;
 using SFH.IT.Hljodrit.Common.Dto;
@@ -249,7 +248,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             });
         }
 
-        public void CreateProject(ProjectCreationViewModel project)
+        public void CreateProject(ProjectCreationViewModel project, string userName)
         {
             var projectToCreate = new project_master
             {
@@ -258,9 +257,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 // Should be the party_real associated with the submission user, in order to retrieve his projects.
                 projectstartdate = DateTime.Now,
                 isworkingtitle = project.BasicInfo.IsWorkingTitle,
-                updatedby = "User",
+                updatedby = userName,
                 updatedon = DateTime.Now,
-                createdby = "User",
+                createdby = userName,
                 createdon = DateTime.Now,
                 statuscode = project.BasicInfo.ProjectStatus,
                 removed = false,
@@ -280,9 +279,9 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     projectid = projectId,
                     trackname = song.Name,
                     isworkingtitle = false,
-                    updatedby = "User",
+                    updatedby = userName,
                     updatedon = DateTime.Now,
-                    createdby = "User",
+                    createdby = userName,
                     createdon = DateTime.Now,
                     isrc = song.Isrc,
                     duration = song.Length,
@@ -299,13 +298,28 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     partyrealid = p.Id,
                     rolecode = p.Role.RoleCode,
                     instrumentcode = string.IsNullOrEmpty(p.Instrument.IdCode) ? null : p.Instrument.IdCode,
-                    updatedby = "User",
+                    updatedby = userName,
                     updatedon = DateTime.Now,
-                    createdby = "User",
+                    createdby = userName,
                     createdon = DateTime.Now
                 }));
             }
             _unitOfWork.Commit();
+        }
+
+        public IEnumerable<ProjectDto> GetProjectsByUsername(string userName)
+        {
+            return _projectMasterRepository.GetMany(pm => pm.createdby == userName && !pm.removed).Select(p => new ProjectDto
+            {
+                ProjectName = p.projectname,
+                IsWorkingTitle = p.isworkingtitle,
+                LastModificationDate = p.updatedon,
+                MainArtist = p.mainartist ?? "",
+                MainArtistId = p.mainartistid ?? -1,
+                ProjectStatus = p.statuscode,
+                ProjectStatusName = p.project_status.statusname,
+                SubmissionUser = p.createdby
+            });
         }
     }
 }

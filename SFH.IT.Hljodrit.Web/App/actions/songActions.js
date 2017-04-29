@@ -6,7 +6,10 @@ export function getMediaRecordingsByCriteria(pageSize, pageNumber, searchString,
         dispatch(isFetchingSongs());
         dispatch(clearMediaRecordingList());
         return fetch(`/api/media?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchString}&searchType=${searchType}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': sessionStorage.getItem('bt')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();

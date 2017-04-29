@@ -3,6 +3,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Web.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/instruments")]
     public class InstrumentController : ApiController
     {

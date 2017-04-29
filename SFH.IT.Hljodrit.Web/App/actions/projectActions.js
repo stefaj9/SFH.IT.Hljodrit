@@ -6,7 +6,10 @@ import fetch from 'isomorphic-fetch';
 export function getProjectStatus() {
     return dispatch => {
         return fetch('/api/projects/status', {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': sessionStorage.getItem('bt')
+            }
         }).then(resp => {
             if (resp.ok) {
                 return resp.json();
@@ -58,7 +61,8 @@ export function createProject(project) {
         return fetch('/api/projects', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.getItem('bt')
             },
             body: JSON.stringify(project)
         }).then(resp => {

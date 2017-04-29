@@ -3,6 +3,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Web.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/common")]
     public class CommonController : ApiController
     {

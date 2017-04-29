@@ -5,7 +5,10 @@ export function getPersonsByCriteria(pageSize, pageNumber, searchQuery, isFetchi
     return (dispatch) => {
         dispatch(isFetchingList());
         return fetch(`/api/persons?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchQuery}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': sessionStorage.getItem('bt')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();

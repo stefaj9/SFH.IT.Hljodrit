@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace SFH.IT.Hljodrit.Web.Controllers
 {
+    [AllowAnonymous]
     [RoutePrefix("api/validation")]
     public class ValidationController : ApiController
     {

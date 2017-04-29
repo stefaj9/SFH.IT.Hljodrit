@@ -4,6 +4,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Web.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/projects")]
     public class ProjectController : ApiController
     {
@@ -18,7 +19,7 @@ namespace SFH.IT.Hljodrit.Web.Controllers
         [Route("")]
         public IHttpActionResult CreateProject([FromBody] ProjectCreationViewModel project)
         {
-            _projectService.CreateProject(project);
+            _projectService.CreateProject(project, User.Identity.Name);
             return Ok();
         }
 
@@ -27,6 +28,13 @@ namespace SFH.IT.Hljodrit.Web.Controllers
         public IHttpActionResult GetProjectStatuses()
         {
             return Ok(_projectService.GetProjectStatus());
+        }
+
+        [HttpGet]
+        [Route("user")]
+        public IHttpActionResult GetProjectByUsername()
+        {
+            return Ok(_projectService.GetProjectsByUsername(User.Identity.Name));
         }
     }
 }

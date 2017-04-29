@@ -3,7 +3,10 @@ import fetch from 'isomorphic-fetch';
 export function getZipCodes() {
     return (dispatch) => {
         return fetch('/api/common/zipcodes', {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': sessionStorage.getItem('bt')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -17,7 +20,10 @@ export function getZipCodes() {
 export function getCountries() {
     return (dispatch) => {
         return fetch('/api/common/countries', {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': sessionStorage.getItem('bt')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
