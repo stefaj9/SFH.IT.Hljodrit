@@ -8,7 +8,7 @@ export function getProjectStatus() {
         return fetch('/api/projects/status', {
             method: 'GET',
             headers: {
-                'Authorization': sessionStorage.getItem('bt')
+                'Authorization': localStorage.getItem('bt')
             }
         }).then(resp => {
             if (resp.ok) {
@@ -62,7 +62,7 @@ export function createProject(project) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': sessionStorage.getItem('bt')
+                'Authorization': localStorage.getItem('bt')
             },
             body: JSON.stringify(project)
         }).then(resp => {

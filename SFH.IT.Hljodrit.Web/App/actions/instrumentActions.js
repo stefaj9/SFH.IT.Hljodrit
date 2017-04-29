@@ -6,7 +6,7 @@ export function getInstrumentSuggestions() {
         return fetch('/api/instruments', {
             method: 'GET',
             headers: {
-                'Authorization': sessionStorage.getItem('bt')
+                'Authorization': localStorage.getItem('bt')
             }
         }).then((resp) => {
             if (resp.ok) {

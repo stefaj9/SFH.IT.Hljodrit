@@ -5,7 +5,7 @@ export function getZipCodes() {
         return fetch('/api/common/zipcodes', {
             method: 'GET',
             headers: {
-                'Authorization': sessionStorage.getItem('bt')
+                'Authorization': localStorage.getItem('bt')
             }
         }).then((resp) => {
             if (resp.ok) {
@@ -22,7 +22,7 @@ export function getCountries() {
         return fetch('/api/common/countries', {
             method: 'GET',
             headers: {
-                'Authorization': sessionStorage.getItem('bt')
+                'Authorization': localStorage.getItem('bt')
             }
         }).then((resp) => {
             if (resp.ok) {

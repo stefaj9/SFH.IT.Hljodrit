@@ -6,7 +6,7 @@ export function getMainArtistsByCriteria(pageSize, pageNumber, searchTerm, isFet
         return fetch(`/api/mainartists?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchTerm}`, {
             method: 'GET',
             headers: {
-                'Authorization': sessionStorage.getItem('bt')
+                'Authorization': localStorage.getItem('bt')
             }
         }).then((resp) => {
             if (resp.ok) {

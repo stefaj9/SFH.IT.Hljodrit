@@ -17,7 +17,7 @@ export function register(individual, path) {
             body: JSON.stringify(individual),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': sessionStorage.getItem('bt')
+                'Authorization': localStorage.getItem('bt')
             }
         }).then((resp) => {
             if (resp.ok) {
@@ -44,7 +44,7 @@ export function update(data, path, message, optionalSuccessCallback) {
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': sessionStorage.getItem('bt')
+                'Authorization': localStorage.getItem('bt')
             }
         }).then((resp) => {
             if (resp.ok) {

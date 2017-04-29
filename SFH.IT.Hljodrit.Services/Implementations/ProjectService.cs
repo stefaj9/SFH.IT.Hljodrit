@@ -311,6 +311,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         {
             return _projectMasterRepository.GetMany(pm => pm.createdby == userName && !pm.removed).Select(p => new ProjectDto
             {
+                Id = p.id,
                 ProjectName = p.projectname,
                 IsWorkingTitle = p.isworkingtitle,
                 LastModificationDate = p.updatedon,

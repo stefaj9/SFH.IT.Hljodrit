@@ -7,7 +7,7 @@ export function getPersonsByCriteria(pageSize, pageNumber, searchQuery, isFetchi
         return fetch(`/api/persons?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchQuery}`, {
             method: 'GET',
             headers: {
-                'Authorization': sessionStorage.getItem('bt')
+                'Authorization': localStorage.getItem('bt')
             }
         }).then((resp) => {
             if (resp.ok) {
@@ -32,7 +32,10 @@ function getPersonsByCriteriaSuccess(data) {
 export function getPersonRoles() {
     return (dispatch) => {
         return fetch('/api/persons/roles', {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
