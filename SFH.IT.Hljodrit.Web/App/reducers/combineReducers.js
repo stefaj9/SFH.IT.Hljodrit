@@ -10,6 +10,7 @@ import SongReducer from './songReducer';
 import CacheReducer from './cacheReducer';
 import PersonReducer from './personReducer';
 import InstrumentReducer from './instrumentReducer';
+import AuthReducer from './authReducer';
 
 export default combineReducers({
     routing: routerReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
     songs: SongReducer,
     cache: CacheReducer,
     person: PersonReducer,
-    instrument: InstrumentReducer
+    instrument: InstrumentReducer,
+    auth: AuthReducer
 });

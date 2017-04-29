@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-export default class Header extends React.Component {
+class Header extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -12,7 +13,7 @@ export default class Header extends React.Component {
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
-                    <div className="navbar-header">
+                    <div className={'navbar-header' + (this.props.userName.length === 0 ? ' navbar-height' : '')}>
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
                             <span className="sr-only">Toggle navigation</span>
                             <span className="icon-bar"></span>
@@ -25,6 +26,9 @@ export default class Header extends React.Component {
                     </div>
                     <div className="collapse navbar-collapse" id="navbar-collapse">
                         <ul className="nav navbar-nav">
+                            <li><a><strong>{this.props.userName}</strong></a></li>
+                        </ul>
+                        <ul className={'nav navbar-nav' + (this.props.userName.length === 0 ? ' hidden' : '')}>
                             <li className={this.state.selectedItem === 'projects' ? 'active' : ''}>
                                 <Link to="/projects" onClick={() => this.setState({ selectedItem: 'projects' })}>
                                     Verkefni
@@ -37,3 +41,9 @@ export default class Header extends React.Component {
         );
     }
 }
+
+Header.propTypes = {
+    userName: PropTypes.string
+};
+
+export default Header;

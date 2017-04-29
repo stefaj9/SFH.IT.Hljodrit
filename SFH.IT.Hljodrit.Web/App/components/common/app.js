@@ -13,7 +13,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <Header />
+                <Header userName={this.props.userName} />
                 <div className="container">
                     <div className="row">
                         <div className="col-xs-10 col-xs-push-1">
@@ -26,4 +26,10 @@ class App extends React.Component {
     }
 }
 
-export default connect(null, { getZipCodes, getCountries, getProjectStatus })(App);
+function mapStateToProps(state) {
+    return {
+        userName: state.auth.userName
+    };
+};
+
+export default connect(mapStateToProps, { getZipCodes, getCountries, getProjectStatus })(App);

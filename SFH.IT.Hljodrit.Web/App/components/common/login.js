@@ -11,16 +11,18 @@ class Login extends React.Component {
             password: ''
         };
     }
-    submitLogin() {
+    submitLogin(e) {
+        e.preventDefault();
         const { username, password } = this.state;
         this.props.loginUser(username, password);
+        this.setState({ username: '', password: '' });
     }
     render() {
         const { username, password } = this.state;
         return (
             <div>
                 <h2>Innskráning</h2>
-                <form action="" onSubmit={() => this.submitLogin()}>
+                <form action="" onSubmit={(e) => this.submitLogin(e)}>
                     <div className="form-group">
                         <label htmlFor="">Notandanafn</label>
                         <input autoFocus={true} type="text" className="form-control" onChange={(e) => this.setState({ username: e.target.value })} value={username} />

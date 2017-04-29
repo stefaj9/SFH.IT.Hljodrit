@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import * as types from './actionTypes';
 import { browserHistory } from 'react-router';
 import { toastr } from 'react-redux-toastr';
 
@@ -13,16 +14,16 @@ export function registerUser(name, email, password, confirmPassword) {
         }).then(resp => {
             if (resp.ok) {
                 toastr.success('Tókst!', 'Nýskráning tókst. Innan skamms mun þér berast póstur til þess að staðfesta netfangið þitt.');
-                browserHistory.push('/');
             } else {
                 toastr.error('Villa!', 'Ekki tókst að nýskrá. Vinsamlegast reyndu aftur síðar.');
             }
-        })
+        });
     }
 }
 
 export function loginUser(username, password) {
-    return () => {
+    return (dispatch) => {
+        dispatch(isLoggingIn());
         return fetch('/token', {
             method: 'POST',
             headers: {
@@ -31,12 +32,37 @@ export function loginUser(username, password) {
             },
             body: `grant_type=password&username=${username}&password=${password}`
         }).then(resp => {
-            console.log(resp);
-            if (resp.ok) {
-                return resp.json();
-            }
+            dispatch(hasStoppedLoggingIn());
+            return resp.json();
         }).then(data => {
-            console.log(data);
+            if (data.hasOwnProperty('error')) {
+                toastr.error('Villa!', data.error_description);
+            } else {
+                toastr.success('Tókst!', 'Innskráning tókst.');
+                browserHistory.push('/projects');
+                dispatch(loginUserSuccess(data.userName));
+            }
         });
     }
 }
+
+function loginUserSuccess(userName) {
+    return {
+        type: types.LOGIN_USER,
+        payload: userName
+    };
+};
+
+function isLoggingIn() {
+    return {
+        type: types.IS_LOGGING_IN,
+        payload: {}
+    };
+};
+
+function hasStoppedLoggingIn() {
+    return {
+        type: types.HAS_STOPPED_LOGGING_IN,
+        payload: {}
+    };
+};
