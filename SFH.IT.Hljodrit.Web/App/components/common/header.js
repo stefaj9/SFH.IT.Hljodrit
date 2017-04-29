@@ -34,6 +34,9 @@ class Header extends React.Component {
                                     Verkefni
                                 </Link>
                             </li>
+                            <li>
+                                <a href="#" onClick={() => this.props.logoutUser()}>Skrá út</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -43,7 +46,8 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-    userName: PropTypes.string
+    userName: PropTypes.string,
+    logoutUser: PropTypes.func
 };
 
 export default Header;

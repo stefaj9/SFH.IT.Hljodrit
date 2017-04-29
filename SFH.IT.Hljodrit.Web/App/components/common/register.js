@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
+import Spinner from 'react-spinner';
 
 class Register extends React.Component {
     constructor() {
@@ -54,35 +55,44 @@ class Register extends React.Component {
         const { name, email, password, passwordRepeat, showNameErrMsg, showEmailErrMsg, showPasswordErrMsg, showPasswordRepeatErrMsg } = this.state;
         return (
             <div>
-                <h2>Nýskráning</h2>
-                <form action="" onSubmit={e => this.registerUser(e)}>
-                    <div className="form-group">
-                        <label htmlFor="register-name">Nafn</label>
-                        <input autoFocus={true} id="register-name" name="register-name" type="text" className="form-control" onChange={(e) => this.setState({ name: e.target.value })} value={name} />
-                        <p className={'error-message ' + (showNameErrMsg ? '' : 'hidden')}>Nafn má ekki vera tómt.</p>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="register-email">Netfang</label>
-                        <input type="text" id="register-email" name="register-email" className="form-control" onChange={(e) => this.setState({ email: e.target.value })} value={email} />
-                        <p className={'error-message ' + (showEmailErrMsg ? '' : 'hidden')}>Netfang er ekki á réttu formi.</p>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="register-password">Lykilorð</label>
-                        <input type="password" id="register-password" name="register-password" className="form-control" onChange={(e) => this.setState({ password: e.target.value })} value={password} />
-                        <p className={'error-message ' + (showPasswordErrMsg ? '' : 'hidden')}>Lykilorð þarf að vera að lágmarki 8 stafir.</p>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="register-password-repeat">Lykilorð endurtekið</label>
-                        <input type="password" id="register-password-repeat" name="register-password-repeat" className="form-control" onChange={(e) => this.setState({ passwordRepeat: e.target.value })} value={passwordRepeat} />
-                        <p className={'error-message ' + (showPasswordRepeatErrMsg ? '' : 'hidden')}>Lykilorðin eru ekki þau sömu.</p>
-                    </div>
-                    <div className="form-group text-right">
-                        <button className="btn btn-default btn-primary">Nýskrá</button>
-                    </div>
-                </form>
+                <div className={this.props.isRegistering ? 'hidden' : ''}>
+                    <h2>Nýskráning</h2>
+                    <form action="" onSubmit={e => this.registerUser(e)}>
+                        <div className="form-group">
+                            <label htmlFor="register-name">Nafn</label>
+                            <input autoFocus={true} id="register-name" name="register-name" type="text" className="form-control" onChange={(e) => this.setState({ name: e.target.value })} value={name} />
+                            <p className={'error-message ' + (showNameErrMsg ? '' : 'hidden')}>Nafn má ekki vera tómt.</p>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="register-email">Netfang</label>
+                            <input type="text" id="register-email" name="register-email" className="form-control" onChange={(e) => this.setState({ email: e.target.value })} value={email} />
+                            <p className={'error-message ' + (showEmailErrMsg ? '' : 'hidden')}>Netfang er ekki á réttu formi.</p>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="register-password">Lykilorð</label>
+                            <input type="password" id="register-password" name="register-password" className="form-control" onChange={(e) => this.setState({ password: e.target.value })} value={password} />
+                            <p className={'error-message ' + (showPasswordErrMsg ? '' : 'hidden')}>Lykilorð þarf að vera að lágmarki 8 stafir.</p>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="register-password-repeat">Lykilorð endurtekið</label>
+                            <input type="password" id="register-password-repeat" name="register-password-repeat" className="form-control" onChange={(e) => this.setState({ passwordRepeat: e.target.value })} value={passwordRepeat} />
+                            <p className={'error-message ' + (showPasswordRepeatErrMsg ? '' : 'hidden')}>Lykilorðin eru ekki þau sömu.</p>
+                        </div>
+                        <div className="form-group text-right">
+                            <button className="btn btn-default btn-primary">Nýskrá</button>
+                        </div>
+                    </form>
+                </div>
+                <Spinner className={this.props.isRegistering ? '' : 'hidden'} />
             </div>
         );
     }
 }
 
-export default connect(null, { registerUser })(Register);
+function mapStateToProps(state) {
+    return {
+        isRegistering: state.auth.isRegistering
+    };
+};
+
+export default connect(mapStateToProps, { registerUser })(Register);

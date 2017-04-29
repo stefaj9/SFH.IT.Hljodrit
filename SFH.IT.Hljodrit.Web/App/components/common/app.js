@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Header from './header';
 import { getZipCodes, getCountries } from '../../actions/commonActions';
 import { getProjectStatus } from '../../actions/projectActions';
+import { logoutUser } from '../../actions/authActions';
 
 class App extends React.Component {
     componentWillMount() {
@@ -13,7 +14,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <Header userName={this.props.userName} />
+                <Header userName={this.props.userName} logoutUser={this.props.logoutUser} />
                 <div className="container">
                     <div className="row">
                         <div className="col-xs-10 col-xs-push-1">
@@ -32,4 +33,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getZipCodes, getCountries, getProjectStatus })(App);
+export default connect(mapStateToProps, { getZipCodes, getCountries, getProjectStatus, logoutUser })(App);

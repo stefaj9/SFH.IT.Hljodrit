@@ -4,7 +4,8 @@ import { browserHistory } from 'react-router';
 import { toastr } from 'react-redux-toastr';
 
 export function registerUser(name, email, password, confirmPassword) {
-    return () => {
+    return (dispatch) => {
+        dispatch(isRegistering());
         return fetch('/api/account/register', {
             method: 'POST',
             headers: {
@@ -12,14 +13,35 @@ export function registerUser(name, email, password, confirmPassword) {
             },
             body: `Name=${name}&Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}`
         }).then(resp => {
+            dispatch(hasStoppedRegistering());
             if (resp.ok) {
                 toastr.success('Tókst!', 'Nýskráning tókst. Innan skamms mun þér berast póstur til þess að staðfesta netfangið þitt.');
+                browserHistory.push('/');
             } else {
-                toastr.error('Villa!', 'Ekki tókst að nýskrá. Vinsamlegast reyndu aftur síðar.');
+                return resp.json();
+            }
+        }).then(data => {
+            if (data) {
+                if (data.hasOwnProperty('ModelState')) {
+                    let errorStates = data['ModelState'][''];
+                    if (errorStates.length > 1) {
+                        toastr.error('Villa!', errorStates[1]);
+                    } else {
+                        toastr.error('Villa!', 'Ekki tókst að nýskrá. Vinsamlegast reyndu aftur síðar.');
+                    }
+                }
             }
         });
     }
 }
+
+export function logoutUser() {
+    browserHistory.push('/');
+    return {
+        type: types.LOGOUT,
+        payload: {}
+    };
+};
 
 export function loginUser(username, password) {
     return (dispatch) => {
@@ -40,16 +62,16 @@ export function loginUser(username, password) {
             } else {
                 toastr.success('Tókst!', 'Innskráning tókst.');
                 browserHistory.push('/projects');
-                dispatch(loginUserSuccess(data.userName));
+                dispatch(loginUserSuccess(data));
             }
         });
     }
 }
 
-function loginUserSuccess(userName) {
+function loginUserSuccess(user) {
     return {
         type: types.LOGIN_USER,
-        payload: userName
+        payload: user
     };
 };
 
@@ -63,6 +85,20 @@ function isLoggingIn() {
 function hasStoppedLoggingIn() {
     return {
         type: types.HAS_STOPPED_LOGGING_IN,
+        payload: {}
+    };
+};
+
+function isRegistering() {
+    return {
+        type: types.IS_REGISTERING,
+        payload: {}
+    };
+};
+
+function hasStoppedRegistering() {
+    return {
+        type: types.HAS_STOPPED_REGISTERING,
         payload: {}
     };
 };
