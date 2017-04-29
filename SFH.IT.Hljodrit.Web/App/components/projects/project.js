@@ -1,8 +1,14 @@
 import React from 'react';
-import MyProjects from './myProjects';
+import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import { getProjectsForUser } from '../../actions/projectActions';
+import Table from '../common/table';
+import MyProjectTableData from './myProjectTableData';
 
-export default class Project extends React.Component {
+class Project extends React.Component {
+    componentWillMount() {
+        this.props.getProjectsForUser();
+    }
     render() {
         return (
             <div>
@@ -11,11 +17,27 @@ export default class Project extends React.Component {
                     <div className="col-xs-12 text-right">
                         <button 
                             className="btn btn-default btn-primary btn-lg text-right"
-                            onClick={() => browserHistory.push('/app/projects/createproject')}>Búa til nýtt verkefni</button>
+                            onClick={() => browserHistory.push('/app/projects/createproject')}> <i className="fa fa-plus fa-fw"></i> Búa til nýtt verkefni</button>
                     </div>
                 </div>
-                <MyProjects projects={[]} />
+                <div className="spacer"></div>
+                <div className="row">
+                    <Table
+                        tableData={ MyProjectTableData }
+                        objects={ this.props.userProjects }
+                        refCallback={ (ref) => { return ref; } }
+                        isRemote={false}
+                        pagination={true} />
+                </div>
             </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        userProjects: state.project.userProjects
+    };
+};
+
+export default connect(mapStateToProps, { getProjectsForUser })(Project);

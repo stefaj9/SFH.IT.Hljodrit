@@ -1,5 +1,9 @@
+import React from 'react';
 import * as types from '../actions/actionTypes';
 import _ from 'lodash';
+import moment from 'moment';
+
+moment.locale('is');
 
 let initialState = {
     projectToCreate: {
@@ -23,7 +27,9 @@ let initialState = {
         songs: [],
         publisher: {}
     },
+    userProjects: [],
     isCreatingProject: false,
+    isFetchingUserProjects: true,
     statusOptions: []
 };
 
@@ -51,6 +57,23 @@ export default function(state = initialState, action) {
                 songs: [],
                 publisher: {}
             }
+        });
+        case types.GET_PROJECT_FOR_USER: 
+            let userProjects = _.cloneDeep(action.payload);
+
+            _.forEach(userProjects, project => {
+                project.lastModificationDate = moment(project.lastModificationDate).format('LLL');
+                project.projectName = <a href={`/app/projects/${project.id}`}>{project.projectName}</a>;
+            });
+
+            return Object.assign({}, state, {
+                userProjects: userProjects
+            });
+        case types.IS_FETCHING_USER_PROJECTS: return Object.assign({}, state, {
+            isFetchingUserProjects: true
+        });
+        case types.HAS_STOPPED_FETCHING_USER_PROJECTS: return Object.assign({}, state, {
+            isFetchingUserProjects: false
         });
         case types.GET_PROJECT_STATUS: return Object.assign({}, state, {
             statusOptions: action.payload

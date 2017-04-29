@@ -3,6 +3,32 @@ import { toastr } from 'react-redux-toastr';
 import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 
+export function getProjectsForUser() {
+    return dispatch => {
+        dispatch(isFetchingUserProjects());
+        return fetch('/api/projects/user', {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt')
+            }
+        }).then(resp => {
+            dispatch(hasStoppedFetchingUserProjects());
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(projects => {
+            dispatch(getProjectsForUserSuccess(projects));
+        });
+    };
+};
+
+function getProjectsForUserSuccess(projects) {
+    return {
+        type: types.GET_PROJECT_FOR_USER,
+        payload: projects
+    };
+};
+
 export function getProjectStatus() {
     return dispatch => {
         return fetch('/api/projects/status', {
@@ -95,6 +121,20 @@ function isCreatingProject() {
 function hasStoppedCreatingProject() {
     return {
         type: types.HAS_STOPPED_CREATING_PROJECT,
+        payload: {}
+    };
+};
+
+function isFetchingUserProjects() {
+    return {
+        type: types.IS_FETCHING_USER_PROJECTS,
+        payload: {}
+    };
+};
+
+function hasStoppedFetchingUserProjects() {
+    return {
+        type: types.HAS_STOPPED_FETCHING_USER_PROJECTS,
         payload: {}
     };
 };
