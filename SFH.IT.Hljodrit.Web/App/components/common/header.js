@@ -20,7 +20,7 @@ class Header extends React.Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <Link className="navbar-brand" to="/" onClick={() => this.setState({ selectedItem: '' })}>
+                        <Link className="navbar-brand" to={this.props.isLoggedIn ? '/app' : '/'} onClick={() => this.setState({ selectedItem: '' })}>
                             <img alt="Brand" src="/App/resources/logo-hljodrit.png" />
                         </Link>
                     </div>
@@ -30,7 +30,7 @@ class Header extends React.Component {
                         </ul>
                         <ul className={'nav navbar-nav' + (!this.props.isLoggedIn ? ' hidden' : '')}>
                             <li className={this.state.selectedItem === 'projects' ? 'active' : ''}>
-                                <Link to="/projects" onClick={() => this.setState({ selectedItem: 'projects' })}>
+                                <Link to="/app/projects" onClick={() => this.setState({ selectedItem: 'projects' })}>
                                     Verkefni
                                 </Link>
                             </li>

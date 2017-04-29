@@ -65,7 +65,7 @@ export function createProject(project) {
             dispatch(hasStoppedCreatingProject());
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að búa til nýtt verkefni.');
-                browserHistory.push('/projects');
+                browserHistory.push('/app/projects');
                 dispatch(createProjectSuccess());
             } else {
                 toastr.error('Villa!', 'Ekki tókst að búa til nýtt verkefni.');

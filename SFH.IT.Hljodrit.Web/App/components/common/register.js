@@ -11,9 +11,8 @@ class Register extends React.Component {
             if (val) {
                 browserHistory.push('/app');
             }
-        }).catch(err => {
+        }).catch(() => {
             // Swallow the error, do NOT route. The user has an invalid token.
-            console.error(err);
         });
     }
     constructor() {

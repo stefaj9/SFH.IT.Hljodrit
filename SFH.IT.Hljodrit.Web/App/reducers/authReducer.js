@@ -38,6 +38,10 @@ export default function(state = initialState, action) {
             userName: action.payload.Email,
             isLoggedIn: true
         });
+        case types.CLEAR_LOGIN: return Object.assign({}, state, {
+            isLoggedIn: false,
+            userName: ''
+        });
     }
     return state;
 }

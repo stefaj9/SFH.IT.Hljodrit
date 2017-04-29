@@ -35,6 +35,13 @@ export function registerUser(name, email, password, confirmPassword) {
     }
 }
 
+export function clearLogin() {
+    return {
+        type: types.CLEAR_LOGIN,
+        payload: {}
+    };
+};
+
 export function refreshLogin() {
     return (dispatch) => {
         return fetch('/api/account/userinfo', {
