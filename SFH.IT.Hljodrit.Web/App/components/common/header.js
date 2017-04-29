@@ -3,6 +3,20 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 class Header extends React.Component {
+    componentWillMount() {
+        let splittedPath = location.pathname.split('/');
+        let currentSelectedItem = '';
+        if (splittedPath.length > 1) {
+            if (splittedPath[1] === 'app') {
+                if (splittedPath.length > 2) {
+                    currentSelectedItem = splittedPath[2];
+                }
+            } else {
+                currentSelectedItem = splittedPath[1];
+            }
+        }
+        this.setState({ selectedItem: currentSelectedItem.toLowerCase() });
+    }
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -25,6 +39,13 @@ class Header extends React.Component {
                         </Link>
                     </div>
                     <div className="collapse navbar-collapse" id="navbar-collapse">
+                        <ul className={'nav navbar-nav' + (this.props.isLoggedIn ? ' hidden' : '')}>
+                            <li className={this.state.selectedItem === 'info' ? 'active' : ''}>
+                                <Link to="/info" onClick={() => this.setState({ selectedItem: 'info' })}>
+                                    Upplýsingar
+                                </Link>
+                            </li>
+                        </ul>
                         <ul className="nav navbar-nav">
                             <li><a><strong>{this.props.userName}</strong></a></li>
                         </ul>
