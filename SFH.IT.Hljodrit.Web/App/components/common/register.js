@@ -46,12 +46,6 @@ class Register extends React.Component {
         });
 
         if (match && isSame && nameIsNotEmpty && emailMatch) { 
-            this.setState({ 
-                showPasswordErrMsg: false, 
-                showPasswordRepeatErrMsg: false, 
-                showNameErrMsg: false, 
-                showEmailErrMsg: false
-            });
             return true;
         }
         return false;
@@ -61,11 +55,12 @@ class Register extends React.Component {
         if (!this.validateForm()) { return; }
         const { name, email, password, passwordRepeat } = this.state;
         this.props.registerUser(name, email, password, passwordRepeat);
+        this.setState({ name: '', email: '', password: '', passwordRepeat: '' });
     }
     render() {
         const { name, email, password, passwordRepeat, showNameErrMsg, showEmailErrMsg, showPasswordErrMsg, showPasswordRepeatErrMsg } = this.state;
         return (
-            <div>
+            <div className="col-xs-6 col-xs-push-3">
                 <div className={this.props.isRegistering ? 'hidden' : ''}>
                     <h2>Nýskráning</h2>
                     <form action="" onSubmit={e => this.registerUser(e)}>
