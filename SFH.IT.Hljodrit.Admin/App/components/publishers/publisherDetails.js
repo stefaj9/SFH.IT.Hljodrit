@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getPublisherById } from '../../actions/organizationActions';
+import { getPublisherById, getLabelsByPublisherId, addLabelToOrganizationById } from '../../actions/organizationActions';
 import { isFetchingList, hasStoppedFetchingList, update } from '../../actions/flowActions';
 import { getZipCodes } from '../../actions/commonActions';
 import { browserHistory} from 'react-router';
@@ -15,6 +15,8 @@ class PublisherDetails extends React.Component {
     componentWillMount() {
         this.props.getPublisherById(this.props.routeParams.publisherId,
             this.props.isFetchingList, this.props.hasStoppedFetchingList);
+
+        this.props.getLabelsByPublisherId(this.props.routeParams.publisherId);
 
         this.props.getZipCodes();
     }
@@ -33,7 +35,8 @@ class PublisherDetails extends React.Component {
         this.state = {
             selectedPublisher: {},
             selectedPublisherHasChanged: false,
-            zipCode: ''
+            zipCode: '',
+            newLabelName: ''
         };
 
         this.updatePublisherField = this.updatePublisherField.bind(this);
@@ -76,6 +79,22 @@ class PublisherDetails extends React.Component {
         });
     }
 
+    addLabel() {
+        let labelName = this.state.newLabelName;
+        if (labelName.length === 0) {
+            return;
+        }
+
+        let organizationId = this.props.params.publisherId;
+
+        this.props.addLabelToOrganizationById(organizationId, {
+            organizationId: organizationId,
+            labelName: labelName
+        });
+
+        this.setState({ newLabelName: '' });
+    }
+
     renderContent() {
         if (Object.keys(this.state.selectedPublisher).length > 0 && this.hasFetchedAll()) {
             const publisher = this.state.selectedPublisher;
@@ -97,10 +116,25 @@ class PublisherDetails extends React.Component {
                     <h3>Label</h3>
                     <div className="row">
                         <Table tableData={PublisherLabels}
-                               objects={publisher.labels}
+                               objects={this.props.selectedOrganizationLabels}
                                refCallback={ref => { return ref; }}
                                isRemote={false}
                                pagination={false} />
+                    </div>
+                    <div className="input-group no-border-radius spacer">
+                        <input placeholder={`${this.state.selectedPublisher.fullName} [label]`}
+                               type="text"
+                               value={this.state.newLabelName}
+                               onChange={(e) => this.setState({ newLabelName: e.target.value })}
+                               className="form-control" />
+                        <span onClick={() => this.addLabel()}
+                              className={'input-group-addon' + (this.state.newLabelName.length > 0 ? ' background-primary hover-cursor' : '')}>
+                            <span className={this.props.isCreatingLabel ? 'visibility-hidden' : ''}>
+                                <i className="fa fa-fw fa-plus" />
+                                Bæta við label
+                            </span>
+                            <Spinner className={this.props.isCreatingLabel ? 'spinner-small' : 'hidden'} />
+                        </span>
                     </div>
                     <h3>Plötur</h3>
                     <div className="row">
@@ -129,11 +163,13 @@ class PublisherDetails extends React.Component {
 function mapStateToProps(state) {
     return {
         organization: state.organization.selectedOrganization,
+        isCreatingLabel: state.organization.isCreatingLabel,
         isFetchingPublisher: state.flow.isFetchingList,
         isUpdatingPublisher: state.flow.isUpdatingData,
         zipCodes: state.common.zipCodes,
-        isFetchingZipCodes: state.common.isFetchingZipCodes
+        isFetchingZipCodes: state.common.isFetchingZipCodes,
+        selectedOrganizationLabels: state.organization.selectedOrganizationLabels
     }
 }
 
-export default connect(mapStateToProps, { getPublisherById, isFetchingList, hasStoppedFetchingList, getZipCodes, update }) (PublisherDetails);
+export default connect(mapStateToProps, { getPublisherById, isFetchingList, hasStoppedFetchingList, getZipCodes, update, getLabelsByPublisherId, addLabelToOrganizationById }) (PublisherDetails);

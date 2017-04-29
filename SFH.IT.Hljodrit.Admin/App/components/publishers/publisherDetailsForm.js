@@ -82,11 +82,13 @@ updateSelectedPublisher, updateZipAndCity}) => {
                         </input>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-default btn-primary pull-right"
-                        disabled={!selectedPublisherHasChanged}
-                        onClick={(e) => updateSelectedPublisher(e)}>
-                    Vista
-                </button>
+                <div className="text-right">
+                    <button type="submit" className="btn btn-default btn-primary btn-lg"
+                            disabled={!selectedPublisherHasChanged}
+                            onClick={(e) => updateSelectedPublisher(e)}>
+                        Vista
+                    </button>
+                </div>
             </form>
         </div>
     )
