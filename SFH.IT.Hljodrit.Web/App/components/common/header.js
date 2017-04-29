@@ -13,7 +13,7 @@ class Header extends React.Component {
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
-                    <div className={'navbar-header' + (this.props.userName.length === 0 ? ' navbar-height' : '')}>
+                    <div className={'navbar-header' + (!this.props.isLoggedIn ? ' navbar-height' : '')}>
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
                             <span className="sr-only">Toggle navigation</span>
                             <span className="icon-bar"></span>
@@ -28,7 +28,7 @@ class Header extends React.Component {
                         <ul className="nav navbar-nav">
                             <li><a><strong>{this.props.userName}</strong></a></li>
                         </ul>
-                        <ul className={'nav navbar-nav' + (this.props.userName.length === 0 ? ' hidden' : '')}>
+                        <ul className={'nav navbar-nav' + (!this.props.isLoggedIn ? ' hidden' : '')}>
                             <li className={this.state.selectedItem === 'projects' ? 'active' : ''}>
                                 <Link to="/projects" onClick={() => this.setState({ selectedItem: 'projects' })}>
                                     Verkefni
@@ -47,6 +47,7 @@ class Header extends React.Component {
 
 Header.propTypes = {
     userName: PropTypes.string,
+    isLoggedIn: PropTypes.bool,
     logoutUser: PropTypes.func
 };
 

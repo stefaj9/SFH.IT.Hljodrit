@@ -16,7 +16,7 @@ export function registerUser(name, email, password, confirmPassword) {
             dispatch(hasStoppedRegistering());
             if (resp.ok) {
                 toastr.success('Tókst!', 'Nýskráning tókst. Innan skamms mun þér berast póstur til þess að staðfesta netfangið þitt.');
-                browserHistory.push('/');
+                browserHistory.push('/app');
             } else {
                 return resp.json();
             }
@@ -34,6 +34,30 @@ export function registerUser(name, email, password, confirmPassword) {
         });
     }
 }
+
+export function refreshLogin() {
+    return (dispatch) => {
+        return fetch('/api/account/userinfo', {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt')
+            }
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(data => {
+            dispatch(refreshLoginSuccess(data));
+        });
+    }
+};
+
+function refreshLoginSuccess(info) {
+    return {
+        type: types.REFRESH_LOGIN,
+        payload: info
+    };
+};
 
 export function logoutUser() {
     browserHistory.push('/');
@@ -61,7 +85,7 @@ export function loginUser(username, password) {
                 toastr.error('Villa!', data.error_description);
             } else {
                 toastr.success('Tókst!', 'Innskráning tókst.');
-                browserHistory.push('/projects');
+                browserHistory.push('/app');
                 dispatch(loginUserSuccess(data));
             }
         });

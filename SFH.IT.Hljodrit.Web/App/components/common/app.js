@@ -14,7 +14,10 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <Header userName={this.props.userName} logoutUser={this.props.logoutUser} />
+                <Header 
+                    isLoggedIn={this.props.isLoggedIn}
+                    userName={this.props.userName} 
+                    logoutUser={this.props.logoutUser} />
                 <div className="container">
                     <div className="row">
                         <div className="col-xs-10 col-xs-push-1">
@@ -29,7 +32,8 @@ class App extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        userName: state.auth.userName
+        userName: state.auth.userName,
+        isLoggedIn: state.auth.isLoggedIn
     };
 };
 

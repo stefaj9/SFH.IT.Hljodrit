@@ -34,6 +34,10 @@ export default function(state = initialState, action) {
         case types.HAS_STOPPED_REGISTERING: return Object.assign({}, state, {
             isRegistering: false
         });
+        case types.REFRESH_LOGIN: return Object.assign({}, state, {
+            userName: action.payload.Email,
+            isLoggedIn: true
+        });
     }
     return state;
 }

@@ -1,9 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { registerUser } from '../../actions/authActions';
+import TokenService from '../../services/tokenService';
 import Spinner from 'react-spinner';
 
 class Register extends React.Component {
+    componentDidMount() {
+        TokenService.isValidToken().then(val => {
+            if (val) {
+                browserHistory.push('/app');
+            }
+        }).catch(err => {
+            // Swallow the error, do NOT route. The user has an invalid token.
+            console.error(err);
+        });
+    }
     constructor() {
         super();
         this.state = {
