@@ -14,6 +14,7 @@ export default function(state = initialState, action) {
             localStorage.setItem('bt', `${action.payload.token_type} ${action.payload.access_token}`);
             return Object.assign({}, state, {
                 userName: action.payload.userName,
+                isLoggingIn: false,
                 isLoggedIn: true
             });
         case types.LOGOUT: 

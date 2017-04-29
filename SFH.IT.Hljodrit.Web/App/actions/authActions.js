@@ -16,7 +16,7 @@ export function registerUser(name, email, password, confirmPassword) {
             dispatch(hasStoppedRegistering());
             if (resp.ok) {
                 toastr.success('Tókst!', 'Nýskráning tókst. Innan skamms mun þér berast póstur til þess að staðfesta netfangið þitt.');
-                browserHistory.push('/app');
+                browserHistory.push('/');
             } else {
                 return resp.json();
             }
@@ -85,15 +85,15 @@ export function loginUser(username, password) {
             },
             body: `grant_type=password&username=${username}&password=${password}`
         }).then(resp => {
-            dispatch(hasStoppedLoggingIn());
             return resp.json();
         }).then(data => {
             if (data.hasOwnProperty('error')) {
                 toastr.error('Villa!', data.error_description);
+                dispatch(hasStoppedLoggingIn());
             } else {
                 toastr.success('Tókst!', 'Innskráning tókst.');
-                browserHistory.push('/app');
                 dispatch(loginUserSuccess(data));
+                browserHistory.push('/app');
             }
         });
     }

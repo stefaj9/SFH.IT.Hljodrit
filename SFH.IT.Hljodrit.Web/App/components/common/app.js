@@ -4,12 +4,24 @@ import Header from './header';
 import { getZipCodes, getCountries } from '../../actions/commonActions';
 import { getProjectStatus } from '../../actions/projectActions';
 import { logoutUser } from '../../actions/authActions';
+import { toastr } from 'react-redux-toastr';
 
 class App extends React.Component {
     componentWillMount() {
         this.props.getZipCodes();
         this.props.getCountries();
         this.props.getProjectStatus();
+    }
+    componentWillReceiveProps(newProps) {
+        let queryParams = newProps.location.query;
+        console.log(queryParams);
+        if (queryParams.hasOwnProperty('confirm')) {
+            toastr.success('Tókst!', queryParams.confirm);
+        } else {
+            if (queryParams.hasOwnProperty('error')) {
+                toastr.error('Villa!', queryParams.error);
+            }
+        }
     }
     render() {
         return (

@@ -239,7 +239,7 @@ namespace SFH.IT.Hljodrit.Web.Controllers
                 ApplicationUser user = UserManager.FindByName(username);
                 if (user == null)
                 {
-                    path += "?error=Could not confirm email";
+                    path += "?error=Gat ekki staðfest netfang.";
                 }
                 else
                 {
@@ -249,14 +249,14 @@ namespace SFH.IT.Hljodrit.Web.Controllers
                         if (result.Errors.Any())
                             path += "?error=" + result.Errors.FirstOrDefault();
                         else
-                            path += "?error=Could not confirm email";
+                            path += "?error=Gat ekki staðfest netfang.";
                     }
                 }
             }
             if (!path.Contains("?error"))
             {
                 // Everything happened successfully
-                path += "?confirm=Email has been confirmed.";
+                path += "?confirm=Netfang hefur verið staðfest.";
             }
             return Redirect(path);
         }
