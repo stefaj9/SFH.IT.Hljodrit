@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { DateField, DatePicker } from 'react-date-picker'
 
-const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startDateChangeFunc, endDateChangeFunc, projectStatusOptions }) => {
+const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startDateChangeFunc, endDateChangeFunc, projectStatusOptions, openModal }) => {
     const { projectName, mainArtist, projectStatus, organization, projectStartDate, projectEndDate, projectType, isWorkingTitle } = project;
     
     moment.locale('is');
@@ -63,7 +63,7 @@ const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startD
                             <label htmlFor="">Aðalflytjandi</label>
                             <div className="input-group">
                                 <input value={mainArtist} readOnly={true} type="text" className="form-control"/>
-                                <span className="input-group-addon hover-cursor hover-cursor-primary">Breyta</span>
+                                <span className="input-group-addon hover-cursor hover-cursor-primary" onClick={() => openModal('isMainArtistModalOpen')}>Breyta</span>
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@ const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startD
                             <label htmlFor="">Útgefandi</label>
                             <div className="input-group">
                                 <input type="text" value={organization} readOnly={true} className="form-control"/>
-                                <span className="input-group-addon hover-cursor hover-cursor-primary">Breyta</span>
+                                <span className="input-group-addon hover-cursor hover-cursor-primary" onClick={() => openModal('isOrganizationModalOpen')}>Breyta</span>
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,8 @@ ProjectDetailsForm.propTypes = {
     selectChangeFunc: PropTypes.func.isRequired,
     startDateChangeFunc: PropTypes.func.isRequired,
     endDateChangeFunc: PropTypes.func.isRequired,
-    projectStatusOptions: PropTypes.array.isRequired
+    projectStatusOptions: PropTypes.array.isRequired,
+    openModal: PropTypes.func
 };
 
 export default ProjectDetailsForm;
