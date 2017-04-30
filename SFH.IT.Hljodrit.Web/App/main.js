@@ -10,6 +10,7 @@ import Routes from './routes/routes';
 import ReduxToastr from 'react-redux-toastr';
 import 'rc-time-picker/assets/index.css';
 import 'react-bootstrap-table/css/react-bootstrap-table.css';
+import 'react-date-picker/index.css'
 
 const history = syncHistoryWithStore(browserHistory, store);
 

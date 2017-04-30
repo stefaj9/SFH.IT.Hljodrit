@@ -60,9 +60,14 @@ export default function(state = initialState, action) {
                 publisher: {}
             }
         });
-        case types.GET_PROJECT_BY_ID: return Object.assign({}, state, {
-            selectedProject: action.payload
-        });
+        case types.GET_PROJECT_BY_ID: 
+            let project = _.cloneDeep(action.payload);
+            
+            project.projectEndDate = moment(project.projectEndDate, 'YYYY-MM-DD').year() === 1 ? 'Ekki skráð' : project.projectEndDate;
+
+            return Object.assign({}, state, {
+                selectedProject: project
+            });
         case types.GET_PROJECT_FOR_USER: 
             let userProjects = _.cloneDeep(action.payload);
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Http;
 using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
@@ -22,7 +23,14 @@ namespace SFH.IT.Hljodrit.Web.Controllers
         [Route("{projectId:int}")]
         public IHttpActionResult GetProjectById(int projectId)
         {
-            return Ok(_projectService.GetProjectById(projectId));
+            var project = _projectService.GetProjectById(projectId);
+
+            if (project.SubmissionUser != User.Identity.Name)
+            {
+                throw new UnauthorizedAccessException("User is not allowed to view other users projects.");
+            }
+
+            return Ok(project);
         }
 
         [HttpPost]

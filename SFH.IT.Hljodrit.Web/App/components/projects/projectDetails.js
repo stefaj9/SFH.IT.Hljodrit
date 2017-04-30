@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getProjectById } from '../../actions/projectActions';
 import Spinner from 'react-spinner';
+import { DateField, DatePicker } from 'react-date-picker'
 import _ from 'lodash';
+import moment from 'moment';
 
 class ProjectDetails extends React.Component {
     componentWillReceiveProps(newProps) {
@@ -15,6 +17,7 @@ class ProjectDetails extends React.Component {
     }
     componentWillMount() {
         this.props.getProjectById(this.props.routeParams.projectId);
+        moment.locale('is');
     }
     constructor() {
         super();
@@ -36,6 +39,20 @@ class ProjectDetails extends React.Component {
             hasReceived: false
         };
     }
+    updateStartDate(dateString, momentObj) {
+        this.setState({
+            project: Object.assign({}, this.state.project, {
+                projectStartDate: moment(momentObj.timestamp).format('YYYY-MM-DDTHH:mm:ss')
+            })
+        });
+    }
+    updateEndDate(dateString, momentObj) {
+        this.setState({
+            project: Object.assign({}, this.state.project, {
+                projectEndDate: moment(momentObj.timestamp).format('YYYY-MM-DDTHH:mm:ss')
+            })
+        });
+    }
     onProjectSelectChange(e, key, val) {
         let project = _.cloneDeep(this.state.project);
         let index = e.target.selectedIndex;
@@ -46,7 +63,7 @@ class ProjectDetails extends React.Component {
     onProjectPropsChange(e, prop) {
         let project = _.cloneDeep(this.state.project);
         let target = e.target;
-        let value = target.type === 'checkbox' ? target.checked : target.value;
+        let value = target.type === 'checkbox' ? !target.checked : target.value;
         project[prop] = value;
         this.setState({ project: project });
     }
@@ -62,6 +79,29 @@ class ProjectDetails extends React.Component {
                 <option key={option.id} value={option.id}>{option.value}</option>
             );
         });
+    }
+    renderDateField(dateField, label, onChangeFunc) {
+        if (dateField) {
+            return (
+                <div className="form-group">
+                    <label htmlFor="">{label}</label>
+                    <DateField
+                        dateFormat={'DD.MM.YYYY'}
+                        updateOnDateClick={true}
+                        defaultValue={moment(dateField).format('DD.MM.YYYY')}>
+                        <DatePicker
+                            navigation={true}
+                            locale='is'
+                            forceValidDate={true}
+                            highlightWeekends={true}
+                            highlightToday={true}
+                            weekNumbers={true}
+                            weekStartDay={1}
+                            onChange={onChangeFunc} />
+                    </DateField>
+                </div>
+            );
+        }
     }
     render() {
         const { selectedProject } = this.props;
@@ -82,7 +122,10 @@ class ProjectDetails extends React.Component {
                             <div className="col-sm-6 col-xs-12">
                                 <div className="form-group">
                                     <label htmlFor="">Aðalflytjandi</label>
-                                    <input value={mainArtist} readOnly={true} type="text" className="form-control"/>
+                                    <div className="input-group">
+                                        <input value={mainArtist} readOnly={true} type="text" className="form-control"/>
+                                        <span className="input-group-addon hover-cursor hover-cursor-primary">Breyta</span>
+                                    </div>
                                 </div>
                             </div>
                             <div className="col-sm-6 col-xs-12">
@@ -96,20 +139,17 @@ class ProjectDetails extends React.Component {
                             <div className="col-sm-6 col-xs-12">
                                 <div className="form-group">
                                     <label htmlFor="">Útgefandi</label>
-                                    <input type="text" value={organization} readOnly={true} className="form-control"/>
+                                    <div className="input-group">
+                                        <input type="text" value={organization} readOnly={true} className="form-control"/>
+                                        <span className="input-group-addon hover-cursor hover-cursor-primary">Breyta</span>
+                                    </div>
                                 </div>
                             </div>
                             <div className="col-sm-6 col-xs-12">
-                                <div className="form-group">
-                                    <label htmlFor="">Upphafsdagsetning verkefnis</label>
-                                    <input type="text" value={projectStartDate} onChange={(e) => this.onProjectPropsChange(e, 'projectStartDate')} className="form-control"/>
-                                </div>
+                                {this.renderDateField(projectStartDate, 'Upphafsdagsetning verkefnis', this.updateStartDate.bind(this))}
                             </div>
                             <div className="col-sm-6 col-xs-12">
-                                <div className="form-group">
-                                    <label htmlFor="">Lokadagsetning verkefnis</label>
-                                    <input type="text" value={projectEndDate} onChange={(e) => this.onProjectPropsChange(e, 'projectEndDate')} className="form-control"/>
-                                </div>
+                                {this.renderDateField(projectEndDate, 'Lokadagsetning verkefnis', this.updateEndDate.bind(this))}
                             </div>
                             <div className="col-sm-6 col-xs-12">
                                 <div className="form-group">
@@ -121,8 +161,8 @@ class ProjectDetails extends React.Component {
                             </div>
                             <div className="col-sm-6 col-xs-12">
                                 <div className="checkbox">
-                                    <label htmlFor="">
-                                        <input type="checkbox" checked={!isWorkingTitle} onChange={(e) => this.onProjectPropsChange(e, 'isWorkingTitle')} /> Skráð heiti er endanlegt útgáfuheiti
+                                    <label htmlFor="project-is-working-title">
+                                        <input type="checkbox" checked={!isWorkingTitle} id="project-is-working-title" name="project-is-working-title" onChange={(e) => this.onProjectPropsChange(e, 'isWorkingTitle')} /> Skráð heiti er endanlegt útgáfuheiti
                                     </label>
                                 </div>
                             </div>
