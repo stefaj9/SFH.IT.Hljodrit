@@ -16,7 +16,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
             ReviewBy = project.reviewedby ?? "";
             ReviewDate = project.reviewedon ?? new DateTime();
             ReviewComment = project.reviewedcomment ?? "";
-
+            ProjectType = 1;
+            ProjectTypeName = "Venjuleg plata";
             Organization = project.organization_master != null ? project.organization_master.name ?? "Ekki skráð" : "Ekki skráð";
             OrganizationId = project.organizationid ?? -1;
         }
