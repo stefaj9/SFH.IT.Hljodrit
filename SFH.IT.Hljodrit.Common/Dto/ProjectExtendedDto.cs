@@ -39,5 +39,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public string ReviewComment { get; set; }
         [JsonProperty(PropertyName = "projectType")]
         public int ProjectType { get; set; }
+        [JsonProperty(PropertyName = "projectTypeName")]
+        public string ProjectTypeName { get; set; }
     }
 }

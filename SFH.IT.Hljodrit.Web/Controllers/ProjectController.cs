@@ -11,6 +11,7 @@ namespace SFH.IT.Hljodrit.Web.Controllers
     public class ProjectController : ApiController
     {
         private readonly IProjectService _projectService;
+        private const int MaxNumberOfTracks = 100;
 
         public ProjectController(IProjectService projectService)
         {
@@ -28,9 +29,9 @@ namespace SFH.IT.Hljodrit.Web.Controllers
         [Route("")]
         public IHttpActionResult CreateProject([FromBody] ProjectCreationViewModel project)
         {
-            if (project.Songs.Count() > 100)
+            if (project.Songs.Count() > MaxNumberOfTracks)
             {
-                throw new NumberOfTrackExceededException($"The project has exceeded the number of available tracks ({100})");
+                throw new NumberOfTrackExceededException($"The project has exceeded the number of available tracks ({MaxNumberOfTracks})");
             }
             _projectService.CreateProject(project, User.Identity.Name);
             return Ok();
