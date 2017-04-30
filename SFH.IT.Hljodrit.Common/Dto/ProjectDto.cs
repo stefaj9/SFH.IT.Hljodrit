@@ -18,6 +18,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
             LastModificationDate = project.updatedon;
             ProjectStatus = project.statuscode;
             ProjectStatusName = project.project_status?.statusname ?? "";
+            IsWorkingTitle = project.isworkingtitle;
         }
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }

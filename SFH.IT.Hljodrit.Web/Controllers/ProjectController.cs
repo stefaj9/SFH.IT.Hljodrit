@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Http;
+using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
 using SFH.IT.Hljodrit.Web.Exceptions;
@@ -30,6 +31,14 @@ namespace SFH.IT.Hljodrit.Web.Controllers
                 throw new UnauthorizedAccessException("User is not allowed to view other users projects.");
             }
 
+            return Ok(project);
+        }
+
+        [HttpPut]
+        [Route("{projectId:int}")]
+        public IHttpActionResult UpdateProjectById(int projectId, [FromBody] ProjectExtendedDto project)
+        {
+            _projectService.UpdateProjectById(projectId, project, User.Identity.Name);
             return Ok(project);
         }
 

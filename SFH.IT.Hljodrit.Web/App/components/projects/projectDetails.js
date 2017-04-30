@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getProjectById } from '../../actions/projectActions';
+import { getProjectById, updateProjectById } from '../../actions/projectActions';
 import { getMainArtistsByCriteria } from '../../actions/mainArtistActions';
 import { getPublishersByCriteria } from '../../actions/organizationActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
@@ -42,7 +42,8 @@ class ProjectDetails extends React.Component {
             },
             hasReceived: false,
             isMainArtistModalOpen: false,
-            isOrganizationModalOpen: false
+            isOrganizationModalOpen: false,
+            formDirty: false
         };
     }
     openModal(prop) {
@@ -55,7 +56,8 @@ class ProjectDetails extends React.Component {
             project: Object.assign({}, this.state.project, {
                 mainArtist: mainArtist.name,
                 mainArtistId: mainArtist.id
-            })
+            }),
+            formDirty: true
         })
     }
     changeOrganization(organization) {
@@ -63,21 +65,24 @@ class ProjectDetails extends React.Component {
             project: Object.assign({}, this.state.project, {
                 organization: organization.name,
                 organizationId: organization.id
-            })
+            }),
+            formDirty: true
         })
     }
     updateStartDate(dateString, momentObj) {
         this.setState({
             project: Object.assign({}, this.state.project, {
                 projectStartDate: moment(momentObj.timestamp).format('YYYY-MM-DDTHH:mm:ss')
-            })
+            }),
+            formDirty: true
         });
     }
     updateEndDate(dateString, momentObj) {
         this.setState({
             project: Object.assign({}, this.state.project, {
                 projectEndDate: moment(momentObj.timestamp).format('YYYY-MM-DDTHH:mm:ss')
-            })
+            }),
+            formDirty: true
         });
     }
     onProjectSelectChange(e, key, val) {
@@ -85,29 +90,39 @@ class ProjectDetails extends React.Component {
         let index = e.target.selectedIndex;
         project[key] = e.target.value;
         project[val] = e.target.options[index].text;
-        this.setState({ project: project });
+        this.setState({ project: project, formDirty: true });
     }
     onProjectPropsChange(e, prop) {
         let project = _.cloneDeep(this.state.project);
         let target = e.target;
         let value = target.type === 'checkbox' ? !target.checked : target.value;
         project[prop] = value;
-        this.setState({ project: project });
+        this.setState({ project: project, formDirty: true });
+    }
+    updateProjectInfo(e) {
+        e.preventDefault();
+        this.props.updateProjectById(this.props.routeParams.projectId, this.state.project);
+        // Set hasReceived to false, so that the component will update itself when it receives the latest project.
+        this.setState({ hasReceived: false });
     }
     render() {
-        const { project, isMainArtistModalOpen, isOrganizationModalOpen } = this.state;
+        const { project, isMainArtistModalOpen, isOrganizationModalOpen, formDirty } = this.state;
         return (
             <div>
                 <Spinner className={this.props.isFetchingProjectById ? '' : 'hidden'} />
                 <div className={this.props.isFetchingProjectById ? 'hidden' : ''}>
                     <ProjectDetailsForm
+                        readOnly={this.props.selectedProject.projectStatus === 'PUBLISHED'}
+                        projectTitle={this.props.selectedProject.projectName}
                         project={project}
                         inputChangeFunc={(e, prop) => this.onProjectPropsChange(e, prop)}
                         selectChangeFunc={(e, key, val) => this.onProjectSelectChange(e, key, val)}
                         startDateChangeFunc={this.updateStartDate.bind(this)}
                         endDateChangeFunc={this.updateEndDate.bind(this)}
                         projectStatusOptions={this.props.projectStatusOptions}
-                        openModal={(prop) => this.openModal(prop)} />
+                        openModal={(prop) => this.openModal(prop)}
+                        saveChanges={(e) => this.updateProjectInfo(e)}
+                        disabledBtn={!formDirty} />
                 </div>
                 <SelectPersonModal
                     isOpen={isMainArtistModalOpen}
@@ -145,4 +160,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getProjectById, getMainArtistsByCriteria, getPublishersByCriteria, isFetchingList, hasStoppedFetchingList })(ProjectDetails);
+export default connect(mapStateToProps, { getProjectById, updateProjectById, getMainArtistsByCriteria, getPublishersByCriteria, isFetchingList, hasStoppedFetchingList })(ProjectDetails);

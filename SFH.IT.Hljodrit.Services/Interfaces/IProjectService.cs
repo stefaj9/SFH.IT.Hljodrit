@@ -14,5 +14,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         IEnumerable<ProjectStatusDto> GetProjectStatus();
         void CreateProject(ProjectCreationViewModel project, string userName);
         IEnumerable<ProjectDto> GetProjectsByUsername(string userName);
+        void UpdateProjectById(int projectId, ProjectExtendedDto project, string userName);
     }
 }

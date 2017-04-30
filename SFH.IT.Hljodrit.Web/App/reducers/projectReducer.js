@@ -62,7 +62,7 @@ export default function(state = initialState, action) {
         });
         case types.GET_PROJECT_BY_ID: 
             let project = _.cloneDeep(action.payload);
-            
+
             project.projectEndDate = moment(project.projectEndDate, 'YYYY-MM-DD').year() === 1 ? 'Ekki skráð' : project.projectEndDate;
 
             return Object.assign({}, state, {
@@ -79,12 +79,23 @@ export default function(state = initialState, action) {
             return Object.assign({}, state, {
                 userProjects: userProjects
             });
+        case types.UPDATE_PROJECT_BY_ID:
+            let updatedProject = _.cloneDeep(action.payload);
+
+            updatedProject.projectEndDate = updatedProject.projectEndDate == undefined || moment(updatedProject.projectEndDate, 'YYYY-MM-DD').year() === 1 ? 'Ekki skráð' : updatedProject.projectEndDate;
+
+            return Object.assign({}, state, {
+                selectedProject: updatedProject
+            });
         case types.IS_FETCHING_PROJECT_BY_ID: return Object.assign({}, state, {
             isFetchingProjectById: true
         })
         case types.HAS_STOPPED_FETCHING_PROJECT_BY_ID: return Object.assign({}, state, {
             isFetchingProjectById: false
         })
+        case types.CLEAR_CURRENT_PROJECT: return Object.assign({}, state, {
+            selectedProject: {}
+        });
         case types.IS_FETCHING_USER_PROJECTS: return Object.assign({}, state, {
             isFetchingUserProjects: true
         });

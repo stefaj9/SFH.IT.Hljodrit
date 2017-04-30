@@ -29,7 +29,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [JsonProperty(PropertyName = "projectStartDate")]
         public DateTime ProjectStartDate { get; set; }
         [JsonProperty(PropertyName = "projectEndDate")]
-        public DateTime ProjectEndDate { get; set; }
+        public DateTime? ProjectEndDate { get; set; }
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }
         [JsonProperty(PropertyName = "reviewBy")]

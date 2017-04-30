@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { DateField, DatePicker } from 'react-date-picker'
 
-const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startDateChangeFunc, endDateChangeFunc, projectStatusOptions, openModal }) => {
+const ProjectDetailsForm = ({ projectTitle, project, inputChangeFunc, selectChangeFunc, startDateChangeFunc, endDateChangeFunc, projectStatusOptions, openModal, readOnly, disabledBtn, saveChanges }) => {
     const { projectName, mainArtist, projectStatus, organization, projectStartDate, projectEndDate, projectType, isWorkingTitle } = project;
     
     moment.locale('is');
@@ -29,6 +29,7 @@ const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startD
                 <div className="form-group">
                     <label htmlFor="">{label}</label>
                     <DateField
+                        disabled={readOnly}
                         dateFormat={'DD.MM.YYYY'}
                         updateOnDateClick={true}
                         defaultValue={moment(dateField).format('DD.MM.YYYY')}>
@@ -46,16 +47,18 @@ const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startD
             );
         }
     }
+    console.log(isWorkingTitle);
 
     return (
         <div>
-            <h2>{projectName}</h2>
+            <h2>{projectTitle}</h2>
+            <p className={readOnly ? '' : 'hidden'}>Eingöngu er hægt að breyta verkefnum sem hefur ekki verið gefið út.</p>
             <form action="">
                 <div className="row">
                     <div className="col-sm-6 col-xs-12">
                         <div className="form-group">
                             <label htmlFor="">Nafn</label>
-                            <input value={projectName} onChange={(e) => inputChangeFunc(e, 'projectName')} type="text" className="form-control"/>
+                            <input readOnly={readOnly} value={projectName} onChange={(e) => inputChangeFunc(e, 'projectName')} type="text" className="form-control"/>
                         </div>
                     </div>
                     <div className="col-sm-6 col-xs-12">
@@ -63,14 +66,14 @@ const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startD
                             <label htmlFor="">Aðalflytjandi</label>
                             <div className="input-group">
                                 <input value={mainArtist} readOnly={true} type="text" className="form-control"/>
-                                <span className="input-group-addon hover-cursor hover-cursor-primary" onClick={() => openModal('isMainArtistModalOpen')}>Breyta</span>
+                                <span className={'input-group-addon' + (readOnly ? '' : ' hover-cursor-primary hover-cursor')} onClick={() => { if (readOnly) { return; } openModal('isMainArtistModalOpen') } }>Breyta</span>
                             </div>
                         </div>
                     </div>
                     <div className="col-sm-6 col-xs-12">
                         <div className="form-group">
                             <label htmlFor="">Staða verkefnis</label>
-                            <select value={projectStatus} onChange={(e) => selectChangeFunc(e, 'projectStatus', 'projectStatusName')} name="project-status" id="project-status" className="form-control">
+                            <select disabled={readOnly} value={projectStatus} onChange={(e) => selectChangeFunc(e, 'projectStatus', 'projectStatusName')} name="project-status" id="project-status" className="form-control">
                                 {renderStatusOptions()}
                             </select>
                         </div>
@@ -80,7 +83,7 @@ const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startD
                             <label htmlFor="">Útgefandi</label>
                             <div className="input-group">
                                 <input type="text" value={organization} readOnly={true} className="form-control"/>
-                                <span className="input-group-addon hover-cursor hover-cursor-primary" onClick={() => openModal('isOrganizationModalOpen')}>Breyta</span>
+                                <span className={'input-group-addon' + (readOnly ? '' : ' hover-cursor-primary hover-cursor')} onClick={() => { if (readOnly) { return; } openModal('isOrganizationModalOpen') }}>Breyta</span>
                             </div>
                         </div>
                     </div>
@@ -93,7 +96,7 @@ const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startD
                     <div className="col-sm-6 col-xs-12">
                         <div className="form-group">
                             <label htmlFor="">Tegund verkefnis</label>
-                            <select value={projectType} onChange={(e) => selectChangeFunc(e, 'projectType', 'projectTypeName')} name="project-type" id="project-type" className="form-control">
+                            <select disabled={readOnly} value={projectType} onChange={(e) => selectChangeFunc(e, 'projectType', 'projectTypeName')} name="project-type" id="project-type" className="form-control">
                                 {renderProjectTypeOptions()}
                             </select>
                         </div>
@@ -101,12 +104,12 @@ const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startD
                     <div className="col-sm-6 col-xs-12">
                         <div className="checkbox">
                             <label htmlFor="project-is-working-title">
-                                <input type="checkbox" checked={!isWorkingTitle} id="project-is-working-title" name="project-is-working-title" onChange={(e) => inputChangeFunc(e, 'isWorkingTitle')} /> Skráð heiti er endanlegt útgáfuheiti
+                                <input disabled={readOnly} type="checkbox" checked={!isWorkingTitle} id="project-is-working-title" name="project-is-working-title" onChange={(e) => inputChangeFunc(e, 'isWorkingTitle')} /> Skráð heiti er endanlegt útgáfuheiti
                             </label>
                         </div>
                     </div>
                     <div className="col-xs-12 text-right">
-                        <button className="btn btn-default btn-primary">Vista</button>
+                        <button disabled={readOnly || disabledBtn} onClick={(e) => saveChanges(e)} className="btn btn-default btn-primary">Vista</button>
                     </div>
                 </div>
             </form>
@@ -115,13 +118,17 @@ const ProjectDetailsForm = ({ project, inputChangeFunc, selectChangeFunc, startD
 };
 
 ProjectDetailsForm.propTypes = {
+    projectTitle: PropTypes.string,
     project: PropTypes.object.isRequired,
     inputChangeFunc: PropTypes.func.isRequired,
     selectChangeFunc: PropTypes.func.isRequired,
     startDateChangeFunc: PropTypes.func.isRequired,
     endDateChangeFunc: PropTypes.func.isRequired,
     projectStatusOptions: PropTypes.array.isRequired,
-    openModal: PropTypes.func
+    openModal: PropTypes.func,
+    readOnly: PropTypes.bool,
+    saveChanges: PropTypes.func.isRequired,
+    disabledBtn: PropTypes.bool
 };
 
 export default ProjectDetailsForm;

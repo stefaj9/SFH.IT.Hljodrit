@@ -254,7 +254,6 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             {
                 projectname = project.BasicInfo.ProjectName ?? "",
                 mainmanagerid = null,
-                // Should be the party_real associated with the submission user, in order to retrieve his projects.
                 projectstartdate = DateTime.Now,
                 isworkingtitle = project.BasicInfo.IsWorkingTitle,
                 updatedby = userName,
@@ -322,6 +321,29 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 SubmissionUser = p.createdby
             });
         }
+
+        public void UpdateProjectById(int projectId, ProjectExtendedDto project, string userName)
+        {
+            var projectToUpdate = _projectMasterRepository.GetById(projectId);
+
+            if (projectToUpdate != null)
+            {
+                projectToUpdate.projectname = project.ProjectName;
+                projectToUpdate.mainartistid = project.MainArtistId == -1 ? null : project.MainArtistId;
+                projectToUpdate.mainartist = project.MainArtist;
+                projectToUpdate.statuscode = project.ProjectStatus;
+                projectToUpdate.updatedon = DateTime.Now;
+                projectToUpdate.updatedby = userName;
+                projectToUpdate.organizationid = project.OrganizationId;
+                projectToUpdate.projectstartdate = project.ProjectStartDate;
+                projectToUpdate.projectenddate = project.ProjectEndDate;
+                projectToUpdate.isworkingtitle = project.IsWorkingTitle;
+
+                _unitOfWork.Commit();
+            }
+        }
     }
 }
+
+
 

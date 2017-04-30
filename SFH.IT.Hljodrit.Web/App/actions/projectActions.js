@@ -57,6 +57,38 @@ function getProjectsForUserSuccess(projects) {
     };
 };
 
+export function updateProjectById(projectId, project) {
+    return dispatch => {
+        dispatch(clearCurrentProject());
+        dispatch(isFetchingProjectById());
+        return fetch(`/api/projects/${projectId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': localStorage.getItem('bt'),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(project)
+        }).then(resp => {
+            dispatch(hasStoppedFetchingProjectById());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að uppfæra verkefni.');
+                return resp.json();
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að uppfæra verkefni.');
+            }
+        }).then(data => {
+            dispatch(updateProjectByIdSuccess(data));
+        });
+    }
+}
+
+function updateProjectByIdSuccess(project) {
+    return {
+        type: types.UPDATE_PROJECT_BY_ID,
+        payload: project
+    };
+};
+
 export function getProjectStatus() {
     return dispatch => {
         return fetch('/api/projects/status', {
@@ -177,6 +209,13 @@ function isFetchingProjectById() {
 function hasStoppedFetchingProjectById() {
     return {
         type: types.HAS_STOPPED_FETCHING_PROJECT_BY_ID,
+        payload: {}
+    };
+};
+
+function clearCurrentProject() {
+    return {
+        type: types.CLEAR_CURRENT_PROJECT,
         payload: {}
     };
 };
