@@ -1,6 +1,8 @@
-﻿using System.Web.Http;
+﻿using System.Linq;
+using System.Web.Http;
 using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
+using SFH.IT.Hljodrit.Web.Exceptions;
 
 namespace SFH.IT.Hljodrit.Web.Controllers
 {
@@ -26,6 +28,10 @@ namespace SFH.IT.Hljodrit.Web.Controllers
         [Route("")]
         public IHttpActionResult CreateProject([FromBody] ProjectCreationViewModel project)
         {
+            if (project.Songs.Count() > 100)
+            {
+                throw new NumberOfTrackExceededException($"The project has exceeded the number of available tracks ({100})");
+            }
             _projectService.CreateProject(project, User.Identity.Name);
             return Ok();
         }

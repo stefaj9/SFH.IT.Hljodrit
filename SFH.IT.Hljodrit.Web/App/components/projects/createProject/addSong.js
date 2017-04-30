@@ -46,6 +46,10 @@ class AddSong extends React.Component {
     addSongToList(e, songId, songName, songLength, songIsrc, recordingDate) {
         e.preventDefault();
         const { songs, lastSongNumber } = this.state;
+        if (songs.length === 100) {
+            toastr.error('Villa!', 'Ekki er hægt að bæta við fleiri en 100 lögum.');
+            return;
+        }
         let newSongList = _.concat(songs, { 
             id: songId,
             number: lastSongNumber + 1,
@@ -158,7 +162,7 @@ class AddSong extends React.Component {
                                     tabIndex="5"
                                     className="btn btn-default" 
                                     onClick={(e) => this.addSongToList(e, this.state.currentSongId, this.state.currentSongName, this.state.currentSongLength, '', new Date())}
-                                    disabled={!this.isAddSongValid()}>Bæta við</button>
+                                    disabled={!this.isAddSongValid()}><i className="fa fa-fw fa-plus"></i> Bæta við</button>
                             </div>
                         </form>
                     </Tab>
