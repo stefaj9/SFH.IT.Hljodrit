@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using SFH.IT.Hljodrit.Common.Dto;
@@ -20,11 +21,30 @@ namespace SFH.IT.Hljodrit.Web.Controllers
             _projectService = projectService;
         }
 
+        [HttpDelete]
+        [Route("{projectId:int}/tracks")]
+        public IHttpActionResult DeleteProjectTracksById(int projectId, [FromBody] IEnumerable<int> trackIds)
+        {
+            _projectService.DeleteProjectTracksById(projectId, trackIds);
+            return Ok();
+        }
+
         [HttpGet]
         [Route("{projectId:int}/tracks")]
         public IHttpActionResult GetProjectTracksByProjectId(int projectId)
         {
-            return Ok(_projectService.GetProjectTracksById(projectId));
+            return Ok(_projectService.GetProjectTracksDtoById(projectId));
+        }
+
+        [HttpPost]
+        [Route("{projectId:int}/tracks")]
+        public IHttpActionResult AddTrackToProjectById(int projectId, [FromBody] TrackDto track)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Model is not valid.");
+            }
+            return Ok(_projectService.AddTrackToProjectById(projectId, track, User.Identity.Name));
         }
 
         [HttpGet]

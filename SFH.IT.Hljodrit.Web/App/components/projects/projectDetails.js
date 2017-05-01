@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getProjectById, updateProjectById } from '../../actions/projectActions';
+import { getProjectById, getProjectTracksById, updateProjectById, removeTracksFromProject, addTrackToProject } from '../../actions/projectActions';
 import { getMainArtistsByCriteria } from '../../actions/mainArtistActions';
 import { getPublishersByCriteria } from '../../actions/organizationActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import ProjectDetailsForm from './projectDetailsForm';
+import ProjectDetailsTrackTable from './projectDetailsTrackTable';
 import SelectPersonModal from './selectPersonModal';
 import Spinner from 'react-spinner';
 import _ from 'lodash';
@@ -21,6 +22,7 @@ class ProjectDetails extends React.Component {
     }
     componentWillMount() {
         this.props.getProjectById(this.props.routeParams.projectId);
+        this.props.getProjectTracksById(this.props.routeParams.projectId);
         moment.locale('is');
     }
     constructor() {
@@ -43,6 +45,7 @@ class ProjectDetails extends React.Component {
             hasReceived: false,
             isMainArtistModalOpen: false,
             isOrganizationModalOpen: false,
+
             formDirty: false
         };
     }
@@ -107,28 +110,35 @@ class ProjectDetails extends React.Component {
     }
     render() {
         const { project, isMainArtistModalOpen, isOrganizationModalOpen, formDirty } = this.state;
+        const { selectedProject, selectedProjectTracks, mainArtistEnvelope, organizationEnvelope, projectStatusOptions } = this.props;
         return (
             <div>
                 <Spinner className={this.props.isFetchingProjectById ? '' : 'hidden'} />
                 <div className={this.props.isFetchingProjectById ? 'hidden' : ''}>
                     <ProjectDetailsForm
-                        readOnly={this.props.selectedProject.projectStatus === 'PUBLISHED'}
-                        projectTitle={this.props.selectedProject.projectName}
+                        readOnly={selectedProject.projectStatus === 'PUBLISHED'}
+                        projectTitle={selectedProject.projectName}
                         project={project}
                         inputChangeFunc={(e, prop) => this.onProjectPropsChange(e, prop)}
                         selectChangeFunc={(e, key, val) => this.onProjectSelectChange(e, key, val)}
                         startDateChangeFunc={this.updateStartDate.bind(this)}
                         endDateChangeFunc={this.updateEndDate.bind(this)}
-                        projectStatusOptions={this.props.projectStatusOptions}
+                        projectStatusOptions={projectStatusOptions}
                         openModal={(prop) => this.openModal(prop)}
                         saveChanges={(e) => this.updateProjectInfo(e)}
                         disabledBtn={!formDirty} />
+                    <h3>Lög</h3>
+                    <ProjectDetailsTrackTable
+                        tracks={selectedProjectTracks}
+                        removeTracksFromProject={(ids) => this.props.removeTracksFromProject(this.props.routeParams.projectId, ids)}
+                        addTrackToProject={(track) => this.props.addTrackToProject(this.props.routeParams.projectId, track)}
+                        isLoading={this.props.isFetchingProjectById} />
                 </div>
                 <SelectPersonModal
                     isOpen={isMainArtistModalOpen}
                     close={() => this.setState({ isMainArtistModalOpen: false })}
                     registerPath="/api/mainartists"
-                    envelope={this.props.mainArtistEnvelope}
+                    envelope={mainArtistEnvelope}
                     fetch={this.props.getMainArtistsByCriteria}
                     beginFetch={this.props.isFetchingList}
                     stoppedFetch={this.props.hasStoppedFetchingList}
@@ -138,7 +148,7 @@ class ProjectDetails extends React.Component {
                 <SelectPersonModal
                     isOpen={isOrganizationModalOpen}
                     close={() => this.setState({ isOrganizationModalOpen: false })}
-                    envelope={this.props.organizationEnvelope}
+                    envelope={organizationEnvelope}
                     fetch={this.props.getPublishersByCriteria}
                     beginFetch={this.props.isFetchingList}
                     stoppedFetch={this.props.hasStoppedFetchingList}
@@ -153,6 +163,7 @@ class ProjectDetails extends React.Component {
 function mapStateToProps(state) {
     return {
         selectedProject: state.project.selectedProject,
+        selectedProjectTracks: state.project.selectedProjectTracks,
         isFetchingProjectById: state.project.isFetchingProjectById,
         projectStatusOptions: state.project.statusOptions,
         mainArtistEnvelope: state.mainArtist.mainArtistEnvelope,
@@ -160,4 +171,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getProjectById, updateProjectById, getMainArtistsByCriteria, getPublishersByCriteria, isFetchingList, hasStoppedFetchingList })(ProjectDetails);
+export default connect(mapStateToProps, { getProjectById, getProjectTracksById, updateProjectById, removeTracksFromProject, addTrackToProject, getMainArtistsByCriteria, getPublishersByCriteria, isFetchingList, hasStoppedFetchingList })(ProjectDetails);

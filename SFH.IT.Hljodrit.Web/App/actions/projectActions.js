@@ -56,6 +56,66 @@ function getProjectTracksByIdSuccess(tracks) {
     };
 };
 
+export function addTrackToProject(projectId, track) {
+    return dispatch => {
+        dispatch(isFetchingProjectById());
+        return fetch(`/api/projects/${projectId}/tracks`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt')
+            },
+            body: JSON.stringify(track)
+        }).then(resp => {
+            dispatch(hasStoppedFetchingProjectById());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að bæta við lagi.');
+                return resp.json();
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að bæta við lagi.');
+            }
+        }).then(track => {
+            dispatch(addTrackToProjectSuccess(track));
+        });
+    }
+};
+
+function addTrackToProjectSuccess(track) {
+    return {
+        type: types.ADD_TRACK_TO_PROJECT,
+        payload: track
+    };
+};
+
+export function removeTracksFromProject(projectId, trackIds) {
+    return dispatch => {
+        dispatch(isFetchingProjectById());
+        return fetch(`/api/projects/${projectId}/tracks`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt')
+            },
+            body: JSON.stringify(trackIds)
+        }).then(resp => {
+            dispatch(hasStoppedFetchingProjectById());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að eyða völdum lögum.');
+                dispatch(removeTracksFromProjectSuccess(trackIds));
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að eyða völdum lögum.');
+            }
+        });
+    }
+};
+
+function removeTracksFromProjectSuccess(trackIds) {
+    return {
+        type: types.REMOVE_TRACKS_FROM_PROJECT,
+        payload: trackIds
+    };
+};
+
 export function getProjectsForUser() {
     return dispatch => {
         dispatch(isFetchingUserProjects());

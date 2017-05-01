@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 namespace SFH.IT.Hljodrit.Common.Dto
@@ -7,8 +8,10 @@ namespace SFH.IT.Hljodrit.Common.Dto
     {
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
+        [Required]
         [JsonProperty(PropertyName = "projectId")]
         public int ProjectId { get; set; }
+        [Required(AllowEmptyStrings = false)]
         [JsonProperty(PropertyName = "trackName")]
         public string TrackName { get; set; }
         [JsonProperty(PropertyName = "isrc")]
@@ -17,6 +20,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public TimeSpan? Duration { get; set; }
         [JsonProperty(PropertyName = "doNotPublish")]
         public bool DoNotPublish { get; set; }
+        [Required]
         [JsonProperty(PropertyName = "trackOrder")]
         public int TrackOrder { get; set; }
     }

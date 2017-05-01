@@ -61,6 +61,7 @@ export default function(state = initialState, action) {
                 publisher: {}
             }
         });
+
         case types.GET_PROJECT_BY_ID: 
             let project = _.cloneDeep(action.payload);
 
@@ -69,9 +70,16 @@ export default function(state = initialState, action) {
             return Object.assign({}, state, {
                 selectedProject: project
             });
-        case types.GET_PROJECT_TRACKS_BY_ID: return Object.assign({}, state, {
-            selectedProjectTracks: action.payload
-        });
+
+        case types.GET_PROJECT_TRACKS_BY_ID: 
+            let selectedProjectTracks = _.cloneDeep(action.payload);
+            _.forEach(selectedProjectTracks, track => {
+                track.trackName = <a href={`/app/projects/${track.projectId}/tracks/${track.id}`}>{track.trackName}</a>;
+            });
+            return Object.assign({}, state, {
+                selectedProjectTracks: selectedProjectTracks
+            });
+
         case types.GET_PROJECT_FOR_USER: 
             let userProjects = _.cloneDeep(action.payload);
 
@@ -83,6 +91,7 @@ export default function(state = initialState, action) {
             return Object.assign({}, state, {
                 userProjects: userProjects
             });
+
         case types.UPDATE_PROJECT_BY_ID:
             let updatedProject = _.cloneDeep(action.payload);
 
@@ -91,40 +100,67 @@ export default function(state = initialState, action) {
             return Object.assign({}, state, {
                 selectedProject: updatedProject
             });
+
+        case types.REMOVE_TRACKS_FROM_PROJECT:
+            let newProjectTracks = _.cloneDeep(state.selectedProjectTracks);
+            _.forEach(action.payload, id => {
+                _.remove(newProjectTracks, track => { return track.id === id });
+            });
+            return Object.assign({}, state, {
+                selectedProjectTracks: newProjectTracks
+            });
+
+        case types.ADD_TRACK_TO_PROJECT: 
+            let addedProjectTracks = _.cloneDeep(state.selectedProjectTracks);
+            addedProjectTracks = _.concat(addedProjectTracks, action.payload);
+            return Object.assign({}, state, {
+                selectedProjectTracks: addedProjectTracks
+            });
+
         case types.IS_FETCHING_PROJECT_BY_ID: return Object.assign({}, state, {
             isFetchingProjectById: true
-        })
+        });
+
         case types.HAS_STOPPED_FETCHING_PROJECT_BY_ID: return Object.assign({}, state, {
             isFetchingProjectById: false
-        })
+        });
+
         case types.CLEAR_CURRENT_PROJECT: return Object.assign({}, state, {
             selectedProject: {}
         });
+
         case types.IS_FETCHING_USER_PROJECTS: return Object.assign({}, state, {
             isFetchingUserProjects: true
         });
+
         case types.HAS_STOPPED_FETCHING_USER_PROJECTS: return Object.assign({}, state, {
             isFetchingUserProjects: false
         });
+
         case types.GET_PROJECT_STATUS: return Object.assign({}, state, {
             statusOptions: action.payload
         });
+
         case types.IS_CREATING_PROJECT: return Object.assign({}, state, {
             isCreatingProject: true
         });
+
         case types.HAS_STOPPED_CREATING_PROJECT: return Object.assign({}, state, {
             isCreatingProject: false
         });
+
         case types.UPDATE_PROJECT_BASIC_INFO: return Object.assign({}, state, {
             projectToCreate: Object.assign({}, state.projectToCreate, {
                 basicInfo: action.payload
             })
         });
+
         case types.UPDATE_PROJECT_SONGS: return Object.assign({}, state, {
             projectToCreate: Object.assign({}, state.projectToCreate, {
                 songs: action.payload
             })
         });
+
         case types.UPDATE_PROJECT_PERFORMERS: 
             let newSongs = _.cloneDeep(state.projectToCreate.songs);
             _.forEach(action.payload, (performers) => {
@@ -138,6 +174,7 @@ export default function(state = initialState, action) {
                     songs: newSongs
                 })
             });
+
         case types.UPDATE_PROJECT_PRODUCERS: return Object.assign({}, state, {
             projectToCreate: Object.assign({}, state.projectToCreate, {
                 publisher: action.payload

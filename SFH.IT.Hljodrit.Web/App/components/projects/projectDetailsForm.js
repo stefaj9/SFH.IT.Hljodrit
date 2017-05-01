@@ -47,7 +47,6 @@ const ProjectDetailsForm = ({ projectTitle, project, inputChangeFunc, selectChan
             );
         }
     }
-    console.log(isWorkingTitle);
 
     return (
         <div>

@@ -155,8 +155,18 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
                 foreach (var track in projectTracks)
                 {
-                    var isrc = IsrcHelper.GenerateIsrcNumber(isrcSeries.isrc_countrypart, isrcSeries.isrc_organizationpart,
-                        isrcSeries.isrc_lastusedyear, lastUsedNumber++);
+                    string isrc;
+
+                    if (string.IsNullOrEmpty(track.isrc))
+                    {
+                        isrc = IsrcHelper.GenerateIsrcNumber(isrcSeries.isrc_countrypart,
+                            isrcSeries.isrc_organizationpart,
+                            isrcSeries.isrc_lastusedyear, lastUsedNumber++);
+                    }
+                    else
+                    {
+                        isrc = track.isrc;
+                    }
 
                     // Update track isrc as well.
                     track.isrc = isrc;
@@ -341,6 +351,53 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
                 _unitOfWork.Commit();
             }
+        }
+
+        public IEnumerable<TrackDto> GetProjectTracksDtoById(int projectId)
+        {
+            return _projectTrackRepository.GetMany(pt => pt.projectid == projectId).Select(pt => new TrackDto
+            {
+                Id = pt.id,
+                DoNotPublish = pt.donotpublish,
+                ProjectId = projectId,
+                Duration = pt.duration,
+                Isrc = pt.isrc,
+                TrackName = pt.trackname,
+                TrackOrder = pt.trackorder
+            });
+        }
+
+        public void DeleteProjectTracksById(int projectId, IEnumerable<int> trackIds)
+        {
+            var enumerable = trackIds as IList<int> ?? trackIds.ToList();
+            foreach (var trackId in enumerable.ToList())
+            {
+                _projectTrackRepository.Delete(pt => pt.id == trackId && pt.projectid == projectId);
+            }
+            _unitOfWork.Commit();
+        }
+
+        public TrackDto AddTrackToProjectById(int projectId, TrackDto track, string userName)
+        {
+            var projectTrack = new project_track()
+            {
+                projectid = projectId,
+                trackname = track.TrackName,
+                isworkingtitle = false,
+                updatedby = userName,
+                updatedon = DateTime.Now,
+                createdby = userName,
+                createdon = DateTime.Now,
+                isrc = track.Isrc,
+                duration = track.Duration,
+                donotpublish = false,
+                trackorder = track.TrackOrder
+            };
+            _projectTrackRepository.Add(projectTrack);
+
+            track.Id = projectTrack.id;
+
+            return track;
         }
     }
 }

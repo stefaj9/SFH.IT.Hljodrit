@@ -35,7 +35,6 @@ class SongsOnAlbumTable extends React.Component {
         this.state.bootstrapTableRef.reset();
     }
 
-
     render() {
         return (
             <div className="row">
@@ -56,7 +55,7 @@ class SongsOnAlbumTable extends React.Component {
                     <div className="btn-group">
                         <button className="btn btn-default btn-primary"
                             disabled={!this.state.selectedSongsForDeletion.length > 0}
-                            onClick={() => this.removeSongsFromAlbum() }>
+                            onClick={() => this.removeSongsFromAlbum()}>
                             <i className="fa fa-times"></i> Eyða völdum lögum
                         </button>
                         <button
