@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import { getPublishersByCriteria } from '../../actions/organizationActions';
 import { isFetchingList, hasStoppedFetchingList } from '../../actions/flowActions';
 import PublisherList from './publishersListView';
+import PromptModal from '../common/promptModal';
+import CreatePublisher from './createPublisher';
 import SearchBar from '../common/searchBar';
 import Paging from '../common/paging';
 import PageSelector from '../common/pageSelector';
@@ -20,6 +22,7 @@ class Publishers extends React.Component {
             pageNumber: 1,
             pageSize: 25,
             searchString: '',
+            isModalOpen: false
         }
     }
 
@@ -55,7 +58,12 @@ class Publishers extends React.Component {
         return (
             <div>
                 <h2>Útgefendur</h2>
-                <div className="row space-20">
+                <div className="row space-20 text-right">
+                    <button className="btn btn-default" onClick={() => this.setState({isModalOpen: true})}>
+                        <i className="fa fa-fw fa-plus"/> Bæta við útgefanda
+                    </button>
+                </div>
+                <div className="row space-20 ">
                     <div className="col-xs-12 col-sm-12 no-padding">
                         <SearchBar
                             visible={true}
@@ -76,6 +84,13 @@ class Publishers extends React.Component {
                             maximumPage={this.props.maximumPage}
                             changePage={newPageNumber => this.changePageNumber(newPageNumber)} />
                 </div>
+                <PromptModal isOpen={this.state.isModalOpen}
+                             title="Bæta við framleiðanda"
+                             content={<CreatePublisher />}
+                             confirmBtnText="Bæta við"
+                             confirmBtnCallback={() => { this.toggleModal(false); console.log('I would like to add this publisher!') }}
+                             discardBtnText="Bullshit"
+                             discardBtnCallback={() => { this.toggleModal(false) }} />
             </div>
         );
     }

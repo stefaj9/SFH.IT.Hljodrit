@@ -16,6 +16,7 @@ import PublisherIsrcTableData from './publisherIsrcTableData';
 import PublisherAlbumsTableData from './publisherAlbumsTableData';
 import InputWithButton from '../common/inputWithButton';
 import _ from 'lodash';
+import { toastr } from 'react-redux-toastr';
 
 class PublisherDetails extends React.Component {
     componentWillMount() {
@@ -76,11 +77,16 @@ class PublisherDetails extends React.Component {
         });
     }
 
-    alphanumeric(inputtxt) {
-        console.log(inputtxt);
+    validIsrcSeries(inputtxt) {
         let letterNumber = /^[0-9a-zA-Z]+$/;
 
-        return inputtxt.match(letterNumber);
+        if (!inputtxt.match(letterNumber)) return false;
+
+        let seriesAlreadyExists = _.some(this.props.organizationIsrcSeries, (isrcObject) => {
+            return isrcObject.isrcOrganizationPart === inputtxt;
+        });
+
+        return !seriesAlreadyExists;
     }
 
     updateSelectedPublisher(e) {
@@ -113,9 +119,10 @@ class PublisherDetails extends React.Component {
 
     addIsrcSeries() {
         let isrc = this.state.newIsrcRegistrant.trim().toUpperCase();
+        if (isrc.length !== 3 || !this.validIsrcSeries(isrc)) {
 
-        if (isrc.length !== 3 || !this.alphanumeric(isrc)) {
             this.setState({ newIsrcRegistrant: '' });
+            toastr.error('Villa', 'ISRC sería ekki á réttu formi!');
             return;
         }
 
@@ -132,6 +139,8 @@ class PublisherDetails extends React.Component {
     renderContent() {
         if (Object.keys(this.state.selectedPublisher).length > 0 && this.hasFetchedAll()) {
             const publisher = this.state.selectedPublisher;
+
+            console.log(this.props.organizationIsrcSeries);
             return (
                 <div>
                     <h2>{this.props.organization.fullName}</h2>
