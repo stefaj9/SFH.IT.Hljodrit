@@ -80,6 +80,7 @@
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\SongDto.cs" />
     <Compile Include="Dto\SongWithPerformersDto.cs" />
+    <Compile Include="Dto\TrackDto.cs" />
     <Compile Include="Dto\ZipCodeDto.cs" />
     <Compile Include="Dto\Envelope.cs" />
     <Compile Include="Helpers\IsrcHelper.cs" />

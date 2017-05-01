@@ -28,6 +28,7 @@ let initialState = {
         publisher: {}
     },
     selectedProject: {},
+    selectedProjectTracks: [],
     userProjects: [],
     isCreatingProject: false,
     isFetchingUserProjects: true,
@@ -68,6 +69,9 @@ export default function(state = initialState, action) {
             return Object.assign({}, state, {
                 selectedProject: project
             });
+        case types.GET_PROJECT_TRACKS_BY_ID: return Object.assign({}, state, {
+            selectedProjectTracks: action.payload
+        });
         case types.GET_PROJECT_FOR_USER: 
             let userProjects = _.cloneDeep(action.payload);
 

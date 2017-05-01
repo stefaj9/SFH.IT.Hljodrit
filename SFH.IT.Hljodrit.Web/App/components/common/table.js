@@ -49,6 +49,7 @@ class Table extends React.Component {
             return idxObj.idx = idx;
         });
         return (
+          <div className="row">
             <div className="col-xs-12">
                 <BootstrapTable
                   data={indexedObjects}
@@ -71,6 +72,7 @@ class Table extends React.Component {
                     {this.createTableHeader()}
                 </BootstrapTable>
             </div>
+          </div>
         );
     }
 }

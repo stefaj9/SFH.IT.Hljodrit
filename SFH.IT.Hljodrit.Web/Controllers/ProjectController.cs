@@ -21,6 +21,13 @@ namespace SFH.IT.Hljodrit.Web.Controllers
         }
 
         [HttpGet]
+        [Route("{projectId:int}/tracks")]
+        public IHttpActionResult GetProjectTracksByProjectId(int projectId)
+        {
+            return Ok(_projectService.GetProjectTracksById(projectId));
+        }
+
+        [HttpGet]
         [Route("{projectId:int}")]
         public IHttpActionResult GetProjectById(int projectId)
         {

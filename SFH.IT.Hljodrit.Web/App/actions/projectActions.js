@@ -31,6 +31,31 @@ function getProjectByIdSuccess(project) {
     };
 };
 
+export function getProjectTracksById(projectId) {
+    return dispatch => {
+        dispatch(isFetchingProjectById());
+        return fetch(`/api/projects/${projectId}/tracks`, {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt')
+            }
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            }
+        }).then(tracks => {
+            dispatch(getProjectTracksByIdSuccess(tracks));
+        });
+    }
+};
+
+function getProjectTracksByIdSuccess(tracks) {
+    return {
+        type: types.GET_PROJECT_TRACKS_BY_ID,
+        payload: tracks
+    };
+};
+
 export function getProjectsForUser() {
     return dispatch => {
         dispatch(isFetchingUserProjects());
