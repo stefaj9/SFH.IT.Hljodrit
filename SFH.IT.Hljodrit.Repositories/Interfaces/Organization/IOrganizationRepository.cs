@@ -11,5 +11,6 @@ namespace SFH.IT.Hljodrit.Repositories.Interfaces.Organization
         IEnumerable<LabelDto> GetLabelsByPublisherId(int publisherId);
         PublisherExtendedDto GetPublisherById(int publisherId);
         IEnumerable<AlbumDto> GetAlbumsByLabelId(int labelId);
+        string GetPublisherCountryCodeById(int publisherId);
     }
 }

@@ -10,7 +10,8 @@ let initialState = {
     selectedOrganizationIsrcSeries: [],
     selectedOrganizationLabels: [],
     selectedOrganization: {},
-    isCreatingLabel: false
+    isCreatingLabel: false,
+    isCreatingIsrc: false
 };
 
 export default function (state = initialState, action) {
@@ -30,6 +31,18 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 selectedOrganizationLabels: labels
             });
+        case actionType.ADD_ISRC_TO_PUBLISHER_BY_ID:
+            let isrc = _.cloneDeep(state.selectedOrganizationIsrcSeries);
+            isrc = _.concat(isrc, action.payload);
+            return Object.assign({}, state, {
+                selectedOrganizationIsrcSeries: isrc
+            });
+        case actionType.IS_CREATING_ISRC: return Object.assign({}, state, {
+            isCreatingIsrc: true
+        });
+        case actionType.HAS_STOPPED_CREATING_ISRC: return Object.assign({}, state, {
+            isCreatingIsrc: false
+        });
         case actionType.IS_CREATING_LABEL: return Object.assign({}, state, {
             isCreatingLabel: true
         });

@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getPublisherById, getLabelsByPublisherId, addLabelToOrganizationById } from '../../actions/organizationActions';
+import { getPublisherById,
+    getLabelsByPublisherId,
+    addLabelToOrganizationById,
+    getPublisherIsrcSeriesById,
+    addIsrcSeriesToOrganizationById } from '../../actions/organizationActions';
 import { isFetchingList, hasStoppedFetchingList, update } from '../../actions/flowActions';
 import { getZipCodes } from '../../actions/commonActions';
 import { browserHistory} from 'react-router';
@@ -8,7 +12,9 @@ import Spinner from 'react-spinner';
 import PublisherDetailsForm from './publisherDetailsForm';
 import Table from '../common/table';
 import PublisherLabels from './publisherLablels';
+import PublisherIsrcTableData from './publisherIsrcTableData';
 import PublisherAlbumsTableData from './publisherAlbumsTableData';
+import InputWithButton from '../common/inputWithButton';
 import _ from 'lodash';
 
 class PublisherDetails extends React.Component {
@@ -19,6 +25,8 @@ class PublisherDetails extends React.Component {
         this.props.getLabelsByPublisherId(this.props.routeParams.publisherId);
 
         this.props.getZipCodes();
+
+        this.props.getPublisherIsrcSeriesById(this.props.routeParams.publisherId);
     }
 
     componentWillReceiveProps(newProps) {
@@ -36,7 +44,8 @@ class PublisherDetails extends React.Component {
             selectedPublisher: {},
             selectedPublisherHasChanged: false,
             zipCode: '',
-            newLabelName: ''
+            newLabelName: '',
+            newIsrcRegistrant: ''
         };
 
         this.updatePublisherField = this.updatePublisherField.bind(this);
@@ -67,6 +76,13 @@ class PublisherDetails extends React.Component {
         });
     }
 
+    alphanumeric(inputtxt) {
+        console.log(inputtxt);
+        let letterNumber = /^[0-9a-zA-Z]+$/;
+
+        return inputtxt.match(letterNumber);
+    }
+
     updateSelectedPublisher(e) {
         e.preventDefault();
         const path = `/api/organizations/${this.state.selectedPublisher.id}`;
@@ -95,6 +111,24 @@ class PublisherDetails extends React.Component {
         this.setState({ newLabelName: '' });
     }
 
+    addIsrcSeries() {
+        let isrc = this.state.newIsrcRegistrant.trim().toUpperCase();
+
+        if (isrc.length !== 3 || !this.alphanumeric(isrc)) {
+            this.setState({ newIsrcRegistrant: '' });
+            return;
+        }
+
+        let organizationId = this.props.params.publisherId;
+
+        this.props.addIsrcSeriesToOrganizationById(organizationId, {
+            organizationId: this.props.params.publisherId,
+            isrcOrganizationPart: isrc
+        });
+
+        this.setState({ newIsrcRegistrant: '' });
+    }
+
     renderContent() {
         if (Object.keys(this.state.selectedPublisher).length > 0 && this.hasFetchedAll()) {
             const publisher = this.state.selectedPublisher;
@@ -121,21 +155,26 @@ class PublisherDetails extends React.Component {
                                isRemote={false}
                                pagination={false} />
                     </div>
-                    <div className="input-group no-border-radius spacer">
-                        <input placeholder={`${this.state.selectedPublisher.fullName} [label]`}
-                               type="text"
-                               value={this.state.newLabelName}
-                               onChange={(e) => this.setState({ newLabelName: e.target.value })}
-                               className="form-control" />
-                        <span onClick={() => this.addLabel()}
-                              className={'input-group-addon' + (this.state.newLabelName.length > 0 ? ' background-primary hover-cursor' : '')}>
-                            <span className={this.props.isCreatingLabel ? 'visibility-hidden' : ''}>
-                                <i className="fa fa-fw fa-plus" />
-                                Bæta við label
-                            </span>
-                            <Spinner className={this.props.isCreatingLabel ? 'spinner-small' : 'hidden'} />
-                        </span>
+                    <InputWithButton placeHolder={`${this.state.selectedPublisher.fullName} [label]`}
+                                     inputValue={this.state.newLabelName}
+                                     onChange={(e) => this.setState({ newLabelName: e.target.value })}
+                                     submit={() => this.addLabel()}
+                                     isSubmitting={this.props.isCreatingLabel}
+                                     buttonText="Bæta við label" />
+                    <h3>ISRC</h3>
+                    <div className="row">
+                        <Table tableData={PublisherIsrcTableData}
+                               objects={this.props.organizationIsrcSeries}
+                               refCallback={ref => { return ref; }}
+                               isRemote={false}
+                               pagination={false} />
                     </div>
+                    <InputWithButton placeHolder="Þriggja stafa runa t.d. [RA1]"
+                                     inputValue={this.state.newIsrcRegistrant}
+                                     onChange={(e) => this.setState({ newIsrcRegistrant: e.target.value })}
+                                     submit={() => this.addIsrcSeries()}
+                                     isSubmitting={this.props.isCreatingIsrc}
+                                     buttonText="Bæta við ISRC seríu" />
                     <h3>Plötur</h3>
                     <div className="row">
                         <Table tableData={PublisherAlbumsTableData}
@@ -164,6 +203,8 @@ function mapStateToProps(state) {
     return {
         organization: state.organization.selectedOrganization,
         isCreatingLabel: state.organization.isCreatingLabel,
+        isCreatingIsrc: state.organization.isCreatingIsrc,
+        organizationIsrcSeries: state.organization.selectedOrganizationIsrcSeries,
         isFetchingPublisher: state.flow.isFetchingList,
         isUpdatingPublisher: state.flow.isUpdatingData,
         zipCodes: state.common.zipCodes,
@@ -172,4 +213,14 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { getPublisherById, isFetchingList, hasStoppedFetchingList, getZipCodes, update, getLabelsByPublisherId, addLabelToOrganizationById }) (PublisherDetails);
+export default connect(mapStateToProps, {
+    getPublisherById,
+    isFetchingList,
+    hasStoppedFetchingList,
+    getZipCodes,
+    update,
+    getLabelsByPublisherId,
+    addLabelToOrganizationById,
+    getPublisherIsrcSeriesById,
+    addIsrcSeriesToOrganizationById
+}) (PublisherDetails);

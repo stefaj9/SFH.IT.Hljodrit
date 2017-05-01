@@ -15,12 +15,15 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     {
         private readonly IOrganizationRepository _organizationRepository;
         private readonly IOrganizationLabelRepository _organizationLabelRepository;
+        private readonly IOrganizationIsrcSeriesRepository _organizationIsrcSeriesRepository;
         private readonly IUnitOfWork<HljodritEntities> _unitOfWork;
 
-        public OrganizationService(IOrganizationRepository organizationRepository, IOrganizationLabelRepository organizationLabelRepository, IUnitOfWork<HljodritEntities> unitOfWork)
+        public OrganizationService(IOrganizationRepository organizationRepository, IOrganizationLabelRepository organizationLabelRepository, 
+            IOrganizationIsrcSeriesRepository organizationIsrcSeriesRepository, IUnitOfWork<HljodritEntities> unitOfWork)
         {
             _organizationRepository = organizationRepository;
             _organizationLabelRepository = organizationLabelRepository;
+            _organizationIsrcSeriesRepository = organizationIsrcSeriesRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -105,6 +108,39 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _unitOfWork.Commit();
 
             return GetPublisherById(publisherId);
+        }
+
+        public PublisherIsrcSeriesDto AddIsrcByPublisherId(int publisherId, PublisherIsrcViewModel newIsrcSeries)
+        {
+            var newIsrcSeriesEntry = new organization_isrc_series
+            {
+                createdby = "User",
+                updatedby = "User",
+                createdon = DateTime.Now,
+                updatedon = DateTime.Now,
+                isactive = true,
+                isrc_countrypart = _organizationRepository.GetPublisherCountryCodeById(publisherId),
+                isrc_lastusednumber = 0,
+                isrc_lastusedyear = DateTime.Now.Year,
+                isrc_organizationpart = newIsrcSeries.IsrcOrganizationPart,
+                organizationid = newIsrcSeries.OrganizationId,
+                purposelabel = "Almenn útgáfa",
+            };
+
+            _organizationIsrcSeriesRepository.Add(newIsrcSeriesEntry);
+            _unitOfWork.Commit();
+
+            var createdIsrcSeries = _organizationIsrcSeriesRepository.GetAll().OrderByDescending(i => i.id).First();
+
+            return new PublisherIsrcSeriesDto
+            {
+                IsrcSeriesId = createdIsrcSeries.id,
+                IsrcCountryPart = createdIsrcSeries.isrc_countrypart,
+                IsrcOrganizationPart = createdIsrcSeries.isrc_organizationpart,
+                LastIsrcNumber = createdIsrcSeries.isrc_lastusednumber,
+                OrganizationId = createdIsrcSeries.organizationid,
+                PurposeLabel = createdIsrcSeries.purposelabel
+            };
         }
     }
 }

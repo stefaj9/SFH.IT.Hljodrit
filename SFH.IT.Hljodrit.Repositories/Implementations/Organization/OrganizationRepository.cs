@@ -24,7 +24,8 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Organization
                         IsrcOrganizationPart = series.isrc_organizationpart,
                         OrganizationId = master.id,
                         PurposeLabel = series.purposelabel,
-                        LastIsrcNumber = series.isrc_lastusednumber
+                        LastIsrcNumber = series.isrc_lastusednumber,
+                        IsrcCountryPart = series.isrc_countrypart
                     });
         }
 
@@ -104,6 +105,17 @@ namespace SFH.IT.Hljodrit.Repositories.Implementations.Organization
             }
 
             return albums;
+        }
+
+        public string GetPublisherCountryCodeById(int publisherId)
+        {
+            var countryCode = (from publisher in DbContext.organization_master
+                where publisher.id == publisherId
+                join country in DbContext.common_country
+                on publisher.countrycode equals country.numericisocode
+                select country.twoletterisocode).DefaultIfEmpty("IS").SingleOrDefault();
+
+            return countryCode;
         }
     }
 }

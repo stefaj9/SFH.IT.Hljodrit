@@ -57,5 +57,12 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         {
             return Ok(_organizationService.AddLabelByPublisherId(publisherId, label));
         }
+
+        [HttpPost]
+        [Route("{publisherId:int}/isrc")]
+        public IHttpActionResult AddIsrcSeriesByPublisherId(int publisherId, [FromBody] PublisherIsrcViewModel newIsrcSeries)
+        {
+            return Ok(_organizationService.AddIsrcByPublisherId(publisherId, newIsrcSeries));
+        }
     }
 }

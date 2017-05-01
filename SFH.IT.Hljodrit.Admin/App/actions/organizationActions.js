@@ -125,10 +125,54 @@ export function addLabelToOrganizationById(organizationId, label) {
     }
 }
 
+export function addIsrcSeriesToOrganizationById(organizationId, isrcRegistrant) {
+    return (dispatch) => {
+        dispatch(isCreatingIsrc());
+        return fetch(`/api/organizations/${organizationId}/isrc`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(isrcRegistrant)
+        }).then(resp => {
+            dispatch(hasStoppedCreatingIsrc());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að bæta við ISRC á útgefanda.');
+                return resp.json();
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að bæta við ISRC á útgefanda.');
+            }
+        }).then(data => {
+            dispatch(addIsrcToOrganizationByIdSuccess(data));
+        });
+    }
+}
+
+function addIsrcToOrganizationByIdSuccess(isrc) {
+    return {
+        type: actionType.ADD_ISRC_TO_PUBLISHER_BY_ID,
+        payload: isrc
+    }
+}
+
 function addLabelToOrganizationByIdSuccess(label) {
     return {
         type: actionType.ADD_LABEL_TO_PUBLISHER_BY_ID,
         payload: label
+    };
+}
+
+function isCreatingIsrc() {
+    return {
+        type: actionType.IS_CREATING_ISRC,
+        payload: {}
+    };
+}
+
+function hasStoppedCreatingIsrc() {
+    return {
+        type: actionType.HAS_STOPPED_CREATING_ISRC,
+        payload: {}
     };
 }
 
