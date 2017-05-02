@@ -39,6 +39,55 @@ export function getPublisherById(publisherId, isFetchingList, hasStoppedFetching
     }
 }
 
+export function createPublisher(publisher) {
+    return (dispatch) => {
+        dispatch(isCreatingPublisher());
+        console.log('I will be creating');
+        console.log(publisher);
+        return fetch('/api/organizations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(publisher)
+        }).then(resp => {
+            dispatch(hasStoppedCreatingPublisher());
+            if (resp.ok) {
+                toastr.success('Tókst!', 'Það tókst að búa til nýjan framleiðanda.');
+                return resp.json();
+            } else {
+                toastr.error('Villa!', 'Ekki tókst að búa til nýjan framleiðanda.');
+            }
+        }).then(data => {
+            if (data) {
+                browserHistory.push(`/organizations/${data.id}`);
+            }
+            dispatch(createPublisherSuccess());
+        });
+    }
+}
+
+function createPublisherSuccess() {
+    return {
+        type: actionType.CREATE_PUBLISHER,
+        payload: {}
+    }
+}
+
+function isCreatingPublisher() {
+    return {
+        type: actionType.IS_CREATING_PUBLISHER,
+        payload: {}
+    }
+}
+
+function hasStoppedCreatingPublisher() {
+    return {
+        type: actionType.HAS_STOPPED_CREATING_PUBLISHER,
+        payload: {}
+    }
+}
+
 function clearCurrentPublisher() {
     return {
         type: actionType.CLEAR_CURRENT_PUBLISHER,

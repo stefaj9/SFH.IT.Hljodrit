@@ -11,7 +11,8 @@ let initialState = {
     selectedOrganizationLabels: [],
     selectedOrganization: {},
     isCreatingLabel: false,
-    isCreatingIsrc: false
+    isCreatingIsrc: false,
+    isCreatingPublisher: false
 };
 
 export default function (state = initialState, action) {
@@ -63,6 +64,12 @@ export default function (state = initialState, action) {
         case actionType.CLEAR_CURRENT_PUBLISHER: return Object.assign({}, state, {
             selectedOrganization: {}
         });
+        case actionType.IS_CREATING_PUBLISHER: return Object.assign({}, state, {
+            isCreatingPublisher: true
+        });
+        case actionType.HAS_STOPPED_CREATING_PUBLISHER: return Object.assign({}, state, {
+            isCreatingPublisher: false
+        })
     }
     return state;
 }

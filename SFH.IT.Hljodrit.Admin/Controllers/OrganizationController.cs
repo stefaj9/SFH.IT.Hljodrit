@@ -29,6 +29,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok(_organizationService.GetAllPublishers(pageSize, pageNumber, searchTerm ?? ""));
         }
 
+        [HttpPost]
+        [Route("")]
+        public IHttpActionResult CreatePublisher([FromBody] PublisherViewModel publisher)
+        {
+            return Ok(_organizationService.CreatePublisher(publisher));
+        }
+
         [HttpGet]
         [Route("{publisherId:int}")]
         public IHttpActionResult GetPublisherById(int publisherId)

@@ -15,5 +15,6 @@ namespace SFH.IT.Hljodrit.Services.Interfaces
         PublisherExtendedDto GetPublisherById(int publisherId);
         PublisherExtendedDto UpdatePublisherInfo(int publisherId, PublisherViewModel updatedPublisher);
         PublisherIsrcSeriesDto AddIsrcByPublisherId(int publisherId, PublisherIsrcViewModel newIsrcSeries);
+        PublisherExtendedDto CreatePublisher(PublisherViewModel publisher);
     }
 }

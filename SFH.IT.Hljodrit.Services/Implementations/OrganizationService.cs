@@ -142,5 +142,51 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 PurposeLabel = createdIsrcSeries.purposelabel
             };
         }
+
+        public PublisherExtendedDto CreatePublisher(PublisherViewModel publisher)
+        {
+            var newPublisher = new organization_master
+            {
+                address1 = publisher.Address,
+                countrycode = 354,
+                createdby = "User",
+                updatedby = "User",
+                createdon = DateTime.Now,
+                updatedon = DateTime.Now,
+                isactive = true,
+                name = publisher.Name,
+                uniqueidentifier = publisher.SSN,
+                zipcode = publisher.ZipCode,
+                telephone = publisher.PhoneNumber,
+                maincontact = publisher.MainContactName,
+                maincontactemail = publisher.MainContactEmail,
+                maincontacttel = publisher.MainContactPhoneNumber,
+                website = publisher.Website,
+                visibletopublic = true,
+                organizationtype = 1
+            };
+
+            _organizationRepository.Add(newPublisher);
+            _unitOfWork.Commit();
+
+            var createdPublisher = _organizationRepository.GetAll().OrderByDescending(i => i.id).First();
+
+            //return _organizationRepository.GetPublisherById(createdPublisher.id);
+
+            return new PublisherExtendedDto
+            {
+                Address = createdPublisher.address1,
+                City = publisher.City,
+                Id = createdPublisher.id,
+                MainContactName = createdPublisher.maincontact,
+                MainContactEmail = createdPublisher.maincontactemail,
+                MainContactPhoneNumber = createdPublisher.maincontacttel,
+                Name = createdPublisher.name,
+                OrganizationType = "Almenn útgáfa",
+                Website = createdPublisher.website,
+                SSN = createdPublisher.uniqueidentifier,
+                ZipCode = createdPublisher.zipcode
+            };
+        }
     }
 }
