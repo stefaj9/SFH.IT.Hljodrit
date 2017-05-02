@@ -16,6 +16,7 @@ export function getProjectById(projectId) {
             if (resp.ok) {
                 return resp.json();
             } else {
+                browserHistory.push('/app/projects');
                 toastr.error('Villa!', 'Ekki tókst að sækja verkefni.');
             }
         }).then(project => {

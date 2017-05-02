@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Table from '../common/table';
 import ProjectDetailsTrackTableData from './projectDetailsTrackTableData';
 import PromptModal from '../common/promptModal';
+import AddTrackToProject from './addTrackToProject';
 
 class ProjectDetailsTrackTable extends React.Component {
     constructor() {
@@ -10,7 +11,8 @@ class ProjectDetailsTrackTable extends React.Component {
         this.state = {
             bootstrapTableRef: null,
             selectedTracksForDeletion: [],
-            isTrackAddModalOpen: false
+            isTrackAddModalOpen: false,
+            confirmBtnCallback: () => null
         };
     }
     addToListOfSelectedTracks(tracks, status) {
@@ -55,9 +57,21 @@ class ProjectDetailsTrackTable extends React.Component {
                 <PromptModal
                     isOpen={this.state.isTrackAddModalOpen}
                     title="Bæta við lagi"
-                    content={<h3>Content</h3>}
+                    content={<AddTrackToProject
+                                projectId={this.props.projectId}
+                                nextSongNumber={this.props.tracks.length + 1}
+                                addFunction={
+                                    (track) => { 
+                                        this.setState({ 
+                                            confirmBtnCallback: () => { 
+                                                this.setState({ isTrackAddModalOpen: false }); 
+                                                this.props.addTrackToProject(track); 
+                                            } 
+                                        });
+                                    } 
+                                } /> }
                     confirmBtnText="Bæta við"
-                    confirmBtnCallback={() => this.setState({ isTrackAddModalOpen: false })}
+                    confirmBtnCallback={() => this.state.confirmBtnCallback()}
                     discardBtnText="Loka"
                     discardBtnCallback={() => this.setState({ isTrackAddModalOpen: false })}
                     showConfirmSpinner={this.props.isLoading} />
@@ -67,6 +81,7 @@ class ProjectDetailsTrackTable extends React.Component {
 }
 
 ProjectDetailsTrackTable.propTypes = {
+    projectId: PropTypes.string.isRequired,
     tracks: PropTypes.array.isRequired,
     removeTracksFromProject: PropTypes.func,
     addTrackToProject: PropTypes.func,

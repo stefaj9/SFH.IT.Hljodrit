@@ -112,7 +112,11 @@ export default function(state = initialState, action) {
 
         case types.ADD_TRACK_TO_PROJECT: 
             let addedProjectTracks = _.cloneDeep(state.selectedProjectTracks);
-            addedProjectTracks = _.concat(addedProjectTracks, action.payload);
+            let newTrack = _.cloneDeep(action.payload);
+
+            newTrack.trackName = <a href={`/app/projects/${newTrack.projectId}/tracks/${newTrack.id}`}>{newTrack.trackName}</a>;
+
+            addedProjectTracks = _.concat(addedProjectTracks, newTrack);
             return Object.assign({}, state, {
                 selectedProjectTracks: addedProjectTracks
             });

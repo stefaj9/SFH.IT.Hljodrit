@@ -53,9 +53,13 @@ namespace SFH.IT.Hljodrit.Web.Controllers
         {
             var project = _projectService.GetProjectById(projectId);
 
+            if (project == null)
+            {
+                return BadRequest("Project does not exist.");
+            }
             if (project.SubmissionUser != User.Identity.Name)
             {
-                throw new UnauthorizedAccessException("User is not allowed to view other users projects.");
+                return BadRequest("User is not allowed to view other users projects.");
             }
 
             return Ok(project);

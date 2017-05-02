@@ -129,6 +129,7 @@ class ProjectDetails extends React.Component {
                         disabledBtn={!formDirty} />
                     <h3>Lög</h3>
                     <ProjectDetailsTrackTable
+                        projectId={this.props.routeParams.projectId}
                         tracks={selectedProjectTracks}
                         removeTracksFromProject={(ids) => this.props.removeTracksFromProject(this.props.routeParams.projectId, ids)}
                         addTrackToProject={(track) => this.props.addTrackToProject(this.props.routeParams.projectId, track)}

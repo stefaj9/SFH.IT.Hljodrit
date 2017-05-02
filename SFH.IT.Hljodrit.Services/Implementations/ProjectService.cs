@@ -395,12 +395,11 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             };
             _projectTrackRepository.Add(projectTrack);
 
+            _unitOfWork.Commit();
+
             track.Id = projectTrack.id;
 
             return track;
         }
     }
 }
-
-
-

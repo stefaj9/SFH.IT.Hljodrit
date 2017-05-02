@@ -11,6 +11,9 @@ import { Tabs, Tab } from 'react-bootstrap';
 import _ from 'lodash';
 
 class AddSongInput extends React.Component {
+    componentWillMount() {
+        this.props.getMediaRecordingsByCriteria(50, 1, '', 'name');
+    }
     constructor() {
         super();
         this.state = {

@@ -11,6 +11,7 @@ import ReduxToastr from 'react-redux-toastr';
 import 'rc-time-picker/assets/index.css';
 import 'react-bootstrap-table/css/react-bootstrap-table.css';
 import 'react-date-picker/index.css'
+import './handlers/songLengthHandler';
 
 const history = syncHistoryWithStore(browserHistory, store);
 
