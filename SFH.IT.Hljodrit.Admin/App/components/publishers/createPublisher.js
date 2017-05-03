@@ -29,13 +29,15 @@ const CreatePublisher = ({publisher, onChange, zipCodes, updateZipAndCity}) => {
                     <div className="row">
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Nafn</label>
-                            <input type="text" className="form-control"
+                            <input type="text"
+                                   className="form-control"
                                    onChange={(e) => onChange('fullName', e.target.value)}
                                    value={publisher.fullName}/>
                         </div>
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Kennitala</label>
-                            <input type="text" className="form-control"
+                            <input type="text"
+                                   className="form-control"
                                    onChange={(e) => onChange('ssn', e.target.value)}
                                    value={publisher.ssn} />
                         </div>
@@ -43,13 +45,15 @@ const CreatePublisher = ({publisher, onChange, zipCodes, updateZipAndCity}) => {
                     <div className="row">
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Netfang</label>
-                            <input type="text" className="form-control"
+                            <input type="email"
+                                   className="form-control"
                                    onChange={(e) => onChange('email', e.target.value)}
                                    value={publisher.email}/>
                         </div>
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Símanúmer</label>
-                            <input type="text" className="form-control"
+                            <input type="text"
+                                   className="form-control"
                                    onChange={(e) => onChange('phoneNumber', e.target.value)}
                                    value={publisher.phoneNumber} />
                         </div>
@@ -57,13 +61,15 @@ const CreatePublisher = ({publisher, onChange, zipCodes, updateZipAndCity}) => {
                     <div className="row">
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Heimilisfang</label>
-                            <input type="text" className="form-control"
+                            <input type="text"
+                                   className="form-control"
                                    onChange={(e) => onChange('address', e.target.value)}
                                    value={publisher.address}/>
                         </div>
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Vefsíða</label>
-                            <input type="text" className="form-control"
+                            <input type="text"
+                                   className="form-control"
                                    onChange={(e) => onChange('website', e.target.value)}
                                    value={publisher.website}/>
                         </div>
@@ -71,7 +77,8 @@ const CreatePublisher = ({publisher, onChange, zipCodes, updateZipAndCity}) => {
                     <div className="row">
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label htmlFor="">Staður</label>
-                            <select value={publisher.zipCode} className="form-control"
+                            <select value={publisher.zipCode}
+                                    className="form-control"
                                     onChange={e => updateZipField(e)} >
                                 <option value=""> Ekki skráð </option>
                                 {zipCodeOptions}
@@ -82,13 +89,15 @@ const CreatePublisher = ({publisher, onChange, zipCodes, updateZipAndCity}) => {
                     <div className="row">
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Nafn</label>
-                            <input type="text" className="form-control"
+                            <input type="text"
+                                   className="form-control"
                                    onChange={(e) => onChange('mainContactName', e.target.value)}
                                    value={publisher.mainContactName}/>
                         </div>
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Símanúmer</label>
-                            <input type="text" className="form-control"
+                            <input type="text"
+                                   className="form-control"
                                    onChange={(e) => onChange('mainContactPhoneNumber', e.target.value)}
                                    value={publisher.mainContactPhoneNumber} />
                         </div>
@@ -96,7 +105,8 @@ const CreatePublisher = ({publisher, onChange, zipCodes, updateZipAndCity}) => {
                     <div className="row">
                         <div className="col-xs-12 col-sm-6 form-group">
                             <label>Netfang</label>
-                            <input type="text" className="form-control"
+                            <input type="text"
+                                   className="form-control"
                                    onChange={(e) => onChange('mainContactEmail', e.target.value)}
                                    value={publisher.mainContactEmail}/>
                         </div>

@@ -14,7 +14,8 @@ import _ from 'lodash';
 class Publishers extends React.Component {
 
     componentWillMount() {
-        this.props.getPublishersByCriteria(this.state.pageSize, this.state.pageNumber, this.state.searchString,
+        this.props.getPublishersByCriteria(this.state.pageSize,
+            this.state.pageNumber, this.state.searchString,
             this.props.isFetchingList, this.props.hasStoppedFetchingList);
 
         this.props.getZipCodes();
@@ -61,8 +62,6 @@ class Publishers extends React.Component {
 
     createPublisher() {
         this.props.createPublisher(this.state.newPublisher);
-        //console.log(this.state.newPublisher);
-        //console.log('I would create this Publisher!')
     }
 
     updateNewPublisher(key, value) {

@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import * as actionType from './actionTypes';
 import { toastr } from 'react-redux-toastr';
+import { browserHistory} from 'react-router';
 
 export function getPublishersByCriteria(pageSize, pageNumber, searchQuery, isFetchingList, hasStoppedFetchingList) {
     return (dispatch) => {
@@ -42,8 +43,6 @@ export function getPublisherById(publisherId, isFetchingList, hasStoppedFetching
 export function createPublisher(publisher) {
     return (dispatch) => {
         dispatch(isCreatingPublisher());
-        console.log('I will be creating');
-        console.log(publisher);
         return fetch('/api/organizations', {
             method: 'POST',
             headers: {
@@ -60,7 +59,7 @@ export function createPublisher(publisher) {
             }
         }).then(data => {
             if (data) {
-                browserHistory.push(`/organizations/${data.id}`);
+                browserHistory.push(`/publishers/${data.id}`);
             }
             dispatch(createPublisherSuccess());
         });
