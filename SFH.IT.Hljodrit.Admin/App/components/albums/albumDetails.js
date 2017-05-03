@@ -9,6 +9,7 @@ import Spinner from 'react-spinner';
 import AlbumDetailsForm from './AlbumDetailsForm';
 import { getAlbumById, getSongsByAlbumId, removeSongsFromAlbum } from '../../actions/albumsActions';
 import SongsOnAlbumTable from './SongsOnAlbumTable';
+import SelectPersonModal from '../project/selectPersonModal';
 
 class AlbumDetails extends React.Component {
 
@@ -21,7 +22,7 @@ class AlbumDetails extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if(_.keys(newProps.selectedAlbum).length > 0 && !this.state.hasFetched && !newProps.isFetchingPublisher) {
+        if(_.keys(newProps.selectedAlbum).length > 0 && !this.state.hasFetched && !newProps.isFetching) {
 
             this.validateAlbum(newProps.selectedAlbum);
 
@@ -150,7 +151,7 @@ class AlbumDetails extends React.Component {
     }
 
     renderForm() {
-        if (!this.props.isFetchingPublisher && this.state.hasFetched) {
+        if (!this.props.isFetching && this.state.hasFetched) {
             return (
                 <AlbumDetailsForm
                     hasFetched={ this.state.hasFetched }
@@ -173,8 +174,8 @@ class AlbumDetails extends React.Component {
     render() {
         return (
             <div>
-                <Spinner className={(this.props.isFetchingPublisher || this.props.isFetchingSongs) ? '' : 'hidden'} />
-                <div className={(this.props.isFetchingPublisher || this.props.isFetchingSongs) ? 'hidden' : ''} >
+                <Spinner className={(this.props.isFetching || this.props.isFetchingSongs) ? '' : 'hidden'} />
+                <div className={(this.props.isFetching || this.props.isFetchingSongs) ? 'hidden' : ''} >
                     <h2>{this.props.selectedAlbum.albumTitle}</h2>
                     { this.renderForm() }
                     <div>
@@ -208,7 +209,7 @@ function mapStateToProps(state) {
         countries: state.common.countries,
         songsOnSelectedAlbum: state.albums.songsOnSelectedAlbum,
         selectedAlbum: state.albums.selectedAlbum,
-        isFetchingPublisher: state.albums.isFetchingPublisher,
+        isFetching: state.albums.isFetching,
         isFetchingSongs: state.albums.isFetchingSongs
     };
 };

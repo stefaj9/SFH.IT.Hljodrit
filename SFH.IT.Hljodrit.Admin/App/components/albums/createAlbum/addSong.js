@@ -265,7 +265,7 @@ class AddSong extends React.Component {
 function mapStateToProps(state) {
     return {
         media: state.songs.mediaRecordingEnvelope.objects,
-        isFetchingSongs: state.songs.isFetchingPublisher
+        isFetchingSongs: state.songs.isFetching
     };
 };
 

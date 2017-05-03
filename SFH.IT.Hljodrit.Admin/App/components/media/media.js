@@ -87,7 +87,7 @@ class Media extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <MediaTable isFetching={this.props.isFetchingPublisher}
+                    <MediaTable isFetching={this.props.isFetching}
                                 objects={this.props.mediaEnvelope.objects}
                                 currentPage={this.props.currentPage}
                                 maximumPage={this.props.maximumPage}
@@ -101,7 +101,7 @@ class Media extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        isFetchingPublisher: state.songs.isFetchingPublisher,
+        isFetching: state.songs.isFetching,
         mediaEnvelope: state.songs.mediaRecordingEnvelope,
         currentPage: state.songs.mediaRecordingEnvelope.currentPage,
         maximumPage: state.songs.mediaRecordingEnvelope.maximumPage

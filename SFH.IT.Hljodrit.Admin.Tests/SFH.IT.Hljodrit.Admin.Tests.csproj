@@ -110,6 +110,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\SongControllerTest.cs" />
+    <Compile Include="Services\InstrumentServiceTest.cs" />
+    <Compile Include="Services\MainArtistServiceTest.cs" />
     <Compile Include="Services\PersonServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
