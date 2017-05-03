@@ -13,10 +13,12 @@ namespace SFH.IT.Hljodrit.Common.Dto
             Id = project.id;
             ProjectName = project.projectname ?? "";
             MainArtist = project.mainartist ?? "";
+            MainArtistId = project.party_mainartist?.id ?? -1;
             SubmissionUser = project.createdby ?? "";
             LastModificationDate = project.updatedon;
             ProjectStatus = project.statuscode;
             ProjectStatusName = project.project_status?.statusname ?? "";
+            IsWorkingTitle = project.isworkingtitle;
         }
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
@@ -24,6 +26,8 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public string ProjectName { get; set; }
         [JsonProperty(PropertyName = "mainArtist")]
         public string MainArtist { get; set; }
+        [JsonProperty(PropertyName = "mainArtistId")]
+        public int? MainArtistId { get; set; }
         [JsonProperty(PropertyName = "submissionUser")]
         public string SubmissionUser { get; set; }
         [JsonProperty(PropertyName = "lastModificationDate")]
@@ -32,5 +36,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public string ProjectStatus { get; set; }
         [JsonProperty(PropertyName = "projectStatusName")]
         public string ProjectStatusName { get; set; }
+        [JsonProperty(PropertyName = "isWorkingTitle")]
+        public bool IsWorkingTitle { get; set; }
     }
 }

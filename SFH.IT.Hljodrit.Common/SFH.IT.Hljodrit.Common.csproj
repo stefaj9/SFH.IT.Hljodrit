@@ -65,6 +65,7 @@
     <Compile Include="Dto\MusicianLiteDto.cs" />
     <Compile Include="Dto\ProjectExtendedDto.cs" />
     <Compile Include="Dto\PublisherExtendedDto.cs" />
+    <Compile Include="Dto\ProjectStatusDto.cs" />
     <Compile Include="Dto\RegistrationDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\ExceptionDto.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\SongDto.cs" />
     <Compile Include="Dto\SongWithPerformersDto.cs" />
+    <Compile Include="Dto\TrackDto.cs" />
     <Compile Include="Dto\ZipCodeDto.cs" />
     <Compile Include="Dto\Envelope.cs" />
     <Compile Include="Helpers\IsrcHelper.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="ViewModels\MusicianRegisterViewModel.cs" />
     <Compile Include="ViewModels\PersonRegisterViewModel.cs" />
     <Compile Include="ViewModels\ProjectCommentViewModel.cs" />
+    <Compile Include="ViewModels\ProjectCreationViewModel.cs" />
     <Compile Include="ViewModels\ProjectReviewViewModel.cs" />
     <Compile Include="ViewModels\PublisherIsrcViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />

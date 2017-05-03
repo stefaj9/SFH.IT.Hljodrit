@@ -21,6 +21,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly IProjectMasterRepository _projectMasterRepository;
         private readonly IProjectTrackRepository _projectTrackRepository;
         private readonly IProjectTrackArtistRepository _projectTrackArtistRepository;
+        private readonly IProjectStatusRepository _projectStatusRepository;
         private readonly IAlbumRepository _albumRepository;
         private readonly IMediaRecordingRepository _mediaRecordingRepository;
         private readonly ISongRepository _songRepository;
@@ -29,7 +30,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly IOrganizationLabelRepository _organizationLabelRepository;
         private readonly IUnitOfWork<HljodritEntities> _unitOfWork;
 
-        public ProjectService(IProjectMasterRepository projectMasterRepository, IUnitOfWork<HljodritEntities> unitOfWork, IProjectTrackRepository projectTrackRepository, IAlbumRepository albumRepository, IMediaRecordingRepository mediaRecordingRepository, ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IOrganizationLabelRepository organizationLabelRepository, IOrganizationIsrcSeriesRepository organizationIsrcSeriesRepository, IProjectTrackArtistRepository projectTrackArtistRepository)
+        public ProjectService(IProjectMasterRepository projectMasterRepository, IUnitOfWork<HljodritEntities> unitOfWork, IProjectTrackRepository projectTrackRepository, IAlbumRepository albumRepository, IMediaRecordingRepository mediaRecordingRepository, ISongRepository songRepository, IRecordingPartyRepository recordingPartyRepository, IOrganizationLabelRepository organizationLabelRepository, IOrganizationIsrcSeriesRepository organizationIsrcSeriesRepository, IProjectTrackArtistRepository projectTrackArtistRepository, IProjectStatusRepository projectStatusRepository)
         {
             _projectMasterRepository = projectMasterRepository;
             _unitOfWork = unitOfWork;
@@ -41,6 +42,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             _organizationLabelRepository = organizationLabelRepository;
             _organizationIsrcSeriesRepository = organizationIsrcSeriesRepository;
             _projectTrackArtistRepository = projectTrackArtistRepository;
+            _projectStatusRepository = projectStatusRepository;
         }
 
         public Envelope<ProjectDto> GetAllProjects(int pageSize, int pageNumber, bool inWorkingState, bool recordingFinished, bool readyForPublish, bool published, string query)
@@ -153,8 +155,18 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
                 foreach (var track in projectTracks)
                 {
-                    var isrc = IsrcHelper.GenerateIsrcNumber(isrcSeries.isrc_countrypart, isrcSeries.isrc_organizationpart,
-                        isrcSeries.isrc_lastusedyear, lastUsedNumber++);
+                    string isrc;
+
+                    if (string.IsNullOrEmpty(track.isrc))
+                    {
+                        isrc = IsrcHelper.GenerateIsrcNumber(isrcSeries.isrc_countrypart,
+                            isrcSeries.isrc_organizationpart,
+                            isrcSeries.isrc_lastusedyear, lastUsedNumber++);
+                    }
+                    else
+                    {
+                        isrc = track.isrc;
+                    }
 
                     // Update track isrc as well.
                     track.isrc = isrc;
@@ -235,6 +247,159 @@ namespace SFH.IT.Hljodrit.Services.Implementations
             }
 
             return albumId;
+        }
+
+        public IEnumerable<ProjectStatusDto> GetProjectStatus()
+        {
+            return _projectStatusRepository.GetAll().Select(ps => new ProjectStatusDto
+            {
+                Code = ps.statuscode,
+                Name = ps.statusname
+            });
+        }
+
+        public void CreateProject(ProjectCreationViewModel project, string userName)
+        {
+            var projectToCreate = new project_master
+            {
+                projectname = project.BasicInfo.ProjectName ?? "",
+                mainmanagerid = null,
+                projectstartdate = DateTime.Now,
+                isworkingtitle = project.BasicInfo.IsWorkingTitle,
+                updatedby = userName,
+                updatedon = DateTime.Now,
+                createdby = userName,
+                createdon = DateTime.Now,
+                statuscode = project.BasicInfo.ProjectStatus,
+                removed = false,
+                organizationid = project.PublisherId,
+                mainartist = project.BasicInfo.MainArtist,
+                mainartistid = project.BasicInfo.MainArtistId
+            };
+
+            _projectMasterRepository.Add(projectToCreate);
+            _unitOfWork.Commit();
+            var projectId = projectToCreate.id;
+
+            foreach (var song in project.Songs)
+            {
+                var songToCreate = new project_track
+                {
+                    projectid = projectId,
+                    trackname = song.Name,
+                    isworkingtitle = false,
+                    updatedby = userName,
+                    updatedon = DateTime.Now,
+                    createdby = userName,
+                    createdon = DateTime.Now,
+                    isrc = song.Isrc,
+                    duration = song.Length,
+                    donotpublish = false,
+                    trackorder = song.Number
+                };
+                _projectTrackRepository.Add(songToCreate);
+                _unitOfWork.Commit();
+                var songId = songToCreate.id;
+
+                song.Performers.ForEach(p => _projectTrackArtistRepository.Add(new project_track_artist
+                {
+                    projecttrackid = songId,
+                    partyrealid = p.Id,
+                    rolecode = p.Role.RoleCode,
+                    instrumentcode = string.IsNullOrEmpty(p.Instrument.IdCode) ? null : p.Instrument.IdCode,
+                    updatedby = userName,
+                    updatedon = DateTime.Now,
+                    createdby = userName,
+                    createdon = DateTime.Now
+                }));
+            }
+            _unitOfWork.Commit();
+        }
+
+        public IEnumerable<ProjectDto> GetProjectsByUsername(string userName)
+        {
+            return _projectMasterRepository.GetMany(pm => pm.createdby == userName && !pm.removed).Select(p => new ProjectDto
+            {
+                Id = p.id,
+                ProjectName = p.projectname,
+                IsWorkingTitle = p.isworkingtitle,
+                LastModificationDate = p.updatedon,
+                MainArtist = p.mainartist ?? "",
+                MainArtistId = p.mainartistid ?? -1,
+                ProjectStatus = p.statuscode,
+                ProjectStatusName = p.project_status.statusname,
+                SubmissionUser = p.createdby
+            });
+        }
+
+        public void UpdateProjectById(int projectId, ProjectExtendedDto project, string userName)
+        {
+            var projectToUpdate = _projectMasterRepository.GetById(projectId);
+
+            if (projectToUpdate != null)
+            {
+                projectToUpdate.projectname = project.ProjectName;
+                projectToUpdate.mainartistid = project.MainArtistId == -1 ? null : project.MainArtistId;
+                projectToUpdate.mainartist = project.MainArtist;
+                projectToUpdate.statuscode = project.ProjectStatus;
+                projectToUpdate.updatedon = DateTime.Now;
+                projectToUpdate.updatedby = userName;
+                projectToUpdate.organizationid = project.OrganizationId;
+                projectToUpdate.projectstartdate = project.ProjectStartDate;
+                projectToUpdate.projectenddate = project.ProjectEndDate;
+                projectToUpdate.isworkingtitle = project.IsWorkingTitle;
+
+                _unitOfWork.Commit();
+            }
+        }
+
+        public IEnumerable<TrackDto> GetProjectTracksDtoById(int projectId)
+        {
+            return _projectTrackRepository.GetMany(pt => pt.projectid == projectId).Select(pt => new TrackDto
+            {
+                Id = pt.id,
+                DoNotPublish = pt.donotpublish,
+                ProjectId = projectId,
+                Duration = pt.duration,
+                Isrc = pt.isrc,
+                TrackName = pt.trackname,
+                TrackOrder = pt.trackorder
+            });
+        }
+
+        public void DeleteProjectTracksById(int projectId, IEnumerable<int> trackIds)
+        {
+            var enumerable = trackIds as IList<int> ?? trackIds.ToList();
+            foreach (var trackId in enumerable.ToList())
+            {
+                _projectTrackRepository.Delete(pt => pt.id == trackId && pt.projectid == projectId);
+            }
+            _unitOfWork.Commit();
+        }
+
+        public TrackDto AddTrackToProjectById(int projectId, TrackDto track, string userName)
+        {
+            var projectTrack = new project_track()
+            {
+                projectid = projectId,
+                trackname = track.TrackName,
+                isworkingtitle = false,
+                updatedby = userName,
+                updatedon = DateTime.Now,
+                createdby = userName,
+                createdon = DateTime.Now,
+                isrc = track.Isrc,
+                duration = track.Duration,
+                donotpublish = false,
+                trackorder = track.TrackOrder
+            };
+            _projectTrackRepository.Add(projectTrack);
+
+            _unitOfWork.Commit();
+
+            track.Id = projectTrack.id;
+
+            return track;
         }
     }
 }

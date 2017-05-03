@@ -21,7 +21,6 @@ namespace SFH.IT.Hljodrit.Services
             container.Register<IMainArtistService, MainArtistService>(Lifestyle.Transient);
             container.Register<IMediaService, MediaService>(Lifestyle.Transient);
             container.Register<IUserService, UserService>(Lifestyle.Transient);
-            container.Register<IEmailService, EmailService>(Lifestyle.Transient);
         }
     }
 }
