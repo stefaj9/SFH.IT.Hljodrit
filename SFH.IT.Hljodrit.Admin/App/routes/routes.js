@@ -22,6 +22,7 @@ import MediaDetails from '../components/media/mediaDetails';
 import AlbumDetailsContainer from '../components/albums/albumDetailsContainer';
 import AlbumDetails from '../components/albums/albumDetails';
 import SongDetails from '../components/songs/songDetails';
+import PublisherDetails from '../components/publishers/publisherDetails';
 
 export default (
     <Route path="/" component={App}>
@@ -49,6 +50,7 @@ export default (
         </Route>
         <Route path="publishers" component={PublishersContainer}>
             <IndexRoute component={Publishers}/>
+            <Route path=":publisherId" component={PublisherDetails} />
         </Route>
         <Route path="*" component={NotFound} />
     </Route>

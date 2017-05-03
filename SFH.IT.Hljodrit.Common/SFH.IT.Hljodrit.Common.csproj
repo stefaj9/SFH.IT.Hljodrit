@@ -64,6 +64,7 @@
     <Compile Include="Dto\MusicianDto.cs" />
     <Compile Include="Dto\MusicianLiteDto.cs" />
     <Compile Include="Dto\ProjectExtendedDto.cs" />
+    <Compile Include="Dto\PublisherExtendedDto.cs" />
     <Compile Include="Dto\ProjectStatusDto.cs" />
     <Compile Include="Dto\RegistrationDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
@@ -95,6 +96,8 @@
     <Compile Include="ViewModels\ProjectCommentViewModel.cs" />
     <Compile Include="ViewModels\ProjectCreationViewModel.cs" />
     <Compile Include="ViewModels\ProjectReviewViewModel.cs" />
+    <Compile Include="ViewModels\PublisherIsrcViewModel.cs" />
+    <Compile Include="ViewModels\PublisherViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

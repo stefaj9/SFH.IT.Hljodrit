@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using SFH.IT.Hljodrit.Common.Dto;
+using SFH.IT.Hljodrit.Common.ViewModels;
 using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
@@ -28,6 +29,27 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             return Ok(_organizationService.GetAllPublishers(pageSize, pageNumber, searchTerm ?? ""));
         }
 
+        [HttpPost]
+        [Route("")]
+        public IHttpActionResult CreatePublisher([FromBody] PublisherViewModel publisher)
+        {
+            return Ok(_organizationService.CreatePublisher(publisher));
+        }
+
+        [HttpGet]
+        [Route("{publisherId:int}")]
+        public IHttpActionResult GetPublisherById(int publisherId)
+        {
+            return Ok(_organizationService.GetPublisherById(publisherId));
+        }
+
+        [HttpPut]
+        [Route("{publisherId:int}")]
+        public IHttpActionResult UpdatePublisherInfo(int publisherId, [FromBody] PublisherViewModel updatedPublisher)
+        {
+            return Ok(_organizationService.UpdatePublisherInfo(publisherId, updatedPublisher));
+        }
+
         [HttpGet]
         [Route("{publisherId:int}/labels")]
 
@@ -41,6 +63,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         public IHttpActionResult AddLabelsByPublisherId(int publisherId, [FromBody] LabelDto label)
         {
             return Ok(_organizationService.AddLabelByPublisherId(publisherId, label));
+        }
+
+        [HttpPost]
+        [Route("{publisherId:int}/isrc")]
+        public IHttpActionResult AddIsrcSeriesByPublisherId(int publisherId, [FromBody] PublisherIsrcViewModel newIsrcSeries)
+        {
+            return Ok(_organizationService.AddIsrcByPublisherId(publisherId, newIsrcSeries));
         }
     }
 }

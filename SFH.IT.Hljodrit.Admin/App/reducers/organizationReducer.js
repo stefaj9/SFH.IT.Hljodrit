@@ -9,7 +9,10 @@ let initialState = {
     },
     selectedOrganizationIsrcSeries: [],
     selectedOrganizationLabels: [],
-    isCreatingLabel: false
+    selectedOrganization: {},
+    isCreatingLabel: false,
+    isCreatingIsrc: false,
+    isCreatingPublisher: false
 };
 
 export default function (state = initialState, action) {
@@ -29,12 +32,44 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 selectedOrganizationLabels: labels
             });
+        case actionType.ADD_ISRC_TO_PUBLISHER_BY_ID:
+            let isrc = _.cloneDeep(state.selectedOrganizationIsrcSeries);
+            isrc = _.concat(isrc, action.payload);
+            return Object.assign({}, state, {
+                selectedOrganizationIsrcSeries: isrc
+            });
+        case actionType.IS_CREATING_ISRC: return Object.assign({}, state, {
+            isCreatingIsrc: true
+        });
+        case actionType.HAS_STOPPED_CREATING_ISRC: return Object.assign({}, state, {
+            isCreatingIsrc: false
+        });
         case actionType.IS_CREATING_LABEL: return Object.assign({}, state, {
             isCreatingLabel: true
         });
         case actionType.HAS_STOPPED_CREATING_LABEL: return Object.assign({}, state, {
             isCreatingLabel: false
         });
+        case actionType.GET_PUBLISHER_BY_ID:
+            let newOrganization = _.cloneDeep(action.payload);
+            newOrganization.albums = newOrganization.albums.map(o => {
+                return Object.assign({}, o, {
+                    numberOfTracks: o.numberOfTracks !== -1 ? o.numberOfTracks : 'Ekki skráð'
+                });
+            });
+
+            return Object.assign({}, state, {
+                selectedOrganization: newOrganization
+            });
+        case actionType.CLEAR_CURRENT_PUBLISHER: return Object.assign({}, state, {
+            selectedOrganization: {}
+        });
+        case actionType.IS_CREATING_PUBLISHER: return Object.assign({}, state, {
+            isCreatingPublisher: true
+        });
+        case actionType.HAS_STOPPED_CREATING_PUBLISHER: return Object.assign({}, state, {
+            isCreatingPublisher: false
+        })
     }
     return state;
 }

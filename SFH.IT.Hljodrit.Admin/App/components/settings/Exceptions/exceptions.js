@@ -45,7 +45,7 @@ class Exceptions extends React.Component {
                 <h3 className="text-left">Exceptions</h3>
                 <PageSelector change={newPageSize => this.changePageSize(newPageSize)} />
                 <ExceptionList exceptions={this.props.exceptions}
-                               isFetching={this.props.isFetching} 
+                               isFetching={this.props.isFetching}
                                onSelect={this.props.selectException} />
                 <Paging visible={!this.props.isFetching}
                         currentPage={this.props.currentPage}
