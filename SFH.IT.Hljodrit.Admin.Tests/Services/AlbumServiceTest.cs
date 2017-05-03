@@ -140,5 +140,45 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             // Assert
             Assert.AreEqual(expectedId, songResult.Id);
         }
+
+        [TestMethod]
+        public void AlbumServiceTestGetMusiciansOnSongSuccess()
+        {
+            // Arrange
+            var songId = 5;
+            var albumId = 1337;
+            var expectedNumberOfMusicians = 5;
+            var musicians = Builder<MusiciansOnSongDto>
+                .CreateListOfSize(5)
+                .Build();
+
+            _albumRepository.Setup(s => s.GetMusiciansOnSong(It.IsAny<int>(), It.IsAny<int>())).Returns(musicians);
+
+            // Act
+            var musiciansResult = _albumService.GetMusiciansOnSong(albumId, songId);
+
+            // Assert
+            Assert.AreEqual(expectedNumberOfMusicians, musiciansResult.Count);
+        }
+
+        /*[TestMethod]
+        public void AlbumServiceTestUpdateAlbumInfoSuccess()
+        {
+            // Arrange
+            var albumId = 1337;
+            var albumFake = Builder<AlbumViewModel>
+                .CreateNew()
+                .With(x => x.AlbumTitle = "My title")
+                .Build();
+
+            _albumRepository.Setup(mock => mock.Update(It.IsAny<media_product_package>()));
+            
+
+            // Act
+            _albumService.UpdateAlbumInfo(albumId, albumFake);
+
+            // Assert
+            _albumRepository.Verify(mock => mock.Update(It.IsAny<media_product_package>()), Times.Once);
+        }*/
     }
 }
