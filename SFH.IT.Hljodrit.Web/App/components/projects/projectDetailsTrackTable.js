@@ -12,7 +12,7 @@ class ProjectDetailsTrackTable extends React.Component {
             bootstrapTableRef: null,
             selectedTracksForDeletion: [],
             isTrackAddModalOpen: false,
-            confirmBtnCallback: () => null
+            confirmBtnCallback: null
         };
     }
     addToListOfSelectedTracks(tracks, status) {
@@ -61,17 +61,22 @@ class ProjectDetailsTrackTable extends React.Component {
                                 projectId={this.props.projectId}
                                 nextSongNumber={this.props.tracks.length + 1}
                                 addFunction={
-                                    (track) => { 
-                                        this.setState({ 
-                                            confirmBtnCallback: () => { 
-                                                this.setState({ isTrackAddModalOpen: false }); 
-                                                this.props.addTrackToProject(track); 
-                                            } 
-                                        });
+                                    (track) => {
+                                        if (track.trackName.length === 0 || track.duration.length === 0 || track.duration === '00:00:00') {
+                                            this.setState({ confirmBtnCallback: null });
+                                        } else {
+                                            this.setState({ 
+                                                confirmBtnCallback: () => { 
+                                                    this.setState({ isTrackAddModalOpen: false, confirmBtnCallback: null }); 
+                                                    this.props.addTrackToProject(track); 
+                                                } 
+                                            });
+                                        }
                                     } 
                                 } /> }
                     confirmBtnText="Bæta við"
                     confirmBtnCallback={() => this.state.confirmBtnCallback()}
+                    confirmBtnDisabled={this.state.confirmBtnCallback === null}
                     discardBtnText="Loka"
                     discardBtnCallback={() => this.setState({ isTrackAddModalOpen: false })}
                     showConfirmSpinner={this.props.isLoading} />

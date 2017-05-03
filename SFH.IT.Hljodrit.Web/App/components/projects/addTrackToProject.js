@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TimePicker from 'rc-time-picker';
 import { Tabs, Tab } from 'react-bootstrap';
+import MediaSuggestions from './createProject/mediaSuggestions';
 import moment from 'moment';
 
 class AddTrackToProject extends React.Component {
@@ -12,7 +13,9 @@ class AddTrackToProject extends React.Component {
             currentSongName: '',
             currentFullSongLength: moment(new Date(2017, 1, 1, 0, 0, 0, 0)),
             currentSongLength: '',
-            currentSongIsrc: ''
+            currentSongIsrc: '',
+            songSearchTerm: '',
+            selectSongFilter: ''
         };
     }
     addSongLength(value) {
@@ -20,21 +23,24 @@ class AddTrackToProject extends React.Component {
             this.setState({
                 currentSongLength: moment(value).format('HH:mm:ss'),
                 currentFullSongLength: moment(value)
-            }, this.assignAddFunction());
+            });
+            const { currentSongName, currentSongIsrc } = this.state;
+            this.assignAddFunction(currentSongName, moment(value).format('HH:mm:ss'), currentSongIsrc);
         }
     }
     handleInput(prop, value) {
         this.setState({
             [prop]: value
-        }, this.assignAddFunction());
+        });
+        const { currentSongLength, currentSongIsrc } = this.state;
+        this.assignAddFunction(value, currentSongLength, currentSongIsrc);
     }
-    assignAddFunction() {
-        const { currentSongName, currentSongLength, currentSongIsrc } = this.state;
+    assignAddFunction(songName, songLength, songIsrc) {
         this.props.addFunction({ 
             projectId: this.props.projectId, 
-            trackName: currentSongName,
-            isrc: currentSongIsrc,
-            duration: currentSongLength,
+            trackName: songName,
+            isrc: songIsrc,
+            duration: songLength,
             trackOrder: this.props.nextSongNumber
         });
     }
@@ -72,6 +78,34 @@ class AddTrackToProject extends React.Component {
                     </form>
                 </Tab>
                 <Tab eventKey={2} title="Leita">
+                    <div className="row song-search-bar">
+                        <div className="col-xs-8 no-padding">
+                            <input 
+                                onKeyDown={(e) => this.getNewSongs(e)}
+                                onChange={(e) => this.setState({ songSearchTerm: e.target.value })}
+                                value={this.state.songSearchTerm}
+                                type="text" 
+                                placeholder="Leita.." 
+                                className="form-control no-border-radius" />
+                        </div>
+                        <div className="col-xs-4 no-padding">
+                            <select 
+                                name="song-search-by" 
+                                id="song-search-by" 
+                                className="form-control no-border-radius"
+                                value={this.state.selectSongFilter}
+                                onChange={(e) => this.setState({ selectSongFilter: e.target.value })}>
+                                <option value="name">Nafn lags</option>
+                                <option value="mainArtist">Aðalflytjandi</option>
+                                <option value="publishYear">Útgáfuár</option>
+                            </select>
+                        </div>
+                    </div>
+                    <MediaSuggestions
+                        media={this.props.media}
+                        isFetching={this.props.isFetchingSongs}
+                        songs={this.props.songs}
+                        addSongToList={this.addSongToList.bind(this)} />
                 </Tab>
             </Tabs>
         );

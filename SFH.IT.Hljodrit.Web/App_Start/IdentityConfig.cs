@@ -45,7 +45,7 @@ namespace SFH.IT.Hljodrit.Web
                 manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
                     dataProtectionProvider.Create("ASP.NET Identity"))
                 {
-                    TokenLifespan = TimeSpan.FromHours(2)
+                    TokenLifespan = TimeSpan.FromDays(365)
                 };
             }
             return manager;
