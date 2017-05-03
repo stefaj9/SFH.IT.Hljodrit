@@ -65,7 +65,7 @@ class MediaDetails extends React.Component {
     render() {
         return (
             <div>
-                <Spinner className={this.props.isFetchingPublisher ? '' : 'hidden'} />
+                <Spinner className={this.props.isFetching ? '' : 'hidden'} />
                 { this.renderContent() }
             </div>
         );
@@ -74,7 +74,7 @@ class MediaDetails extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        isFetchingPublisher: state.songs.isFetchingPublisher,
+        isFetching: state.songs.isFetching,
         media: state.songs.selectedMedia
     }
 }

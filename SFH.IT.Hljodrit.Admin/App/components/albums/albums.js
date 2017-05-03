@@ -75,8 +75,8 @@ class Albums extends React.Component {
                 </div>
                 <PageSelector change={newPageSize => this.changePageSize(newPageSize)} />
                 <AlbumList albums={this.props.albums}
-                        isFetching={this.props.isFetchingPublisher} />
-                <Paging visible={!this.props.isFetchingPublisher}
+                        isFetching={this.props.isFetching} />
+                <Paging visible={!this.props.isFetching}
                         currentPage={this.props.currentPage}
                         maximumPage={this.props.maximumPage}
                         changePage={newPageNumber => this.changePageNumber(newPageNumber)} />
@@ -90,7 +90,7 @@ function mapStateToProps(state) {
         albums: state.albums.envelope.objects,
         currentPage: state.albums.envelope.currentPage,
         maximumPage: state.albums.envelope.maximumPage,
-        isFetchingPublisher: state.albums.isFetchingPublisher
+        isFetching: state.albums.isFetching
     }
 }
 
