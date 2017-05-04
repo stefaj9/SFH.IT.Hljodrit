@@ -34,10 +34,10 @@ namespace SFH.IT.Hljodrit.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<common_cache_recordingparty_detail> common_cache_recordingparty_detail { get; set; }
+        public virtual MusicianRoleGroup MusicianRoleGroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<project_track_artist> project_track_artist { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<recording_party> recording_party { get; set; }
-        public virtual MusicianRoleGroup MusicianRoleGroup { get; set; }
     }
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TimePicker from 'rc-time-picker';
 import { Tabs, Tab } from 'react-bootstrap';
-import MediaSuggestions from './createProject/mediaSuggestions';
 import moment from 'moment';
 
 class AddTrackToProject extends React.Component {
@@ -43,6 +42,12 @@ class AddTrackToProject extends React.Component {
             duration: songLength,
             trackOrder: this.props.nextSongNumber
         });
+    }
+    getNewSongs(e) {
+        // Enter key pressed.
+        if (e.keyCode === 13) {
+            
+        }
     }
     render() {
         return (
@@ -101,11 +106,6 @@ class AddTrackToProject extends React.Component {
                             </select>
                         </div>
                     </div>
-                    <MediaSuggestions
-                        media={this.props.media}
-                        isFetching={this.props.isFetchingSongs}
-                        songs={this.props.songs}
-                        addSongToList={this.addSongToList.bind(this)} />
                 </Tab>
             </Tabs>
         );

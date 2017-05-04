@@ -34,6 +34,7 @@ namespace SFH.IT.Hljodrit.Models
         public Nullable<int> authorexceptioncode { get; set; }
         public bool donotpublish { get; set; }
         public int trackorder { get; set; }
+        public Nullable<int> recordingid { get; set; }
     
         public virtual project_master project_master { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

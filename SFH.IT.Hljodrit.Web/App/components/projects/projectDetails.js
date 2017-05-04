@@ -129,6 +129,7 @@ class ProjectDetails extends React.Component {
                         disabledBtn={!formDirty} />
                     <h3>Lög</h3>
                     <ProjectDetailsTrackTable
+                        isReadOnly={selectedProject.projectStatus === 'PUBLISHED'}
                         projectId={this.props.routeParams.projectId}
                         tracks={selectedProjectTracks}
                         removeTracksFromProject={(ids) => this.props.removeTracksFromProject(this.props.routeParams.projectId, ids)}

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFH.IT.Hljodrit.Web", "SFH.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFH.IT.Hljodrit.Web.Tests", "SFH.IT.Hljodrit.Web.Tests\SFH.IT.Hljodrit.Web.Tests.csproj", "{4A7B2A45-6275-4474-A292-20E15DEC0BBE}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SFH.IT.Hljodrit.Db.Auth", "SFH.IT.Hljodrit.Db.Auth\SFH.IT.Hljodrit.Db.Auth.sqlproj", "{7453534C-647E-4A01-A796-E266F79D9478}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,12 @@ Global
 		{4A7B2A45-6275-4474-A292-20E15DEC0BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A7B2A45-6275-4474-A292-20E15DEC0BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A7B2A45-6275-4474-A292-20E15DEC0BBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7453534C-647E-4A01-A796-E266F79D9478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7453534C-647E-4A01-A796-E266F79D9478}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7453534C-647E-4A01-A796-E266F79D9478}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7453534C-647E-4A01-A796-E266F79D9478}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7453534C-647E-4A01-A796-E266F79D9478}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7453534C-647E-4A01-A796-E266F79D9478}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

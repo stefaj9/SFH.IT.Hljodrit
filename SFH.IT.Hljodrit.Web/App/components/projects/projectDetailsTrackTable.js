@@ -50,8 +50,8 @@ class ProjectDetailsTrackTable extends React.Component {
                 <div className="text-right">
                     <div className="spacer"></div>
                     <div className="btn-group">
-                        <button disabled={this.state.selectedTracksForDeletion.length === 0} className="btn btn-default btn-primary" onClick={() => this.removeTracksFromProject()}><i className="fa fa-fw fa-minus"></i> Eyða völdum lögum</button>
-                        <button className="btn btn-default btn-primary" onClick={() => this.setState({ isTrackAddModalOpen: true })}><i className="fa fa-fw fa-plus"></i> Bæta við lagi</button>
+                        <button disabled={this.props.isReadOnly || this.state.selectedTracksForDeletion.length === 0} className="btn btn-default btn-primary" onClick={() => this.removeTracksFromProject()}><i className="fa fa-fw fa-minus"></i> Eyða völdum lögum</button>
+                        <button disabled={this.props.isReadOnly} className="btn btn-default btn-primary" onClick={() => this.setState({ isTrackAddModalOpen: true })}><i className="fa fa-fw fa-plus"></i> Bæta við lagi</button>
                     </div>
                 </div>
                 <PromptModal
@@ -86,6 +86,7 @@ class ProjectDetailsTrackTable extends React.Component {
 }
 
 ProjectDetailsTrackTable.propTypes = {
+    isReadOnly: PropTypes.bool.isRequired,
     projectId: PropTypes.string.isRequired,
     tracks: PropTypes.array.isRequired,
     removeTracksFromProject: PropTypes.func,

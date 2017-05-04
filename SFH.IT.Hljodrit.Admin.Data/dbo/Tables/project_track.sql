@@ -13,7 +13,10 @@
     [authorexceptioncode] INT            NULL,
     [donotpublish]        BIT            NOT NULL,
     [trackorder]          INT            NOT NULL,
+    [recordingid]         INT            NULL,
     CONSTRAINT [PK_project_track] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_project_track_project_master] FOREIGN KEY ([projectid]) REFERENCES [dbo].[project_master] ([id]) ON DELETE CASCADE
 );
+
+
 

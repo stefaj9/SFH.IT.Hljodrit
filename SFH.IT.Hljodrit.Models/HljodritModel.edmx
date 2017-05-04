@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SFH.IT.Hljodrit.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="common_airplay_attributes">
           <Key>
             <PropertyRef Name="year" />
@@ -961,6 +961,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="authorexceptioncode" Type="int" />
           <Property Name="donotpublish" Type="bit" Nullable="false" />
           <Property Name="trackorder" Type="int" Nullable="false" />
+          <Property Name="recordingid" Type="int" />
         </EntityType>
         <EntityType Name="project_track_artist">
           <Key>
@@ -1884,25 +1885,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="NLog_AddEntry_p" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="machineName" Type="nvarchar" Mode="In" />
-          <Parameter Name="siteName" Type="nvarchar" Mode="In" />
-          <Parameter Name="logged" Type="datetime" Mode="In" />
-          <Parameter Name="level" Type="varchar" Mode="In" />
-          <Parameter Name="userName" Type="nvarchar" Mode="In" />
-          <Parameter Name="message" Type="nvarchar(max)" Mode="In" />
-          <Parameter Name="logger" Type="nvarchar" Mode="In" />
-          <Parameter Name="properties" Type="nvarchar(max)" Mode="In" />
-          <Parameter Name="serverName" Type="nvarchar" Mode="In" />
-          <Parameter Name="port" Type="nvarchar" Mode="In" />
-          <Parameter Name="url" Type="nvarchar" Mode="In" />
-          <Parameter Name="https" Type="bit" Mode="In" />
-          <Parameter Name="serverAddress" Type="nvarchar" Mode="In" />
-          <Parameter Name="remoteAddress" Type="nvarchar" Mode="In" />
-          <Parameter Name="callSite" Type="nvarchar" Mode="In" />
-          <Parameter Name="exception" Type="nvarchar(max)" Mode="In" />
-        </Function>
-        <EntityContainer Name="SFHITHljodritModelStoreContainer">
+        <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="common_airplay_attributes" EntityType="Self.common_airplay_attributes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="common_cache_airplayreport" EntityType="Self.common_cache_airplayreport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="common_cache_mediarecording" EntityType="Self.common_cache_mediarecording" Schema="dbo" store:Type="Tables" />
@@ -2320,10 +2303,11 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             <End Role="media_work" EntitySet="media_work" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="SFH.IT.Hljodrit.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="common_airplay_attributes">
           <Key>
             <PropertyRef Name="year" />
@@ -2709,6 +2693,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="updatedon" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="is_deleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="common_country" Relationship="Self.FK_media_product_common_country" FromRole="media_product" ToRole="common_country" />
           <NavigationProperty Name="media_airplay" Relationship="Self.FK_media_airplay_media_product" FromRole="media_product" ToRole="media_airplay" />
           <NavigationProperty Name="media_alternatetitle" Relationship="Self.alternatetitle_to_release" FromRole="media_product" ToRole="media_alternatetitle" />
@@ -2717,7 +2702,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <NavigationProperty Name="media_recording" Relationship="Self.release_to_recording" FromRole="media_product" ToRole="media_recording" />
           <NavigationProperty Name="media_producttype" Relationship="Self.release_to_releasetype" FromRole="media_product" ToRole="media_producttype" />
           <NavigationProperty Name="media_product_package" Relationship="Self.track_to_package" FromRole="media_product" ToRole="media_product_package" />
-          <Property Name="is_deleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="media_product_package">
           <Key>
@@ -2842,6 +2826,37 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="media_recording" Relationship="Self.Recording_Work" FromRole="media_work" ToRole="media_recording" />
           <NavigationProperty Name="media_status" Relationship="Self.work_to_status" FromRole="media_work" ToRole="media_status" />
+        </EntityType>
+        <EntityType Name="MusicianRoleGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="party_partyroletype" Relationship="Self.FK_party_partyroletype_MusicianRoleGroup" FromRole="MusicianRoleGroup" ToRole="party_partyroletype" />
+        </EntityType>
+        <EntityType Name="NLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MachineName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SiteName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Logged" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Level" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Logger" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Properties" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ServerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Port" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Https" Type="Boolean" />
+          <Property Name="ServerAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RemoteAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Callsite" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Exception" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="organization_cataloguerights">
           <Key>
@@ -3022,6 +3037,8 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="createdon" Type="DateTime" Precision="3" />
           <NavigationProperty Name="common_cache_recordingparty_detail" Relationship="Self.FK_common_cache_recordingparty_detail_party_instrumenttype" FromRole="party_instrumenttype" ToRole="common_cache_recordingparty_detail" />
+          <NavigationProperty Name="party_instrumenttype1" Relationship="Self.FK_party_instrumenttype_party_instrumenttype" FromRole="party_instrumenttype" ToRole="party_instrumenttype1" />
+          <NavigationProperty Name="party_instrumenttype2" Relationship="Self.FK_party_instrumenttype_party_instrumenttype" FromRole="party_instrumenttype1" ToRole="party_instrumenttype" />
           <NavigationProperty Name="project_track_artist" Relationship="Self.FK_project_track_artist_party_instrumenttype" FromRole="party_instrumenttype" ToRole="project_track_artist" />
           <NavigationProperty Name="recording_party" Relationship="Self.FK_recording_party_party_instrumenttype" FromRole="party_instrumenttype" ToRole="recording_party" />
         </EntityType>
@@ -3071,11 +3088,11 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="sortorder" Type="Int32" />
           <Property Name="equivalent_role" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
           <Property Name="adminonly" Type="Boolean" Nullable="false" />
+          <Property Name="MusicianRoleGroupId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="common_cache_recordingparty_detail" Relationship="Self.FK_common_cache_recordingparty_detail_party_partyroletype" FromRole="party_partyroletype" ToRole="common_cache_recordingparty_detail" />
+          <NavigationProperty Name="MusicianRoleGroup" Relationship="Self.FK_party_partyroletype_MusicianRoleGroup" FromRole="party_partyroletype" ToRole="MusicianRoleGroup" />
           <NavigationProperty Name="project_track_artist" Relationship="Self.FK_project_track_artist_party_partyroletype" FromRole="party_partyroletype" ToRole="project_track_artist" />
           <NavigationProperty Name="recording_party" Relationship="Self.FK_recording_party_party_partyroletype" FromRole="party_partyroletype" ToRole="recording_party" />
-          <Property Name="MusicianRoleGroupId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MusicianRoleGroup" Relationship="SFH.IT.Hljodrit.Model.FK_party_partyroletype_MusicianRoleGroup" FromRole="party_partyroletype" ToRole="MusicianRoleGroup" />
         </EntityType>
         <EntityType Name="party_pseudonym">
           <Key>
@@ -3118,6 +3135,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="website" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="deceased" Type="Boolean" />
           <Property Name="importid" Type="Int32" />
+          <Property Name="isdeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="common_cache_recordingparty_detail" Relationship="Self.FK_common_cache_recordingparty_detail_party_real" FromRole="party_real" ToRole="common_cache_recordingparty_detail" />
           <NavigationProperty Name="party_contactmedium" Relationship="Self.FK_party_contactmedium_party_real" FromRole="party_real" ToRole="party_contactmedium" />
           <NavigationProperty Name="party_mainartist" Relationship="Self.FK_mainartist_maincontact" FromRole="party_real" ToRole="party_mainartist" />
@@ -3128,7 +3146,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <NavigationProperty Name="project_master" Relationship="Self.FK_project_master_partyReal" FromRole="party_real" ToRole="project_master" />
           <NavigationProperty Name="project_track_artist" Relationship="Self.FK_project_track_artist_party_real" FromRole="party_real" ToRole="project_track_artist" />
           <NavigationProperty Name="recording_party" Relationship="Self.FK_recording_party_party_real" FromRole="party_real" ToRole="recording_party" />
-          <Property Name="isdeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="project_master">
           <Key>
@@ -3209,6 +3226,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="authorexceptioncode" Type="Int32" />
           <Property Name="donotpublish" Type="Boolean" Nullable="false" />
           <Property Name="trackorder" Type="Int32" Nullable="false" />
+          <Property Name="recordingid" Type="Int32" />
           <NavigationProperty Name="project_master" Relationship="Self.FK_project_track_project_master" FromRole="project_track" ToRole="project_master" />
           <NavigationProperty Name="project_track_artist" Relationship="Self.FK_project_track_artist_project_track" FromRole="project_track" ToRole="project_track_artist" />
         </EntityType>
@@ -3894,6 +3912,18 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_party_partyroletype_MusicianRoleGroup">
+          <End Role="MusicianRoleGroup" Type="Self.MusicianRoleGroup" Multiplicity="1" />
+          <End Role="party_partyroletype" Type="Self.party_partyroletype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MusicianRoleGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="party_partyroletype">
+              <PropertyRef Name="MusicianRoleGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_organization_cataloguerights_organization_labels">
           <End Role="organization_labels" Type="Self.organization_labels" Multiplicity="1" />
           <End Role="organization_cataloguerights" Type="Self.organization_cataloguerights" Multiplicity="*" />
@@ -4278,7 +4308,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="HljodritEntitiesDb" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="common_airplay_attributes" EntityType="Self.common_airplay_attributes" />
           <EntitySet Name="common_cache_airplayreport" EntityType="Self.common_cache_airplayreport" />
           <EntitySet Name="common_cache_mediarecording" EntityType="Self.common_cache_mediarecording" />
@@ -4304,6 +4334,8 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <EntitySet Name="media_source" EntityType="Self.media_source" />
           <EntitySet Name="media_status" EntityType="Self.media_status" />
           <EntitySet Name="media_work" EntityType="Self.media_work" />
+          <EntitySet Name="MusicianRoleGroup" EntityType="Self.MusicianRoleGroup" />
+          <EntitySet Name="NLog" EntityType="Self.NLog" />
           <EntitySet Name="organization_cataloguerights" EntityType="Self.organization_cataloguerights" />
           <EntitySet Name="organization_isrc_series" EntityType="Self.organization_isrc_series" />
           <EntitySet Name="organization_labels" EntityType="Self.organization_labels" />
@@ -4471,6 +4503,10 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             <End Role="media_status" EntitySet="media_status" />
             <End Role="media_work" EntitySet="media_work" />
           </AssociationSet>
+          <AssociationSet Name="FK_party_partyroletype_MusicianRoleGroup" Association="Self.FK_party_partyroletype_MusicianRoleGroup">
+            <End Role="MusicianRoleGroup" EntitySet="MusicianRoleGroup" />
+            <End Role="party_partyroletype" EntitySet="party_partyroletype" />
+          </AssociationSet>
           <AssociationSet Name="FK_organization_cataloguerights_organization_labels" Association="Self.FK_organization_cataloguerights_organization_labels">
             <End Role="organization_labels" EntitySet="organization_labels" />
             <End Role="organization_cataloguerights" EntitySet="organization_cataloguerights" />
@@ -4595,82 +4631,15 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             <End Role="revenue_plan" EntitySet="revenue_plan" />
             <End Role="revenue_activerate" EntitySet="revenue_activerate" />
           </AssociationSet>
-          <EntitySet Name="NLog" EntityType="SFH.IT.Hljodrit.Model.NLog" />
-          <FunctionImport Name="NLog_AddEntry_p">
-            <Parameter Name="machineName" Mode="In" Type="String" />
-            <Parameter Name="siteName" Mode="In" Type="String" />
-            <Parameter Name="logged" Mode="In" Type="DateTime" />
-            <Parameter Name="level" Mode="In" Type="String" />
-            <Parameter Name="userName" Mode="In" Type="String" />
-            <Parameter Name="message" Mode="In" Type="String" />
-            <Parameter Name="logger" Mode="In" Type="String" />
-            <Parameter Name="properties" Mode="In" Type="String" />
-            <Parameter Name="serverName" Mode="In" Type="String" />
-            <Parameter Name="port" Mode="In" Type="String" />
-            <Parameter Name="url" Mode="In" Type="String" />
-            <Parameter Name="https" Mode="In" Type="Boolean" />
-            <Parameter Name="serverAddress" Mode="In" Type="String" />
-            <Parameter Name="remoteAddress" Mode="In" Type="String" />
-            <Parameter Name="callSite" Mode="In" Type="String" />
-            <Parameter Name="exception" Mode="In" Type="String" />
-          </FunctionImport>
-          <EntitySet Name="MusicianRoleGroup" EntityType="SFH.IT.Hljodrit.Model.MusicianRoleGroup" />
-          <AssociationSet Name="FK_party_partyroletype_MusicianRoleGroup" Association="SFH.IT.Hljodrit.Model.FK_party_partyroletype_MusicianRoleGroup">
-            <End Role="MusicianRoleGroup" EntitySet="MusicianRoleGroup" />
-            <End Role="party_partyroletype" EntitySet="party_partyroletype" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="NLog">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MachineName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SiteName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Logged" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Level" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="UserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Logger" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Properties" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ServerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Port" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Url" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="Https" Type="Boolean" />
-          <Property Name="ServerAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="RemoteAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Callsite" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Exception" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="MusicianRoleGroup">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Points" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="party_partyroletype" Relationship="SFH.IT.Hljodrit.Model.FK_party_partyroletype_MusicianRoleGroup" FromRole="MusicianRoleGroup" ToRole="party_partyroletype" />
-        </EntityType>
-        <Association Name="FK_party_partyroletype_MusicianRoleGroup">
-          <End Type="SFH.IT.Hljodrit.Model.MusicianRoleGroup" Role="MusicianRoleGroup" Multiplicity="1" />
-          <End Type="SFH.IT.Hljodrit.Model.party_partyroletype" Role="party_partyroletype" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MusicianRoleGroup">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="party_partyroletype">
-              <PropertyRef Name="MusicianRoleGroupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SFHITHljodritModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="HljodritEntitiesDb">
           <EntitySetMapping Name="common_airplay_attributes">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_airplay_attributes">
+            <EntityTypeMapping TypeName="Model.common_airplay_attributes">
               <MappingFragment StoreEntitySet="common_airplay_attributes">
                 <ScalarProperty Name="year" ColumnName="year" />
                 <ScalarProperty Name="Ras1Ras2" ColumnName="Ras1Ras2" />
@@ -4684,7 +4653,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_cache_airplayreport">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_cache_airplayreport">
+            <EntityTypeMapping TypeName="Model.common_cache_airplayreport">
               <MappingFragment StoreEntitySet="common_cache_airplayreport">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="station" ColumnName="station" />
@@ -4703,7 +4672,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_cache_mediarecording">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_cache_mediarecording">
+            <EntityTypeMapping TypeName="Model.common_cache_mediarecording">
               <MappingFragment StoreEntitySet="common_cache_mediarecording">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="cacheGroupName" ColumnName="cacheGroupName" />
@@ -4716,7 +4685,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_cache_mediarecording_detail">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_cache_mediarecording_detail">
+            <EntityTypeMapping TypeName="Model.common_cache_mediarecording_detail">
               <MappingFragment StoreEntitySet="common_cache_mediarecording_detail">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="groupid" ColumnName="groupid" />
@@ -4725,7 +4694,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_cache_profile">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_cache_profile">
+            <EntityTypeMapping TypeName="Model.common_cache_profile">
               <MappingFragment StoreEntitySet="common_cache_profile">
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="lastCacheGroupIDInUse" ColumnName="lastCacheGroupIDInUse" />
@@ -4734,7 +4703,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_cache_recordingparty">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_cache_recordingparty">
+            <EntityTypeMapping TypeName="Model.common_cache_recordingparty">
               <MappingFragment StoreEntitySet="common_cache_recordingparty">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="cacheGroupName" ColumnName="cacheGroupName" />
@@ -4747,7 +4716,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_cache_recordingparty_detail">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_cache_recordingparty_detail">
+            <EntityTypeMapping TypeName="Model.common_cache_recordingparty_detail">
               <MappingFragment StoreEntitySet="common_cache_recordingparty_detail">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="groupid" ColumnName="groupid" />
@@ -4760,7 +4729,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_country">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_country">
+            <EntityTypeMapping TypeName="Model.common_country">
               <MappingFragment StoreEntitySet="common_country">
                 <ScalarProperty Name="numericisocode" ColumnName="numericisocode" />
                 <ScalarProperty Name="name_en" ColumnName="name_en" />
@@ -4776,7 +4745,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_language">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_language">
+            <EntityTypeMapping TypeName="Model.common_language">
               <MappingFragment StoreEntitySet="common_language">
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4787,7 +4756,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_trackcache">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_trackcache">
+            <EntityTypeMapping TypeName="Model.common_trackcache">
               <MappingFragment StoreEntitySet="common_trackcache">
                 <ScalarProperty Name="autoid" ColumnName="autoid" />
                 <ScalarProperty Name="username" ColumnName="username" />
@@ -4803,7 +4772,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_workbatch">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_workbatch">
+            <EntityTypeMapping TypeName="Model.common_workbatch">
               <MappingFragment StoreEntitySet="common_workbatch">
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="recordingid" ColumnName="recordingid" />
@@ -4813,7 +4782,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="common_zipcodes">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.common_zipcodes">
+            <EntityTypeMapping TypeName="Model.common_zipcodes">
               <MappingFragment StoreEntitySet="common_zipcodes">
                 <ScalarProperty Name="zipcode" ColumnName="zipcode" />
                 <ScalarProperty Name="areaname" ColumnName="areaname" />
@@ -4821,7 +4790,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="import_parties">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.import_parties">
+            <EntityTypeMapping TypeName="Model.import_parties">
               <MappingFragment StoreEntitySet="import_parties">
                 <ScalarProperty Name="ssno" ColumnName="ssno" />
                 <ScalarProperty Name="importid" ColumnName="importid" />
@@ -4834,7 +4803,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="import_tracks">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.import_tracks">
+            <EntityTypeMapping TypeName="Model.import_tracks">
               <MappingFragment StoreEntitySet="import_tracks">
                 <ScalarProperty Name="albumid" ColumnName="albumid" />
                 <ScalarProperty Name="done" ColumnName="done" />
@@ -4978,7 +4947,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_airplay">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_airplay">
+            <EntityTypeMapping TypeName="Model.media_airplay">
               <MappingFragment StoreEntitySet="media_airplay">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="mediaproductid" ColumnName="mediaproductid" />
@@ -4997,7 +4966,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_alternatetitle">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_alternatetitle">
+            <EntityTypeMapping TypeName="Model.media_alternatetitle">
               <MappingFragment StoreEntitySet="media_alternatetitle">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="releaseid" ColumnName="releaseid" />
@@ -5011,7 +4980,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_formattype">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_formattype">
+            <EntityTypeMapping TypeName="Model.media_formattype">
               <MappingFragment StoreEntitySet="media_formattype">
                 <ScalarProperty Name="typeid" ColumnName="typeid" />
                 <ScalarProperty Name="sourcetypename" ColumnName="sourcetypename" />
@@ -5019,7 +4988,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_genre">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_genre">
+            <EntityTypeMapping TypeName="Model.media_genre">
               <MappingFragment StoreEntitySet="media_genre">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="genre" ColumnName="genre" />
@@ -5027,9 +4996,8 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_product">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_product">
+            <EntityTypeMapping TypeName="Model.media_product">
               <MappingFragment StoreEntitySet="media_product">
-                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="isrc" ColumnName="isrc" />
                 <ScalarProperty Name="globalproductid" ColumnName="globalproductid" />
@@ -5051,11 +5019,12 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
                 <ScalarProperty Name="updatedon" ColumnName="updatedon" />
                 <ScalarProperty Name="createdby" ColumnName="createdby" />
                 <ScalarProperty Name="createdon" ColumnName="createdon" />
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_product_package">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_product_package">
+            <EntityTypeMapping TypeName="Model.media_product_package">
               <MappingFragment StoreEntitySet="media_product_package">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="albumid" ColumnName="albumid" />
@@ -5081,7 +5050,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_producttype">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_producttype">
+            <EntityTypeMapping TypeName="Model.media_producttype">
               <MappingFragment StoreEntitySet="media_producttype">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="fulltypename" ColumnName="fulltypename" />
@@ -5090,7 +5059,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_recording">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_recording">
+            <EntityTypeMapping TypeName="Model.media_recording">
               <MappingFragment StoreEntitySet="media_recording">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="isrc" ColumnName="isrc" />
@@ -5115,7 +5084,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_source">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_source">
+            <EntityTypeMapping TypeName="Model.media_source">
               <MappingFragment StoreEntitySet="media_source">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="isrc" ColumnName="isrc" />
@@ -5133,7 +5102,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_status">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_status">
+            <EntityTypeMapping TypeName="Model.media_status">
               <MappingFragment StoreEntitySet="media_status">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="statusname" ColumnName="statusname" />
@@ -5142,7 +5111,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="media_work">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.media_work">
+            <EntityTypeMapping TypeName="Model.media_work">
               <MappingFragment StoreEntitySet="media_work">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="iswc" ColumnName="iswc" />
@@ -5157,8 +5126,40 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MusicianRoleGroup">
+            <EntityTypeMapping TypeName="Model.MusicianRoleGroup">
+              <MappingFragment StoreEntitySet="MusicianRoleGroup">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Points" ColumnName="Points" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NLog">
+            <EntityTypeMapping TypeName="Model.NLog">
+              <MappingFragment StoreEntitySet="NLog">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MachineName" ColumnName="MachineName" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="Logged" ColumnName="Logged" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Logger" ColumnName="Logger" />
+                <ScalarProperty Name="Properties" ColumnName="Properties" />
+                <ScalarProperty Name="ServerName" ColumnName="ServerName" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Https" ColumnName="Https" />
+                <ScalarProperty Name="ServerAddress" ColumnName="ServerAddress" />
+                <ScalarProperty Name="RemoteAddress" ColumnName="RemoteAddress" />
+                <ScalarProperty Name="Callsite" ColumnName="Callsite" />
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="organization_cataloguerights">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.organization_cataloguerights">
+            <EntityTypeMapping TypeName="Model.organization_cataloguerights">
               <MappingFragment StoreEntitySet="organization_cataloguerights">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="labelid" ColumnName="labelid" />
@@ -5175,7 +5176,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="organization_isrc_series">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.organization_isrc_series">
+            <EntityTypeMapping TypeName="Model.organization_isrc_series">
               <MappingFragment StoreEntitySet="organization_isrc_series">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="organizationid" ColumnName="organizationid" />
@@ -5193,7 +5194,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="organization_labels">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.organization_labels">
+            <EntityTypeMapping TypeName="Model.organization_labels">
               <MappingFragment StoreEntitySet="organization_labels">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="organizationid" ColumnName="organizationid" />
@@ -5211,7 +5212,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="organization_master">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.organization_master">
+            <EntityTypeMapping TypeName="Model.organization_master">
               <MappingFragment StoreEntitySet="organization_master">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="uniqueidentifier" ColumnName="uniqueidentifier" />
@@ -5237,7 +5238,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="organization_type">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.organization_type">
+            <EntityTypeMapping TypeName="Model.organization_type">
               <MappingFragment StoreEntitySet="organization_type">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="typename_is" ColumnName="typename_is" />
@@ -5247,7 +5248,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="party_address">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_address">
+            <EntityTypeMapping TypeName="Model.party_address">
               <MappingFragment StoreEntitySet="party_address">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="partyid" ColumnName="partyid" />
@@ -5267,7 +5268,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="party_artisttype">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_artisttype">
+            <EntityTypeMapping TypeName="Model.party_artisttype">
               <MappingFragment StoreEntitySet="party_artisttype">
                 <ScalarProperty Name="code" ColumnName="code" />
                 <ScalarProperty Name="mainartisttypename_is" ColumnName="mainartisttypename_is" />
@@ -5277,7 +5278,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="party_contactmedium">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_contactmedium">
+            <EntityTypeMapping TypeName="Model.party_contactmedium">
               <MappingFragment StoreEntitySet="party_contactmedium">
                 <ScalarProperty Name="partyrealid" ColumnName="partyrealid" />
                 <ScalarProperty Name="uniqueidentifier" ColumnName="uniqueidentifier" />
@@ -5297,7 +5298,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="party_groupmembership">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_groupmembership">
+            <EntityTypeMapping TypeName="Model.party_groupmembership">
               <MappingFragment StoreEntitySet="party_groupmembership">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="partyrealid" ColumnName="partyrealid" />
@@ -5312,7 +5313,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="party_instrumenttype">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_instrumenttype">
+            <EntityTypeMapping TypeName="Model.party_instrumenttype">
               <MappingFragment StoreEntitySet="party_instrumenttype">
                 <ScalarProperty Name="code" ColumnName="code" />
                 <ScalarProperty Name="parentcode" ColumnName="parentcode" />
@@ -5330,7 +5331,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="party_mainartist">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_mainartist">
+            <EntityTypeMapping TypeName="Model.party_mainartist">
               <MappingFragment StoreEntitySet="party_mainartist">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="artistname" ColumnName="artistname" />
@@ -5356,9 +5357,8 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="party_partyroletype">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_partyroletype">
+            <EntityTypeMapping TypeName="Model.party_partyroletype">
               <MappingFragment StoreEntitySet="party_partyroletype">
-                <ScalarProperty Name="MusicianRoleGroupId" ColumnName="MusicianRoleGroupId" />
                 <ScalarProperty Name="rolecode" ColumnName="rolecode" />
                 <ScalarProperty Name="rolename_en" ColumnName="rolename_en" />
                 <ScalarProperty Name="rolename_is" ColumnName="rolename_is" />
@@ -5367,11 +5367,12 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
                 <ScalarProperty Name="sortorder" ColumnName="sortorder" />
                 <ScalarProperty Name="equivalent_role" ColumnName="equivalent_role" />
                 <ScalarProperty Name="adminonly" ColumnName="adminonly" />
+                <ScalarProperty Name="MusicianRoleGroupId" ColumnName="MusicianRoleGroupId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="party_pseudonym">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_pseudonym">
+            <EntityTypeMapping TypeName="Model.party_pseudonym">
               <MappingFragment StoreEntitySet="party_pseudonym">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="partyrealid" ColumnName="partyrealid" />
@@ -5387,9 +5388,8 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="party_real">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.party_real">
+            <EntityTypeMapping TypeName="Model.party_real">
               <MappingFragment StoreEntitySet="party_real">
-                <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="uniqueidentifier" ColumnName="uniqueidentifier" />
                 <ScalarProperty Name="firstname" ColumnName="firstname" />
@@ -5408,11 +5408,12 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
                 <ScalarProperty Name="website" ColumnName="website" />
                 <ScalarProperty Name="deceased" ColumnName="deceased" />
                 <ScalarProperty Name="importid" ColumnName="importid" />
+                <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="project_master">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.project_master">
+            <EntityTypeMapping TypeName="Model.project_master">
               <MappingFragment StoreEntitySet="project_master">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projectname" ColumnName="projectname" />
@@ -5438,7 +5439,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="project_status">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.project_status">
+            <EntityTypeMapping TypeName="Model.project_status">
               <MappingFragment StoreEntitySet="project_status">
                 <ScalarProperty Name="statuscode" ColumnName="statuscode" />
                 <ScalarProperty Name="statusname" ColumnName="statusname" />
@@ -5447,7 +5448,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="project_superuser">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.project_superuser">
+            <EntityTypeMapping TypeName="Model.project_superuser">
               <MappingFragment StoreEntitySet="project_superuser">
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="updatedby" ColumnName="updatedby" />
@@ -5458,7 +5459,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="project_superuser_organizations">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.project_superuser_organizations">
+            <EntityTypeMapping TypeName="Model.project_superuser_organizations">
               <MappingFragment StoreEntitySet="project_superuser_organizations">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="username" ColumnName="username" />
@@ -5467,7 +5468,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="project_track">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.project_track">
+            <EntityTypeMapping TypeName="Model.project_track">
               <MappingFragment StoreEntitySet="project_track">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projectid" ColumnName="projectid" />
@@ -5483,11 +5484,12 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
                 <ScalarProperty Name="authorexceptioncode" ColumnName="authorexceptioncode" />
                 <ScalarProperty Name="donotpublish" ColumnName="donotpublish" />
                 <ScalarProperty Name="trackorder" ColumnName="trackorder" />
+                <ScalarProperty Name="recordingid" ColumnName="recordingid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="project_track_artist">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.project_track_artist">
+            <EntityTypeMapping TypeName="Model.project_track_artist">
               <MappingFragment StoreEntitySet="project_track_artist">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projecttrackid" ColumnName="projecttrackid" />
@@ -5504,7 +5506,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="project_user">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.project_user">
+            <EntityTypeMapping TypeName="Model.project_user">
               <MappingFragment StoreEntitySet="project_user">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projectid" ColumnName="projectid" />
@@ -5519,7 +5521,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="recording_party">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.recording_party">
+            <EntityTypeMapping TypeName="Model.recording_party">
               <MappingFragment StoreEntitySet="recording_party">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="recordingid" ColumnName="recordingid" />
@@ -5539,7 +5541,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="revenue_activerate">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.revenue_activerate">
+            <EntityTypeMapping TypeName="Model.revenue_activerate">
               <MappingFragment StoreEntitySet="revenue_activerate">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="revenueplanid" ColumnName="revenueplanid" />
@@ -5555,7 +5557,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="revenue_plan">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.revenue_plan">
+            <EntityTypeMapping TypeName="Model.revenue_plan">
               <MappingFragment StoreEntitySet="revenue_plan">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -5570,7 +5572,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="revenue_releaseusage">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.revenue_releaseusage">
+            <EntityTypeMapping TypeName="Model.revenue_releaseusage">
               <MappingFragment StoreEntitySet="revenue_releaseusage">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="customeridentifier" ColumnName="customeridentifier" />
@@ -5597,7 +5599,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Difference">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.Difference">
+            <EntityTypeMapping TypeName="Model.Difference">
               <MappingFragment StoreEntitySet="Difference">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="MSdifftool_ErrorCode" ColumnName="MSdifftool_ErrorCode" />
@@ -5606,7 +5608,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="organization_cataloguerights_backup">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.organization_cataloguerights_backup">
+            <EntityTypeMapping TypeName="Model.organization_cataloguerights_backup">
               <MappingFragment StoreEntitySet="organization_cataloguerights_backup">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="labelid" ColumnName="labelid" />
@@ -5623,7 +5625,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="organization_isrc_series_oli">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.organization_isrc_series_oli">
+            <EntityTypeMapping TypeName="Model.organization_isrc_series_oli">
               <MappingFragment StoreEntitySet="organization_isrc_series_oli">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="organizationid" ColumnName="organizationid" />
@@ -5641,7 +5643,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="organization_label_backup">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.organization_label_backup">
+            <EntityTypeMapping TypeName="Model.organization_label_backup">
               <MappingFragment StoreEntitySet="organization_label_backup">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="organizationid" ColumnName="organizationid" />
@@ -5659,7 +5661,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="organization_master_backup">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.organization_master_backup">
+            <EntityTypeMapping TypeName="Model.organization_master_backup">
               <MappingFragment StoreEntitySet="organization_master_backup">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="uniqueidentifier" ColumnName="uniqueidentifier" />
@@ -5684,7 +5686,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="organization_master_oli">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.organization_master_oli">
+            <EntityTypeMapping TypeName="Model.organization_master_oli">
               <MappingFragment StoreEntitySet="organization_master_oli">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="uniqueidentifier" ColumnName="uniqueidentifier" />
@@ -5705,39 +5707,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
                 <ScalarProperty Name="createdby" ColumnName="createdby" />
                 <ScalarProperty Name="createdon" ColumnName="createdon" />
                 <ScalarProperty Name="isactive" ColumnName="isactive" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NLog">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.NLog">
-              <MappingFragment StoreEntitySet="NLog">
-                <ScalarProperty Name="Exception" ColumnName="Exception" />
-                <ScalarProperty Name="Callsite" ColumnName="Callsite" />
-                <ScalarProperty Name="RemoteAddress" ColumnName="RemoteAddress" />
-                <ScalarProperty Name="ServerAddress" ColumnName="ServerAddress" />
-                <ScalarProperty Name="Https" ColumnName="Https" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Port" ColumnName="Port" />
-                <ScalarProperty Name="ServerName" ColumnName="ServerName" />
-                <ScalarProperty Name="Properties" ColumnName="Properties" />
-                <ScalarProperty Name="Logger" ColumnName="Logger" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="Logged" ColumnName="Logged" />
-                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
-                <ScalarProperty Name="MachineName" ColumnName="MachineName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="NLog_AddEntry_p" FunctionName="SFH.IT.Hljodrit.Model.Store.NLog_AddEntry_p" />
-          <EntitySetMapping Name="MusicianRoleGroup">
-            <EntityTypeMapping TypeName="SFH.IT.Hljodrit.Model.MusicianRoleGroup">
-              <MappingFragment StoreEntitySet="MusicianRoleGroup">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Points" ColumnName="Points" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

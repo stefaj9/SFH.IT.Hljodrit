@@ -48,6 +48,11 @@ namespace SFH.IT.Hljodrit.Models
         public virtual DbSet<vw_aspnet_WebPartState_Shared> vw_aspnet_WebPartState_Shared { get; set; }
         public virtual DbSet<vw_aspnet_WebPartState_User> vw_aspnet_WebPartState_User { get; set; }
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
     
         public virtual ObjectResult<string> aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {

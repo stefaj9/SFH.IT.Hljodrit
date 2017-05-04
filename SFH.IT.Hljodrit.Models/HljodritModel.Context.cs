@@ -12,13 +12,11 @@ namespace SFH.IT.Hljodrit.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
-    public partial class Entities : DbContext
+    public partial class HljodritEntities : DbContext
     {
-        public Entities()
-            : base("name=Entities")
+        public HljodritEntities()
+            : base("name=HljodritEntities")
         {
         }
     
@@ -52,6 +50,8 @@ namespace SFH.IT.Hljodrit.Models
         public virtual DbSet<media_source> media_source { get; set; }
         public virtual DbSet<media_status> media_status { get; set; }
         public virtual DbSet<media_work> media_work { get; set; }
+        public virtual DbSet<MusicianRoleGroup> MusicianRoleGroup { get; set; }
+        public virtual DbSet<NLog> NLog { get; set; }
         public virtual DbSet<organization_cataloguerights> organization_cataloguerights { get; set; }
         public virtual DbSet<organization_isrc_series> organization_isrc_series { get; set; }
         public virtual DbSet<organization_labels> organization_labels { get; set; }
@@ -83,76 +83,5 @@ namespace SFH.IT.Hljodrit.Models
         public virtual DbSet<organization_label_backup> organization_label_backup { get; set; }
         public virtual DbSet<organization_master_backup> organization_master_backup { get; set; }
         public virtual DbSet<organization_master_oli> organization_master_oli { get; set; }
-        public virtual DbSet<NLog> NLog { get; set; }
-        public virtual DbSet<MusicianRoleGroup> MusicianRoleGroup { get; set; }
-    
-        public virtual int NLog_AddEntry_p(string machineName, string siteName, Nullable<System.DateTime> logged, string level, string userName, string message, string logger, string properties, string serverName, string port, string url, Nullable<bool> https, string serverAddress, string remoteAddress, string callSite, string exception)
-        {
-            var machineNameParameter = machineName != null ?
-                new ObjectParameter("machineName", machineName) :
-                new ObjectParameter("machineName", typeof(string));
-    
-            var siteNameParameter = siteName != null ?
-                new ObjectParameter("siteName", siteName) :
-                new ObjectParameter("siteName", typeof(string));
-    
-            var loggedParameter = logged.HasValue ?
-                new ObjectParameter("logged", logged) :
-                new ObjectParameter("logged", typeof(System.DateTime));
-    
-            var levelParameter = level != null ?
-                new ObjectParameter("level", level) :
-                new ObjectParameter("level", typeof(string));
-    
-            var userNameParameter = userName != null ?
-                new ObjectParameter("userName", userName) :
-                new ObjectParameter("userName", typeof(string));
-    
-            var messageParameter = message != null ?
-                new ObjectParameter("message", message) :
-                new ObjectParameter("message", typeof(string));
-    
-            var loggerParameter = logger != null ?
-                new ObjectParameter("logger", logger) :
-                new ObjectParameter("logger", typeof(string));
-    
-            var propertiesParameter = properties != null ?
-                new ObjectParameter("properties", properties) :
-                new ObjectParameter("properties", typeof(string));
-    
-            var serverNameParameter = serverName != null ?
-                new ObjectParameter("serverName", serverName) :
-                new ObjectParameter("serverName", typeof(string));
-    
-            var portParameter = port != null ?
-                new ObjectParameter("port", port) :
-                new ObjectParameter("port", typeof(string));
-    
-            var urlParameter = url != null ?
-                new ObjectParameter("url", url) :
-                new ObjectParameter("url", typeof(string));
-    
-            var httpsParameter = https.HasValue ?
-                new ObjectParameter("https", https) :
-                new ObjectParameter("https", typeof(bool));
-    
-            var serverAddressParameter = serverAddress != null ?
-                new ObjectParameter("serverAddress", serverAddress) :
-                new ObjectParameter("serverAddress", typeof(string));
-    
-            var remoteAddressParameter = remoteAddress != null ?
-                new ObjectParameter("remoteAddress", remoteAddress) :
-                new ObjectParameter("remoteAddress", typeof(string));
-    
-            var callSiteParameter = callSite != null ?
-                new ObjectParameter("callSite", callSite) :
-                new ObjectParameter("callSite", typeof(string));
-    
-            var exceptionParameter = exception != null ?
-                new ObjectParameter("exception", exception) :
-                new ObjectParameter("exception", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NLog_AddEntry_p", machineNameParameter, siteNameParameter, loggedParameter, levelParameter, userNameParameter, messageParameter, loggerParameter, propertiesParameter, serverNameParameter, portParameter, urlParameter, httpsParameter, serverAddressParameter, remoteAddressParameter, callSiteParameter, exceptionParameter);
-        }
     }
 }

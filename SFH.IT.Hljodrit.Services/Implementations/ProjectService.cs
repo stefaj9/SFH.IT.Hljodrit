@@ -151,7 +151,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 albumId = productPackage.id;
                 
                 var projectTracks = _projectTrackRepository.GetMany(pt => pt.projectid == projectId).ToList();
-                var lastUsedNumber = isrcSeries.isrc_lastusednumber + 1;
+                var lastUsedNumber = isrcSeries.isrc_lastusednumber;
 
                 foreach (var track in projectTracks)
                 {
@@ -161,7 +161,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     {
                         isrc = IsrcHelper.GenerateIsrcNumber(isrcSeries.isrc_countrypart,
                             isrcSeries.isrc_organizationpart,
-                            isrcSeries.isrc_lastusedyear, lastUsedNumber++);
+                            isrcSeries.isrc_lastusedyear, ++lastUsedNumber);
                     }
                     else
                     {
@@ -172,34 +172,45 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     track.isrc = isrc;
                     _projectTrackRepository.Update(track);
 
-                    //   1.3. Create media_recording (s)
-                    var recording = new media_recording
+                    int recordingId;
+
+                    if (track.recordingid != null && track.recordingid != -1)
                     {
-                        isrc = isrc,
-                        recordingtitle = track.trackname,
-                        workingtitle = track.trackname,
-                        recordingcountrycode = label.countrycode,
-                        statusid = 4,
-                        updatedby = "User",
-                        updatedon = currentDate,
-                        createdby = "User",
-                        createdon = currentDate,
-                        recordingdate = track.createdon,
-                        duration = track.duration,
-                        mainartist = projectToUpdate.mainartistid,
-                        markedfordeletion = false,
-                        projecttrackid = track.id
-                    };
+                        recordingId = track.recordingid.Value;
+                    }
+                    else
+                    {
+                        //   1.3. Create media_recording (s)
+                        var recording = new media_recording
+                        {
+                            isrc = isrc,
+                            recordingtitle = track.trackname,
+                            workingtitle = track.trackname,
+                            recordingcountrycode = label.countrycode,
+                            statusid = 4,
+                            updatedby = "User",
+                            updatedon = currentDate,
+                            createdby = "User",
+                            createdon = currentDate,
+                            recordingdate = track.createdon,
+                            duration = track.duration,
+                            mainartist = projectToUpdate.mainartistid,
+                            markedfordeletion = false,
+                            projecttrackid = track.id
+                        };
 
-                    _mediaRecordingRepository.Add(recording);
+                        _mediaRecordingRepository.Add(recording);
 
-                    _unitOfWork.Commit();
+                        _unitOfWork.Commit();
+
+                        recordingId = recording.id;
+                    }
 
                     //   1.4. Create media_product (s)
                     _songRepository.Add(new media_product
                     {
                         isrc = isrc,
-                        recordingid = recording.id,
+                        recordingid = recordingId,
                         title = track.trackname,
                         tracknumber = track.trackorder,
                         sidenumber = 1,
@@ -222,7 +233,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     //   1.5. Add to recording_party
                     projectTrackArtists.ForEach(pta => _recordingPartyRepository.Add(new recording_party
                     {
-                        recordingid = recording.id,
+                        recordingid = recordingId,
                         partyrealid = pta.partyrealid,
                         rolecode = pta.rolecode,
                         instrumentcode = pta.instrumentcode,
@@ -295,7 +306,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                     isrc = song.Isrc,
                     duration = song.Length,
                     donotpublish = false,
-                    trackorder = song.Number
+                    trackorder = song.Number,
+                    recordingid = song.Id
                 };
                 _projectTrackRepository.Add(songToCreate);
                 _unitOfWork.Commit();
