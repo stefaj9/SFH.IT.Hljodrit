@@ -28,7 +28,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
         private Mock<IRecordingPartyRepository> _recordingPartyRepository;
         private Mock<IOrganizationIsrcSeriesRepository> _organizationIsrcSeriesRepository;
         private Mock<IOrganizationLabelRepository> _organizationLabelRepository;
-        private Mock<IUnitOfWork<HljodritEntities>> _unitOfWork;
+        private Mock<IUnitOfWork<HljodritEntitiesDb>> _unitOfWork;
         private IProjectService _projectService;
 
 
@@ -45,7 +45,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _recordingPartyRepository = new Mock<IRecordingPartyRepository>();
             _organizationIsrcSeriesRepository = new Mock<IOrganizationIsrcSeriesRepository>();
             _organizationLabelRepository = new Mock<IOrganizationLabelRepository>();
-            _unitOfWork = new Mock<IUnitOfWork<HljodritEntities>>();
+            _unitOfWork = new Mock<IUnitOfWork<HljodritEntitiesDb>>();
             _projectService = new ProjectService(_projectMasterRepository.Object, _unitOfWork.Object, _projectTrackRepository.Object, _albumRepository.Object, _mediaRecordingRepository.Object, _songRepository.Object, _recordingPartyRepository.Object, _organizationLabelRepository.Object, _organizationIsrcSeriesRepository.Object, _projectTrackArtistRepository.Object, _projectStatusRepository.Object);
         }
 

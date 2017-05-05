@@ -13,10 +13,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
     {
         private readonly IPartyMainArtistRepository _partyMainArtistRepository;
         private readonly IPartyRealRepository _partyRealRepository;
-        private readonly IUnitOfWork<HljodritEntities> _unitOfWork;
+        private readonly IUnitOfWork<HljodritEntitiesDb> _unitOfWork;
         private readonly IPersonService _personService;
 
-        public MainArtistService(IPartyMainArtistRepository partyMainArtistRepository, IPartyRealRepository partyRealRepository, IPersonService personService, IUnitOfWork<HljodritEntities> unitOfWork)
+        public MainArtistService(IPartyMainArtistRepository partyMainArtistRepository, IPartyRealRepository partyRealRepository, IPersonService personService, IUnitOfWork<HljodritEntitiesDb> unitOfWork)
         {
             _partyMainArtistRepository = partyMainArtistRepository;
             _partyRealRepository = partyRealRepository;

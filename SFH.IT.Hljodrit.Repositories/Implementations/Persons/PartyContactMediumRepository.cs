@@ -4,9 +4,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Persons;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Persons
 {
-    public class PartyContactMediumRepository : RepositoryBase<party_contactmedium, HljodritEntities>, IPartyContactMediumRepository
+    public class PartyContactMediumRepository : RepositoryBase<party_contactmedium, HljodritEntitiesDb>, IPartyContactMediumRepository
     {
-        public PartyContactMediumRepository(IDbFactory<HljodritEntities> dbFactory) : base(dbFactory)
+        public PartyContactMediumRepository(IDbFactory<HljodritEntitiesDb> dbFactory) : base(dbFactory)
         {
         }
     }

@@ -5,9 +5,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Project
 {
-    public class ProjectTrackArtistRepository : RepositoryBase<project_track_artist, HljodritEntities>, IProjectTrackArtistRepository
+    public class ProjectTrackArtistRepository : RepositoryBase<project_track_artist, HljodritEntitiesDb>, IProjectTrackArtistRepository
     {
-        public ProjectTrackArtistRepository(IDbFactory<HljodritEntities> dbFactory)
+        public ProjectTrackArtistRepository(IDbFactory<HljodritEntitiesDb> dbFactory)
             : base(dbFactory) { }
     }
 }

@@ -26,7 +26,7 @@ namespace SFH.IT.Hljodrit.Repositories
     {
         public static void RegisterComponents(Container container)
         {
-            container.Register<IDbFactory<HljodritEntities>, DbFactory<HljodritEntities>>(Lifestyle.Scoped);
+            container.Register<IDbFactory<HljodritEntitiesDb>, DbFactory<HljodritEntitiesDb>>(Lifestyle.Scoped);
             container.Register<IDbFactory<HljodritAuthModel>, DbFactory<HljodritAuthModel>>(Lifestyle.Scoped);
 
             container.Register<IProjectMasterRepository, ProjectMasterRepository>(Lifestyle.Transient);
@@ -60,7 +60,7 @@ namespace SFH.IT.Hljodrit.Repositories
 
             container.Register<IUserLookupRepository, UserLookupRepository>(Lifestyle.Transient);
 
-            container.Register<IUnitOfWork<HljodritEntities>, UnitOfWork<HljodritEntities>>(Lifestyle.Transient);
+            container.Register<IUnitOfWork<HljodritEntitiesDb>, UnitOfWork<HljodritEntitiesDb>>(Lifestyle.Transient);
             container.Register<IUnitOfWork<HljodritAuthModel>, UnitOfWork<HljodritAuthModel>>(Lifestyle.Transient);
         }
     }

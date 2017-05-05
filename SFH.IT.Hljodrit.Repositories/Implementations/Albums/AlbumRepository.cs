@@ -10,9 +10,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Albums;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Albums
 {
-    public class AlbumRepository : RepositoryBase<media_product_package, HljodritEntities>, IAlbumRepository
+    public class AlbumRepository : RepositoryBase<media_product_package, HljodritEntitiesDb>, IAlbumRepository
     {
-        public AlbumRepository(IDbFactory<HljodritEntities> dbFactory)
+        public AlbumRepository(IDbFactory<HljodritEntitiesDb> dbFactory)
                 : base(dbFactory) { }
 
         public Envelope<AlbumDto> GetAlbums(int pageSize, int pageNumber, string searchTerm, Expression<Func<media_product_package, bool>> expression)

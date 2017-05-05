@@ -21,13 +21,13 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 	    private Mock<IRecordingPartyRepository> _recordingPartyRepository;
 	    private Mock<IInstrumentRepository> _instrumentRepository;
 	    private Mock<IMediaRecordingRepository> _mediaRecordingRepository;
-	    private Mock<IUnitOfWork<HljodritEntities>> _unitOfWork;
+	    private Mock<IUnitOfWork<HljodritEntitiesDb>> _unitOfWork;
 
 		[TestInitialize]
 		public void TestInitialize()
 		{
 			_songRepository = new Mock<ISongRepository>();
-            _unitOfWork = new Mock<IUnitOfWork<HljodritEntities>>();
+            _unitOfWork = new Mock<IUnitOfWork<HljodritEntitiesDb>>();
             _recordingPartyRepository = new Mock<IRecordingPartyRepository>();
             _instrumentRepository = new Mock<IInstrumentRepository>();
             _mediaRecordingRepository = new Mock<IMediaRecordingRepository>();

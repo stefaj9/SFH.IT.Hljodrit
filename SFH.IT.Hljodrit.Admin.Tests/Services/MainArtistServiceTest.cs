@@ -20,7 +20,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
     {
         private Mock<IPartyMainArtistRepository> _partyMainArtistRepository;
         private Mock<IPartyRealRepository> _partyRealRepository;
-        private Mock<IUnitOfWork<HljodritEntities>> _unitOfWork;
+        private Mock<IUnitOfWork<HljodritEntitiesDb>> _unitOfWork;
         private Mock<IPersonService> _personService;
         private IMainArtistService _mainArtistService;
 
@@ -29,7 +29,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
         {
             _partyMainArtistRepository = new Mock<IPartyMainArtistRepository>();
             _partyRealRepository = new Mock<IPartyRealRepository>();
-            _unitOfWork = new Mock<IUnitOfWork<HljodritEntities>>();
+            _unitOfWork = new Mock<IUnitOfWork<HljodritEntitiesDb>>();
 
             _personService = new Mock<IPersonService>();
 

@@ -16,10 +16,10 @@ namespace SFH.IT.Hljodrit.Services.Implementations
         private readonly IOrganizationRepository _organizationRepository;
         private readonly IOrganizationLabelRepository _organizationLabelRepository;
         private readonly IOrganizationIsrcSeriesRepository _organizationIsrcSeriesRepository;
-        private readonly IUnitOfWork<HljodritEntities> _unitOfWork;
+        private readonly IUnitOfWork<HljodritEntitiesDb> _unitOfWork;
 
         public OrganizationService(IOrganizationRepository organizationRepository, IOrganizationLabelRepository organizationLabelRepository, 
-            IOrganizationIsrcSeriesRepository organizationIsrcSeriesRepository, IUnitOfWork<HljodritEntities> unitOfWork)
+            IOrganizationIsrcSeriesRepository organizationIsrcSeriesRepository, IUnitOfWork<HljodritEntitiesDb> unitOfWork)
         {
             _organizationRepository = organizationRepository;
             _organizationLabelRepository = organizationLabelRepository;

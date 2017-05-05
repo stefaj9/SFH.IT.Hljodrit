@@ -27,7 +27,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
 	    private Mock<ICountryRepository> _countryRepository;
 	    private Mock<IRecordingPartyRepository> _recordingPartyRepository;
 	    private Mock<IAlbumRepository> _albumRepository;
-	    private Mock<IUnitOfWork<HljodritEntities>> _unitOfWork;
+	    private Mock<IUnitOfWork<HljodritEntitiesDb>> _unitOfWork;
 	    private IPersonService _personService;
 
 		private const string ProducerRoleCode = "PRO";
@@ -43,7 +43,7 @@ namespace SFH.IT.Hljodrit.Admin.Tests.Services
             _recordingPartyRepository = new Mock<IRecordingPartyRepository>();
             _albumRepository = new Mock<IAlbumRepository>();
 
-            _unitOfWork = new Mock<IUnitOfWork<HljodritEntities>>();
+            _unitOfWork = new Mock<IUnitOfWork<HljodritEntitiesDb>>();
             _personService = new PersonService(_partyRealRepository.Object, _partyRoleRepository.Object, _unitOfWork.Object, _countryRepository.Object, _zipCodeRepository.Object, _partyContactMediumRepository.Object, _recordingPartyRepository.Object, _albumRepository.Object);
         }
 

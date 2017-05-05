@@ -4,9 +4,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Common
 {
-    public class CountryRepository : RepositoryBase<common_country, HljodritEntities>, ICountryRepository
+    public class CountryRepository : RepositoryBase<common_country, HljodritEntitiesDb>, ICountryRepository
     {
-        public CountryRepository(IDbFactory<HljodritEntities> dbFactory) : base(dbFactory)
+        public CountryRepository(IDbFactory<HljodritEntitiesDb> dbFactory) : base(dbFactory)
         {
         }
     }

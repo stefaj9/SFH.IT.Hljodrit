@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="common_airplay_attributes">
           <Key>
             <PropertyRef Name="year" />
@@ -903,13 +903,13 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="projectenddate" Type="datetime" />
           <Property Name="isworkingtitle" Type="bit" Nullable="false" />
           <Property Name="comment" Type="nvarchar" MaxLength="500" />
-          <Property Name="updatedby" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="updatedby" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="updatedon" Type="datetime" Nullable="false" />
-          <Property Name="createdby" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="createdby" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
           <Property Name="statuscode" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="removed" Type="bit" Nullable="false" />
-          <Property Name="reviewedby" Type="nvarchar" MaxLength="20" />
+          <Property Name="reviewedby" Type="nvarchar" MaxLength="50" />
           <Property Name="reviewedon" Type="datetime" />
           <Property Name="reviewedcomment" Type="nvarchar" MaxLength="1000" />
           <Property Name="reviewedok" Type="bit" />
@@ -952,9 +952,9 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="trackname" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="isworkingtitle" Type="bit" Nullable="false" />
           <Property Name="comment" Type="nvarchar" MaxLength="500" />
-          <Property Name="updatedby" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="updatedby" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="updatedon" Type="datetime" Nullable="false" />
-          <Property Name="createdby" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="createdby" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
           <Property Name="isrc" Type="nvarchar" MaxLength="20" />
           <Property Name="duration" Type="time" Precision="7" />
@@ -974,9 +974,9 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="instrumentcode" Type="nvarchar" MaxLength="5" />
           <Property Name="artistpseudonymid" Type="int" />
           <Property Name="comment" Type="nvarchar" MaxLength="500" />
-          <Property Name="updatedby" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="updatedby" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="updatedon" Type="datetime" Nullable="false" />
-          <Property Name="createdby" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="createdby" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="createdon" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="project_user">
@@ -1649,70 +1649,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_recording_party_media_recording">
-          <End Role="media_recording" Type="Self.media_recording" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="recording_party" Type="Self.recording_party" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="media_recording">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="recording_party">
-              <PropertyRef Name="recordingid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_recording_party_party_instrumenttype">
-          <End Role="party_instrumenttype" Type="Self.party_instrumenttype" Multiplicity="0..1" />
-          <End Role="recording_party" Type="Self.recording_party" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_instrumenttype">
-              <PropertyRef Name="code" />
-            </Principal>
-            <Dependent Role="recording_party">
-              <PropertyRef Name="instrumentcode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_recording_party_party_partyroletype">
-          <End Role="party_partyroletype" Type="Self.party_partyroletype" Multiplicity="1" />
-          <End Role="recording_party" Type="Self.recording_party" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_partyroletype">
-              <PropertyRef Name="rolecode" />
-            </Principal>
-            <Dependent Role="recording_party">
-              <PropertyRef Name="rolecode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_recording_party_party_pseudonym">
-          <End Role="party_pseudonym" Type="Self.party_pseudonym" Multiplicity="0..1" />
-          <End Role="recording_party" Type="Self.recording_party" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_pseudonym">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="recording_party">
-              <PropertyRef Name="artistpseudonymid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_recording_party_party_real">
-          <End Role="party_real" Type="Self.party_real" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="recording_party" Type="Self.recording_party" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="party_real">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="recording_party">
-              <PropertyRef Name="partyrealid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="membership_group">
           <End Role="party_mainartist" Type="Self.party_mainartist" Multiplicity="1" />
           <End Role="party_groupmembership" Type="Self.party_groupmembership" Multiplicity="*" />
@@ -2226,26 +2162,6 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             <End Role="project_master" EntitySet="project_master" />
             <End Role="project_user" EntitySet="project_user" />
           </AssociationSet>
-          <AssociationSet Name="FK_recording_party_media_recording" Association="Self.FK_recording_party_media_recording">
-            <End Role="media_recording" EntitySet="media_recording" />
-            <End Role="recording_party" EntitySet="recording_party" />
-          </AssociationSet>
-          <AssociationSet Name="FK_recording_party_party_instrumenttype" Association="Self.FK_recording_party_party_instrumenttype">
-            <End Role="party_instrumenttype" EntitySet="party_instrumenttype" />
-            <End Role="recording_party" EntitySet="recording_party" />
-          </AssociationSet>
-          <AssociationSet Name="FK_recording_party_party_partyroletype" Association="Self.FK_recording_party_party_partyroletype">
-            <End Role="party_partyroletype" EntitySet="party_partyroletype" />
-            <End Role="recording_party" EntitySet="recording_party" />
-          </AssociationSet>
-          <AssociationSet Name="FK_recording_party_party_pseudonym" Association="Self.FK_recording_party_party_pseudonym">
-            <End Role="party_pseudonym" EntitySet="party_pseudonym" />
-            <End Role="recording_party" EntitySet="recording_party" />
-          </AssociationSet>
-          <AssociationSet Name="FK_recording_party_party_real" Association="Self.FK_recording_party_party_real">
-            <End Role="party_real" EntitySet="party_real" />
-            <End Role="recording_party" EntitySet="recording_party" />
-          </AssociationSet>
           <AssociationSet Name="membership_group" Association="Self.membership_group">
             <End Role="party_mainartist" EntitySet="party_mainartist" />
             <End Role="party_groupmembership" EntitySet="party_groupmembership" />
@@ -2303,8 +2219,7 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
             <End Role="media_work" EntitySet="media_work" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -3158,13 +3073,13 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="projectenddate" Type="DateTime" Precision="3" />
           <Property Name="isworkingtitle" Type="Boolean" Nullable="false" />
           <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="updatedby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="updatedby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="updatedon" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="statuscode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="removed" Type="Boolean" Nullable="false" />
-          <Property Name="reviewedby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="reviewedby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="reviewedon" Type="DateTime" Precision="3" />
           <Property Name="reviewedcomment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="reviewedok" Type="Boolean" />
@@ -3217,9 +3132,9 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="trackname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="isworkingtitle" Type="Boolean" Nullable="false" />
           <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="updatedby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="updatedby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="updatedon" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="isrc" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="duration" Type="Time" Precision="7" />
@@ -3241,9 +3156,9 @@ warning 6002: The table/view 'hljodrit-db.dbo.organization_master_oli' does not 
           <Property Name="instrumentcode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
           <Property Name="artistpseudonymid" Type="Int32" />
           <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="updatedby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="updatedby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="updatedon" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="createdon" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="party_instrumenttype" Relationship="Self.FK_project_track_artist_party_instrumenttype" FromRole="project_track_artist" ToRole="party_instrumenttype" />
           <NavigationProperty Name="party_partyroletype" Relationship="Self.FK_project_track_artist_party_partyroletype" FromRole="project_track_artist" ToRole="party_partyroletype" />

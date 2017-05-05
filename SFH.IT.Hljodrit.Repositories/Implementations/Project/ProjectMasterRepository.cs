@@ -7,9 +7,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Project;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Project
 {
-    public class ProjectMasterRepository : RepositoryBase<project_master, HljodritEntities>, IProjectMasterRepository
+    public class ProjectMasterRepository : RepositoryBase<project_master, HljodritEntitiesDb>, IProjectMasterRepository
     {
-        public ProjectMasterRepository(IDbFactory<HljodritEntities> dbFactory)
+        public ProjectMasterRepository(IDbFactory<HljodritEntitiesDb> dbFactory)
             : base(dbFactory) { }
 
         public int GetProjectMasterCount(Expression<Func<project_master, bool>> expression)

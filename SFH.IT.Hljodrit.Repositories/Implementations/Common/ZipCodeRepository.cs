@@ -4,9 +4,9 @@ using SFH.IT.Hljodrit.Repositories.Interfaces.Common;
 
 namespace SFH.IT.Hljodrit.Repositories.Implementations.Common
 {
-    public class ZipCodeRepository : RepositoryBase<common_zipcodes, HljodritEntities>, IZipCodeRepository
+    public class ZipCodeRepository : RepositoryBase<common_zipcodes, HljodritEntitiesDb>, IZipCodeRepository
     {
-        public ZipCodeRepository(IDbFactory<HljodritEntities> dbFactory) : base(dbFactory)
+        public ZipCodeRepository(IDbFactory<HljodritEntitiesDb> dbFactory) : base(dbFactory)
         {
         }
     }

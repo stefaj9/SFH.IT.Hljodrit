@@ -13,10 +13,10 @@ namespace SFH.IT.Hljodrit.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HljodritEntities : DbContext
+    public partial class HljodritEntitiesDb : DbContext
     {
-        public HljodritEntities()
-            : base("name=HljodritEntities")
+        public HljodritEntitiesDb()
+            : base("name=HljodritEntitiesDb")
         {
         }
     
