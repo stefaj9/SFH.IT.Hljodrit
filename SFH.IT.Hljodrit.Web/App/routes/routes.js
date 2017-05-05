@@ -11,6 +11,8 @@ import ProjectContainer from '../components/projects/projectContainer';
 import Project from '../components/projects/project';
 import ProjectDetails from '../components/projects/projectDetails';
 import CreateProject from '../components/projects/createProject/createProject';
+import TrackContainer from '../components/projects/tracks/trackContainer';
+import TrackDetails from '../components/projects/tracks/trackDetails';
 
 export default (
     <Route path="/" component={App}>
@@ -22,7 +24,11 @@ export default (
             <Route path="projects" component={ProjectContainer}>
                 <IndexRoute component={Project} />
                 <Route path="createproject" component={CreateProject} />
-                <Route path=":projectId" component={ProjectDetails} />
+                <Route path=":projectId" component={ProjectDetails}>
+                    <Route path="tracks" component={TrackContainer}>
+                        <Route path=":trackId" component={TrackDetails} />
+                    </Route>
+                </Route>
             </Route>
         </Route>
         <Route path="*" component={NotFound} />

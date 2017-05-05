@@ -1,16 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Header from './header';
-import { getZipCodes, getCountries } from '../../actions/commonActions';
-import { getProjectStatus } from '../../actions/projectActions';
 import { logoutUser } from '../../actions/authActions';
 
 class App extends React.Component {
-    componentWillMount() {
-        this.props.getZipCodes();
-        this.props.getCountries();
-        this.props.getProjectStatus();
-    }
     render() {
         return (
             <div>
@@ -37,4 +30,4 @@ function mapStateToProps(state) {
     };
 };
 
-export default connect(mapStateToProps, { getZipCodes, getCountries, getProjectStatus, logoutUser })(App);
+export default connect(mapStateToProps, { logoutUser })(App);

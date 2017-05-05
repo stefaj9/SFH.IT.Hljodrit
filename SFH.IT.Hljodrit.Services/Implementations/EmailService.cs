@@ -1,19 +1,21 @@
-﻿using System.Net.Mail;
+﻿using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace SFH.IT.Hljodrit.Services.Implementations
 {
     public static class EmailService
     {
-        private const string Smtp = "mx1.basis.is";
+        private const string Smtp = "smtp.gmail.com";
         public static Task SendAsync(string to, string from, string subject, string message)
         {
             SmtpClient client = new SmtpClient
             {
                 Host = Smtp,
-                UseDefaultCredentials = true,
-                Port = 25,
-                DeliveryMethod = SmtpDeliveryMethod.Network
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential("sfhuser@gmail.com", "%q3Embrbhe8KMQx&$el4a@yb"),
+                Port = 587,
+                EnableSsl = true
             };
             MailMessage msg = new MailMessage(from, to)
             {
