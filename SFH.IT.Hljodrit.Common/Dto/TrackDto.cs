@@ -23,5 +23,7 @@ namespace SFH.IT.Hljodrit.Common.Dto
         [Required]
         [JsonProperty(PropertyName = "trackOrder")]
         public int TrackOrder { get; set; }
+        [JsonProperty(PropertyName = "recordingId")]
+        public int? RecordingId { get; set; }
     }
 }

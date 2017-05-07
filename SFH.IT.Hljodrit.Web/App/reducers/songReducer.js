@@ -9,7 +9,7 @@ let initialState = {
         maximumPage: -1,
         objects: []
     },
-    isFetching: true
+    isFetching: false
 };
 
 export default function(state = initialState, action) {

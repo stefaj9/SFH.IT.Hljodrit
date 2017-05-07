@@ -403,7 +403,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 isrc = track.Isrc,
                 duration = track.Duration,
                 donotpublish = false,
-                trackorder = track.TrackOrder
+                trackorder = track.TrackOrder,
+                recordingid = track.RecordingId
             };
             _projectTrackRepository.Add(projectTrack);
 

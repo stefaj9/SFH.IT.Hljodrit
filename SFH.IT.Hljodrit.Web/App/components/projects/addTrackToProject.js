@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TimePicker from 'rc-time-picker';
 import { Tabs, Tab } from 'react-bootstrap';
 import moment from 'moment';
+import Spinner from 'react-spinner';
+import { getMediaRecordingsByCriteria } from '../../actions/songActions';
 
 class AddTrackToProject extends React.Component {
     constructor() {
@@ -32,22 +35,39 @@ class AddTrackToProject extends React.Component {
             [prop]: value
         });
         const { currentSongLength, currentSongIsrc } = this.state;
-        this.assignAddFunction(value, currentSongLength, currentSongIsrc);
+        this.assignAddFunction(value, currentSongLength, currentSongIsrc, null);
     }
-    assignAddFunction(songName, songLength, songIsrc) {
+    assignAddFunction(songName, songLength, songIsrc, recordingId) {
         this.props.addFunction({ 
             projectId: this.props.projectId, 
             trackName: songName,
             isrc: songIsrc,
             duration: songLength,
-            trackOrder: this.props.nextSongNumber
+            trackOrder: this.props.nextSongNumber,
+            recordingId: recordingId
         });
     }
     getNewSongs(e) {
         // Enter key pressed.
         if (e.keyCode === 13) {
-            
+            this.props.getMediaRecordingsByCriteria(10, 1, this.state.songSearchTerm, this.state.selectSongFilter);
         }
+    }
+    renderMediaSuggestions() {
+        return this.props.media.map(m => {
+            return (
+                <div className="col-xs-12 well no-border-radius hover-cursor" onClick={() => this.assignAddFunction(m.mediaTitle, m.duration, m.isrc, m.mediaId)} key={m.mediaId}>
+                    <div className="col-sm-6 col-xs-12 text-left">
+                        <div className="col-xs-12">{m.mediaTitle}</div>
+                        <div className="col-xs-12">{m.mainArtist}</div>
+                    </div>
+                    <div className="col-sm-6 col-xs-12 text-right">
+                        <div className="col-xs-12">{m.duration}</div>
+                        <div className="col-xs-12">{moment(m.releaseDate).format('LL')}</div>
+                    </div>
+                </div>
+            );
+        });
     }
     render() {
         return (
@@ -106,6 +126,13 @@ class AddTrackToProject extends React.Component {
                             </select>
                         </div>
                     </div>
+                    <div className="row">
+                        <div className={this.props.isFetchingMedia ? 'hidden' : ''}>
+                            {this.renderMediaSuggestions()}
+                        </div>
+                        <p className={!this.props.isFetchingMedia && this.props.media.length === 0 ? '' : 'hidden'}>Engar niðurstöður.</p>
+                        <Spinner className={this.props.isFetchingMedia ? '' : 'hidden'} />
+                    </div>
                 </Tab>
             </Tabs>
         );
@@ -118,4 +145,11 @@ AddTrackToProject.propTypes = {
     nextSongNumber: PropTypes.number.isRequired
 };
 
-export default AddTrackToProject;
+function mapStateToProps(state) {
+    return {
+        media: state.songs.mediaRecordingEnvelope.objects,
+        isFetchingMedia: state.songs.isFetching
+    };
+};
+
+export default connect(mapStateToProps, { getMediaRecordingsByCriteria })(AddTrackToProject);
