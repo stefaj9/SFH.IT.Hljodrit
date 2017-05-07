@@ -13,7 +13,7 @@ const Info = () => {
 
                     (a) Í Vinnslu, (b) Hljóðritun Lokið, (c) Tilbúið til útgáfu og (d) Búið að gefa út.
 
-                    Kerfið hjálpar þér að fara yfir þær upplýsingar sem þú þarft að hafa skráð á hverju stigi. Passað er upp á að viðeigandi upplýsingar um verkefnið séu skráðir í hverju þrepi. Þrepin eru eftirfarandi:</p>
+                    Kerfið hjálpar þér að fara yfir þær upplýsingar sem þú þarft að hafa skráð á hverju stigi. Passað er upp á að viðeigandi upplýsingar um verkefnið séu skráðar í hverju þrepi. Þrepin eru eftirfarandi:</p>
                 <ol>
                     <li>Skrá verkefni</li>
                     <li>Skrá útgefanda</li>
@@ -41,7 +41,7 @@ const Info = () => {
             <div className="info-section">
                 <strong>Skráning útgefanda</strong>
                 <p>
-                    Við skráningu útgefanda er hægt að smella á "Skrá útgefanda" og þar er valinn útgefanda sem er til í listanum. Ekki er hægt að fara í næsta þrep nema útgefanda sé valinn.
+                    Við skráningu útgefanda er hægt að smella á "Skrá útgefanda" og þar er valinn útgefandi sem er til í listanum. Ekki er hægt að fara í næsta þrep nema útgefandi sé valinn.
                 </p>
                 <img src="/App/resources/create-project-publishers-1.png" alt="Bæta við útgefanda" className="img-contained"/>
                 <p>
@@ -51,7 +51,7 @@ const Info = () => {
             <div className="info-section">
                 <strong>Skráning hljóðrita og flytjenda</strong>
                 <p>
-                    Við skráningu hljóðrits er annað hvort skráð nýtt lag eða leitað eftir útgefnu lagi. Ef fyrri leið er valin, þá er byrjað að gefa laginu nafn og gefið laginu lengd, síðan er smellt á "Bæta við". Hins vegar ef seinni leiðin er valin, þá er smellt á "Leita" flipann og þá er gefið kost á að leita af lögum eftir ákveðnum skilyrðum. Þegar búið er að finna það lag sem á að bæta við er smellt á plúsinn. Hægt er að raða lögum eftir á með því að draga lög í töflu fyrir neðan til og frá.
+                    Við skráningu hljóðrits er annað hvort skráð nýtt lag eða leitað eftir útgefnu lagi. Ef fyrri leið er valin, þá er byrjað að gefa laginu nafn og lengd, síðan er smellt á "Bæta við". Hins vegar ef seinni leiðin er valin, þá er smellt á "Leita" flipann og þá er gefið kost á að leita af lögum eftir ákveðnum skilyrðum. Þegar búið er að finna það lag sem á að bæta við er smellt á plúsinn. Hægt er að raða lögum eftir á með því að draga lög í töflu fyrir neðan til og frá.
                 </p>
                 <img src="/App/resources/create-project-songs-1.png" alt="Bæta við lögum" className="img-contained"/>
                 <p>
@@ -63,10 +63,10 @@ const Info = () => {
                 </p>
             </div>
             <div className="info-section">
-                <strong>Hraðskráning - Setja aðila í biðminni</strong>
+                <strong>Hraðskráning - Setja aðila í skyndiminni</strong>
                 <p>Hægt er að vinna með hópa sem sjást í stiku vinstra megin. Þar er hægt að raða saman hóp sem er geymdur í skyndiminni og því hægt að bæta aðilum á mörg lög í einu og því flýta fyrir sér vinnuna.</p>
                 <strong>Skrá flytjendur</strong>
-                <p>Hægri megin er listi af lögum sem búið er að bæta við á plötuna, hægt er að smella á hvert og eitt lag og þá rennur niður listi yfir skráða flytjendur á lagið. Ef smellt er á "Bæta við flytjanda" er hægt að bæta við ákveðnum flytjanda á þetta eina lag. Við það að smella á "Bæta við flytjanda" opnast gluggi þar sem valið er nafn flytjanda, hljóðfæri og hlutverk. Gerð er krafa um að það sé a.m.k. einn flytjandi á hverju lagi.</p>
+                <p>Hægra megin er listi af lögum sem búið er að bæta við á plötuna, hægt er að smella á hvert og eitt lag og þá rennur niður listi yfir skráða flytjendur á lagið. Ef smellt er á "Bæta við flytjanda" er hægt að bæta við ákveðnum flytjanda á þetta eina lag. Við það að smella á "Bæta við flytjanda" opnast gluggi þar sem valið er nafn flytjanda, hljóðfæri og hlutverk. Gerð er krafa um að það sé a.m.k. einn flytjandi á hverju lagi.</p>
                 <img src="/App/resources/create-project-performers-1.png" alt="Bæta við flytjendum." className="img-contained"/>
                 <p>
                     <i>(Mynd 6. Skrá flytjendur á lög.)</i>

@@ -50,6 +50,11 @@ export default class Header extends React.Component {
                                     Aðilar
                                 </Link>
                             </li>
+                            <li className={this.state.selectedItem === 'info' ? 'active' : ''}>
+                                <Link to="/info" onClick={() => this.setState({ selectedItem: 'info' })}>
+                                    Upplýsingar
+                                </Link>
+                            </li>
                             <li className={this.state.selectedItem === 'settings' ? 'active' : ''}>
                                 <Link to="/settings" onClick={() => this.setState({ selectedItem: 'settings' })}>
                                     <i className="fa fa-cog hidden-xs"></i>

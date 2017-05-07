@@ -12,8 +12,8 @@ import NotFound from '../components/common/notFound';
 import Projects from '../components/project/projects';
 import ProjectManagement from '../components/project/projectManagement';
 import Intro from '../components/common/intro';
-//import AddProject from '../components/project/addProject';
 import PublishersContainer from '../components/publishers/publishersContainer';
+import Info from '../components/common/info';
 import Publishers from '../components/publishers/publishers';
 import AddAlbum from '../components/albums/createAlbum/addAlbum';
 import MediaContainer from '../components/media/mediaContainer';
@@ -27,6 +27,7 @@ import PublisherDetails from '../components/publishers/publisherDetails';
 export default (
     <Route path="/" component={App}>
         <IndexRoute component={Intro} />
+        <Route path="info" component={Info} />
         <Route path="projects" component={Projects}>
             <IndexRoute component={ProjectManagement} />
         </Route>
