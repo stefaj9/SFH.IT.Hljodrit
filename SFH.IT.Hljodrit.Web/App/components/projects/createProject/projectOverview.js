@@ -76,7 +76,7 @@ class ProjectOverview extends React.Component {
                 <div className="btn-group pull-right">
                     <button 
                         className="btn btn-default"
-                        onClick={() => this.props.back()}>
+                        onClick={() => { window.scrollTo(0, 0); this.props.back();}}>
                         Til baka
                     </button>
                     <button 

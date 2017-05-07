@@ -91,7 +91,6 @@ export function loginUser(username, password) {
                 toastr.error('Villa!', data.error_description);
                 dispatch(hasStoppedLoggingIn());
             } else {
-                toastr.success('Tókst!', 'Innskráning tókst.');
                 dispatch(loginUserSuccess(data));
                 browserHistory.push('/app');
             }

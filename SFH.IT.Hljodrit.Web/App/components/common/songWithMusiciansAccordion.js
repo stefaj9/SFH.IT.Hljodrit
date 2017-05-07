@@ -81,14 +81,19 @@ class SongWithMusiciansAccordion extends React.Component {
                 return (
                     <Panel 
                         key={`${song.name}-${song.number}`}
-                        header={`${song.number}. ${song.name} (${song.length})`}
+                        header={
+                            <div className="row">
+                                <div className="col-xs-6">
+                                    <p>{`${song.number}. ${song.name} (${song.length})`}</p>
+                                </div>
+                                <div className="add-performer text-right col-xs-6">
+                                    <button 
+                                        onClick={() => this.openAddPerformerModal(song.number)} 
+                                        className={'btn btn-default' + (this.props.functionDisabled ? ' hidden' : '')}>Bæta við flytjanda <i className="fa fa-fw fa-plus"></i></button>
+                                </div>
+                            </div>}
                         eventKey={idx + 1}
                         bsStyle={containsPerformers ? 'default' : 'danger'}>
-                        <div className="add-performer pull-right">
-                            <button 
-                                onClick={() => this.openAddPerformerModal(song.number)} 
-                                className={'btn btn-default' + (this.props.functionDisabled ? ' hidden' : '')}>Bæta við flytjanda <i className="fa fa-fw fa-plus"></i></button>
-                        </div>
                         <table className={'table table-striped table-responsive' + (containsPerformers ? '' : ' hidden')}>
                             <thead>
                                 <tr>
