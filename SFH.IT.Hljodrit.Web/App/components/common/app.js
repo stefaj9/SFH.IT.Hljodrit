@@ -17,10 +17,7 @@ class App extends React.Component {
                         <div className={'col-xs-10 col-xs-push-1' + (this.props.isLoggingIn ? ' hidden' : '')}>
                             {this.props.children}
                         </div>
-                        <div className={'text-center' + (this.props.isLoggingIn ? '' : ' hidden')}>
-                            <Spinner />
-                            <p>Athuga auðkenni..</p>
-                        </div>
+                        <Spinner className={this.props.isLoggingIn ? '' : ' hidden'} />
                     </div>
                 </div>
             </div>
