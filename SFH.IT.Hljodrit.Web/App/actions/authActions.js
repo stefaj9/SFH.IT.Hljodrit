@@ -105,14 +105,14 @@ function loginUserSuccess(user) {
     };
 };
 
-function isLoggingIn() {
+export function isLoggingIn() {
     return {
         type: types.IS_LOGGING_IN,
         payload: {}
     };
 };
 
-function hasStoppedLoggingIn() {
+export function hasStoppedLoggingIn() {
     return {
         type: types.HAS_STOPPED_LOGGING_IN,
         payload: {}
