@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace SFH.IT.Hljodrit.Common.Dto
 {
+    /// <summary>
+    /// An extension of a mediaDTO that contains the role.
+    /// </summary>
     public class MediaWithRoleDto : MediaDto
     {
         /*

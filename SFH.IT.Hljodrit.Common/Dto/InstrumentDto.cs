@@ -3,7 +3,7 @@
 namespace SFH.IT.Hljodrit.Common.Dto
 {
     /// <summary>
-    /// A dto class that represents an instrument. Contains various information and metadata on an instrument.
+    /// A DTO class that represents an instrument. Contains various information and metadata on an instrument.
     /// </summary>
     public class InstrumentDto
     {

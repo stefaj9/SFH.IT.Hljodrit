@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace SFH.IT.Hljodrit.Common.Dto
 {
+    /// <summary>
+    /// A DTO object representing a musician in the system.
+    /// </summary>
     public class MusicianDto
     {
         public MusicianDto() { }
@@ -15,9 +18,15 @@ namespace SFH.IT.Hljodrit.Common.Dto
             HighestRoleName = highestRoleName;
         }
 
+        /// <summary>
+        /// The id of the musician.
+        /// </summary>
         [JsonProperty(PropertyName = "musicianId")]
         public int Id { get; set; }
 
+        /// <summary>
+        /// The full name of the musician.
+        /// </summary>
         [JsonProperty(PropertyName = "fullName")]
         public string Fullname { get; set; }
 

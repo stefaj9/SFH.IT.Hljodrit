@@ -3,6 +3,9 @@ using Newtonsoft.Json.Serialization;
 
 namespace SFH.IT.Hljodrit.Common.Dto
 {
+    /// <summary>
+    /// A DTO object representing a musician performing on a song.
+    /// </summary>
     public class MusicianCreditsDto
     {
         public MusicianCreditsDto()
