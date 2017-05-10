@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -35,7 +36,11 @@ namespace SFH.IT.Hljodrit.Admin.Providers
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
             }
-            
+            if (!userManager.IsInRole(user.Id, "Admin"))
+            {
+                context.SetError("role_unauthorized", "Role is forbidden for this request.");
+                return;
+            }
             if (!user.EmailConfirmed)
             {
                 context.SetError("email_unconfirmed", "You must have a confirmed email to log on.");
