@@ -22,6 +22,7 @@ class AuthAppContainer extends React.Component {
         }).catch(() => {
             // Invalid token - needs to be routed to login site
             this.props.clearLogin();
+            this.props.hasStoppedLoggingIn();
             browserHistory.push('/');
         });
     }
