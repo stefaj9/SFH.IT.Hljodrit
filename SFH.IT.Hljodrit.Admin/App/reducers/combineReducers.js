@@ -13,6 +13,7 @@ import CacheReducer from './cacheReducer';
 import {reducer as ToastrReducer} from 'react-redux-toastr';
 import { routerReducer } from 'react-router-redux';
 import AuthReducer from './authReducer';
+import UserReducer from './userReducer';
 
 export default combineReducers({
     routing: routerReducer,
@@ -28,5 +29,6 @@ export default combineReducers({
     songs: SongReducer,
     cache: CacheReducer,
     albums: AlbumsReducer,
-    auth: AuthReducer
+    auth: AuthReducer,
+    user: UserReducer
 });
