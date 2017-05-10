@@ -25,6 +25,7 @@ class Login extends React.Component {
         e.preventDefault();
         this.setState({ showUsernameErrorMsg: false, showPasswordErrorMsg: false });
         if (this.validateForm()) {
+            this.setState({ username: '', password: '' });
             const { username, password } = this.state;
             this.props.loginUser(username, password);
         }
@@ -37,12 +38,12 @@ class Login extends React.Component {
                     <form action="" className="form-horizontal">
                         <div className="form-group">
                             <label htmlFor="admin-email">Netfang</label>
-                            <input autoFocus={true} type="text" id="admin-email" name="admin-email" className="form-control" onChange={(e) => this.setState({ username: e.target.value })} />
+                            <input autoFocus={true} value={this.state.username} type="text" id="admin-email" name="admin-email" className="form-control" onChange={(e) => this.setState({ username: e.target.value })} />
                             <p className={'error-message' + (this.state.showUsernameErrorMsg ? '' : ' hidden')}>Netfang má ekki vera tómt.</p>
                         </div>
                         <div className="form-group">
                             <label htmlFor="admin-pwd">Lykilorð</label>
-                            <input type="password" id="admin-pwd" name="admin-pwd" className="form-control" onChange={(e) => this.setState({ password: e.target.value })} />
+                            <input type="password" value={this.state.password} id="admin-pwd" name="admin-pwd" className="form-control" onChange={(e) => this.setState({ password: e.target.value })} />
                             <p className={'error-message' + (this.state.showPasswordErrorMsg ? '' : ' hidden')}>Lykilorð má ekki vera tómt.</p>
                         </div>
                         <div className="form-group text-right">

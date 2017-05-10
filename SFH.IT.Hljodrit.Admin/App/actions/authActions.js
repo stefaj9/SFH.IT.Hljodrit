@@ -88,7 +88,7 @@ export function loginUser(username, password) {
             return resp.json();
         }).then(data => {
             if (data.hasOwnProperty('error')) {
-                toastr.error('Villa!', data.error_description);
+                toastr.error('Villa!', `Ekki tókst að skrá inn ${username}`);
                 dispatch(hasStoppedLoggingIn());
             } else {
                 dispatch(loginUserSuccess(data));

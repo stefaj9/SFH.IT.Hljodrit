@@ -58,12 +58,12 @@ class Header extends React.Component {
                                 </Link>
                             </li>
                             <li className={selectedItem === 'info' ? 'active' : ''}>
-                                <Link to="info" onClick={() => this.changeSelectedItem('info')}>
+                                <Link to="/info" onClick={() => this.changeSelectedItem('info')}>
                                     Upplýsingar
                                 </Link>
                             </li>
                             <li>
-                                <a onClick={() => this.props.logoutUser()}>Skrá út</a>
+                                <a href="#" onClick={() => this.props.logoutUser()}>Skrá út</a>
                             </li>
                             <li className={selectedItem === 'settings' ? 'active' : ''}>
                                 <Link to="/app/settings" onClick={() => this.changeSelectedItem('settings')}>
