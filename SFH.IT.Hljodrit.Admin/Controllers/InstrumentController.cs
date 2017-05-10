@@ -3,6 +3,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/instruments")]
     public class InstrumentController : ApiController
     {
@@ -17,7 +18,6 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         [Route("")]
         public IHttpActionResult GetAllInstruments()
         {
-            // TODO: Possibly add paging
             return Ok(_instrumentService.GetAllInstruments());
         }
     }

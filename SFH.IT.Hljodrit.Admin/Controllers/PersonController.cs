@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Web.Http;
-using System.Web.Http.ModelBinding;
+﻿using System.Web.Http;
 using Microsoft.Ajax.Utilities;
 using SFH.IT.Hljodrit.Common.Dto;
 using SFH.IT.Hljodrit.Common.Helpers;
@@ -9,6 +7,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api")]
     public class PersonController : ApiController
     {

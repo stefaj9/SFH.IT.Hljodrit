@@ -5,7 +5,10 @@ export function getAllExceptions(pageSize, pageNumber) {
     return (dispatch) => {
         dispatch(isFetchingExceptions());
         return fetch(`/api/exceptions?pageSize=${pageSize}&pageNumber=${pageNumber}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();

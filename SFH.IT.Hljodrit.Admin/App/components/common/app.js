@@ -1,18 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { logoutUser } from '../../actions/authActions';
 import Header from './header';
-import { getZipCodes, getCountries } from '../../actions/commonActions';
 import '../handlers/songLengthHandler';
 
 class App extends React.Component {
-    componentWillMount() {
-        this.props.getZipCodes();
-        this.props.getCountries();
-    }
     render() {
         return (
             <div>
-                <Header />
+                <Header
+                    isLoggedIn={this.props.isLoggedIn}
+                    logoutUser={this.props.logoutUser} />
                 <div className="container site">
                     <div className="row">
                         <div className="col-xs-10 col-xs-push-1">
@@ -25,4 +23,10 @@ class App extends React.Component {
     }
 }
 
-export default connect(null, { getZipCodes, getCountries })(App);
+function mapStateToProps(state) {
+    return {
+        isLoggedIn: state.auth.isLoggedIn
+    };
+};
+
+export default connect(mapStateToProps, { logoutUser })(App);

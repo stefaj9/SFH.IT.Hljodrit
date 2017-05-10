@@ -7,7 +7,7 @@ export default class Content extends React.Component {
         return (
             <div>
                 {this.props.activeTab.name === types.EXCEPTIONS ? <Exceptions/> : null}
-                {this.props.activeTab.name === types.OTHER_TAB ? <h3 className="text-left">Other stuff</h3> : null}
+                {this.props.activeTab.name === types.USER_MANAGEMENT ? <h3 className="text-left">Notendur</h3> : null}
             </div>
         );
     }

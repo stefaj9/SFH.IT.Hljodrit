@@ -1,6 +1,6 @@
 const tabData = [
-    { name: 'Exceptions', isActive: true },
-    { name: 'Other tab', isActive: false }
+    { name: 'Villur', isActive: true },
+    { name: 'Notendaumsýsla', isActive: false }
 ];
 
 export default tabData;

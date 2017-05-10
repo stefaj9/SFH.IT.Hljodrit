@@ -34,7 +34,7 @@ class MediaDetails extends React.Component {
                     <div className="row">
                         <Table tableData={MediaAppearsOnTableData}
                                objects={currentMedia.albumAppearances}
-                               onClickCallback={(row) => browserHistory.push(`/albums/${row.albumId}`)}
+                               onClickCallback={(row) => browserHistory.push(`/app/albums/${row.albumId}`)}
                                refCallback={ref => { return ref; }}
                                isRemote={false}
                                pagination={false} />
@@ -43,7 +43,7 @@ class MediaDetails extends React.Component {
                     <div className="row">
                         <Table tableData={MusiciansAppearsOnTableData}
                                objects={currentMedia.musicians}
-                               onClickCallback={(row) => browserHistory.push(`/musicians/${row.personId}`)}
+                               onClickCallback={(row) => browserHistory.push(`/app/musicians/${row.personId}`)}
                                refCallback={ref => { return ref; }}
                                isRemote={false}
                                pagination={false} />
@@ -52,7 +52,7 @@ class MediaDetails extends React.Component {
                     <div className="row">
                         <Table tableData={ComposersOfMediaTableData}
                                objects={currentMedia.composers}
-                               onClickCallback={(row) => browserHistory.push(`/musicians/${row.personId}`)}
+                               onClickCallback={(row) => browserHistory.push(`/app/musicians/${row.personId}`)}
                                refCallback={ref => { return ref; }}
                                isRemote={false}
                                pagination={false} />

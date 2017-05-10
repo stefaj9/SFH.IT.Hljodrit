@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import Spinner from 'react-spinner';
 import PublisherListItem from './publisherListItem';
 
-
 const PublishersListView = ({publishers, isFetching, onSelect}) => {
     const renderPublishers = () => {
         if (!isFetching) {

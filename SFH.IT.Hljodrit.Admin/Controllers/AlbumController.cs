@@ -7,6 +7,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/albums")]
     public class AlbumController : ApiController
     {
