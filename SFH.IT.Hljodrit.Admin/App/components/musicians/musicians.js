@@ -120,7 +120,7 @@ class Musicians extends React.Component {
                     items={this.props.persons}
                     isFetching={this.props.isFetchingPersons}
                     rowClass="hover-cursor"
-                    add={(item) => browserHistory.push(`/musicians/${item.id}`)}
+                    add={(item) => browserHistory.push(`/app/musicians/${item.id}`)}
                     />
                 <Paging
                     visible={!this.props.isFetchingPersons}

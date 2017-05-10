@@ -66,7 +66,7 @@ export function createPublisher(publisher) {
             }
         }).then(data => {
             if (data) {
-                browserHistory.push(`/publishers/${data.id}`);
+                browserHistory.push(`/app/publishers/${data.id}`);
             }
             dispatch(createPublisherSuccess());
         });

@@ -76,7 +76,7 @@ export function deletePersonById(personId) {
             dispatch(hasStoppedFetchingPerson());
             if (resp.ok) {
                 toastr.success('Tókst!', 'Það tókst að eyða aðila.');
-                browserHistory.push('/musicians');
+                browserHistory.push('/app/musicians');
             } else {
                 toastr.error('Villa!', 'Ekki tókst að eyða aðila.');
             }

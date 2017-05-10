@@ -188,7 +188,7 @@ class PublisherDetails extends React.Component {
                     <div className="row">
                         <Table tableData={PublisherAlbumsTableData}
                                objects={publisher.albums}
-                               onClickCallback={(row) => browserHistory.push(`/albums/${row.albumId}`)}
+                               onClickCallback={(row) => browserHistory.push(`/app/albums/${row.albumId}`)}
                                refCallback={ref => { return ref; }}
                                isRemote={false}
                                pagination={false} />

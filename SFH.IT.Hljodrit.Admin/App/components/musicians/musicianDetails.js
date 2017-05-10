@@ -71,7 +71,7 @@ class MusicianDetails extends React.Component {
                     <div className="row text-right">
                         <button 
                             className="btn btn-default btn-primary"
-                            onClick={() => browserHistory.push('/musicians')}>Til baka</button>
+                            onClick={() => browserHistory.push('/app/musicians')}>Til baka</button>
                     </div>
                 </div>
             );

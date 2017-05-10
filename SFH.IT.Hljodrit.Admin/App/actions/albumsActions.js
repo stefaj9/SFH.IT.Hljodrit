@@ -148,7 +148,7 @@ export function createAlbum(album) {
             }
         }).then(data => {
             if (data) {
-                browserHistory.push(`/albums/${data}`);
+                browserHistory.push(`/app/albums/${data}`);
             }
             dispatch(createAlbumSuccess());
         });

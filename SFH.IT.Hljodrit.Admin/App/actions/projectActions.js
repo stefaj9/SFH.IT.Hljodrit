@@ -70,7 +70,7 @@ export function publishProjectById(projectId, review) {
             }
         }).then(data => {
             // Reroute to newly published album
-            browserHistory.push(`/albums/${data}`);
+            browserHistory.push(`/app/albums/${data}`);
         });
     }
 }
