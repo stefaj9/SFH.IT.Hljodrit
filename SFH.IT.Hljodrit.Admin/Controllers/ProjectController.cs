@@ -4,6 +4,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/projects")]
     public class ProjectController : ApiController
     {

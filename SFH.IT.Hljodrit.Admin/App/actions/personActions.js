@@ -8,7 +8,10 @@ export function getPersonById(personId) {
         dispatch(clearSelectedPerson());
         dispatch(isFetchingPerson());
         return fetch(`/api/persons/${personId}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -36,7 +39,8 @@ export function updatePersonById(personId, person) {
             method: 'PUT',
             body: JSON.stringify(person),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             }
         }).then((resp) => {
             if (resp.ok) {
@@ -64,7 +68,10 @@ export function deletePersonById(personId) {
     return (dispatch) => {
         dispatch(isFetchingPerson());
         return fetch(`/api/persons/${personId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then(resp => {
             dispatch(hasStoppedFetchingPerson());
             if (resp.ok) {
@@ -81,7 +88,10 @@ export function getPersonsByCriteria(pageSize, pageNumber, searchQuery, isFetchi
     return (dispatch) => {
         dispatch(isFetchingList());
         return fetch(`/api/persons?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchQuery}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -106,7 +116,10 @@ export function getMediaAssociatedWithPerson(personId) {
     return (dispatch) => {
         dispatch(isFetchingPersonMedia());
         return fetch(`/api/persons/${personId}/medias`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 dispatch(hasStoppedFetchingPersonMedia());
@@ -131,7 +144,10 @@ export function getAlbumsAssociatedWithPerson(personId) {
     return (dispatch) => {
         dispatch(isFetchingPersonAlbums());
         return fetch(`/api/persons/${personId}/albums`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then(resp => {
             dispatch(hasStoppedFetchingPersonAlbums());
             if (resp.ok) {
@@ -153,7 +169,10 @@ function getAlbumsAssociatedWithPersonSuccess(albums) {
 export function getPersonRoles() {
     return (dispatch) => {
         return fetch('/api/persons/roles', {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();

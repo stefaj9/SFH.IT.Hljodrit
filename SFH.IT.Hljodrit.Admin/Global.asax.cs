@@ -9,9 +9,6 @@ using NLog;
 using SFH.IT.Hljodrit.Admin.Filters;
 using SFH.IT.Hljodrit.Admin.Handlers;
 using SFH.IT.Hljodrit.Admin.Loggers;
-using SimpleInjector;
-using SimpleInjector.Integration.WebApi;
-using SimpleInjector.Lifestyles;
 
 namespace SFH.IT.Hljodrit.Admin
 {
@@ -27,17 +24,6 @@ namespace SFH.IT.Hljodrit.Admin
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            var container = new Container();
-            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
-            container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
-
-            Services.Startup.RegisterComponents(container);
-
-            container.Verify();
-
-            GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
 
             // Add a global custom exception filter
             GlobalConfiguration.Configuration.Filters.Add(new HttpExceptionFilter());

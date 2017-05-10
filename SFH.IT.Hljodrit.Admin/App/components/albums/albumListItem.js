@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 const AlbumListItem = ({album}) => {
     return (
         <div className={'list well row ' + album.albumTitle}
-            onClick={() => browserHistory.push(`/albums/${album.albumId}`)}>
+            onClick={() => browserHistory.push(`/app/albums/${album.albumId}`)}>
             <div className="list-info col-md-6 col-xs-12">
                 <div className="list-name">
                     <div className="title">Plötuheiti:</div>

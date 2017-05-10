@@ -5,6 +5,7 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/mainartists")]
     public class MainArtistController : ApiController
     {

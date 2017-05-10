@@ -23,35 +23,40 @@ import AlbumDetailsContainer from '../components/albums/albumDetailsContainer';
 import AlbumDetails from '../components/albums/albumDetails';
 import SongDetails from '../components/songs/songDetails';
 import PublisherDetails from '../components/publishers/publisherDetails';
+import Login from '../components/auth/login';
+import AuthAppContainer from '../components/common/authAppContainer';
 
 export default (
     <Route path="/" component={App}>
-        <IndexRoute component={Intro} />
+        <IndexRoute component={Login} />
         <Route path="info" component={Info} />
-        <Route path="projects" component={Projects}>
-            <IndexRoute component={ProjectManagement} />
-        </Route>
-        <Route path="calculations" component={Calculations} />
-        <Route path="albums" component={AlbumContainer}>
-            <IndexRoute component={Albums} />
-            <Route path="createalbum" component={AddAlbum} />
-            <Route path=":albumId" component={AlbumDetailsContainer}>
-                <IndexRoute component={AlbumDetails} />
-                <Route path="songs/:songId" component={SongDetails} />
+        <Route path="app" component={AuthAppContainer}>
+            <IndexRoute component={Intro} />
+            <Route path="projects" component={Projects}>
+                <IndexRoute component={ProjectManagement} />
             </Route>
-        </Route>
-        <Route path="musicians" component={MusiciansContainer}>
-            <IndexRoute component={Musicians} />
-            <Route path=":musicianId" component={MusicianDetails} />
-        </Route>
-        <Route path="settings" component={Settings} />
-        <Route path="media" component={MediaContainer}>
-            <IndexRoute component={Media}/>
-            <Route path=":mediaId" component={MediaDetails} />
-        </Route>
-        <Route path="publishers" component={PublishersContainer}>
-            <IndexRoute component={Publishers}/>
-            <Route path=":publisherId" component={PublisherDetails} />
+            <Route path="calculations" component={Calculations} />
+            <Route path="albums" component={AlbumContainer}>
+                <IndexRoute component={Albums} />
+                <Route path="createalbum" component={AddAlbum} />
+                <Route path=":albumId" component={AlbumDetailsContainer}>
+                    <IndexRoute component={AlbumDetails} />
+                    <Route path="songs/:songId" component={SongDetails} />
+                </Route>
+            </Route>
+            <Route path="musicians" component={MusiciansContainer}>
+                <IndexRoute component={Musicians} />
+                <Route path=":musicianId" component={MusicianDetails} />
+            </Route>
+            <Route path="settings" component={Settings} />
+            <Route path="media" component={MediaContainer}>
+                <IndexRoute component={Media}/>
+                <Route path=":mediaId" component={MediaDetails} />
+            </Route>
+            <Route path="publishers" component={PublishersContainer}>
+                <IndexRoute component={Publishers}/>
+                <Route path=":publisherId" component={PublisherDetails} />
+            </Route>
         </Route>
         <Route path="*" component={NotFound} />
     </Route>

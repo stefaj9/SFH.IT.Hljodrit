@@ -3,7 +3,8 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
-	[RoutePrefix("api")]
+    [Authorize(Roles = "Admin")]
+    [RoutePrefix("api")]
 	public class SettingsController : ApiController
 	{
 		private readonly ISettingsService _settingsService;

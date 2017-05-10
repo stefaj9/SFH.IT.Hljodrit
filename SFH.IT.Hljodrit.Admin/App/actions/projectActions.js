@@ -7,7 +7,10 @@ export function getAllProjects(pageSize, pageNumber, filters, searchString) {
     return (dispatch) => {
         dispatch(isFetchingProjects());
         return fetch(`/api/projects?pageSize=${pageSize}&pageNumber=${pageNumber}&inWorkingState=${filters.inWorkingStage}&recordingFinished=${filters.recordingFinished}&readyForPublish=${filters.readyForPublish}&published=${filters.published}&query=${searchString}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -25,7 +28,10 @@ export function getProjectById(projectId) {
     return dispatch => {
         dispatch(isFetchingSingleProject());
         return fetch(`/api/projects/${projectId}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then(resp => {
             dispatch(hasStoppedFetchingSingleProject());
             if (resp.ok) {
@@ -50,7 +56,8 @@ export function publishProjectById(projectId, review) {
         return fetch(`/api/projects/${projectId}/publish`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             },
             body: JSON.stringify(review)
         }).then(resp => {
@@ -73,7 +80,10 @@ export function getTracksOnProjectById(projectId) {
         dispatch(clearProjectTracks());
         dispatch(isFetchingSingleProjectTracks());
         return fetch(`/api/projects/${projectId}/tracks`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then(resp => {
             dispatch(hasStoppedFetchingSingleProjectTracks());
             if (resp.ok) {
@@ -96,7 +106,10 @@ export function removeProjectById(projectId) {
     return dispatch => {
         dispatch(isFetchingProjects());
         return fetch(`/api/projects/${projectId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then(resp => {
             dispatch(hasStoppedFetchingProjects());
             if (resp.ok) {
@@ -122,7 +135,8 @@ export function sendCommentByProjectId(projectId, commentModel) {
         return fetch(`/api/projects/${projectId}/comment`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             },
             body: JSON.stringify(commentModel)
         }).then(resp => {

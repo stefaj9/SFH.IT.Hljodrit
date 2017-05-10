@@ -110,6 +110,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         // POST Account/ChangePassword
+        [Authorize(Roles = "Admin")]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -130,6 +131,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         // POST Account/SetPassword
+        [Authorize(Roles = "Admin")]
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
@@ -149,6 +151,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         // POST Account/RemoveLogin
+        [Authorize(Roles = "Admin")]
         [Route("RemoveLogin")]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
@@ -178,7 +181,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         }
 
         // POST Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [Route("ResendEmail")]
         public async Task<IHttpActionResult> ResendEmail([FromBody] LoginModel model)
         {

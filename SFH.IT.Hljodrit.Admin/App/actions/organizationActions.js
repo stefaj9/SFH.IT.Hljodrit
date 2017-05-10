@@ -7,7 +7,10 @@ export function getPublishersByCriteria(pageSize, pageNumber, searchQuery, isFet
     return (dispatch) => {
         dispatch(isFetchingList());
         return fetch(`/api/organizations?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchQuery}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -26,7 +29,10 @@ export function getPublisherById(publisherId, isFetchingList, hasStoppedFetching
         dispatch(clearCurrentPublisher());
         dispatch(isFetchingList());
         return fetch(`/api/organizations/${publisherId}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then(resp => {
             if (resp.ok) {
                 return resp.json();
@@ -46,7 +52,8 @@ export function createPublisher(publisher) {
         return fetch('/api/organizations', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             },
             body: JSON.stringify(publisher)
         }).then(resp => {
@@ -111,7 +118,10 @@ function getAllPublishersSuccess(data) {
 export function getPublisherIsrcSeriesById(publisherId) {
     return (dispatch) => {
         return fetch(`/api/organizations/${publisherId}/isrc-series`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -132,7 +142,10 @@ function getPublisherIsrcSeriesByIdSuccess(isrcSeries) {
 export function getLabelsByPublisherId(publisherId) {
     return (dispatch) => {
         return fetch(`/api/organizations/${publisherId}/labels`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -156,7 +169,8 @@ export function addLabelToOrganizationById(organizationId, label) {
         return fetch(`/api/organizations/${organizationId}/labels`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             },
             body: JSON.stringify(label)
         }).then(resp => {
@@ -179,7 +193,8 @@ export function addIsrcSeriesToOrganizationById(organizationId, isrcRegistrant) 
         return fetch(`/api/organizations/${organizationId}/isrc`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             },
             body: JSON.stringify(isrcRegistrant)
         }).then(resp => {

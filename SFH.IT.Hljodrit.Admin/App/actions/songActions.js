@@ -9,7 +9,8 @@ export function updateSongDetailsById(songId, song) {
             method: 'PUT',
             body: JSON.stringify(song),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             }
         }).then((resp) => {
             if (resp.ok) {
@@ -38,7 +39,10 @@ export function getSongDetailsById(songId) {
         dispatch(isFetchingSongs());
         dispatch(clearSongSelection());
         return fetch(`/api/songs/${songId}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -66,7 +70,8 @@ export function addMusicianToSong(albumId, songId, musician) {
             method: 'POST',
             body: JSON.stringify(musician),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             }
         }).then((resp) => {
             if (resp.ok) {
@@ -87,7 +92,8 @@ export function updateMusicianInfo(albumId, songId, musicianId, newInfo) {
             method: 'PUT',
             body: JSON.stringify(newInfo),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             }
         }).then((resp) => {
             if (resp.ok) {
@@ -106,7 +112,8 @@ export function removeMusiciansFromSong(albumId, songId, musicianIds) {
             method: 'DELETE',
             body: JSON.stringify(musicianIds),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             }
         }).then((resp) => {
             dispatch(hasStoppedFetchingMusicians());
@@ -125,7 +132,10 @@ export function getAllMusiciansOnSong(albumId, songId) {
         dispatch(clearMusiciansOnSong());
         dispatch(isFetchingMusicians());
         return fetch(`/api/albums/${albumId}/songs/${songId}/musicians`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -150,7 +160,10 @@ export function getSongsByCriteria(pageSize, pageNumber, searchString, searchTyp
         dispatch(isFetchingSongs());
         dispatch(clearSongList());
         return fetch(`/api/songs?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchString}&searchType=${searchType}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -176,7 +189,10 @@ export function getMediaRecordingsByCriteria(pageSize, pageNumber, searchString,
         dispatch(isFetchingSongs());
         dispatch(clearMediaRecordingList());
         return fetch(`/api/media?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchString}&searchType=${searchType}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -194,7 +210,10 @@ export function getMediaById(mediaId) {
     return (dispatch) => {
         dispatch(isFetchingSongs());
         return fetch(`/api/media/${mediaId}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();

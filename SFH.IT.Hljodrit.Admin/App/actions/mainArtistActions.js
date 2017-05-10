@@ -4,7 +4,10 @@ export function getMainArtistsByCriteria(pageSize, pageNumber, searchTerm, isFet
     return (dispatch) => {
         dispatch(isFetchingList());
         return fetch(`/api/mainartists?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchTerm}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();

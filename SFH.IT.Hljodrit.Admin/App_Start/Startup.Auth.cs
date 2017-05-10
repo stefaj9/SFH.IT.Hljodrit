@@ -30,7 +30,7 @@ namespace SFH.IT.Hljodrit.Admin
             //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Configure the application for OAuth based flow
-            PublicClientId = "SFH.IT.Hljodrit.Web";
+            PublicClientId = "SFH.IT.Hljodrit.Admin";
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),

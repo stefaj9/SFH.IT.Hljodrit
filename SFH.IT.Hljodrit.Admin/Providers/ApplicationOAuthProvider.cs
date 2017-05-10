@@ -35,7 +35,7 @@ namespace SFH.IT.Hljodrit.Admin.Providers
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
             }
-
+            
             if (!user.EmailConfirmed)
             {
                 context.SetError("email_unconfirmed", "You must have a confirmed email to log on.");

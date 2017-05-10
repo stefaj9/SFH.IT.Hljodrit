@@ -11,7 +11,10 @@ export function getAllAlbums(pageSize, pageNumber, searchString, searchType) {
     return (dispatch) => {
         dispatch(isFetchingAlbums());
         return fetch(`/api/albums?pageSize=${pageSize}&pageNumber=${pageNumber}&searchTerm=${searchString}&searchFilter=${searchType}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -30,7 +33,10 @@ export function getSongsByAlbumId(albumId) {
         dispatch(clearCurrentAlbum());
         dispatch(isFetchingSongsByAlbumId());
         return fetch(`/api/albums/${albumId}/songs`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -51,6 +57,7 @@ export function removeSongsFromAlbum(albumId, songIds) {
             method: 'DELETE',
             body: JSON.stringify(songIds),
             headers: {
+                'Authorization': localStorage.getItem('bt-admin'),
                 'Content-Type': 'application/json'
             }
         }).then((resp) => {
@@ -76,7 +83,10 @@ export function getAlbumById(albumId) {
     return (dispatch) => {
         dispatch(isFetchingAlbumById());
         return fetch(`/api/albums/${albumId}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -124,7 +134,8 @@ export function createAlbum(album) {
         return fetch('/api/albums', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             },
             body: JSON.stringify(album)
         }).then(resp => {

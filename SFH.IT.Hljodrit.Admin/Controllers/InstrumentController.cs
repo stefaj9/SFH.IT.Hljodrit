@@ -18,7 +18,6 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         [Route("")]
         public IHttpActionResult GetAllInstruments()
         {
-            // TODO: Possibly add paging
             return Ok(_instrumentService.GetAllInstruments());
         }
     }
