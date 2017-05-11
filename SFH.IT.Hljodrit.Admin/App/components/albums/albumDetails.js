@@ -180,7 +180,7 @@ class AlbumDetails extends React.Component {
                     { this.renderForm() }
                     <div>
                         <h2>Lög</h2>
-                        <SongsOnAlbumTable callback={(row) => browserHistory.push(`/albums/${row.albumId}/songs/${row.songId}`)}
+                        <SongsOnAlbumTable callback={(row) => browserHistory.push(`/app/albums/${row.albumId}/songs/${row.songId}`)}
                             songs={this.props.songsOnSelectedAlbum}
                             albumId={this.props.selectedAlbum.albumId}/>
                     </div>

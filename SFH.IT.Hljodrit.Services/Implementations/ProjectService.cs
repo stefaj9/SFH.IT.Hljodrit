@@ -330,7 +330,7 @@ namespace SFH.IT.Hljodrit.Services.Implementations
 
         public IEnumerable<ProjectDto> GetProjectsByUsername(string userName)
         {
-            return _projectMasterRepository.GetMany(pm => pm.createdby == userName && !pm.removed).Select(p => new ProjectDto
+            return _projectMasterRepository.GetMany(pm => pm.createdby == userName && !pm.removed).OrderByDescending(pm => pm.updatedon).Select(p => new ProjectDto
             {
                 Id = p.id,
                 ProjectName = p.projectname,
@@ -403,7 +403,8 @@ namespace SFH.IT.Hljodrit.Services.Implementations
                 isrc = track.Isrc,
                 duration = track.Duration,
                 donotpublish = false,
-                trackorder = track.TrackOrder
+                trackorder = track.TrackOrder,
+                recordingid = track.RecordingId
             };
             _projectTrackRepository.Add(projectTrack);
 

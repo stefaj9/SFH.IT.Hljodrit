@@ -179,7 +179,7 @@ class ProjectBasicInfo extends React.Component {
                     <div className="form-group pull-right">
                         <button 
                             className="btn btn-default btn-primary" 
-                            onClick={(e) => this.submitBasicInfo(e)}
+                            onClick={(e) => { window.scrollTo(0, 0); this.submitBasicInfo(e); }}
                             disabled={!this.isValid()} >
                             Áfram
                         </button>

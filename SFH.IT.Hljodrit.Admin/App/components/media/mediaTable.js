@@ -17,10 +17,11 @@ const MediaTable = ({isFetching, objects, currentPage, maximumPage, changePageSi
                     <div className="row">
                         <Table tableData={mediaTableData}
                                objects={objects}
-                               onClickCallback={(row) => browserHistory.push(`/media/${row.mediaId}`)}
+                               onClickCallback={(row) => browserHistory.push(`/app/media/${row.mediaId}`)}
                                refCallback={ref => { return ref; }}
                                isRemote={false}
-                               pagination={false} />
+                               pagination={false}
+                               tableRowClassName="hover-cursor" />
                     </div>
                     <Paging visible={!isFetching}
                             currentPage={currentPage}

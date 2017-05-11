@@ -9,6 +9,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     /// an album with its songs and musicians and such it is called a project. A project can be in different states f.e. in a working state, 
     /// recording finished, ready for publish and published.
     /// </summary>
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/projects")]
     public class ProjectController : ApiController
     {

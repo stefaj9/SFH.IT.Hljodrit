@@ -11,6 +11,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     /// Albums controller takes care of all things regarding albums in the system. Supports various 
     /// actions regarding them.
     /// </summary>
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/albums")]
     public class AlbumController : ApiController
     {

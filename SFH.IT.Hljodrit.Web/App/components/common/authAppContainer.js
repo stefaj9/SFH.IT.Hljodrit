@@ -1,14 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import { refreshLogin, clearLogin } from '../../actions/authActions';
+import { refreshLogin, clearLogin, isLoggingIn, hasStoppedLoggingIn } from '../../actions/authActions';
 import { getZipCodes, getCountries } from '../../actions/commonActions';
 import { getProjectStatus } from '../../actions/projectActions';
 import TokenService from '../../services/tokenService';
 
 class AuthAppContainer extends React.Component {
     componentDidMount() {
+        this.props.isLoggingIn();
         TokenService.isValidToken().then(val => {
+            this.props.hasStoppedLoggingIn();
             if (!val) {
                 this.props.clearLogin();
                 browserHistory.push('/');
@@ -32,4 +34,4 @@ class AuthAppContainer extends React.Component {
     }
 }
 
-export default connect(null, { refreshLogin, clearLogin, getZipCodes, getCountries, getProjectStatus })(AuthAppContainer);
+export default connect(null, { refreshLogin, clearLogin, getZipCodes, getCountries, getProjectStatus, isLoggingIn, hasStoppedLoggingIn })(AuthAppContainer);

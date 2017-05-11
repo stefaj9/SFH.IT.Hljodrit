@@ -6,6 +6,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     /// <summary>
     /// Handles operations regarding all registered instruments in the system.
     /// </summary>
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/instruments")]
     public class InstrumentController : ApiController
     {
@@ -24,7 +25,6 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
         [Route("")]
         public IHttpActionResult GetAllInstruments()
         {
-            // TODO: Possibly add paging
             return Ok(_instrumentService.GetAllInstruments());
         }
     }

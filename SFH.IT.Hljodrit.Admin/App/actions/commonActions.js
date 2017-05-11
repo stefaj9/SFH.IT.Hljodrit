@@ -5,7 +5,10 @@ export function getZipCodes() {
     return (dispatch) => {
         dispatch(isFetchingZipCodes());
         return fetch('/api/common/zipcodes', {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -36,7 +39,10 @@ function hasStoppedFetchingZipCodes() {
 export function getCountries() {
     return (dispatch) => {
         return fetch('/api/common/countries', {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();

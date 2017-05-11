@@ -8,6 +8,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     /// <summary>
     /// Handles operations regarding Main artists.
     /// </summary>
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/mainartists")]
     public class MainArtistController : ApiController
     {

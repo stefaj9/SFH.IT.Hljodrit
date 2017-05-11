@@ -132,5 +132,6 @@
     <None Include="SFH.IT.Hljodrit.Db.publish.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="SchemaCompare\DevToTest.scmp" />
   </ItemGroup>
 </Project>

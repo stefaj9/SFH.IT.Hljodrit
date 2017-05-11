@@ -142,7 +142,7 @@ class AddSongInput extends React.Component {
                             <div className="form-group text-right">
                                 <button 
                                     tabIndex="5"
-                                    className="btn btn-default" 
+                                    className="btn btn-default btn-primary" 
                                     onClick={(e) => this.addSongToList(e, this.state.currentSongId, this.state.currentSongName, this.state.currentSongLength, '', new Date())}
                                     disabled={!this.isAddSongValid()}><i className="fa fa-fw fa-plus"></i> Bæta við</button>
                             </div>

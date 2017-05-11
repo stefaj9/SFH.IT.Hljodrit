@@ -61,7 +61,7 @@ class AddPublisher extends React.Component {
                 <div className="form-group pull-right">
                     <button 
                         disabled={publisher.id !== -1}
-                        className="btn btn-default"
+                        className="btn btn-default btn-primary"
                         onClick={() => this.openAddPublisherModal()}>Bæta við útgefanda <i className="fa fa-fw fa-plus"></i></button>
                 </div>
                 <table className={'table table-default table-striped table-responsive' + (publisher.id === -1 ? ' hidden': '')}>
@@ -80,11 +80,11 @@ class AddPublisher extends React.Component {
                 <div className="btn-group pull-right">
                     <button 
                         className="btn btn-default"
-                        onClick={() => this.props.back()}>Til baka</button>
+                        onClick={() => { window.scrollTo(0, 0); this.props.back(); }}>Til baka</button>
                     <button 
                         disabled={publisher.id === -1}
                         className="btn btn-default btn-primary" 
-                        onClick={() => this.props.next(this.state.publisher)}>Áfram
+                        onClick={() => { window.scrollTo(0, 0); this.props.next(this.state.publisher); }}>Áfram
                     </button>
                 </div>
                 <SelectPersonModal

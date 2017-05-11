@@ -3,7 +3,10 @@ import fetch from 'isomorphic-fetch';
 export function getInstrumentSuggestions() {
     return (dispatch) => {
         return fetch('/api/instruments', {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('bt-admin')
+            }
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();

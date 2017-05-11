@@ -16,7 +16,8 @@ export function register(individual, path) {
             method: 'POST',
             body: JSON.stringify(individual),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             }
         }).then((resp) => {
             if (resp.ok) {
@@ -42,7 +43,8 @@ export function update(data, path, message, optionalSuccessCallback) {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('bt-admin')
             }
         }).then((resp) => {
             if (resp.ok) {

@@ -124,7 +124,7 @@ class SongDetails extends React.Component {
             <div className={canBeRendered ? '' : 'hidden'}>
                 <div className="row text-left">
                     <div className="col-xs-12">
-                        <Link to={`/albums/${this.props.params.albumId}`}><i className="fa fa-arrow-left fa-fw"></i> Til baka á plötu</Link>
+                        <Link to={`/app/albums/${this.props.params.albumId}`}><i className="fa fa-arrow-left fa-fw"></i> Til baka á plötu</Link>
                     </div>
                 </div>
                 <h2>{this.props.song.songTitle}</h2>

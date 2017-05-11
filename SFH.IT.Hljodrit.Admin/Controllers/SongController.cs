@@ -8,6 +8,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     /// <summary>
     /// Controller that handles all operations regarding to songs in the system.
     /// </summary>
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/songs")]
     public class SongController : ApiController
     {

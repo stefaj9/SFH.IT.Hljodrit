@@ -115,7 +115,7 @@ class SongMusiciansTable extends React.Component {
         _.forEach(musicians, (musician, idx) => {
             let rowNumber = idx + 1;
 
-            musician.name = <Link to={`/musicians/${musician.id}`}>{musician.name}</Link>;
+            musician.name = <Link to={`/app/musicians/${musician.id}`}>{musician.name}</Link>;
 
             musician.role = <select value={musician.role[0].code} className="form-control" onChange={(e) => this.updateMusicianRole(e, rowNumber, musician.musicianId)}>{this.renderRoles()}</select>;
 

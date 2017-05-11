@@ -38,7 +38,7 @@ class AddAlbum extends React.Component {
         this.setState({
             currentStep: 1
         });
-        browserHistory.push('/albums');
+        browserHistory.push('/app/albums');
     }
     createAlbum(album) {
         let formattedAlbum = _.cloneDeep(album);

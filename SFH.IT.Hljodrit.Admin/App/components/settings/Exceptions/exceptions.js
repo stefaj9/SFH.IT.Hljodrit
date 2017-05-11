@@ -42,7 +42,7 @@ class Exceptions extends React.Component {
     render() {
         return (
             <div>
-                <h3 className="text-left">Exceptions</h3>
+                <h4>Villur</h4>
                 <PageSelector change={newPageSize => this.changePageSize(newPageSize)} />
                 <ExceptionList exceptions={this.props.exceptions}
                                isFetching={this.props.isFetching}

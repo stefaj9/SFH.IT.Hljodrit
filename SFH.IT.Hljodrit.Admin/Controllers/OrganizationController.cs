@@ -9,6 +9,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     /// Handles all operations regarding organization which is the same as publisher in
     /// the system.
     /// </summary>
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/organizations")]
     public class OrganizationController : ApiController
     {

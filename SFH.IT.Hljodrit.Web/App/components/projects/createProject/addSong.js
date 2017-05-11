@@ -21,12 +21,13 @@ export default class AddSong extends React.Component {
                     <button 
                         tabIndex={this.state.songs.length + 7}
                         className="btn btn-default"
-                        onClick={() => this.props.back()}>Til baka</button>
+                        onClick={() => { window.scrollTo(0, 0); this.props.back(); }}>Til baka
+                    </button>
                     <button
                         tabIndex={this.state.songs.length + 8}
                         disabled={this.state.songs.length === 0}
                         className="btn btn-default btn-primary" 
-                        onClick={() => this.props.next(this.state.songs)}>Áfram
+                        onClick={() => { window.scrollTo(0, 0); this.props.next(this.state.songs); }} >Áfram
                     </button>
                 </div>
             </div>

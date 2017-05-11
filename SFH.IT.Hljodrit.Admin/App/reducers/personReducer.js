@@ -37,8 +37,8 @@ export default function(state = initialState, action) {
             moment.locale('is');
             media = media.map(m => {
                 return Object.assign({}, m, {
-                    mainArtist: <a href={`/mainartists/${m.mainArtistId}`}>{m.mainArtist}</a>,
-                    mediaTitle: <a href={`/media/${m.mediaId}`}>{m.mediaTitle}</a>,
+                    mainArtist: <a href={`/app/mainartists/${m.mainArtistId}`}>{m.mainArtist}</a>,
+                    mediaTitle: <a href={`/app/media/${m.mediaId}`}>{m.mediaTitle}</a>,
                     instruments: m.instruments.map(instrument => {
                         return instrument.instrumentNameIcelandic;
                     }),
@@ -55,8 +55,8 @@ export default function(state = initialState, action) {
             let albums = _.cloneDeep(action.payload);
             albums = albums.map(a => {
                 return Object.assign({}, a, {
-                    mainArtistName: <a href={`/mainartists/${a.mainArtistId}`}>{a.mainArtistName}</a>,
-                    albumTitle: <a href={`/albums/${a.albumId}`}>{a.albumTitle}</a>
+                    mainArtistName: <a href={`/app/mainartists/${a.mainArtistId}`}>{a.mainArtistName}</a>,
+                    albumTitle: <a href={`/app/albums/${a.albumId}`}>{a.albumTitle}</a>
                 });
             });
             return Object.assign({}, state, {

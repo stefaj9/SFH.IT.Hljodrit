@@ -6,7 +6,8 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     /// <summary>
     /// Handles all operations regarding the settings menu of the system.
     /// </summary>
-	[RoutePrefix("api")]
+    [Authorize(Roles = "Admin")]
+    [RoutePrefix("api")]
 	public class SettingsController : ApiController
 	{
 		private readonly ISettingsService _settingsService;

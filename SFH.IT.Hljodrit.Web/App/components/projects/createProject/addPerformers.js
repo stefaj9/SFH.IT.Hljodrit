@@ -58,11 +58,11 @@ export default class AddPerformers extends React.Component {
                 <div className="btn-group pull-right">
                     <button 
                         className="btn btn-default"
-                        onClick={() => this.props.back()}>Til baka</button>
+                        onClick={() => { window.scrollTo(0, 0); this.props.back(); }}>Til baka</button>
                     <button 
                         disabled={!this.canBeSubmitted()}
                         className="btn btn-default btn-primary" 
-                        onClick={() => this.props.next(this.state.songs)}>Áfram
+                        onClick={() => { window.scrollTo(0, 0); this.props.next(this.state.songs); }}>Áfram
                     </button>
                 </div>
             </div>

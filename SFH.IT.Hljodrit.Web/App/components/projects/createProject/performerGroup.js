@@ -174,6 +174,7 @@ class PerformerGroup extends React.Component {
         return (
             <div>
                 <h4>Hópar</h4>
+                <p>Til þess að færa marga flytjendur í einu yfir á lag/lög er hægt að búa til hóp af flytjendum. Þetta getur verið hentugt ef flytjendur breytast lítið milli laga.</p>
                 <div className="row">
                     <div className="col-xs-12 text-right">
                         <button 

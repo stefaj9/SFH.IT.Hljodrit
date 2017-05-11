@@ -212,12 +212,22 @@ namespace SFH.IT.Hljodrit.Web.Controllers
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
-
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
 
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+
+            if (!roleManager.RoleExists("User"))
+            {
+                roleManager.Create(new IdentityRole
+                {
+                    Name = "User"
+                });
+            }
+
+            await UserManager.AddToRoleAsync(user.Id, "User");
             await SendEmail(user, UserManager);
 
             return Ok();

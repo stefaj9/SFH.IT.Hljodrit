@@ -6,6 +6,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     /// <summary>
     /// Common controller features various operations that are common between services.
     /// </summary>
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/common")]
     public class CommonController : ApiController
     {

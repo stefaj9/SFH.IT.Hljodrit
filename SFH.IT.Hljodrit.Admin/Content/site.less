@@ -10,6 +10,26 @@ body {
     }
 }
 
+.navbar-height {
+    height: 70px;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+    &:before {
+        font-family: "FontAwesome";
+        content: "\f071";
+        margin-right: 8px;
+    }
+}
+
+.img-contained {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 .background-primary {
     color: #fff !important;
     background-color: #337ab7 !important;
@@ -422,39 +442,20 @@ label {
 }
 
 .color-info-box-wrapper {
-    .color-info-box {
-        margin-bottom: 10px;
-        .color {
-            width: 25px;
-            height: 25px;
-        }
-        .color-info-text {
-            font-weight: bold;
-            font-family: 'Raleway';
-            margin-top: 10px;
-        }
+    .color {
+        width: 25px;
+        height: 25px;
+        display: inline-block;
     }
-}
-
-.aside-flag {
-    position: fixed;
-    top: 25%;
-    left: 0;
-    padding: 20px;
-    z-index: 9999;
-    box-shadow: 10px 10px 30px rgba(200, 200, 200, 0.2);
-    &.aside-flag-info {
-        background-color: white;
-    }
-    &.aside-flag-danger {
-        background-color: rgba(244, 67, 54, 0.3);
-    }
-    &.aside-flag-warning {
-        background-color: rgba(255, 152, 0, 0.3);
+    .color-info-text {
+        font-weight: bold;
+        font-family: 'Raleway';
+        margin-top: 10px;
     }
 }
 
 .projects {
+    margin-bottom: 150px;
     .project-search-bar {
         margin-top: 40px;
     }
@@ -572,6 +573,11 @@ label {
 .list {
     border-radius: 0;
     margin-bottom: 5px;
+    transition: background-color .2s ease-in;
+    &.list-hover:hover {
+        cursor: pointer;
+        background-color: rgba(155, 155, 155, 0.3);
+    }
     .list-info {
         .title {
             display: inline-block;
@@ -638,9 +644,30 @@ label {
             }
         }
     }
+    .aside-flag {
+        display: none !important;
+    }
 }
 
 @media screen and (min-width: 768px) {
+    .aside-flag {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        padding: 20px;
+        z-index: 9999;
+        box-shadow: 10px 10px 30px rgba(200, 200, 200, 0.2);
+        &.aside-flag-info {
+            background-color: white;
+        }
+        &.aside-flag-danger {
+            background-color: rgba(244, 67, 54, 0.3);
+        }
+        &.aside-flag-warning {
+            background-color: rgba(255, 152, 0, 0.3);
+        }
+    }
     .modal-dialog {
         width: 800px !important;
     }

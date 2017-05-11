@@ -1,60 +1,94 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-export default class Header extends React.Component {
+class Header extends React.Component {
+    componentWillMount() {
+        let splittedPath = location.pathname.split('/');
+        let currentSelectedItem = '';
+        if (splittedPath.length > 1) {
+            if (splittedPath[1] === 'app') {
+                if (splittedPath.length > 2) {
+                    currentSelectedItem = splittedPath[2];
+                }
+            } else {
+                currentSelectedItem = splittedPath[1];
+            }
+        }
+        this.setState({ selectedItem: currentSelectedItem.toLowerCase() });
+    }
     constructor(props, context) {
         super(props, context);
         this.state = {
             selectedItem: ''
         };
     }
+    changeSelectedItem(item) {
+        if (this.props.isLoggedIn) {
+            this.setState({ selectedItem: item });
+        }
+    }
     render() {
+        const { selectedItem } = this.state;
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
-                    <div className="navbar-header">
+                    <div className={'navbar-header' + (!this.props.isLoggedIn? ' navbar-height': '')}>
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
                             <span className="sr-only">Toggle navigation</span>
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <Link className="navbar-brand" to="/" onClick={() => this.setState({ selectedItem: '' })}>
+                        <Link className="navbar-brand" to={this.props.isLoggedIn ? '/app' : '/'} onClick={() => this.changeSelectedItem('')}>
                             <img alt="Brand" src="/App/resources/logo-hljodrit.png" />
                         </Link>
                     </div>
                     <div className="collapse navbar-collapse" id="navbar-collapse">
-                        <ul className="nav navbar-nav">
-                            <li className={this.state.selectedItem === 'projects' ? 'active' : ''}>
-                                <Link to="/projects" onClick={() => this.setState({ selectedItem: 'projects' })}>
+                        <ul className={'nav navbar-nav' + (!this.props.isLoggedIn ? ' hidden' : '')}>
+                            <li className={selectedItem === 'projects' ? 'active' : ''}>
+                                <Link to="/app/projects" onClick={() => this.changeSelectedItem('projects')}>
                                     Verkefnastýring
                                 </Link>
                             </li>
-                            <li className={this.state.selectedItem === 'media' ? 'active' : ''}>
-                                <Link to="/media" onClick={() => this.setState({ selectedItem: 'media' })}>
+                            <li className={selectedItem === 'media' ? 'active' : ''}>
+                                <Link to="/app/media" onClick={() => this.changeSelectedItem('media')}>
                                     Hljóðrit
                                 </Link>
                             </li>
-                            <li className={this.state.selectedItem === 'publishers' ? 'active' : ''}>
-                                <Link to="/publishers" onClick={() => this.setState({ selectedItem: 'publishers' })}>
+                            <li className={selectedItem === 'publishers' ? 'active' : ''}>
+                                <Link to="/app/publishers" onClick={() => this.changeSelectedItem('publishers')}>
                                     Útgefendur
                                 </Link>
                             </li>
-                            <li className={this.state.selectedItem === 'albums' ? 'active' : ''}>
-                                <Link to="/albums" onClick={() => this.setState({ selectedItem: 'albums' })}>
+                            <li className={selectedItem === 'albums' ? 'active' : ''}>
+                                <Link to="/app/albums" onClick={() => this.changeSelectedItem('albums')}>
                                     Plötur
                                 </Link>
                             </li>
-                            <li className={this.state.selectedItem === 'musicians' ? 'active' : ''}>
-                                <Link to="/musicians" onClick={() => this.setState({ selectedItem: 'musicians' })}>
+                            <li className={selectedItem === 'musicians' ? 'active' : ''}>
+                                <Link to="/app/musicians" onClick={() => this.changeSelectedItem('musicians')}>
                                     Aðilar
                                 </Link>
                             </li>
-                            <li className={this.state.selectedItem === 'settings' ? 'active' : ''}>
-                                <Link to="/settings" onClick={() => this.setState({ selectedItem: 'settings' })}>
+                            <li className={selectedItem === 'info' ? 'active' : ''}>
+                                <Link to="/info" onClick={() => this.changeSelectedItem('info')}>
+                                    Upplýsingar
+                                </Link>
+                            </li>
+                            <li>
+                                <a href="#" onClick={() => this.props.logoutUser()}>Skrá út</a>
+                            </li>
+                            <li className={selectedItem === 'settings' ? 'active' : ''}>
+                                <Link to="/app/settings" onClick={() => this.changeSelectedItem('settings')}>
                                     <i className="fa fa-cog hidden-xs"></i>
                                     <div className="visible-xs">Stillingar</div>
                                 </Link>
+                            </li>
+                            <li>
+                                <a>
+                                    <strong>{this.props.userName}</strong>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -63,3 +97,11 @@ export default class Header extends React.Component {
         );
     }
 }
+
+Header.propTypes = {
+    isLoggedIn: PropTypes.bool.isRequired,
+    logoutUser: PropTypes.func.isRequired,
+    userName: PropTypes.string.isRequired
+}
+
+export default Header;
