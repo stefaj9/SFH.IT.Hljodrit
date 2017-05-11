@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 
 const PublisherListItem = ({publisher}) => {
     return (
-        <div className={'list well row ' + publisher.fullName}
+        <div className={'list list-hover well row ' + publisher.fullName}
              onClick={() => browserHistory.push(`/app/publishers/${publisher.id}`)}>
             <div className="list-info col-md-6 col-xs-12">
                 <div className="list-name">
