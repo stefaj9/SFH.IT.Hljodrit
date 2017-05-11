@@ -3,6 +3,20 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 class Header extends React.Component {
+    componentWillMount() {
+        let splittedPath = location.pathname.split('/');
+        let currentSelectedItem = '';
+        if (splittedPath.length > 1) {
+            if (splittedPath[1] === 'app') {
+                if (splittedPath.length > 2) {
+                    currentSelectedItem = splittedPath[2];
+                }
+            } else {
+                currentSelectedItem = splittedPath[1];
+            }
+        }
+        this.setState({ selectedItem: currentSelectedItem.toLowerCase() });
+    }
     constructor(props, context) {
         super(props, context);
         this.state = {
