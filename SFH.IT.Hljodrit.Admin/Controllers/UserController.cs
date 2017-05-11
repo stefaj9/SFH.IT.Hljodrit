@@ -1,7 +1,10 @@
 ﻿using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using SFH.IT.Hljodrit.Admin.Models;
 using SFH.IT.Hljodrit.Common.Dto;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
@@ -24,6 +27,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
                 _applicationUserManager = value;
             }
         }
+
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetAllUsersInAdminGroup()
@@ -34,6 +38,14 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
                 Name = u.Name,
                 Email = u.Email
             }));
+        }
+
+        [HttpDelete]
+        [Route("{userId}/delete")]
+        public async Task<IHttpActionResult> DeleteUserById(string userId)
+        {
+            await UserManager.RemoveFromRoleAsync(userId, "Admin");
+            return Ok();
         }
     }
 }

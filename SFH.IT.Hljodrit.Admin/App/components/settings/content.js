@@ -7,6 +7,7 @@ export default class Content extends React.Component {
     render () {
         return (
             <div>
+                <div className="spacer"></div>
                 {this.props.activeTab.name === types.EXCEPTIONS ? <Exceptions /> : null}
                 {this.props.activeTab.name === types.USER_MANAGEMENT ? <Users /> : null}
             </div>

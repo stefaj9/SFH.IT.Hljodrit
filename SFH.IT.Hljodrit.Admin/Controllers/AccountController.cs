@@ -14,6 +14,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using SFH.IT.Hljodrit.Admin.Helpers;
 using SFH.IT.Hljodrit.Admin.Models;
+using SFH.IT.Hljodrit.Common.Dto;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
@@ -211,13 +212,28 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { Name = model.Name, UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { Name = model.Name, UserName = model.Email, Email = model.Email, EmailConfirmed = true };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
+            if (UserManager.FindByEmail(model.Email) == null)
             {
-                return GetErrorResult(result);
+                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+            }
+            else
+            {
+                user = UserManager.FindByEmail(model.Email);
+                user.Name = model.Name;
+                user.EmailConfirmed = true;
+                IdentityResult result = await UserManager.UpdateAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
             }
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
@@ -230,10 +246,21 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
                 });
             }
 
-            await UserManager.AddToRoleAsync(user.Id, "Admin");
-            await SendEmail(user, UserManager);
+            if (!UserManager.IsInRole(user.Id, "Admin"))
+            {
+                await UserManager.AddToRoleAsync(user.Id, "Admin");
+            }
+            else
+            {
+                return BadRequest();
+            }
 
-            return Ok();
+            return Ok(new UserDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+            });
         }
 
         [HttpGet]
