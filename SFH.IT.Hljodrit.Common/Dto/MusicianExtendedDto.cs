@@ -14,6 +14,6 @@ namespace SFH.IT.Hljodrit.Common.Dto
         public string Fullname { get; set; }
 
         [JsonProperty(PropertyName = "songs")]
-        public Dictionary<string, IEnumerable<string>> Songs;        
+        public Dictionary<string, IEnumerable<string>> Songs;
     }
 }
