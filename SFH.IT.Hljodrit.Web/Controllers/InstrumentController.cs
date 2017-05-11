@@ -3,6 +3,9 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Web.Controllers
 {
+    /// <summary>
+    /// Used to perform actions based on instruments
+    /// </summary>
     [Authorize]
     [RoutePrefix("api/instruments")]
     public class InstrumentController : ApiController
@@ -14,6 +17,10 @@ namespace SFH.IT.Hljodrit.Web.Controllers
             _instrumentService = instrumentService;
         }
 
+        /// <summary>
+        /// Is used to retrieve all instruments within the system
+        /// </summary>
+        /// <returns>An IEnumerable of instruments encapsulated as InstrumentDto</returns>
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetAllInstruments()

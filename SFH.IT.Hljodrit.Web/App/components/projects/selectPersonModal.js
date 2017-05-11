@@ -245,11 +245,14 @@ class SelectPersonModal extends React.Component {
         let containsData = !this.props.isFetching && this.props.envelope.objects.length !== 0;
         return (
             <div>
-                <SearchBar
-                    searchTerm={this.state.searchQuery}
-                    visible={!this.state.registerFormShowing}
-                    searchBy={(term) => this.search(term)} />
-                <PageSelector visible={containsData} change={(newPagesize) => this.changePagesize(newPagesize)} />
+                <div className="row">
+                    <SearchBar
+                        searchTerm={this.state.searchQuery}
+                        visible={!this.state.registerFormShowing}
+                        searchBy={(term) => this.search(term)}
+                        iconOn={true} />
+                    <PageSelector visible={containsData} change={(newPagesize) => this.changePagesize(newPagesize)} />
+                </div>
                 <ListView
                     items={this.props.envelope.objects}
                     isFetching={this.props.isFetching}

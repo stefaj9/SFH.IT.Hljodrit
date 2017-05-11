@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using SFH.IT.Hljodrit.Admin.Models;
@@ -11,6 +12,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
     [RoutePrefix("api/users")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class UserController : ApiController
     {
         private ApplicationUserManager _applicationUserManager;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -8,6 +9,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
 {
     [AllowAnonymous]
     [RoutePrefix("api/validation")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ValidationController : ApiController
     {
         public ApplicationUserManager UserManager => Request.GetOwinContext().GetUserManager<ApplicationUserManager>();

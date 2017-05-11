@@ -1,0 +1,900 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SFH.IT.Hljodrit.Admin</name>
+    </assembly>
+    <members>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForMediaType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Sets the sample directly for all actions with the specified media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.GetModelDescriptionGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the model description generator.
+            </summary>
+            <param name="config">The configuration.</param>
+            <returns>The <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/></returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
+            <summary>
+            Generates model descriptions for given types.
+            </summary>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
+            <summary>
+            Use this attribute to change the name of the <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.UriParameters">
+            <summary>
+            Gets or sets the <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> collection that describes the URI parameters for the API.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.RequestDocumentation">
+            <summary>
+            Gets or sets the documentation for the request.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.RequestModelDescription">
+            <summary>
+            Gets or sets the <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the request body.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.RequestBodyParameters">
+            <summary>
+            Gets the request body parameter descriptions.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.ResourceDescription">
+            <summary>
+            Gets or sets the <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the resource.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.ResourceProperties">
+            <summary>
+            Gets the resource property descriptions.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,SFH.IT.Hljodrit.Admin.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,SFH.IT.Hljodrit.Admin.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters. 
+            First, it will look at the <see cref="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
+            one using <see cref="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ObjectGenerator"/>) and other
+            factories in <see cref="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.ResolveHttpRequestMessageType(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Resolves the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The type.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},SFH.IT.Hljodrit.Admin.Areas.HelpPage.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Creates a new <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey"/> based on media type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.#ctor(SFH.IT.Hljodrit.Admin.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey"/> based on <see cref="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,SFH.IT.Hljodrit.Admin.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey"/> based on media type, <see cref="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:SFH.IT.Hljodrit.Admin.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SFH.IT.Hljodrit.Admin.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Controllers.AlbumController">
+            <summary>
+            Albums controller takes care of all things regarding albums in the system. Supports various 
+            actions regarding them.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.GetAlbums(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            GetAlbums returns an envelope containing results from a requested search. 
+            </summary>
+            <param name="pageSize">The number of albums to be returned in an envelope object.</param>
+            <param name="pageNumber">The number of the page to be returned.</param>
+            <param name="searchTerm">Searchstring to narrow results down.</param>
+            <param name="searchFilter">Searchfilter decides if the search is for Main artist name or publish year.</param>
+            <returns>An envelope containing the results as well as the current page number</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.CreateAlbum(SFH.IT.Hljodrit.Common.ViewModels.AlbumCreationViewModel)">
+            <summary>
+            Creates an album in the system.
+            </summary>
+            <param name="album">A view model object of a new album to be created.</param>
+            <returns>The id of the newly created album.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.GetAlbumById(System.Int32)">
+            <summary>
+            Gets a single album by it's id.
+            </summary>
+            <param name="albumId">The id of the album to retrieve.</param>
+            <returns>An AlbumExtendedDto object of the album if it was found.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.UpdateAlbumInfo(System.Int32,SFH.IT.Hljodrit.Common.Dto.AlbumViewModel)">
+            <summary>
+            Updates the information on an album by its id.
+            </summary>
+            <param name="albumId">The id of the album to update.</param>
+            <param name="updatedAlbum">An album view model that contains the updated information.</param>
+            <returns>An AlbumExtendedDto of the updated album.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.GetSongsByAlbumId(System.Int32)">
+            <summary>
+            Returns the songs belonging to an album.
+            </summary>
+            <param name="albumId">The id of the album to fetch the songs from.</param>
+            <returns>An IENumerable of all the songs belonging to the album.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.RemoveSongsFromAlbum(System.Int32,System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Removes a number of songs from an album.
+            </summary>
+            <param name="albumId">The id of the album to remove songs from.</param>
+            <param name="songIds">An IENumerable of the id's of songs to remove from the album.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.GetSongOnAlbum(System.Int32,System.Int32)">
+            <summary>
+            Gets a particular song from an album.
+            </summary>
+            <param name="albumId">The id of the album to fetch a song from.</param>
+            <param name="songId">The id of the song to fetch from the album.</param>
+            <returns>A SongDto object.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.GetMusiciansOnSong(System.Int32,System.Int32)">
+            <summary>
+            Gets the musicians that appear on a song.
+            </summary>
+            <param name="albumId">The id of the album.</param>
+            <param name="songId">The id of the song to fetch musicians from.</param>
+            <returns>An ICollection of MusiciansOnSongDto of all musicians appearing on the song.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.AddMusicianToSong(System.Int32,System.Int32,SFH.IT.Hljodrit.Common.ViewModels.MusicianRegisterViewModel)">
+            <summary>
+            Adds a musician to a particular song.
+            </summary>
+            <param name="albumId">The id of the album containing the song.</param>
+            <param name="songId">The id of the song to add a musician to.</param>
+            <param name="musician">A MusicianRegisterViewModel of the musician to be added to the song.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.UpdateMusicianInfoOnSong(System.Int32,System.Int32,System.Int32,SFH.IT.Hljodrit.Common.ViewModels.MusicianInfoModifyModel)">
+            <summary>
+            Updates information on a musician on a certain song.
+            </summary>
+            <param name="albumId">The id of the album containing the song.</param>
+            <param name="songId">The id of the song.</param>
+            <param name="musicianId">The id of the musician to be updated.</param>
+            <param name="model">A MusicianInfoModifyViewModel containing the update information for the musician.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.AlbumController.RemoveMusiciansFromSong(System.Int32,System.Int32,System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Removes a number of musicians from a certain song.
+            </summary>
+            <param name="albumId">The id of the album containing the song.</param>
+            <param name="songId">The id of the song to remove musicians from.</param>
+            <param name="musicianIds">An IENumerable containing the id's of the musicians to remove.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Controllers.CommonController">
+            <summary>
+            Common controller features various operations that are common between services.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.CommonController.GetZipCodes">
+            <summary>
+            Returns the zip codes that are available in the system.
+            </summary>
+            <returns>An IEnumerable containing all available zip codes in the system.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.CommonController.GetCountries">
+            <summary>
+            Returns all available countries that are registered in the system.
+            </summary>
+            <returns>An IEnumerable containing all registered countries in the system.</returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Controllers.InstrumentController">
+            <summary>
+            Handles operations regarding all registered instruments in the system.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.InstrumentController.GetAllInstruments">
+            <summary>
+            Gets all registered instruments in the system.
+            </summary>
+            <returns>An IEnumerable containing all registered instruments in the system.</returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Controllers.MainArtistController">
+            <summary>
+            Handles operations regarding Main artists.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.MainArtistController.GetMainArtistsByCriteria(System.Int32,System.Int32,System.String)">
+            <summary>
+            Gets Main artists by some search criteria and returns in an envelope.
+            </summary>
+            <param name="pageSize">The number of results to be returned in the envelope.</param>
+            <param name="pageNumber">The page number to be returned.</param>
+            <param name="searchTerm">The search term to filter by.</param>
+            <returns>An envelope containing the query results.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.MainArtistController.CreateMainArtist(SFH.IT.Hljodrit.Common.ViewModels.PersonRegisterViewModel)">
+            <summary>
+            Creates a new main artist in the system.
+            </summary>
+            <param name="mainArtist">A model representing the person to be made a main artist.</param>
+            <returns>The id of the newly created main artist.</returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Controllers.MediaController">
+            <summary>
+            Handles all media operations in the system. A media is any recording whether it has 
+            been published on an album or not.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.MediaController.GetAllMedia(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Gets all media and can be filtered by a search query.
+            </summary>
+            <param name="pageSize">The number of results to be returned per envelope.</param>
+            <param name="pageNumber">The page number to be returned.</param>
+            <param name="searchTerm">A searchstring to filter by.</param>
+            <param name="searchType">A filter to search by f.e. Main artist or publish year.</param>
+            <returns>An envelope containing the results.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.MediaController.GetMediaById(System.Int32)">
+            <summary>
+            Gets a single media object by its id.
+            </summary>
+            <param name="mediaId">The id of the media to be returned.</param>
+            <returns>A MediaExtendedDto of the media.</returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Controllers.OrganizationController">
+            <summary>
+            Handles all operations regarding organization which is the same as publisher in
+            the system.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.OrganizationController.GetPublisherIsrcSeriesById(System.Int32)">
+            <summary>
+            Gets all isrc series belonging to a publisher. 
+            </summary>
+            <param name="publisherId">The id of the publisher to retrieve isrc series from.</param>
+            <returns>An IEnumerable of all the isrc series belonging to the publisher.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.OrganizationController.GetAllPublishers(System.Int32,System.Int32,System.String)">
+            <summary>
+            Gets all publishers and returns in an envelope. Can be filtered by a search string.
+            </summary>
+            <param name="pageSize">The number of results to be included in the result envelope.</param>
+            <param name="pageNumber">The number of the page to be returned.</param>
+            <param name="searchTerm">The search term to filter the results by.</param>
+            <returns>An envelope containing the resulting publishers.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.OrganizationController.CreatePublisher(SFH.IT.Hljodrit.Common.ViewModels.PublisherViewModel)">
+            <summary>
+            Creates a new publisher in the system.
+            </summary>
+            <param name="publisher">A PublisherViewModel of the new publisher to be created.</param>
+            <returns>A PublisherExtendedDto object of the newly created publisher.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.OrganizationController.GetPublisherById(System.Int32)">
+            <summary>
+            Gets a publisher by its id.
+            </summary>
+            <param name="publisherId">The id of the publisher to be retrieved.</param>
+            <returns>A PublisherExtendedDto object of the publisher to retrieve.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.OrganizationController.UpdatePublisherInfo(System.Int32,SFH.IT.Hljodrit.Common.ViewModels.PublisherViewModel)">
+            <summary>
+            Updates a publishers information.
+            </summary>
+            <param name="publisherId">The id of the publisher to update.</param>
+            <param name="updatedPublisher">A PublisherViewModel containing the updated information.</param>
+            <returns>A PublisherExtendedDto containing the updated information.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.OrganizationController.GetLabelsByPublisherId(System.Int32)">
+            <summary>
+            Gets all labels belonging to a certain publisher.
+            </summary>
+            <param name="publisherId">The id of the publisher to retrieve labels from.</param>
+            <returns>An IEnumerable of all the labels belonging to the publishers.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.OrganizationController.AddLabelsByPublisherId(System.Int32,SFH.IT.Hljodrit.Common.Dto.LabelDto)">
+            <summary>
+            Adds a new label to a publisher by the publishers id.
+            </summary>
+            <param name="publisherId">The id of the publisher to add a label to.</param>
+            <param name="label">A LabelDto of the label to add to the publisher.</param>
+            <returns>The LabelDto of the newly created label.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.OrganizationController.AddIsrcSeriesByPublisherId(System.Int32,SFH.IT.Hljodrit.Common.ViewModels.PublisherIsrcViewModel)">
+            <summary>
+            Adds a new isrc series to a publisher.
+            </summary>
+            <param name="publisherId">The id of the publisher to add a isrc series to.</param>
+            <param name="newIsrcSeries">A PublisherIsrcSeriesViewModel of the isrc series to add.</param>
+            <returns>A PublisherIsrcSeriesViewModel of the newly created isrc serie.</returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Controllers.PersonController">
+            <summary>
+            Handles all operations involving persons meaning f.e. musicians etc.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.PersonController.GetAllPerformers(System.Int32,System.Int32,System.String)">
+            <summary>
+            Returns all performers possibly filtered by a search term.
+            </summary>
+            <param name="pageSize">The amount of results per page returned.</param>
+            <param name="pageNumber">The number of the page to be returned.</param>
+            <param name="searchTerm">The optional search term to filter by.</param>
+            <returns>An envelope containing the results of the query.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.PersonController.GetAllPersons(System.Int32,System.Int32,System.String)">
+            <summary>
+            Returns all persons optionally filtered by a search term.
+            </summary>
+            <param name="pageSize">The amount of results per page returned.</param>
+            <param name="pageNumber">The number of the page to be returned.</param>
+            <param name="searchTerm">The optional search term to filter by.</param>
+            <returns>An envelope containing the results of the query.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.PersonController.AddPerson(SFH.IT.Hljodrit.Common.ViewModels.PersonRegisterViewModel)">
+            <summary>
+            Adds a person to the system.
+            </summary>
+            <param name="person">A view model containing the necessary information to add a new person.</param>
+            <returns>The id of the newly created person.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.PersonController.GetPersonById(System.Int32)">
+            <summary>
+            Gets a person by its id.
+            </summary>
+            <param name="personId">The id of the person to fetch.</param>
+            <returns>A PersonExtendedDto of the person to be returned.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.PersonController.UpdatePersonInfo(System.Int32,SFH.IT.Hljodrit.Common.Dto.PersonExtendedDto)">
+            <summary>
+            Updates a persons information in the system.
+            </summary>
+            <param name="personId">The id of the person to update.</param>
+            <param name="person">A PersonExtendedDto object containing the updated information.</param>
+            <returns>A PersonExtendedDto of the updated person.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.PersonController.DeletePersonById(System.Int32)">
+            <summary>
+            Deletes a person from the system by marking it as deleted.
+            </summary>
+            <param name="personId">The id of the person to delete.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.PersonController.GetAllMediaForPerson(System.Int32)">
+            <summary>
+            Gets all media associated to a certain person.
+            </summary>
+            <param name="personId">The id of the person to retrieve media for.</param>
+            <returns>An IEnumerable of MediaWithRoleDto objects of all media belonging to the person.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.PersonController.GetAllAlbumsForPerson(System.Int32)">
+            <summary>
+            Returns all albums on which a person appears.
+            </summary>
+            <param name="personId">The id of the person to fetch albums for.</param>
+            <returns>An IEnumerable of AlbumDto representing all albums that the person appears on.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.PersonController.GetRoles">
+            <summary>
+            Gets all role types that are marked as active in the system.
+            </summary>
+            <returns>An IEnumerable of RoleDto representing all roles in the system.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.PersonController.GetEmailFromUsername(System.String)">
+            <summary>
+            Gets a persons email from his username.
+            </summary>
+            <param name="username">The username of the person.</param>
+            <returns>The email of the person with the username.</returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Controllers.ProjectController">
+            <summary>
+            Handles all operations regarding projects in the system. A Project is a name used for f.e. an album in the system. As a user registers 
+            an album with its songs and musicians and such it is called a project. A project can be in different states f.e. in a working state, 
+            recording finished, ready for publish and published.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.ProjectController.GetAllProjects(System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Gets all projects and is filterable by the state the project is in.
+            </summary>
+            <param name="pageSize">The number of results to be returned in the envelope.</param>
+            <param name="pageNumber">The number of the page to be returned.</param>
+            <param name="inWorkingState">Boolean that decides if projects that are marked as being in working state should be included.</param>
+            <param name="recordingFinished">Boolean that decides if projects that are marked as having finished recording should be included.</param>
+            <param name="readyForPublish">Boolean that decides if projects that are marked as being ready for publishing should be included.</param>
+            <param name="published">Boolean that decides if projects that are marked as being published should be included.</param>
+            <param name="query">A search query to search projects by.</param>
+            <returns>An envelope containing the results.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.ProjectController.GetProjectById(System.Int32)">
+            <summary>
+            Gets a single project by its id.
+            </summary>
+            <param name="projectId">The id of the project to return.</param>
+            <returns>A ProjectExtendedDto of the chosen project.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.ProjectController.GetProjectTracksById(System.Int32)">
+            <summary>
+            Gets all tracks belonging to a particular project.
+            </summary>
+            <param name="projectId">The id of the project to get tracks from.</param>
+            <returns>An IEnumerable of SongWithPerformersDto representing all songs belonging to the project.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.ProjectController.MarkProjectAsDeleted(System.Int32)">
+            <summary>
+            Deletes a project from the system by marking it as deleted. Does not physically remove it.
+            </summary>
+            <param name="projectId">The id of the project to mark as deleted.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.ProjectController.PublishProjectById(System.Int32,SFH.IT.Hljodrit.Common.ViewModels.ProjectReviewViewModel)">
+            <summary>
+            Marks a project as published in the system.
+            </summary>
+            <param name="projectId">The id of the project to publish.</param>
+            <param name="reviewModel">A model containing necessary information to be added when publishing a project.</param>
+            <returns>The id of the published project.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.ProjectController.CommentProjectById(System.Int32,SFH.IT.Hljodrit.Common.ViewModels.ProjectCommentViewModel)">
+            <summary>
+            Adds a comment to a single project.
+            </summary>
+            <param name="projectId">The id of the project to add a comment to.</param>
+            <param name="commentModel">A ProjectCommentViewModel containing information regarding the comment to add.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Controllers.SongController">
+            <summary>
+            Controller that handles all operations regarding to songs in the system.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.SongController.GetSongs(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Gets songs filtered by a search string and search type and returns them in an envelope.
+            </summary>
+            <param name="pageSize">The number of results to be included in the envelope.</param>
+            <param name="pageNumber">The page number to be returned.</param>
+            <param name="searchTerm">The search term to search by.</param>
+            <param name="searchType">Indicates whether the search term refers to song name, publish year etc.</param>
+            <returns>An envelope containing the results.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.SongController.GetSongById(System.Int32)">
+            <summary>
+            Gets a single song by its id.
+            </summary>
+            <param name="songId">The id of the song to fetch.</param>
+            <returns>A SongDto object of the song.</returns>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.SongController.UpdateSongById(System.Int32,SFH.IT.Hljodrit.Common.Dto.SongDto)">
+            <summary>
+            Updates a single song in the system.
+            </summary>
+            <param name="songId">The id of the song to update.</param>
+            <param name="song">A SongDto model containing the updated information.</param>
+            <returns>A SongDto containing the newly updated information.</returns>
+        </member>
+        <member name="T:SFH.IT.Hljodrit.Admin.Controllers.SettingsController">
+            <summary>
+            Handles all operations regarding the settings menu of the system.
+            </summary>
+        </member>
+        <member name="M:SFH.IT.Hljodrit.Admin.Controllers.SettingsController.GetAllExceptions(System.Int32,System.Int32)">
+            <summary>
+            Returns all exceptions that have been logged by the system.
+            </summary>
+            <param name="pageSize">The number of results to be included in the envelope.</param>
+            <param name="pageNumber">The page number to be returned.</param>
+            <returns>An IEnumerable of ExceptionDto containing the logged exceptions that have occurred.</returns>
+        </member>
+    </members>
+</doc>

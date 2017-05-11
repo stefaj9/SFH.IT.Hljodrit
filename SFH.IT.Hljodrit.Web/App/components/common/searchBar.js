@@ -27,7 +27,7 @@ export default class SearchBar extends React.Component {
                         placeholder="Leita.." 
                         aria-describedby="search-bar" 
                         onChange={(e) => this.setState({ searchInput: e.target.value }) } />
-                    <span className={this.props.iconOn ? 'input-group-addon' : 'hidden'} id="search-bar">
+                    <span onClick={() => this.props.searchBy(this.state.searchInput)} className={this.props.iconOn ? 'input-group-addon hover-cursor' : 'hidden'} id="search-bar">
                         <i className="fa fa-search"><input type="submit" className="hidden" /></i>
                     </span>
                 </div>
