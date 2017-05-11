@@ -42,12 +42,14 @@ class Users extends React.Component {
             ); 
         });
     }
-    updateRegistrationInfo(prop, value) {
+    updateRegistrationInfo(registrationUser) {
         this.setState({
-            registrationUser: Object.assign({}, this.state.registrationUser, {
-                [prop]: value
-            })
+            registrationUser: registrationUser
         });
+    }
+    isRegistrationValid() {
+        const { registrationUser } = this.state;
+        return registrationUser.name.length > 0 && registrationUser.email.match(/\w+@\w+\.\w+/g) && registrationUser.password.length > 8 && (registrationUser.confirmPassword === registrationUser.password);
     }
     render() {
         const { isRegistrationModalOpen, isRemoveUserModalOpen, registrationUser, selectedUser } = this.state;
@@ -68,11 +70,12 @@ class Users extends React.Component {
                 <PromptModal
                     isOpen={isRegistrationModalOpen}
                     title="Nýskrá notanda"
-                    content={<UserRegistrationForm update={(prop, value) => this.updateRegistrationInfo(prop, value)} />}
+                    content={<UserRegistrationForm update={(registrationUser) => this.updateRegistrationInfo(registrationUser)} />}
                     confirmBtnText="Nýskrá"
                     confirmBtnCallback={() => { this.props.createUser(registrationUser); this.setState({ isRegistrationModalOpen: false }); }}
                     discardBtnText="Hætta við"
-                    discardBtnCallback={() => this.setState({ isRegistrationModalOpen: false })} />
+                    discardBtnCallback={() => this.setState({ isRegistrationModalOpen: false })}
+                    confirmBtnDisabled={!this.isRegistrationValid()} />
                 <PromptModal
                     isOpen={isRemoveUserModalOpen}
                     title="Eyða notanda"

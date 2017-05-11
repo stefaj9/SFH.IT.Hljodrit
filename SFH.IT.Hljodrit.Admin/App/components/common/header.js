@@ -71,6 +71,11 @@ class Header extends React.Component {
                                     <div className="visible-xs">Stillingar</div>
                                 </Link>
                             </li>
+                            <li>
+                                <a>
+                                    <strong>{this.props.userName}</strong>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -81,7 +86,8 @@ class Header extends React.Component {
 
 Header.propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
-    logoutUser: PropTypes.func.isRequired
+    logoutUser: PropTypes.func.isRequired,
+    userName: PropTypes.string.isRequired
 }
 
 export default Header;
