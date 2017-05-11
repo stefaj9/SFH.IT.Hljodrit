@@ -9,6 +9,9 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
+    /// <summary>
+    /// Handles all operations involving persons meaning f.e. musicians etc.
+    /// </summary>
     [RoutePrefix("api")]
     public class PersonController : ApiController
     {
@@ -21,6 +24,13 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// j
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("performers")]
         public IHttpActionResult GetAllPerformers([FromUri] int pageSize, [FromUri] int pageNumber, string searchTerm)

@@ -3,6 +3,9 @@ using SFH.IT.Hljodrit.Services.Interfaces;
 
 namespace SFH.IT.Hljodrit.Admin.Controllers
 {
+    /// <summary>
+    /// Handles operations regarding all registered instruments in the system.
+    /// </summary>
     [RoutePrefix("api/instruments")]
     public class InstrumentController : ApiController
     {
@@ -13,6 +16,10 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
             _instrumentService = instrumentService;
         }
 
+        /// <summary>
+        /// Gets all registered instruments in the system.
+        /// </summary>
+        /// <returns>An IEnumerable containing all registered instruments in the system.</returns>
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetAllInstruments()
