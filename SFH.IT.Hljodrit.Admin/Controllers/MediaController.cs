@@ -7,7 +7,7 @@ namespace SFH.IT.Hljodrit.Admin.Controllers
     /// Handles all media operations in the system. A media is any recording whether it has 
     /// been published on an album or not.
     /// </summary>
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [RoutePrefix("api/media")]
     public class MediaController : ApiController
     {
